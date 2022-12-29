@@ -8,7 +8,7 @@
 
 // Librería gráfica
 #include "./libgfx/libgfx.h"
-
+ 
 
 // Compiler options for ZX Spectrum
 #ifdef ZX
