@@ -1,0 +1,70 @@
+  UNPAWS 2.1
+  ---------------
+
+  TARGET
+
+      UnPAWS takes snapshot files (.SNA, .SP, .Z80) of  Spectrum
+  games written  with PAWS or Quill system (version A or C), and
+  produces  text listings of the game database.
+
+  PLATFORM
+
+      This program  is  developed  for  MS-DOS  and  Windows 95.
+  Anyway  the  complete source code is  included (pascal) so you 
+  can compile it under other OS ( or change  to compile for it).
+  The code  has been  compiled  with Borland Pascal 7.0  (MS-DOS 
+  executable) and Delphi 5.5 (Win32 executable).
+
+  INPUT
+
+     The input must be any spectrum game made  with PAWS, in any
+  of this file formats:
+
+    - .SP  (Pedro Gimeno's Spectrum Emulator)
+    - .SNA (JPP Emulator)
+    - .Z80 (Lunter's Z80 Emulator)
+
+
+  USE
+
+     Just  type  UNPAWS  in  the  command line to know about the
+  syntax.
+
+  CONTENTS OF THIS PACKET
+
+     This packet must include at least this files:
+
+  UNPAWS.EXE          -> The MS-DOS executable.
+  UNPAWS32.EXE        -> The Win32 executable.
+  UNPAWS.TXT          -> This file
+  FILE_ID.DIZ         -> BBS description file.
+  WHATSNEW.TXT        -> What is new in current version.
+  TODO.TXT            -> Future plans.
+  SOURCE/UNPAWS.PAS   -> The main source file.
+  SOURCE/Z80LOAD.PAS  -> Z80 files load library.
+
+  DEVELOPERS
+
+     This program  was developed first by Jose Luis Cebrian, and
+  then ported to pascal and improved by Carlos Sanchez. Releases
+  starting from version 1.0 are maintained by Alexander Katz.
+
+  REPORTS
+
+     Any bug  report  or  suggestion could be sent to the address
+  below:
+
+     Alexander Katz (sasha@kats.pp.kiev.ua)
+
+ Or you may write to authors of original program:
+
+      Carlos Sanchez (csg@iberpoit.net)
+      Jose Luis Cebrian (jlceb@redestb.es)
+
+  LICENSE
+
+     This software is freeware, also the source code is free and
+   you can use it when you want
+ 
+		Kiev, 27th February 2003
+

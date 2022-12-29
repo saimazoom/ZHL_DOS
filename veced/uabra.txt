@@ -1,0 +1,6364 @@
+
+PAW Database : abra.z80
+
+Extracted by UNPAWS32 v2.1
+
+General data
+------------
+
+Locations                           34
+Objects                             24
+Messages                           193
+System messages                     54
+Processes                           20
+Character sets                       1
+Default character set                0
+Default ink color                    9
+Default paper color                  0
+Default flash state                  0
+Default bright state                 0
+Default inverse state                0
+Default over state                   0
+Default border color                 0
+Database version                     1
+Database compressed
+Snapshot type          Z80 48K Basic48
+
+--------------------------------------------------------------------------
+
+Vocabulary
+----------
+*        1 RESERVED
+A        2 Preposition
+Y        2 Conjunction
+S        2 Noun
+AL       2 Preposition
+SUR      2 Noun
+ENTON    2 Conjunction
+LUEGO    2 Conjunction
+DESPU    2 Conjunction
+E        3 Noun
+ESTE     3 Noun
+O        4 Noun
+EN       4 Preposition
+DENTR    4 Preposition
+INTER    4 Preposition
+OESTE    4 Noun
+N        5 Noun
+FUERA    5 Preposition
+NORTE    5 Noun
+ATRAV    6 Preposition
+SOBRE    7 Preposition
+BAJO     8 Preposition
+DEBAJ    8 Preposition
+CERCA    9 Preposition
+B       10 Noun
+BAJA    10 Verb
+TRAS    10 Preposition
+DESCE   10 Verb
+BAJAR   10 Verb
+DETRA   10 Preposition
+ABAJO   10 Noun
+CON     11 Preposition
+SUBE    11 Verb
+SUBIR   11 Verb
+ARRIB   11 Noun
+I       14 Noun
+INVEN   14 Noun
+COGE    20 Verb
+SACA    20 Verb
+COJA    20 Verb
+TODO    20 Noun
+CAZA    20 Verb
+CACE    20 Verb
+TOMA    20 Verb
+COGER   20 Verb
+SACAR   20 Verb
+CAZAR   20 Verb
+TOMAR   20 Verb
+PON     21 Verb
+DEJA    21 Verb
+ECHA    21 Verb
+DEJAR   21 Verb
+PONER   21 Verb
+ECHAR   21 Verb
+QUITA   22 Verb
+R       24 Verb
+REDES   24 Verb
+STOP    25 Verb
+NADA    25 Verb
+ACABA   25 Verb
+SAVE    26 Verb
+GRABA   26 Verb
+LOAD    27 Verb
+CARGA   27 Verb
+RAMSA   28 Verb
+RAMLO   29 Verb
+LEE     30 Verb
+EXAM    30 Verb
+LEER    30 Verb
+MIRA    30 Verb
+EXAMI   30 Verb
+MIRAR   30 Verb
+OBSER   30 Verb
+SALIG   30 Noun
+BRUJA   30 Noun
+DI      31 Verb
+DIME    31 Verb
+DECIR   31 Verb
+PREGU   31 Verb
+HABLA   31 Verb
+DIGAM   31 Verb
+TROCK   31 Noun
+JOROB   31 Noun
+MAYOR   31 Noun
+HOLA    32 Verb
+CURA    32 Noun
+ALCUI   32 Noun
+MONJE   32 Noun
+REY     33 Noun
+ADIOS   33 Verb
+TRIMU   33 Noun
+MAJES   33 Noun
+DAR     34 Verb
+DAME    34 Verb
+DEME    34 Verb
+SATAN   34 Noun
+DIABL   34 Noun
+DEMON   34 Noun
+CUAL    35 Verb
+RAMSU   35 Noun
+DRAGO   35 Noun
+PETRU   36 Noun
+GUARD   36 Noun
+ALGO    37 Noun
+AYUDA   37 Verb
+AYUDE   37 Verb
+MATA    38 Verb
+MATE    38 Verb
+MATAR   38 Verb
+LUCHA   38 Verb
+GOLPE   38 Verb
+PRINC   38 Noun
+VIOLE   38 Noun
+LLAMA   38 Verb
+CHAFA   38 Verb
+GRACI   39 Verb
+VE      40 Verb
+VES     40 Verb
+VAYA    40 Verb
+SIGAM   40 Verb
+SIGUE   40 Verb
+COME    41 Verb
+COMA    41 Verb
+BEBE    41 Verb
+BEBA    41 Verb
+COMER   41 Verb
+BEBER   41 Verb
+COMO    42 Verb
+DONDE   42 Verb
+ABRE    43 Verb
+ABRA    43 Verb
+ABRIR   43 Verb
+CIERR   44 Verb
+CERRA   44 Verb
+DESCI   45 Verb
+STATU   47 Verb
+ROMPE   49 Verb
+MOSCA   50 Noun
+BOLA    51 Noun
+PELOT   51 Noun
+CRUZ    52 Noun
+APRET   52 Verb
+APRIE   52 Verb
+REMOV   53 Verb
+REMUE   53 Verb
+REVOL   53 Verb
+REVUE   53 Verb
+REMEN   53 Verb
+ANILL   53 Noun
+PAPIR   54 Noun
+PERGA   54 Noun
+POCIM   55 Noun
+LIQUI   55 Noun
+POLVO   56 Noun
+ALBAM   56 Noun
+MODO    57 Verb
+ARANA   57 Noun
+TARAN   57 Noun
+PATAS   58 Noun
+ENTRA   59 Verb
+COLMI   59 Noun
+TIRA    60 Verb
+ESTIR   60 Verb
+TIRAR   60 Verb
+RESTO   60 Noun
+MOVER   60 Verb
+MUEVE   60 Verb
+RATA    61 Noun
+TRITU   61 Verb
+RATON   61 Noun
+ALZA    62 Verb
+ARRAN   62 Verb
+HINCA   62 Verb
+ALZAR   62 Verb
+ESCOB   62 Noun
+V       63 Verb
+CUCHA   63 Noun
+D       64 Verb
+ESPER   64 Verb
+DUERM   64 Verb
+DORMI   64 Verb
+LIBRO   64 Noun
+CALEN   65 Verb
+CALIE   65 Verb
+QUEMA   65 Verb
+DICCI   65 Noun
+BUSCA   66 Verb
+ESCON   66 Verb
+BOTEL   66 Noun
+CADEN   67 Noun
+MONED   68 Noun
+QUESO   69 Noun
+PELOS   70 Noun
+UNO     71 Noun
+DOS     72 Noun
+TRES    73 Noun
+PUERT   74 Noun
+PORTA   74 Noun
+DIAMA   75 Noun
+TUNEL   76 Noun
+AGUJE   76 Noun
+PALAN   77 Noun
+CUERN   78 Noun
+ALCE    79 Noun
+RENO    79 Noun
+CABEZ   79 Noun
+CIERV   79 Noun
+CHAMO   79 Noun
+BOCA    80 Noun
+LENGU   81 Noun
+CASCA   82 Noun
+OLLA    83 Noun
+MARMI   83 Noun
+TELA    84 Noun
+BURGE   85 Noun
+CASTI   85 Noun
+BARRI   86 Noun
+TONEL   86 Noun
+MAGIA   87 Noun
+CONJU   88 Noun
+LUZ     89 Noun
+VELA    89 Noun
+CANDE   89 Noun
+RANUR   90 Noun
+SUELO   91 Noun
+PARED   92 Noun
+ARMAD   93 Noun
+ESCUD   94 Noun
+CARCO   95 Noun
+ESCOR   96 Noun
+MURCI   96 Noun
+ARCO    97 Noun
+ARCOS   97 Noun
+TECHO   98 Noun
+SALA   101 Noun
+BODEG  101 Noun
+COMED  101 Noun
+CUEVA  101 Noun
+RECIB  101 Noun
+TORRE  101 Noun
+BIBLI  101 Noun
+VENTA  102 Noun
+BANDE  104 Noun
+ESCAL  105 Noun
+BAUL   106 Noun
+COFRE  106 Noun
+MADER  107 Noun
+CAMA   108 Noun
+LECHO  108 Noun
+COLCH  109 Noun
+SABAN  109 Noun
+ALTAR  110 Noun
+MESA   111 Noun
+TRONO  112 Noun
+ESTAN  113 Noun
+MUEBL  114 Noun
+TUNIC  115 Noun
+PEQUE  130 Adjective
+GRAND  131 Adjective
+VIEJO  132 Adjective
+NUEVO  133 Adjective
+DURO   134 Adjective
+SUAVE  135 Adjective
+CORTO  136 Adjective
+LARGO  137 Adjective
+MAGIC  139 Adjective
+RAPID  140 Adverb
+SILEN  141 Adverb
+DESPA  141 Adverb
+LENTA  141 Adverb
+CUIDA  144 Adverb
+PRECA  144 Adverb
+CAUTE  144 Adverb
+CONTR  145 Adverb
+_      255 RESERVED
+
+--------------------------------------------------------------------------
+
+MESSAGES
+--------
+Message   0  
+
+
+Message   1  
+{16}{5}ALCUINO:"
+
+Message   2  
+{16}{5}SALIGIA:"
+
+Message   3  
+{16}{5}TROCK:"
+
+Message   4  
+{16}{5}PETRUS:"
+
+Message   5  
+{16}{5}TRIMUS:"
+
+Message   6  
+{16}{5}RAMSUS:"Rrrrggghhh..."
+
+Message   7  
+Hola"^{7}
+
+Message   8  
+Hasta pronto"^{7}
+
+Message   9  
+Dime que quieres"^{7}
+
+Message  10  
+De nada"^{7}
+
+Message  11  
+No entiendo ni una letra"^{7}
+
+Message  12  
+No tengo ganas"^{7}
+
+Message  13  
+Esto no te lo puedo dar"^{7}
+
+Message  14  
+Lo siento, pero no puedo"^{7}
+
+Message  15  
+Me podrias repetir lo dicho"^{7}
+
+Message  16  
+Con que estas tenemos!"^{7}
+
+Message  17  
+Aqui la tienes"^{7}
+
+Message  18  
+En un libro alguna clave hallaras"^{7}
+
+Message  19  
+Haz buen uso de el"^{7}
+
+Message  20  
+No lo se"^{7}
+
+Message  21  
+Pidame lo que quiera"^{7}
+
+Message  22  
+Antes dame algo"^{7}
+
+Message  23  
+Como guste"^{7}
+
+Message  24  
+Quieres que cace algo?"^{7}
+
+Message  25  
+Ya la tengo!"^{7}
+
+Message  26  
+Muerta!"^{7}
+
+Message  27  
+No quiero!"^{7}
+
+Message  28  
+Fuera de aqui!"^{7}
+
+Message  29  
+Hay una tarantula escondida en un agujero.
+
+Message  30  
+La tarantula esta comiendo una mosca en el centro de la tela.
+
+Message  31  
+Saligia esta cerca de la marmita.
+
+Message  32  
+Saligia esta petrificada.
+
+Message  33  
+Hay una rata comiendo un trozo de queso.
+
+Message  34  
+Una mosca se posa en tu nariz, estornudas y remonta el vuelo.
+
+Message  35  
+Es de plata.
+
+Message  36  
+Tienen un escudo.
+
+Message  37  
+Es de oro con un diamante.
+
+Message  38  
+Parece hueco.
+
+Message  39  
+Es muy peluda.
+
+Message  40  
+Tiene restos de sangre de Ramsus.
+
+Message  41  
+Escrito en tinta negra puedes leer: Socarrimus limoni, y el resto tiene una especie de letras ilegibles.
+
+Message  42  
+Principe volveras a ser bebiendote una pocima con los siguientes ingredientes:^{7}-pelos de Satan^{7}-patas de tarantula^{7}-colmillo de dragon titurado^{7}-pocima magica
+
+Message  43  
+Tiene agujeritos.
+
+Message  44  
+Son negros.
+
+Message  45  
+Es de hierro.
+
+Message  46  
+No esta aqui"
+
+Message  47  
+Has de DECIR A ALGUIEN "ALGO" estando en la misma habitacion que ALGUIEN.
+
+Message  48  
+Se me ha escapado"
+
+Message  49  
+Maldito!"
+
+Message  50  
+Ya lo estaba"
+
+Message  51  
+Gracias"
+
+Message  52  
+Si no lo tiene!"
+
+Message  53  
+Estas muerto.
+
+Message  54  
+{16}{5}SATAN:"Nunca lo conseguiras!"
+
+Message  55  
+Este muro no lo puedes atravesar.
+
+Message  56  
+La puerta esta cerrada.
+
+Message  57  
+^{7}{5}{5}{16}{5}Satan te pincha con el tridente y sales volando. 
+
+Message  58  
+Al ver la cruz Satan se aparta.
+
+Message  59  
+Saligia coge los polvos, los huele, los prueba y se queda petrificada.
+
+Message  60  
+Ccrrooookk...
+
+Message  61  
+Un muro, al sur, se mueve.
+
+Message  62  
+El tabique, situado al oeste, se abre misteriosamente.
+
+Message  63  
+{3}{4}{16}{5}El pasaje secreto se cierra. 
+
+Message  64  
+Hay una palanca.
+
+Message  65  
+Increible! una moneda.
+
+Message  66  
+La lengua esta rodeada por dientes.
+
+Message  67  
+Aqui no hay ninguna cabeza de ciervo.
+
+Message  68  
+No hay nada.
+
+Message  69  
+Tiene una gran boca.
+
+Message  70  
+Con que?
+
+Message  71  
+No esta aqui.
+
+Message  72  
+Cuando lo vas a coger el raton se escapa con el queso.
+
+Message  73  
+Buen golpe!
+
+Message  74  
+Ramsus abre su inmensa boca y con su zarpa coge el raton y se lo come. Mientras lo hace uno de sus colmillos cae al suelo.
+
+Message  75  
+Al dejar el queso, aparece un ratoncito y lo empieza a comer.
+
+Message  76  
+Ay! grita Satan al arrancarle tres pelos.
+
+Message  77  
+Ya se los has arrancado.
+
+Message  78  
+En la marmita hay:
+
+Message  79  
+Algo cuece en su interior.
+
+Message  80  
+{16}{5}SATAN:"No lo intentes!"
+
+Message  81  
+La pocima quema mucho.
+
+Message  82  
+La coges, abres la mano para mirarla y la mosca se escapa.
+
+Message  83  
+La pones en la tela y la tarantula sale a comersela.
+
+Message  84  
+Chafff...
+
+Message  85  
+Arrancas un par de patas a la tarantula y dejas el resto del cuerpo al suelo.
+
+Message  86  
+Al cogerla la tarantula te pica. Al poco tiempo el veneno ha hecho efecto.
+
+Message  87  
+Una tarantula muerta cuelga de la tela.
+
+Message  88  
+Ya lo esta.
+
+Message  89  
+Donde?
+
+Message  90  
+{16}{5}. 
+
+Message  91  
+{4}{16}{5}El tiempo pasa 
+
+Message  92  
+No ves nada especial.
+
+Message  93  
+Polvos con alto poder petrificante.
+
+Message  94  
+Los siete pecados capitales.
+
+Message  95  
+Formula utilizada para escribir mensajes con acido citrico.
+
+Message  96  
+Castillo situado en la Baja Renania.
+
+Message  97  
+Lo siento, pero en esta pagina no se puede leer nada.
+
+Message  98  
+Aunque es muy viejo puedes leer alguna cosa.
+
+Message  99  
+Rapidamente le das una ojeada.
+
+Message 100  
+{4}{16}{5}Se abre una pasadizo, entras, la entrada se cierra. 
+
+Message 101  
+Especifica cual?
+
+Message 102  
+Hay un papiro.
+
+Message 103  
+No se te ocurra!
+
+Message 104  
+Lo echas en la marmita.
+
+Message 105  
+Bluff!Blufff...
+
+Message 106  
+No hay suficiente luz.
+
+Message 107  
+Hay unos polvos.
+
+Message 108  
+Esta vacio.
+
+Message 109  
+Ya lo esta.
+
+Message 110  
+Perfecto!
+
+Message 111  
+Aun no estan todos los ingredientes.
+
+Message 112  
+Le das un par de vueltas.
+
+Message 113  
+En un tonel dos veces tendras que llamar si quieres entrar."
+
+Message 114  
+No seas tan bruto.
+
+Message 115  
+Esta llena de carcoma.
+
+Message 116  
+Tiene unos barrotes de hierro.
+
+Message 117  
+Esta cerrado con llave.
+
+Message 118  
+
+
+Message 119  
+Estos bichos se lo comen todo.
+
+Message 120  
+El techo tiene varios arcos.
+
+Message 121  
+El suelo esta reluciente.
+
+Message 122  
+Es de tierra.
+
+Message 123  
+Un gran murcielago que dormia en la sala, se despierta y moviendo sus grandes alas se va volando.
+
+Message 124  
+Un temible escorpion al ver un fantasma se asusta y se esconde.
+
+Message 125  
+Esta llena de polvo.
+
+Message 126  
+Ya no esta en la habitacion.
+
+Message 127  
+Estan llenos de carcoma.
+
+Message 128  
+Desprende un tufillo revelador.
+
+Message 129  
+Estaba buenisima"
+
+Message 130  
+Esta formada por un conglomerado de piedras.
+
+Message 131  
+
+
+Message 132  
+
+
+Message 133  
+Las ayudas te las daran los personajes.
+
+Message 134  
+Desde esta ventana puedes ver el exterior del castillo.
+
+Message 135  
+Los escudos estan colgados de la pared.
+
+Message 136  
+Desprenden gran cantidad de luz.
+
+Message 137  
+Iluminan toda la estancia.
+
+Message 138  
+El hierro que las forma se esta oxidando.
+
+Message 139  
+Hay algun resto de bicho que la tarantula ha comido.
+
+Message 140  
+Las banderas ondean con la brisa de la sala.
+
+Message 141  
+No te lo tomes todo al pie de la letra.
+
+Message 142  
+La amplia escalera es de piedra.
+
+Message 143  
+Tiene restos de vino.
+
+Message 144  
+El es el servicial mayordomo.
+
+Message 145  
+Tiene las dimensiones de una naranja.
+
+Message 146  
+Huele a vino.
+
+Message 147  
+Por su nariz sale humo.
+
+Message 148  
+Un vigilante implacable.
+
+Message 149  
+Tiene un gran tridente.
+
+Message 150  
+Una colcha de lana la cubre.
+
+Message 151  
+Es de algodon.
+
+Message 152  
+La madera que lo forma esta trabajada.
+
+Message 153  
+El monje.
+
+Message 154  
+Alcuino esta a su lado.
+
+Message 155  
+Es de madera de roble.
+
+Message 156  
+Trimus lleva puesta una gran tunica, su corona y el anillo de la familia.
+
+Message 157  
+Es de terciopelo.
+
+Message 158  
+Son viejisimos.
+
+Message 159  
+Esta llena de potingues.
+
+Message 160  
+
+
+Message 161  
+Esto forma parte de la decoracion.
+
+Message 162  
+ Por la puerta levadiza norte del milenario castillo de Burgenfels no puede pasar ningun ser hechizado. Como conseguiras liberarte del hechizo y lograr atravesarla? Sera dificil, pero debes conseguirlo.^{7} A traves de la cerradura del robusto portalon situado hacia el este penetra en la sala un rayo de sol.
+
+Message 163  
+ Un largo pasillo se abre ante tus ojos. Los escudos colgados a ambos lados cubren la mayor parte de sus muros de piedra; de vez en cuando un ventanal nos orienta y nos indica que el pasillo esta dirigido de este a sur.
+
+Message 164  
+ Vas internandote en el castillo. La emocion aumenta y un ligero escalofrio te hace buscar una salida en cualquier direccion. Gran numero de cabezas de ciervo, trofeos de caza de los vencedores, se yerguen misteriosas iluminadas por grandes candelabros.
+
+Message 165  
+ Una enigmatica armadura vigila silenciosamente el pasillo. Su sombra crece y disminuye pavorosamente debido a la brisa que viaja de este a norte y mueve las llamas de las velas que iluminan la estancia. Un agujero en la parte inferior en la pared te llama la atencion.
+
+Message 166  
+ Continuas flotando con una idea fija: cruzar la puerta levadiza, pero falta todavia mucho camino por delante.^{7} Llegas a una gran sala cuyas tres puertas, norte, sur y este te dejan perplejo por un momento.
+
+Message 167  
+ Te dejas llevar por una fuerza misteriosa a traves de un pasillo de este a norte. A traves de un ventanal puedes divisar el magnifico paisaje de esta zona de la Baja Renania, pero hay algo mas potente que te impele a continuar. Una vieja y oxidada armadura es el unico testigo de tus movimientos.
+
+Message 168  
+ Te aproximas a la sala de los trofeos y con admiracion te detienes ante el mas preciado de todos: el Chamois. Precisamente frente a el, hacia el norte, se distingue una puerta y... Pasillo, pasillo de este a oeste.
+
+Message 169  
+ Por fin la torre. Desde aqui dominas todos los accesos al castillo. Sera la salida hacia el este la mas indicada?^{7} Paseas tu mirada por el recinto y observas que en una esquina hay una tela de un aracnido.
+
+Message 170  
+ No puedes entretenerte. Prosigues tu camino y al mirar al frente se yergue ante ti una cabeza de reno, trofeo de una de las mas importantes cacerias del rey.^{7} Avanzas y vas distinguiendo las banderas cuyo emblema es el signo del castillo de Burgenfels.
+
+Message 171  
+ Arrancar la bandera? Hincar la rodilla ante ella? Tu vista se pasea y dudas. Atencion! Una escalera te abre el paso al piso superior y continua hacia el sotano.
+
+Message 172  
+ Extenuado por el miedo y la angustia no sabes que hacer: puedes subir al piso superior, como? Puedes abrir el cofre y buscar solucion, tal vez seria mas descansado continuar tu camino hacia el este.
+
+Message 173  
+ La armadura de la pared este te intriga. Puedes alzar su visera para ver si encuentras alguna clave en la negrura del casco. Hay tambien una amplia escalera que sube del piso inferior. Oyes un ruido fantasmagorico que proviene de un portalon hacia el oeste.
+
+Message 174  
+ Has llegado a la zona mas alta del castillo. Solo te falta entrar en la torre y podrias conseguirlo siguiendo la direccion que te indica el viento: el este. La escalera se pierde en la oscuridad hasta el piso inferior.
+
+Message 175  
+ Adviertes un intenso y sofocante olor a madera humeda. No ves nada, pero lentamente te das cuenta de que has llegado a una escalera.^{7} Tanteas las paredes humedas y por una estrechisima fisura adviertes una posibilidad de huida hacia el sur. Estas ante un gran dilema: baja o vas al sur.
+
+Message 176  
+ Te lanzas hacia lo hondo, y sale asustado un murcielago que huye hacia el norte. Te ocultas en el hueco de la escalera. El frio es cada vez mas penetrante y te cala los huesos.
+
+Message 177  
+ Un escalofrio te recorre el cuerpo. Avanzas tanteando el suelo hasta adivinar unos salientes en la pared. No hay nada mas en ninguna parte? Imposible. Es necesario salir de aqui. Sera posible ir al oeste?
+
+Message 178  
+ En un rincon de la bodega se halla Trock entretenido y jugueteando con una pelota. Intentas alcanzar un barril, pero por culpa de tus nervios te quedas paralizado por unos segundos. Trock mira insistentemente hacia la puerta este.
+
+Message 179  
+ La bodega, los grandes toneles impresionan con sus dimensiones. Estaran en realidad todos llenos de vino? Ante tus pies una hilera de hormigas cruza de este a oeste.
+
+Message 180  
+ Rrrggg... en el subterraneo el hambriento dragon Ramsus ruge y se impacienta. Como podras acercarte a el?^{7} El fondo de la cueva se pierde hacia el oeste.
+
+Message 181  
+ Es posible que no haya nadie? Deberas combatir contra una fuerza invisible? Las inmoviles cadenas situadas en la pared parece que te miran. Excepto hacia el sur todas las salidas son posibles.
+
+Message 182  
+ Quieres abrir la puerta oeste, pero sabes que el implacable Petrus, su guardian, la vigila dia y noche. Te das cuenta de que tu situacion es peligrosa y debes salir hacia el sur.
+
+Message 183  
+ Sigues en los calabozos. Habra intentado algun prisionero huir por ese tunel en direccion a las profundidades de la Tierra? El calabozo prosigue hacia el sur.
+
+Message 184  
+ Un olor a azufre y un calor insoportable te indican que vas a encontrarte con Satan. Efectivamente, ahi esta, imponente, gigante. Su mirada asusta a cualquier ser, pero tu Clus d'Elendort, la logras soportar a pesar del hechizo de la malvada Saligia.
+
+Message 185  
+ Te quedas quieto. Has entrado en la camara real. Un confortable lecho atrae tu atencion; un rico desel con suntuosos cortinajes impide que alejes la mirada de la cama. Con gusto descansarias, pero una puerta hacia el este te tienta.
+
+Message 186  
+ Has llegado al aposento destinado a los invitados de Burgenfels. Debes dominar tu impresion al pensar que en esta cama situada en una esquina de la habitacion han descansado caballeros tan famosos como el Caballero Negro, Odon de Les, Hugo de Pontignac...^{7} Una fuerza misteriosa te indica que a tus espaldas, al este, hay una puerta.
+
+Message 187  
+ La penumbra del recinto apenas te deja ver. Poco a poco te acostumbras a ella y ves a Alcuino el monje. La luz parpadeante de la vela alarga en las paredes la sombra de Alcuino. Que estara haciendo en el altar?
+
+Message 188  
+ Oh maravilla! Suculentos manjares resplandecen sobre la mesa que se halla en el centro de la sala. Un enorme candelabro ilumina la estancia. Los comensales no tardaran en llegar, mientras puedes ir al norte y al oeste.
+
+Message 189  
+ Por fin el majestuoso trono flanqueado por banderas de todos los condados se alza ante ti.^{7} El rey Trimus te mira fijamente. Sus ojos intensos y vivos no se apartan de tu figura. Finalmente desvia su mirada hacia una puerta situada en el ala sur.
+
+Message 190  
+ Miles de libros reposan en esta biblioteca. Que secretos hallaras en sus centenarias hojas? La sabiduria de siglos se guarda en ellos.^{7} Que mejor lugar que una biblioteca para encontrar un pasaje secreto. Te llama la atencion un portalon hacia el sur.
+
+Message 191  
+ Pocimas, conjuros, maleficios... luces enigmaticas y un olor intenso y nauseabundo es lo que te espera en la guarida de la bruja Saligia. Un liquido humeante se cuece en la marmita de la bruja. Hacia el sur esta la salida.
+
+Message 192  
+^{7}^{7}^{7}^{7}         {16}{3} {1}ABRACADABRA^{7}^{7}^{7}^{7}^{7} {16}{5}  {1}PROGRAMA Y GRAFICOS: EGROJ^{7}{0}^{7}    {16}{6}        OdiseA^{7}           SOFTWARE^{7}^{7}^{7}^{7} {2}  {16}{3}   {127} {1}PROEIN,S.A. 1988.
+
+
+--------------------------------------------------------------------------
+
+SYSTEM MESSAGES
+---------------
+System Message   0  
+Esta demasiado oscuro para ver.
+
+System Message   1  
+Tambien puedes ver:
+
+System Message   2  
+^{7}Ahora, que?^{7}
+
+System Message   3  
+^{7}Que mas?^{7}
+
+System Message   4  
+^{7}Que debo hacer ahora?^{7}
+
+System Message   5  
+^{7}Que mas debo hacer?^{7}
+
+System Message   6  
+Perdona pero no te entiendo.
+
+System Message   7  
+No puedes ir en esa direccion.
+
+System Message   8  
+No puedes hacer eso.
+
+System Message   9  
+Llevas: 
+
+System Message  10  
+
+
+System Message  11  
+nada de nada.
+
+System Message  12  
+Seguro?^{7}
+
+System Message  13  
+Otra partida?^{7}
+
+System Message  14  
+Adios...^{7}
+
+System Message  15  
+Muy bien.
+
+System Message  16  
+^{7}   {1}     {16}{5}PULSA UNA TECLA{16}{7}
+
+System Message  17  
+
+
+System Message  18  
+
+
+System Message  19  
+
+
+System Message  20  
+.^{7}
+
+System Message  21  
+
+
+System Message  22  
+
+
+System Message  23  
+No llevas puesto eso.
+
+System Message  24  
+No puedes. Lo llevas puesto.
+
+System Message  25  
+Eso ya lo tienes.
+
+System Message  26  
+Aqui no esta.
+
+System Message  27  
+No puedes llevar mas cosas.
+
+System Message  28  
+Esto no lo tienes.
+
+System Message  29  
+
+
+System Message  30  
+S
+
+System Message  31  
+N
+
+System Message  32  
+                         {16}{3} Mas>>>
+
+System Message  33  
+{16}{6}-
+
+System Message  34  
+{16}{6}{18}{1}{143}{18}{0}
+
+System Message  35  
+
+
+System Message  36  
+^{7}{16}{7}Hecho.
+
+System Message  37  
+
+
+System Message  38  
+
+
+System Message  39  
+^{7}{16}{7}Hecho.
+
+System Message  40  
+Eso no te lo puedes poner.
+
+System Message  41  
+Eso no te lo puedes quitar.
+
+System Message  42  
+
+
+System Message  43  
+Eso pesa demasiado.
+
+System Message  44  
+
+
+System Message  45  
+
+
+System Message  46  
+, 
+
+System Message  47  
+ y 
+
+System Message  48  
+.^{7}
+
+System Message  49  
+Eso no lo tengo.^{7}
+
+System Message  50  
+
+
+System Message  51  
+.^{7}
+
+System Message  52  
+
+
+System Message  53  
+nada.
+
+
+--------------------------------------------------------------------------
+
+LOCATIONS
+---------
+Location   0  
+
+
+Location   1  
+
+
+Location   2  
+
+
+Location   3  
+
+
+Location   4  
+
+
+Location   5  
+
+
+Location   6  
+
+
+Location   7  
+
+
+Location   8  
+
+
+Location   9  
+
+
+Location  10  
+
+
+Location  11  
+
+
+Location  12  
+
+
+Location  13  
+
+
+Location  14  
+
+
+Location  15  
+
+
+Location  16  
+
+
+Location  17  
+
+
+Location  18  
+
+
+Location  19  
+
+
+Location  20  
+
+
+Location  21  
+
+
+Location  22  
+
+
+Location  23  
+
+
+Location  24  
+
+
+Location  25  
+
+
+Location  26  
+
+
+Location  27  
+
+
+Location  28  
+
+
+Location  29  
+
+
+Location  30  
+
+
+Location  31  
+ Has salido del castillo y te pierdes en el aire.
+
+Location  32  
+
+
+Location  33  
+ Por fin vuelves a ser humano.^{7}Ahora ya solo te queda encontrar^{7}  a la princesa. La clave es:^{7}^{7} {16}{3}YO CLUS A VIOLETA ENCONTRARE{16}{7}
+
+
+--------------------------------------------------------------------------
+
+CONNECTIONS
+-----------
+Location   1:  E     2
+               S     26
+               N     31
+               O     31
+
+Location   2:  S     3
+               O     1
+               E     28
+               N     31
+
+Location   3:  N     2
+               S     4
+               E     27
+               O     26
+
+Location   4:  N     3
+               E     10
+               O     25
+               S     31
+
+Location   5:  N     29
+               E     6
+               S     7
+
+Location   6:  S     12
+               N     24
+               O     5
+               E     31
+
+Location   7:  N     5
+               E     12
+               O     11
+               S     31
+
+Location   8:  O     13
+               N     31
+               E     31
+               S     31
+
+Location   9:  O     31
+               N     31
+
+Location  10:  N     27
+               O     4
+               SUBE  12
+               BAJA  16
+               E     31
+               S     31
+
+Location  11:  E     7
+               SUBE  13
+               S     31
+               O     31
+
+Location  12:  N     6
+               O     7
+               BAJA  10
+               E     31
+               S     31
+
+Location  13:  E     8
+               BAJA  11
+               N     31
+               S     31
+               O     31
+
+Location  14:  S     18
+               BAJA  15
+
+Location  15:  SUBE  14
+               N     21
+
+Location  16:  O     18
+               SUBE  10
+
+Location  17:  E     18
+
+Location  18:  O     17
+               E     16
+
+Location  19:  E     20
+
+Location  20:  N     22
+               O     19
+               E     21
+
+Location  21:  S     15
+
+Location  22:  S     20
+
+Location  23:  SUBE  22
+
+Location  24:  S     6
+               O     29
+               N     31
+               E     31
+
+Location  25:  N     26
+               E     4
+               S     31
+               O     31
+
+Location  26:  N     1
+               S     25
+               E     3
+               O     31
+
+Location  27:  N     28
+               S     10
+               O     3
+               E     31
+
+Location  28:  S     27
+               O     2
+               N     31
+               E     31
+
+Location  29:  S     5
+               E     24
+               N     31
+
+Location  30:  O     31
+
+--------------------------------------------------------------------------
+
+OBJECT NAMES
+------------
+Object   0  
+
+
+Object   1  
+una cruz
+
+Object   2  
+una moneda de oro
+
+Object   3  
+el anillo de Trimus
+
+Object   4  
+polvos de albamid
+
+Object   5  
+una tarantula hecha polvo
+
+Object   6  
+un par de patas de aracnido
+
+Object   7  
+el colmillo de Ramsus
+
+Object   8  
+restos de colmillo
+
+Object   9  
+un pergamino
+
+Object  10  
+una mosca chafada
+
+Object  11  
+un ratoncito muerto
+
+Object  12  
+un trozo de queso
+
+Object  13  
+una escoba magica
+
+Object  14  
+tres pelos de Satan
+
+Object  15  
+una cuchara
+
+Object  16  
+un libro de magia
+
+Object  17  
+el libro de conjuros
+
+Object  18  
+un diccionario
+
+Object  19  
+una botella
+
+Object  20  
+una cadena
+
+Object  21  
+un cascanueces
+
+Object  22  
+la pocima de Saligia
+
+Object  23  
+un liquido humeante
+
+
+--------------------------------------------------------------------------
+
+OBJECT WORDS
+------------
+Object   0    _     _    
+Object   1    CRUZ  52 _    
+Object   2    MONED 68 _    
+Object   3    ANILL 53 _    
+Object   4    POLVO 56 _    
+Object   5    ARANA 57 _    
+Object   6    PATAS 58 _    
+Object   7    COLMI 59 _    
+Object   8    RESTO 60 _    
+Object   9    PAPIR 54 _    
+Object  10    MOSCA 50 _    
+Object  11    RATA  61 _    
+Object  12    QUESO 69 _    
+Object  13    ESCOB 62 MAGIC 139
+Object  14    PELOS 70 _    
+Object  15    CUCHA 63 _    
+Object  16    LIBRO 64 _    
+Object  17    LIBRO 64 _    
+Object  18    DICCI 65 _    
+Object  19    BOTEL 66 _    
+Object  20    CADEN 67 _    
+Object  21    CASCA 82 _    
+Object  22    POCIM 55 _    
+Object  23    _     _    
+
+--------------------------------------------------------------------------
+
+INITIALLY AT
+------------
+Object   0    NC
+Object   1    NC
+Object   2    NC
+Object   3    NC
+Object   4    NC
+Object   5    NC
+Object   6    NC
+Object   7    NC
+Object   8    NC
+Object   9    NC
+Object  10    NC
+Object  11    NC
+Object  12    27
+Object  13    30
+Object  14    NC
+Object  15    27
+Object  16    29
+Object  17    29
+Object  18    29
+Object  19    18
+Object  20    6
+Object  21    11
+Object  22    32
+Object  23    NC
+
+--------------------------------------------------------------------------
+
+OBJECT WEIGHT AND TYPE
+----------------------
+Object   0:  weights   1                     
+Object   1:  weights   7                     
+Object   2:  weights   4                     
+Object   3:  weights   3                     
+Object   4:  weights   1                     
+Object   5:  weights   2                     
+Object   6:  weights   1                     
+Object   7:  weights   2                     
+Object   8:  weights   1                     
+Object   9:  weights   3                     
+Object  10:  weights   2                     
+Object  11:  weights  10                     
+Object  12:  weights   3                     
+Object  13:  weights  10                     
+Object  14:  weights   2                     
+Object  15:  weights   7                     
+Object  16:  weights   7                     
+Object  17:  weights   7                     
+Object  18:  weights   7                     
+Object  19:  weights   7                     
+Object  20:  weights   9                     
+Object  21:  weights   4                     
+Object  22:  weights   1                     
+Object  23:  weights   1                     
+
+--------------------------------------------------------------------------
+
+RESPONSE TABLE
+--------------
+*     *          AT            30
+                 EQ            16   0
+                 PROCESS       14
+                 DONE        
+
+*     *          EQ            33  63
+                 COPYFF       233  33
+                 COPYFF       234  34
+                 COPYFF       243  43
+                 COPYFF       244  44
+                 COPYFF       245  45
+
+*     *          COPYFF        33 233
+                 COPYFF        34 234
+                 COPYFF        43 243
+                 COPYFF        44 244
+                 COPYFF        45 245
+                 MOVE          38
+                 DESC        
+                 LT            33  14
+                 SYSMESS        7
+                 DONE        
+
+S     _          AT            30
+                 MES           55
+                 DONE        
+
+S     _          AT             9
+                 EQ            23   0
+                 MES           55
+                 DONE        
+
+S     _          AT             9
+                 GOTO          30
+                 DESC        
+
+E     _          AT            30
+                 MES           55
+                 DONE        
+
+E     _          AT             9
+                 MES           60
+                 MES           63
+                 LET           22   0
+                 PAUSE        200
+                 GOTO          29
+                 DESC        
+
+O     _          AT            21
+                 EQ            18   0
+                 MES           56
+                 DONE        
+
+O     _          AT            21
+                 GOTO          20
+                 DESC        
+
+O     _          AT             5
+                 MES           55
+                 DONE        
+
+O     _          AT            29
+                 EQ            22   0
+                 MES           55
+                 DONE        
+
+O     _          AT            29
+                 GOTO           9
+                 DESC        
+
+N     _          AT            11
+                 MES           55
+                 DONE        
+
+N     _          AT            30
+                 MES           60
+                 MES           63
+                 LET           23   0
+                 PAUSE        200
+                 GOTO           9
+                 DESC        
+
+I     _          SYSMESS        9
+                 LISTAT       254
+                 DONE        
+
+COGE  TODO       DOALL        255
+
+COGE  MOSCA      EQ            12   1
+                 MES           82
+                 LET           12   0
+                 DONE        
+
+COGE  PAPIR      NOUN2         64
+                 PRESENT       17
+                 EQ            26   0
+                 LET           26   1
+                 CREATE         9
+                 GET            9
+                 DONE        
+
+COGE  POCIM      AT            30
+                 MES           81
+                 DONE        
+
+COGE  POLVO      NOUN2         75
+                 PRESENT        3
+                 EQ            61   1
+                 EQ            60   0
+                 CREATE         4
+                 GET            4
+                 LET           60   1
+                 DONE        
+
+COGE  POLVO      NOUN2         75
+                 EQ            60   1
+                 MES          108
+                 DONE        
+
+COGE  ARANA      AT             8
+                 EQ            20   1
+                 MES           86
+                 MES           53
+                 GRAPHIC        0
+                 END         
+
+COGE  ARANA      AT             8
+                 EQ            20   2
+                 CREATE         5
+                 GET            5
+                 LET           20   3
+                 DONE        
+
+COGE  RATA       AT             4
+                 EQ            21   1
+                 MES           72
+                 LET           21   0
+                 DONE        
+
+COGE  LIBRO      NOUN2         87
+                 GET           16
+                 DONE        
+
+COGE  LIBRO      NOUN2         88
+                 GET           17
+                 DONE        
+
+COGE  LIBRO      MES          101
+                 DONE        
+
+COGE  MONED      AT             7
+                 EQ            24   0
+                 LET           24   1
+                 CREATE         2
+                 GET            2
+                 DONE        
+
+COGE  QUESO      AT             4
+                 EQ            21   1
+                 MES           72
+                 LET           21   0
+                 DONE        
+
+COGE  ALCE       MES          161
+                 DONE        
+
+COGE  LUZ        MES          161
+                 DONE        
+
+COGE  ARMAD      MES          161
+                 DONE        
+
+COGE  ESCUD      MES          161
+                 DONE        
+
+COGE  BANDE      MES          161
+                 DONE        
+
+COGE  COLCH      MES          161
+                 DONE        
+
+COGE  MUEBL      MES          161
+                 DONE        
+
+COGE  _          AUTOG       
+                 DONE        
+
+PON   *          AT            23
+                 MES           80
+                 DONE        
+
+PON   TODO       DOALL        254
+
+PON   MOSCA      PROCESS       15
+                 DONE        
+
+PON   RATA       AT            19
+                 CARRIED       11
+                 DESTROY       11
+                 MES           74
+                 CREATE         7
+                 DONE        
+
+PON   LIBRO      NOUN2         88
+                 PRESENT       17
+                 DROP          17
+                 DONE        
+
+PON   LIBRO      NOUN2         87
+                 DROP          16
+                 DONE        
+
+PON   QUESO      AT             4
+                 LET           21   1
+                 DESTROY       12
+                 MES           75
+                 DONE        
+
+PON   OLLA       PREP           4
+                 AT            30
+                 PROCESS       19
+                 DONE        
+
+PON   _          PREP           4
+                 NOUN2         83
+                 AT            30
+                 PROCESS       19
+                 DONE        
+
+PON   _          AUTOD       
+                 DONE        
+
+QUITA TODO       DOALL        253
+
+QUITA _          AUTOR       
+                 DONE        
+
+R     _          DESC        
+
+STOP  _          GRAPHIC        1
+                 QUIT        
+                 END         
+
+SAVE  _          SAVE        
+
+LOAD  _          LOAD        
+
+RAMSA _          RAMSAVE     
+                 OK          
+                 DONE        
+
+RAMLO _          RAMLOAD      255
+                 DESC        
+                 DONE        
+
+LEE   TROCK      AT            17
+                 MES          144
+                 DONE        
+
+LEE   CURA       AT            26
+                 MES          153
+                 DONE        
+
+LEE   REY        AT            28
+                 MES          156
+                 DONE        
+
+LEE   SATAN      AT            23
+                 MES          149
+                 DONE        
+
+LEE   RAMSU      AT            19
+                 MES          147
+                 DONE        
+
+LEE   PETRU      AT            21
+                 MES          148
+                 DONE        
+
+LEE   MOSCA      EQ            12   1
+                 MES          128
+                 DONE        
+
+LEE   MOSCA      PRESENT       10
+                 MES          128
+                 DONE        
+
+LEE   BOLA       AT            17
+                 MES          145
+                 DONE        
+
+LEE   CRUZ       PRESENT        1
+                 MES           35
+                 DONE        
+
+LEE   ANILL      PRESENT        3
+                 MES           37
+                 DONE        
+
+LEE   ANILL      PRESENT        1
+                 MES           35
+                 DONE        
+
+LEE   PAPIR      ABSENT         9
+                 SYSMESS       28
+                 DONE        
+
+LEE   PAPIR      ADVERB       145
+                 LT            38  19
+                 MES           42
+                 DONE        
+
+LEE   PAPIR      ADVERB       145
+                 GT            38  23
+                 MES           42
+                 DONE        
+
+LEE   PAPIR      ADVERB       145
+                 MES          106
+                 DONE        
+
+LEE   PAPIR      MES           41
+                 DONE        
+
+LEE   ARANA      PRESENT        5
+                 MES           39
+                 DONE        
+
+LEE   COLMI      PRESENT        7
+                 MES           40
+                 DONE        
+
+LEE   LIBRO      PREP          10
+                 AT            29
+                 MES           64
+                 DONE        
+
+LEE   LIBRO      NOUN2         88
+                 PRESENT       17
+                 PROCESS       18
+                 DONE        
+
+LEE   LIBRO      NOUN2         87
+                 PRESENT       16
+                 MES           99
+                 DONE        
+
+LEE   LIBRO      PRESENT       16
+                 MES          101
+                 DONE        
+
+LEE   LIBRO      PRESENT       17
+                 MES          101
+                 DONE        
+
+LEE   LIBRO      AT            29
+                 MES          158
+                 DONE        
+
+LEE   DICCI      PRESENT       18
+                 MES           98
+                 DONE        
+
+LEE   CADEN      PRESENT       20
+                 MES           45
+                 DONE        
+
+LEE   MONED      PRESENT        2
+                 MES           36
+                 DONE        
+
+LEE   QUESO      PRESENT       12
+                 MES           43
+                 DONE        
+
+LEE   PELOS      PRESENT       14
+                 MES           44
+                 DONE        
+
+LEE   PUERT      GT            38  17
+                 LT            38  24
+                 MES          116
+                 DONE        
+
+LEE   PUERT      MES          115
+                 DONE        
+
+LEE   DIAMA      PREP           4
+                 PRESENT        3
+                 EQ            60   0
+                 MES          107
+                 DONE        
+
+LEE   DIAMA      PREP           4
+                 PRESENT        3
+                 EQ            60   1
+                 MES          108
+                 DONE        
+
+LEE   DIAMA      PRESENT        3
+                 MES           38
+                 DONE        
+
+LEE   ALCE       PROCESS       11
+                 DONE        
+
+LEE   BOCA       PREP           4
+                 NOUN2         79
+                 PROCESS        9
+                 DONE        
+
+LEE   BOCA       NOUN2         79
+                 PROCESS        9
+                 DONE        
+
+LEE   LENGU      PREP           8
+                 PROCESS       10
+                 DONE        
+
+LEE   OLLA       PREP           4
+                 AT            30
+                 MES           78
+                 LISTAT        32
+                 DONE        
+
+LEE   OLLA       AT            30
+                 MES           45
+                 MES           79
+                 DONE        
+
+LEE   OLLA       AT            23
+                 MES           45
+                 DONE        
+
+LEE   TELA       AT             8
+                 MES          139
+                 DONE        
+
+LEE   BARRI      GT            38  16
+                 LT            38  19
+                 MES          146
+                 DONE        
+
+LEE   BARRI      GT            38  16
+                 LT            38  19
+                 MES          146
+                 DONE        
+
+LEE   LUZ        GT            38  16
+                 LT            38  24
+                 MES          137
+                 DONE        
+
+LEE   LUZ        MES          136
+                 DONE        
+
+LEE   RANUR      MES          125
+                 DONE        
+
+LEE   SUELO      GT            38  16
+                 LT            38  23
+                 MES          122
+                 DONE        
+
+LEE   SUELO      MES          121
+                 DONE        
+
+LEE   PARED      MES          130
+                 DONE        
+
+LEE   ARMAD      GT            38   3
+                 LT            38   7
+                 MES          138
+                 DONE        
+
+LEE   ARMAD      AT            12
+                 MES          138
+                 DONE        
+
+LEE   ESCUD      GT            38   0
+                 LT            38   4
+                 MES          135
+                 DONE        
+
+LEE   ESCUD      AT            11
+                 MES          135
+                 DONE        
+
+LEE   CARCO      MES          119
+                 DONE        
+
+LEE   ESCOR      MES          126
+                 DONE        
+
+LEE   ARCO       MES          127
+                 DONE        
+
+LEE   TECHO      MES          120
+                 DONE        
+
+LEE   SALA       DESC        
+
+LEE   VENTA      GT            38   5
+                 LT            38   9
+                 MES          134
+                 DONE        
+
+LEE   VENTA      AT             2
+                 MES          134
+                 DONE        
+
+LEE   VENTA      AT            13
+                 MES          134
+                 DONE        
+
+LEE   BANDE      AT            28
+                 MES          140
+                 DONE        
+
+LEE   BANDE      GT            38   8
+                 LT            38  11
+                 MES          140
+                 DONE        
+
+LEE   ESCAL      GT            38   9
+                 LT            38  17
+                 MES          142
+                 DONE        
+
+LEE   MADER      AT            14
+                 MES          143
+                 DONE        
+
+LEE   CAMA       GT            38  23
+                 LT            38  26
+                 MES          150
+                 DONE        
+
+LEE   COLCH      GT            38  23
+                 LT            38  26
+                 MES          151
+                 DONE        
+
+LEE   ALTAR      AT            26
+                 MES          154
+                 DONE        
+
+LEE   MESA       GT            38  26
+                 LT            38  30
+                 MES          155
+                 DONE        
+
+LEE   MESA       AT             5
+                 MES          155
+                 DONE        
+
+LEE   ESTAN      AT            30
+                 MES          159
+                 DONE        
+
+LEE   MUEBL      GT            38  24
+                 LT            38  26
+                 MES          152
+                 DONE        
+
+LEE   TUNIC      AT            28
+                 MES          157
+                 DONE        
+
+LEE   _          MES           92
+                 DONE        
+
+DI    SALIG      AT            30
+                 PROCESS        7
+                 DONE        
+
+DI    TROCK      AT            17
+                 PROCESS        3
+                 DONE        
+
+DI    CURA       AT            26
+                 PROCESS        4
+                 DONE        
+
+DI    REY        AT            28
+                 PROCESS        5
+                 DONE        
+
+DI    SATAN      AT            23
+                 MES           54
+                 DONE        
+
+DI    RAMSU      AT            19
+                 PROCESS       13
+
+DI    PETRU      AT            21
+                 PROCESS        6
+                 DONE        
+
+DI    _          MES           47
+                 DONE        
+
+AYUDA _          MES          133
+                 DONE        
+
+MATA  ARANA      AT             8
+                 EQ            20   1
+                 LET           20   2
+                 MES           84
+                 DONE        
+
+MATA  ARANA      GT            20   1
+                 MES           88
+                 DONE        
+
+MATA  RATA       PROCESS       12
+                 DONE        
+
+MATA  DOS        AT            18
+                 NOUN2         86
+                 MES          100
+                 PAUSE        100
+                 GOTO          14
+                 DESC        
+
+MATA  _          MES          114
+                 DONE        
+
+COME  MOSCA      PRESENT       10
+                 MES          110
+                 DESTROY       10
+                 DONE        
+
+COME  POCIM      AT            30
+                 EQ            27   4
+                 GOTO          33
+                 DESC        
+
+COME  ARANA      PRESENT        5
+                 MES          110
+                 DESTROY        5
+                 DONE        
+
+COME  QUESO      PRESENT       12
+                 MES          110
+                 DESTROY       12
+                 DONE        
+
+ABRE  ANILL      PRESENT        3
+                 EQ            61   0
+                 LET           61   1
+                 MES          110
+                 DONE        
+
+ABRE  ANILL      PRESENT        3
+                 EQ            61   1
+                 MES          109
+                 DONE        
+
+ABRE  DIAMA      PRESENT        3
+                 EQ            61   0
+                 LET           61   1
+                 MES          110
+                 DONE        
+
+ABRE  DIAMA      PRESENT        3
+                 EQ            61   1
+                 MES          110
+                 DONE        
+
+CIERR ANILL      PRESENT        3
+                 EQ            61   1
+                 LET           61   0
+                 MES          110
+                 DONE        
+
+CIERR ANILL      PRESENT        3
+                 EQ            61   0
+                 MES          109
+                 DONE        
+
+CIERR DIAMA      PRESENT        3
+                 EQ            61   1
+                 LET           61   0
+                 MES          110
+                 DONE        
+
+CIERR DIAMA      PRESENT        3
+                 EQ            61   1
+                 LET           61   0
+                 MES          109
+                 DONE        
+
+REMOV POCIM      PREP          11
+                 NOUN2         63
+                 AT            30
+                 PRESENT       15
+                 EQ            27   3
+                 LET           27   4
+                 MES          105
+                 DESTROY        6
+                 DESTROY        8
+                 DESTROY       14
+                 DESTROY       22
+                 CREATE        23
+                 PUTO          32
+                 DONE        
+
+REMOV POCIM      PREP          11
+                 NOUN2         63
+                 PRESENT       15
+                 LT            27   3
+                 MES          111
+                 DONE        
+
+REMOV POCIM      PREP          11
+                 NOUN2         63
+                 EQ            27   4
+                 MES          112
+                 DONE        
+
+REMOV POCIM      PREP          11
+                 AT            30
+                 SYSMESS       28
+                 DONE        
+
+REMOV POCIM      AT            30
+                 MES           70
+                 DONE        
+
+MODO  *          EQ            14   2
+                 LET           14   3
+                 GRAPHIC        2
+                 MODE           3   1
+                 DESC        
+                 OK          
+                 DONE        
+
+MODO  *          EQ            14   3
+                 LET           14   2
+                 GRAPHIC        1
+                 MODE           1   1
+                 DESC        
+                 OK          
+                 DONE        
+
+ENTRA TUNEL      AT            22
+                 GOTO          23
+                 DESC        
+
+TIRA  PALAN      AT            29
+                 EQ            22   0
+                 LET           22   1
+                 MES           60
+                 MES           62
+                 DONE        
+
+TIRA  PALAN      AT            29
+                 LET           22   0
+                 MES           63
+                 DONE        
+
+TIRA  CUERN      AT             9
+                 EQ            23   0
+                 LET           23   1
+                 MES           60
+                 MES           61
+                 DONE        
+
+TIRA  CUERN      AT             9
+                 EQ            23   1
+                 LET           23   0
+                 MES           60
+                 MES           63
+                 DONE        
+
+TRITU COLMI      PREP          11
+                 NOUN2         82
+                 PRESENT        7
+                 PRESENT       21
+                 DESTROY        7
+                 CREATE         8
+                 PUTO         254
+                 MES           60
+                 DONE        
+
+TRITU COLMI      PREP          11
+                 NOUN2         82
+                 PRESENT        7
+                 ABSENT        21
+                 MES           70
+                 DONE        
+
+TRITU COLMI      PREP          11
+                 NOUN2         82
+                 ABSENT         7
+                 SYSMESS       28
+                 DONE        
+
+TRITU COLMI      MES           70
+                 DONE        
+
+ALZA  PATAS      CARRIED        5
+                 MES           85
+                 DESTROY        5
+                 CREATE         6
+                 PUTO         254
+                 DONE        
+
+ALZA  PATAS      NOUN2         57
+                 AT             8
+                 LT            20   2
+                 MES           86
+                 MES           53
+                 GRAPHIC        1
+                 END         
+
+ALZA  PELOS      AT            23
+                 EQ            23   0
+                 LET           23   1
+                 MES           76
+                 CREATE        14
+                 PUTO         254
+                 DONE        
+
+ALZA  PELOS      AT            23
+                 MES           77
+                 DONE        
+
+ALZA  BANDE      AT            10
+                 MES          141
+                 DONE        
+
+D     _          PROCESS       16
+
+CALEN PAPIR      PREP          11
+                 NOUN2         89
+                 PRESENT        9
+                 LT            38  18
+                 MES           42
+                 DONE        
+
+CALEN PAPIR      PREP          11
+                 NOUN2         89
+                 PRESENT        9
+                 GT            38  23
+                 MES           42
+                 DONE        
+
+CALEN PAPIR      ABSENT         9
+                 SYSMESS       28
+                 DONE        
+
+CALEN PAPIR      MES           70
+                 DONE        
+
+BUSCA DICCI      PREP           4
+                 PRESENT       18
+                 PROCESS       17
+                 DONE        
+
+_     _          SYSMESS        8
+                 DONE        
+
+
+--------------------------------------------------------------------------
+
+PROCESS   1
+-----------
+*     *          AT             0
+                 MES          192
+                 CHARSET        1
+                 ANYKEY      
+                 LET           53  64
+                 MODE           3   1
+                 GRAPHIC        2
+                 ABILITY        6  20
+                 LINE          15
+                 LET           14   3
+                 GOTO           1
+                 DESC        
+
+*     *          NEWLINE     
+
+*     *          AT             1
+                 EQ            14   3
+                 PICTURE       13
+                 EXTERN         0
+
+*     *          AT             2
+                 EQ            14   3
+                 EXTERN         0
+
+*     *          AT             3
+                 MES          164
+
+*     *          AT             4
+                 MES          165
+
+*     *          AT             5
+                 MES          166
+
+*     *          AT             6
+                 EQ            14   3
+                 EXTERN         0
+
+*     *          AT             7
+                 MES          168
+
+*     *          AT             8
+                 MES          169
+
+*     *          AT             9
+                 MES          170
+
+*     *          AT            10
+                 EQ            14   3
+                 EXTERN         0
+
+*     *          AT            11
+                 EQ            14   3
+                 EXTERN         0
+
+*     *          AT            12
+                 MES          173
+
+*     *          AT            13
+                 MES          174
+
+*     *          AT            14
+                 MES          175
+
+*     *          AT            15
+                 MES          176
+
+*     *          AT            16
+                 EQ            14   3
+                 EXTERN         0
+
+*     *          AT            17
+                 EQ            14   3
+                 EXTERN         0
+
+*     *          AT            18
+                 EQ            14   3
+                 EXTERN         0
+
+*     *          AT            19
+                 EQ            14   3
+                 EXTERN         0
+
+*     *          AT            20
+                 MES          181
+
+*     *          AT            21
+                 MES          182
+
+*     *          AT            23
+                 EQ            14   3
+                 EXTERN         0
+
+*     *          AT            24
+                 EQ            14   3
+                 EXTERN         0
+
+*     *          AT            25
+                 EQ            14   3
+                 EXTERN         0
+
+*     *          AT            22
+                 MES          183
+
+*     *          AT            26
+                 EQ            14   3
+                 EXTERN         0
+
+*     *          AT            27
+                 MES          188
+
+*     *          AT            28
+                 MES          189
+
+*     *          AT            29
+                 EQ            14   3
+                 EXTERN         0
+
+*     *          AT            30
+                 EQ            14   3
+                 EXTERN         1
+
+*     *          AT            23
+                 MES          184
+
+*     *          AT            23
+                 ABSENT         1
+                 MES           57
+                 PAUSE        200
+                 GOTO          22
+                 DESC        
+
+*     *          AT            31
+                 MES           53
+                 GRAPHIC        1
+                 END         
+
+*     *          AT            30
+                 MES          191
+
+*     *          AT             8
+                 EQ            20   0
+                 MES           29
+
+*     *          AT             8
+                 EQ            20   1
+                 MES           30
+
+*     *          AT             4
+                 EQ            21   1
+                 MES           33
+
+*     *          AT             8
+                 EQ            20   2
+                 MES           27
+
+*     *          LET           12   0
+
+*     *          AT            33
+                 GRAPHIC        1
+                 END         
+
+*     *          AT            23
+                 MES           58
+
+*     *          AT             2
+                 MES          163
+
+*     *          AT             6
+                 MES          167
+
+*     *          AT            10
+                 MES          171
+
+*     *          AT            11
+                 MES          172
+
+*     *          AT            16
+                 MES          177
+
+*     *          AT            18
+                 MES          179
+
+*     *          AT            19
+                 MES          180
+
+*     *          AT             1
+                 MES          162
+
+*     *          AT            24
+                 MES          185
+
+*     *          AT            25
+                 MES          186
+
+*     *          AT            26
+                 MES          187
+
+*     *          AT            29
+                 MES          190
+
+*     *          AT            30
+                 EQ            16   1
+                 MES           32
+
+*     *          AT            17
+                 MES          178
+
+*     *          NOTAT         15
+                 CHANCE         4
+                 MES          123
+
+*     *          CHANCE         3
+                 MES          124
+
+*     *          EQ            11   0
+                 CHANCE        10
+                 LET           12   1
+                 MES           34
+
+*     _          ZERO           0
+                 ABSENT         0
+                 LISTOBJ     
+
+*     _          PRESENT        0
+                 LISTOBJ     
+
+
+--------------------------------------------------------------------------
+
+PROCESS   2
+-----------
+
+--------------------------------------------------------------------------
+
+PROCESS   3
+-----------
+*     *          PARSE       
+
+COGE  MOSCA      EQ            12   1
+                 EQ            11   0
+                 MES            3
+                 MES           25
+                 LET           11   1
+                 LET           12   0
+                 DONE        
+
+COGE  MOSCA      MES            3
+                 MES           46
+                 DONE        
+
+PON   MOSCA      EQ            11   1
+                 MES            3
+                 MES           27
+                 DONE        
+
+DAR   MOSCA      EQ            11   2
+                 LET           11   3
+                 MES            3
+                 MES           17
+                 CREATE        10
+                 GET           10
+                 DONE        
+
+DAR   MOSCA      EQ            11   1
+                 MES            3
+                 MES           48
+                 LET           11   0
+                 LET           12   0
+                 DONE        
+
+DAR   BOLA       MES            3
+                 MES           27
+                 DONE        
+
+AYUDA _          MES            3
+                 MES           24
+                 DONE        
+
+MATA  MOSCA      EQ            11   1
+                 MES            3
+                 MES           26
+                 LET           11   2
+                 DONE        
+
+COME  MOSCA      GT            11   0
+                 NOTEQ         11   4
+                 MES            3
+                 MES          129
+                 LET           11   4
+                 DONE        
+
+_     _          MES            3
+                 PROCESS        8
+                 DONE        
+
+
+--------------------------------------------------------------------------
+
+PROCESS   4
+-----------
+*     *          PARSE       
+
+DAR   CRUZ       EQ            13   0
+                 LET           13   1
+                 MES            1
+                 MES           17
+                 CREATE         1
+                 GET            1
+                 DONE        
+
+AYUDA _          MES            1
+                 MES           18
+                 DONE        
+
+_     _          MES            1
+                 PROCESS        8
+                 DONE        
+
+
+--------------------------------------------------------------------------
+
+PROCESS   5
+-----------
+*     *          PARSE       
+
+DAR   ANILL      EQ            15   0
+                 CREATE         3
+                 LET           15   1
+                 MES            5
+                 MES           19
+                 GET            3
+                 DONE        
+
+AYUDA _          MES            5
+                 MES          113
+                 DONE        
+
+COMO  PRINC      MES            5
+                 MES           20
+                 DONE        
+
+_     _          MES            5
+                 MES            8
+                 DONE        
+
+
+--------------------------------------------------------------------------
+
+PROCESS   6
+-----------
+*     *          PARSE       
+
+COGE  MONED      PRESENT        2
+                 DESTROY        2
+                 LET           17   1
+                 MES            4
+                 MES           51
+                 DONE        
+
+COGE  MONED      MES            4
+                 MES           52
+                 DONE        
+
+AYUDA _          MES            4
+                 MES           21
+                 DONE        
+
+ABRE  PUERT      EQ            17   0
+                 MES            4
+                 MES           22
+                 DONE        
+
+ABRE  PUERT      EQ            18   0
+                 LET           18   1
+                 MES            4
+                 MES           23
+                 DONE        
+
+ABRE  PUERT      MES            4
+                 MES           50
+                 DONE        
+
+CIERR PUERT      EQ            17   0
+                 MES            4
+                 MES           22
+                 DONE        
+
+CIERR PUERT      EQ            18   1
+                 LET           18   0
+                 MES            4
+                 MES           23
+                 DONE        
+
+CIERR PUERT      MES            4
+                 MES           50
+                 DONE        
+
+_     _          MES            4
+                 PROCESS        8
+                 DONE        
+
+
+--------------------------------------------------------------------------
+
+PROCESS   7
+-----------
+*     *          PARSE       
+
+COGE  POLVO      PRESENT        4
+                 DESTROY        4
+                 LET           16   1
+                 MES           59
+                 DONE        
+
+_     *          EQ            16   1
+                 MES            2
+                 MES           49
+                 DONE        
+
+_     _          MES            2
+                 MES           28
+                 DONE        
+
+
+--------------------------------------------------------------------------
+
+PROCESS   8
+-----------
+COGE  _          MES           12
+                 DONE        
+
+PON   _          MES           27
+                 DONE        
+
+HOLA  _          MES            7
+                 DONE        
+
+ADIOS _          MES            8
+                 DONE        
+
+DAR   ALGO       MES            9
+                 DONE        
+
+DAR   _          MES           13
+                 DONE        
+
+AYUDA _          MES           14
+                 DONE        
+
+MATA  _          MES           12
+                 DONE        
+
+VE    _          MES           12
+                 DONE        
+
+COME  _          MES           12
+                 DONE        
+
+CIERR _          MES           10
+                 DONE        
+
+DESCI PAPIR      MES           11
+                 DONE        
+
+_     _          MES           15
+                 DONE        
+
+
+--------------------------------------------------------------------------
+
+PROCESS   9
+-----------
+LEE   BOCA       AT             3
+                 MES           66
+                 DONE        
+
+LEE   BOCA       AT             9
+                 MES           66
+                 DONE        
+
+LEE   BOCA       AT             7
+                 MES           66
+                 DONE        
+
+LEE   BOCA       MES           67
+                 DONE        
+
+
+--------------------------------------------------------------------------
+
+PROCESS  10
+-----------
+LEE   LENGU      AT             7
+                 EQ            24   0
+                 MES           65
+                 DONE        
+
+LEE   LENGU      AT             3
+                 MES           68
+                 DONE        
+
+LEE   LENGU      AT             7
+                 MES           68
+                 DONE        
+
+LEE   LENGU      AT             9
+                 MES           68
+                 DONE        
+
+LEE   LENGU      MES           67
+                 DONE        
+
+
+--------------------------------------------------------------------------
+
+PROCESS  11
+-----------
+LEE   ALCE       AT             7
+                 MES           69
+                 DONE        
+
+LEE   ALCE       AT             9
+                 MES           69
+                 DONE        
+
+LEE   ALCE       AT             3
+                 MES           69
+                 DONE        
+
+LEE   ALCE       MES           67
+                 DONE        
+
+
+--------------------------------------------------------------------------
+
+PROCESS  12
+-----------
+MATA  RATA       NOUN2         62
+                 AT             4
+                 PRESENT       13
+                 EQ            21   1
+                 LET           21   0
+                 MES           73
+                 CREATE        11
+                 DONE        
+
+MATA  RATA       NOUN2         62
+                 ABSENT        13
+                 SYSMESS       28
+                 DONE        
+
+MATA  RATA       NOUN2         62
+                 MES           71
+                 DONE        
+
+MATA  RATA       MES           70
+                 DONE        
+
+
+--------------------------------------------------------------------------
+
+PROCESS  13
+-----------
+*     *          PARSE       
+
+COGE  RATA       CARRIED       11
+                 DESTROY       11
+                 MES           74
+                 CREATE         7
+                 DONE        
+
+_     _          MES            6
+                 DONE        
+
+
+--------------------------------------------------------------------------
+
+PROCESS  14
+-----------
+N     _          MES           60
+                 MES           63
+                 LET           23   0
+                 PAUSE        150
+                 GOTO           9
+                 DESC        
+
+COGE  ESCUD      PRESENT       13
+                 GET           13
+                 DONE        
+
+DI    SALIG      PROCESS        7
+                 DONE        
+
+_     _          MES            2
+                 MES           28
+                 DONE        
+
+
+--------------------------------------------------------------------------
+
+PROCESS  15
+-----------
+*     *          NOTAT          8
+                 DROP          10
+                 DONE        
+
+PON   MOSCA      NOUN2         84
+                 AT             8
+                 PRESENT       10
+                 EQ            20   0
+                 DESTROY       10
+                 LET           20   1
+                 MES           83
+                 DONE        
+
+PON   MOSCA      NOUN2         84
+                 ABSENT        10
+                 SYSMESS       28
+                 DONE        
+
+PON   MOSCA      MES           89
+                 DONE        
+
+
+--------------------------------------------------------------------------
+
+PROCESS  16
+-----------
+*     *          MES           91
+
+*     *          PAUSE         20
+
+*     *          MES           90
+
+*     *          PAUSE         20
+
+*     *          MES           90
+
+*     *          PAUSE         20
+
+*     *          MES           90
+
+*     *          PAUSE         20
+
+_     _          DESC        
+                 DONE        
+
+
+--------------------------------------------------------------------------
+
+PROCESS  17
+-----------
+*     *          NOUN2         56
+                 MES           93
+                 DONE        
+
+*     *          NOUN2         30
+                 MES           94
+                 DONE        
+
+*     *          NOUN2         54
+                 MES           95
+                 DONE        
+
+*     *          NOUN2         85
+                 MES           96
+                 DONE        
+
+_     _          MES           97
+                 DONE        
+
+
+--------------------------------------------------------------------------
+
+PROCESS  18
+-----------
+*     *          EQ            26   0
+                 MES          102
+                 DONE        
+
+*     *          MES           99
+                 DONE        
+
+
+--------------------------------------------------------------------------
+
+PROCESS  19
+-----------
+_     PATAS      PRESENT        6
+                 LET           51   6
+                 PUTO          32
+                 PLUS          27   1
+                 MES          104
+                 DONE        
+
+_     PATAS      ABSENT         6
+                 DROP           6
+                 DONE        
+
+_     RESTO      PRESENT        8
+                 LET           51   8
+                 PUTO          32
+                 PLUS          27   1
+                 MES          104
+                 DONE        
+
+_     RESTO      ABSENT         8
+                 DROP           8
+                 DONE        
+
+_     PELOS      PRESENT       14
+                 LET           51  14
+                 PUTO          32
+                 PLUS          27   1
+                 MES          104
+                 DONE        
+
+_     PELOS      ABSENT        14
+                 DROP          14
+                 DONE        
+
+_     _          NOUN2         58
+                 PRESENT        6
+                 LET           51   6
+                 PUTO          32
+                 MES          104
+                 PLUS          27   1
+                 DONE        
+
+_     _          NOUN2         58
+                 ABSENT         6
+                 DROP           6
+                 DONE        
+
+_     _          NOUN2         60
+                 PRESENT        8
+                 LET           51   8
+                 PUTO          32
+                 MES          104
+                 PLUS          27   1
+                 MES          104
+                 DONE        
+
+_     _          NOUN2         60
+                 ABSENT         8
+                 DROP           8
+                 DONE        
+
+_     _          NOUN2         70
+                 PRESENT       14
+                 LET           51  14
+                 PUTO          32
+                 MES          104
+                 PLUS          27   1
+                 DONE        
+
+_     _          NOUN2         70
+                 ABSENT        14
+                 DROP          14
+                 DONE        
+
+_     _          MES          103
+                 DONE        
+
+
+--------------------------------------------------------------------------
+
+GRAPHICS DATA
+-------------
+Location   0 graphics flags: Subroutine. Ink=7 Paper=1 Bit6=0
+
+Location   1 graphics flags: Picture.    Ink=7 Paper=0 Bit6=0
+     PAPER       000
+     INK         003
+     BLOCK       021  031  000  000 
+     PLOT        038  169 
+     LINE        000 -107 
+     LINE        137  000 
+     PLOT        200  062 
+     LINE        017  000 
+     LINE        000  107 
+     LINE       -179  000 
+     PLOT        166  062 
+     LINE        040  000 
+     PLOT        219  060 
+     LINE        000  111 
+     LINE       -183  000 
+     LINE        000 -111 
+     LINE        183  000 
+     PLOT        038  169 
+     END
+
+Location   2 graphics flags: Picture.    Ink=7 Paper=0 Bit6=0
+     LINE        000  000 
+     GOSUB    sc=000  001 
+     INK         000
+     LINE        000  000 
+     LINE        000  000 
+     INK         000
+     PLOT        072  064 
+     LINE        143  034 
+     PLOT        041  071 
+     LINE        174  032 
+     PLOT        046  081 
+     LINE        004 -002 
+     LINE        004 -001 
+     LINE        006 -001 
+     LINE        006  002 
+     LINE        003  003 
+     LINE       -001  008 
+     LINE       -004 -002 
+     LINE       -006 -001 
+     LINE       -005  001 
+     LINE       -005  001 
+     LINE       -002 -007 
+     PLOT        048  089 
+     LINE        002  002 
+     LINE        007 -002 
+     LINE        008  001 
+     LINE        001  001 
+     LINE        001 -001 
+     PLOT        066  091 
+     LINE       -001  006 
+     LINE       -006 -001 
+     LINE       -007  001 
+     LINE       -001 -006 
+     PLOT        053  098 
+     LINE        001  001 
+     LINE        005 -001 
+     LINE        005  001 
+     LINE        001 -002 
+     PLOT        054  100 
+     LINE        000  058 
+     LINE        005  001 
+     LINE        005 -001 
+     LINE        000 -058 
+     PLOT        054  158 
+     LINE       -002  001 
+     LINE       -002  003 
+     LINE        000  002 
+     PLOT        048  164 
+     LINE        006  001 
+     LINE        007  000 
+     LINE        007 -001 
+     LINE       -004 -005 
+     PLOT        069  164 
+     LINE        001  002 
+     LINE       -006  001 
+     LINE       -009  000 
+     LINE       -008 -001 
+     LINE        001 -002 
+     PLOT        047  167 
+     LINE       -003  000 
+     PLOT        060  096 
+     LINE        001 -006 
+     PLOT        061  088 
+     LINE        001 -010 
+     PLOT        056  096 
+     LINE       -002 -006 
+     PLOT        054  088 
+     LINE       -002 -009 
+     PLOT        068  167 
+     PLOT        087  087 
+     LINE        008 -002 
+     LINE        004 -001 
+     LINE        002 -001 
+     LINE        001 -011 
+     PLOT        110  089 
+     LINE        003 -001 
+     LINE        002 -001 
+     LINE        007  001 
+     LINE        003  001 
+     LINE       -001  006 
+     LINE       -006 -001 
+     LINE       -003  000 
+     LINE       -004  001 
+     LINE       -001 -004 
+     PLOT        111  095 
+     LINE        002  002 
+     LINE        004 -001 
+     LINE        006  001 
+     LINE        000 -001 
+     PLOT        122  097 
+     LINE        000  003 
+     LINE       -004 -001 
+     LINE       -003  001 
+     LINE       -001 -003 
+     PLOT        115  100 
+     LINE        000  051 
+     PLOT        122  100 
+     LINE        000  051 
+     LINE       -004  001 
+     LINE       -003 -001 
+     LINE       -002  003 
+     LINE       -001  004 
+     LINE        007  001 
+     LINE        006 -001 
+     LINE       -003 -007 
+     PLOT        112  158 
+     LINE       -001  002 
+     PLOT        151  095 
+     LINE        002 -001 
+     LINE        002 -001 
+     LINE        006  001 
+     LINE       -001  006 
+     LINE       -004 -001 
+     LINE       -004  001 
+     LINE       -001 -005 
+     PLOT        152  100 
+     LINE        002  002 
+     LINE        003 -001 
+     LINE        002  001 
+     LINE        001 -002 
+     PLOT        159  103 
+     LINE        000  044 
+     PLOT        154  103 
+     LINE        000  045 
+     LINE        003  001 
+     LINE        002 -001 
+     LINE        002  003 
+     LINE        001  002 
+     PLOT        153  148 
+     LINE       -002  007 
+     PLOT        178  099 
+     LINE        000  000 
+     LINE        003 -001 
+     LINE        005  001 
+     LINE       -001  005 
+     LINE       -003 -001 
+     ABS MOVE    182  103 
+     LINE       -003  001 
+     LINE       -001 -005 
+     PLOT        180  105 
+     LINE        000  040 
+     PLOT        185  105 
+     LINE        000  040 
+     PLOT        179  151 
+     LINE        001 -006 
+     LINE        003 -001 
+     LINE        003  001 
+     LINE        001  004 
+     PLOT        201  147 
+     LINE        001 -004 
+     LINE        002 -001 
+     LINE        003  001 
+     LINE        001  004 
+     PLOT        206  142 
+     LINE        000 -035 
+     LINE        001 -004 
+     LINE       -003 -001 
+     LINE       -003  000 
+     LINE       -002  001 
+     LINE        002  004 
+     LINE        002 -001 
+     LINE        003  001 
+     PLOT        202  107 
+     LINE        000  037 
+     PLOT        156  153 
+     ABS MOVE    156  153 
+     LINE       -006  001 
+     PLOT        142  095 
+     LINE        005 -001 
+     LINE        004 -002 
+     LINE        001 -008 
+     PLOT        184  097 
+     LINE        001 -006 
+     PLOT        208  104 
+     LINE        001 -002 
+     LINE        001 -005 
+     PLOT        197  103 
+     LINE       -011  000 
+     PLOT        179  103 
+     ABS MOVE    179  103 
+     LINE       -020  000 
+     PLOT        154  103 
+     LINE       -031  000 
+     PLOT        115  103 
+     LINE       -051  000 
+     PLOT        054  103 
+     LINE       -014  000 
+     PLOT        215  106 
+     LINE       -007 -001 
+     PLOT        200  103 
+     LINE       -015 -001 
+     PLOT        178  101 
+     LINE       -017 -002 
+     PLOT        152  098 
+     LINE       -029 -004 
+     PLOT        110  092 
+     LINE       -041 -005 
+     PLOT        046  085 
+     LINE       -006 -001 
+     PLOT        087  087 
+     LINE       -006  001 
+     PLOT        111  160 
+     LINE       -002  005 
+     LINE       -004  002 
+     PLOT        117  160 
+     LINE       -001  004 
+     LINE       -003  003 
+     PLOT        125  159 
+     LINE        001  004 
+     LINE        003  003 
+     LINE        004  001 
+     PLOT        156  155 
+     LINE       -002  006 
+     LINE       -003  004 
+     LINE       -004  002 
+     PLOT        151  155 
+     LINE       -002  005 
+     LINE       -003  004 
+     LINE       -005  003 
+     PLOT        157  153 
+     LINE        005  001 
+     LINE       -001  001 
+     LINE        001  006 
+     LINE        004  004 
+     LINE        007  001 
+     LINE        005 -003 
+     LINE        003 -004 
+     LINE        002 -008 
+     LINE       -004  000 
+     LINE       -001  007 
+     LINE       -002  003 
+     LINE       -003  003 
+     LINE       -005  001 
+     PLOT        183  150 
+     LINE        005  000 
+     LINE        000  006 
+     LINE        004  004 
+     LINE        005  001 
+     LINE        004 -002 
+     LINE        002 -004 
+     LINE        001 -006 
+     LINE       -003 -001 
+     LINE        000  005 
+     LINE       -002  006 
+     PLOT        204  147 
+     LINE        005  001 
+     PLOT        207  149 
+     LINE        001  005 
+     LINE        003  003 
+     LINE        004  001 
+     PLOT        215  098 
+     LINE        000 -034 
+     LINE       -143  000 
+     PLOT        135  065 
+     LINE       -020  002 
+     LINE        038  009 
+     LINE        062 -009 
+     PLOT        165  080 
+     LINE        050 -007 
+     PLOT        167  080 
+     LINE        029  006 
+     LINE        019 -002 
+     PLOT        215  093 
+     LINE       -004  000 
+     LINE       -009 -003 
+     LINE        013 -002 
+     FILL       -024  000 
+     SHADE      -003  003  067 
+     SHADE      -008 -008  067 
+     SHADE      -040 -019  067 
+     PLOT        096  070 
+     LINE        119  000 
+     PLOT        132  078 
+     LINE        083  000 
+     PLOT        166  086 
+     LINE        049  000 
+     PLOT        195  092 
+     LINE        020  000 
+     PLOT        145  064 
+     LINE        020  005 
+     PLOT        190  078 
+     LINE        025  007 
+     PLOT        135  070 
+     LINE        025  008 
+     PLOT        207  070 
+     LINE        008  003 
+     PLOT        197  086 
+     LINE        016  005 
+     PLOT        071  064 
+     ABS MOVE    071  064 
+     LINE       -031  000 
+     LINE        000  007 
+     SHADE       024  000  033 
+     SHADE       071  008  018 
+     SHADE       120  016  018 
+     SHADE       152  024  018 
+     PLOT        215  103 
+     LINE        000 -005 
+     PLOT        114  167 
+     LINE        018  000 
+     SHADE      -008 -006  018 
+     PLOT        148  167 
+     LINE        067  000 
+     LINE        000 -008 
+     PLOT        203  147 
+     SHADE       003  001  018 
+     SHADE      -017  008  018 
+     SHADE      -048  016  018 
+     FILL       -138 -064 
+     FILL       -140 -052 
+     PLOT        060  099 
+     LINE        002  032 
+     LINE       -001  028 
+     LINE        001  006 
+     FILL        001 -003 
+     FILL        001 -012 
+     SHADE      -006 -085  066 
+     SHADE      -004 -072  066 
+     PLOT        057  099 
+     LINE        001  036 
+     LINE        000  024 
+     LINE       -001  006 
+     SHADE       002 -001  066 
+     SHADE       002 -007  066 
+     PLOT        059  166 
+     LINE        010 -001 
+     PLOT        119  099 
+     LINE        000 -002 
+     PLOT        119  094 
+     LINE        002 -006 
+     PLOT        115  088 
+     LINE        001  006 
+     PLOT        116  096 
+     LINE        001  002 
+     PLOT        119  099 
+     LINE        001  029 
+     LINE       -001  023 
+     FILL        001 -001 
+     FILL        002 -052 
+     FILL        004 -060 
+     LINE        002  008 
+     FILL        000 -005 
+     PLOT        156  153 
+     LINE        001 -004 
+     LINE        001 -031 
+     LINE       -001 -017 
+     FILL        001  003 
+     FILL        001  035 
+     FILL        001  051 
+     LINE       -001 -008 
+     FILL        002  003 
+     SHADE      -038 -002  036 
+     PLOT        179  146 
+     PLOT        179  147 
+     PLOT        183  150 
+     LINE        000 -005 
+     LINE        001 -030 
+     LINE       -001 -016 
+     FILL        001  002 
+     FILL        001  006 
+     FILL        001  040 
+     FILL        001  048 
+     PLOT        205  147 
+     LINE       -001 -045 
+     FILL        001  002 
+     FILL        001  007 
+     PLOT        040  102 
+     LINE        000 -018 
+     SHADE       002  002  057 
+     SHADE       030  006  057 
+     LINE        000  000 
+     SHADE       089  016  057 
+     SHADE       123  018  057 
+     SHADE       174  016  050 
+     PLOT        165  164 
+     LINE        008 -012 
+     LINE        005 -017 
+     LINE        002 -017 
+     SHADE      -002  023  003 
+     SHADE       009  000  003 
+     PLOT        215  107 
+     LINE        000  056 
+     SHADE      -002 -009  003 
+     PAPER       003
+     REL MOVE   -002 -072 
+     BLOCK       003  001  025  010 
+     REL MOVE   -014 -007 
+     BLOCK       002  002  022  011 
+     REL MOVE   -025 -008 
+     BLOCK       001  004  017  012 
+     REL MOVE   -040 -008 
+     BLOCK       000  001  015  013 
+     BRIGHT      001
+     REL MOVE   -090  010 
+     BLOCK       001  008  005  012 
+     REL MOVE    026  004 
+     BLOCK       001  008  008  011 
+     REL MOVE    053  007 
+     BLOCK       001  004  015  010 
+     REL MOVE    041  005 
+     BLOCK       000  002  020  010 
+     REL MOVE    024  006 
+     BLOCK       000  003  023  009 
+     ABS MOVE    215  163 
+     PAPER       005
+     BRIGHT      000
+     BLOCK       007  021  005  001 
+     REL MOVE   -173 -062 
+     BRIGHT      001
+     BLOCK       002  002  005  009 
+     REL MOVE    025  000 
+     BLOCK       001  006  008  009 
+     REL MOVE    058 -001 
+     BLOCK       000  007  015  009 
+     END
+
+Location   3 graphics flags: Subroutine. Ink=7 Paper=1 Bit6=0
+     GOSUB    sc=000  001 
+     INK         002
+     PLOT        114  159 
+     LINE       -003 -011 
+     LINE       -006 -008 
+     LINE       -008 -009 
+     LINE       -014 -011 
+     LINE       -011 -007 
+     LINE        003 -031 
+     LINE        001 -011 
+     LINE       -012 -001 
+     LINE       -012  001 
+     PLOT        114  158 
+     LINE        005 -009 
+     LINE        006 -008 
+     LINE        014 -014 
+     LINE        011 -008 
+     LINE        018 -007 
+     LINE       -001 -040 
+     LINE        011 -002 
+     LINE        013  001 
+     LINE        009  001 
+     LINE       -008  038 
+     LINE       -001  005 
+     LINE        002  001 
+     LINE       -006  006 
+     LINE       -003 -001 
+     LINE       -001  004 
+     LINE       -004  001 
+     LINE       -005  005 
+     LINE       -006  010 
+     LINE       -004  009 
+     LINE       -003  011 
+     LINE       -001  006 
+     PLOT        051  071 
+     LINE        001  017 
+     LINE       -001  020 
+     LINE       -005  002 
+     LINE        003  007 
+     LINE        008  008 
+     LINE        010  012 
+     LINE        007  011 
+     LINE        003  010 
+     LINE        002  009 
+     PLOT        199  080 
+     INK         000
+     PAPER       002
+     LINE        000  047 
+     LINE       -008  000 
+     LINE        000  008 
+     LINE       -016  000 
+     LINE        000  024 
+     LINE       -008  000 
+     LINE        000  008 
+     LINE       -007  000 
+     FILL        002 -002 
+     PLOT        084  167 
+     LINE       -028  000 
+     LINE        000 -032 
+     LINE       -016  000 
+     LINE        000 -063 
+     LINE        011  000 
+     FILL       -002  002 
+     BLOCK       007  003  006  005 
+     ABS MOVE    067  136 
+     BLOCK       003  005  008  001 
+     ABS MOVE    115  165 
+     BLOCK       001  000  014  001 
+     ABS MOVE    121  161 
+     BLOCK       003  006  015  001 
+     ABS MOVE    148  132 
+     BLOCK       002  004  018  005 
+     ABS MOVE    175  108 
+     BLOCK       004  003  021  008 
+     ABS MOVE    087  132 
+     PAPER       000
+     INK         002
+     PLOT        070  071 
+     LINE       -016  000 
+     PLOT        176  071 
+     LINE        008  000 
+     ABS MOVE    170  161 
+     PLOT        119  151 
+     LINE        000 -002 
+     INK         000
+     PAPER       002
+     PLOT        169  112 
+     LINE        005 -001 
+     LINE        010  001 
+     LINE        004  001 
+     PLOT        169  111 
+     LINE        011 -001 
+     LINE        005  001 
+     PLOT        174  112 
+     LINE       -012  006 
+     LINE       -009  005 
+     LINE       -006  005 
+     LINE       -007  011 
+     LINE       -003  008 
+     LINE        006 -012 
+     LINE        008 -010 
+     LINE        006 -003 
+     LINE        007 -004 
+     LINE        008 -003 
+     LINE        003 -003 
+     PLOT        183  112 
+     LINE       -008  006 
+     LINE       -009  012 
+     PLOT        179  115 
+     LINE       -003  010 
+     PLOT        174  110 
+     LINE        001 -038 
+     PLOT        195  072 
+     LINE       -010  040 
+     PLOT        071  113 
+     LINE       -009 -002 
+     LINE       -011  000 
+     LINE        004 -002 
+     LINE        005  001 
+     LINE        011  002 
+     PLOT        066  111 
+     LINE        003 -016 
+     PLOT        066  110 
+     LINE       -003 -020 
+     PLOT        064  100 
+     LINE       -004 -008 
+     PLOT        063  112 
+     LINE       -002  009 
+     PLOT        064  111 
+     PLOT        077  072 
+     LINE        002  000 
+     LINE        000  040 
+     LINE        008  000 
+     LINE        000  008 
+     LINE        008  000 
+     LINE        000  008 
+     LINE        008  000 
+     LINE        000  008 
+     LINE        008  000 
+     LINE        000  008 
+     LINE        009  000 
+     LINE        000 -008 
+     LINE        008  000 
+     LINE        000 -008 
+     LINE        008  000 
+     LINE        000 -008 
+     LINE        008  000 
+     LINE        000 -008 
+     LINE        024  000 
+     FILL       -022  002 
+     FILL       -033  017 
+     FILL       -046  029 
+     FILL       -058  025 
+     FILL       -088  002 
+     FILL       -070  017 
+     LINE        004  000 
+     LINE        012  000 
+     LINE        005  002 
+     PLOT        094  147 
+     LINE       -007 -016 
+     LINE       -009 -008 
+     LINE       -006 -010 
+     PLOT        071  072 
+     LINE       -003  018 
+     PLOT        058  072 
+     LINE        001  019 
+     PLOT        067  110 
+     LINE        003 -013 
+     PLOT        071  129 
+     LINE        005  003 
+     LINE        004  004 
+     LINE        006  009 
+     LINE        006  007 
+     LINE        005  004 
+     LINE        004  006 
+     PLOT        113  160 
+     LINE       -001  005 
+     PLOT        124  167 
+     LINE        001 -004 
+     LINE        004 -005 
+     LINE        002 -002 
+     PLOT        188  114 
+     LINE        003  000 
+     SHADE       000 -005  000 
+     PLOT        059  091 
+     LINE       -002  018 
+     LINE       -005 -001 
+     SHADE       003 -003  000 
+     PLOT        053  111 
+     LINE        005  009 
+     LINE        002  009 
+     SHADE      -005 -009  000 
+     PLOT        066  145 
+     LINE        005  007 
+     LINE        003  009 
+     SHADE      -004 -005  000 
+     PLOT        178  125 
+     LINE        004 -008 
+     LINE        005 -004 
+     SHADE       000  002  000 
+     PLOT        159  167 
+     LINE       -007  000 
+     LINE        003 -010 
+     LINE        004 -006 
+     LINE        007 -007 
+     SHADE      -004  006  000 
+     INK         000
+     PAPER       006
+     PLOT        148  072 
+     LINE       -011  001 
+     PLOT        137  072 
+     LINE        001  016 
+     PLOT        148  073 
+     LINE        000  019 
+     LINE       -002  003 
+     LINE        021  006 
+     LINE        000 -024 
+     LINE       -004 -003 
+     LINE       -007 -001 
+     LINE       -007 -001 
+     SHADE       002  001  000 
+     PLOT        137  073 
+     LINE       -012  001 
+     PLOT        126  088 
+     LINE       -001 -015 
+     PLOT        124  075 
+     LINE       -012  001 
+     PLOT        112  075 
+     LINE        001  015 
+     PLOT        112  077 
+     LINE       -011  001 
+     PLOT        101  077 
+     LINE        001  016 
+     PLOT        100  078 
+     LINE       -011  002 
+     PLOT        090  079 
+     LINE        001  013 
+     PLOT        089  080 
+     LINE       -007  001 
+     LINE        000  017 
+     LINE        001  003 
+     LINE        004  001 
+     LINE        016 -002 
+     PLOT        145  095 
+     LINE       -025  002 
+     PLOT        088  103 
+     LINE        042  001 
+     PLOT        128  103 
+     LINE        002  003 
+     LINE        007  004 
+     LINE        014  000 
+     LINE        016 -001 
+     LINE       -002 -006 
+     LINE       -005 -003 
+     LINE       -003  001 
+     PLOT        158  100 
+     LINE       -010  001 
+     LINE       -009  001 
+     LINE       -009  001 
+     PLOT        156  109 
+     LINE        002 -003 
+     LINE       -002 -005 
+     SHADE       004  003  000 
+     FILL        011  002 
+     LINE       -004 -002 
+     LINE       -009 -001 
+     LINE       -013 -001 
+     SHADE       016 -001  000 
+     ABS MOVE    130  095 
+     ABS MOVE    130  087 
+     ABS MOVE    106  087 
+     ABS MOVE    106  089 
+     ABS MOVE    116  099 
+     PLOT        136  095 
+     LINE        005 -003 
+     LINE        003 -005 
+     LINE        003 -014 
+     SHADE       000  005  000 
+     PLOT        141  074 
+     LINE       -002  009 
+     FILL        000 -004 
+     PLOT        127  083 
+     LINE        001 -005 
+     LINE        003 -004 
+     FILL       -003  001 
+     PLOT        116  076 
+     LINE       -002  007 
+     FILL        000 -003 
+     PLOT        105  079 
+     LINE       -002  007 
+     FILL        000 -003 
+     PLOT        093  080 
+     LINE       -001  006 
+     FILL       -001 -002 
+     PLOT        120  101 
+     PLOT        125  102 
+     LINE        004 -001 
+     LINE        002 -001 
+     ABS MOVE    083  076 
+     PAPER       002
+     ABS MOVE    091  148 
+     INK         006
+     PAPER       002
+     ABS MOVE    152  112 
+     ABS MOVE    147  117 
+     ABS MOVE    142  121 
+     ABS MOVE    145  120 
+     ABS MOVE    075  101 
+     BLOCK       003  000  009  009 
+     ABS MOVE    075  105 
+     ABS MOVE    115  151 
+     ABS MOVE    115  154 
+     ABS MOVE    110  140 
+     ABS MOVE    110  144 
+     ABS MOVE    122  143 
+     ABS MOVE    122  145 
+     ABS MOVE    129  133 
+     ABS MOVE    129  136 
+     ABS MOVE    137  128 
+     BLOCK       002  005  012  005 
+     ABS MOVE    115  137 
+     ABS MOVE    103  137 
+     ABS MOVE    089  121 
+     ABS MOVE    095  128 
+     ABS MOVE    084  117 
+     ABS MOVE    086  121 
+     ABS MOVE    077  113 
+     ABS MOVE    090  113 
+     ABS MOVE    162  113 
+     PAPER       006
+     INK         000
+     ABS MOVE    085  107 
+     BLOCK       000  002  010  008 
+     PLOT        081  087 
+     ABS MOVE    089  113 
+     BLOCK       000  006  011  007 
+     ABS MOVE    134  121 
+     BLOCK       000  004  012  006 
+     ABS MOVE    118  137 
+     ABS MOVE    118  133 
+     ABS MOVE    121  133 
+     ABS MOVE    107  133 
+     LINE        000  000 
+     LINE        000  000 
+     INK         002
+     ABS MOVE    043  067 
+     BLOCK       000  021  005  013 
+     INK         000
+     PLOT        135  127 
+     LINE        000 -018 
+     LINE        000  000 
+     PLOT        131  107 
+     LINE       -019  000 
+     LINE        000 -003 
+     PLOT        119  108 
+     LINE        005  000 
+     PLOT        121  109 
+     LINE        000  002 
+     PLOT        122  111 
+     LINE        000 -003 
+     LINE       -006  003 
+     PLOT        122  109 
+     LINE        005  002 
+     PLOT        111  133 
+     LINE       -016 -016 
+     PLOT        103  122 
+     LINE       -013 -013 
+     PLOT        096  112 
+     LINE        014  014 
+     PLOT        106  113 
+     LINE       -005 -005 
+     INK         007
+     PLOT        126  118 
+     LINE        000 -006 
+     LINE        001  000 
+     LINE        000  007 
+     PLOT        122  112 
+     LINE        000  007 
+     LINE       -001  000 
+     LINE        000 -007 
+     PLOT        116  112 
+     LINE        000  005 
+     LINE        001  000 
+     LINE        000 -005 
+     INK         002
+     PLOT        116  120 
+     LINE        001  002 
+     PLOT        121  121 
+     LINE        001  002 
+     PLOT        121  123 
+     LINE        001  002 
+     PLOT        126  120 
+     LINE        001  001 
+     LINE       -001  001 
+     PAPER       002
+     INK         006
+     PLOT     i  135  128 
+     LINE     i  000  003 
+     PLOT     i  079  087 
+     LINE     i -005  000 
+     END
+
+Location   4 graphics flags: Subroutine. Ink=7 Paper=1 Bit6=0
+
+Location   5 graphics flags: Subroutine. Ink=7 Paper=1 Bit6=0
+
+Location   6 graphics flags: Picture.    Ink=7 Paper=0 Bit6=0
+     GOSUB    sc=000  002 
+     END
+
+Location   7 graphics flags: Subroutine. Ink=7 Paper=1 Bit6=0
+
+Location   8 graphics flags: Subroutine. Ink=7 Paper=1 Bit6=0
+
+Location   9 graphics flags: Subroutine. Ink=7 Paper=1 Bit6=0
+
+Location  10 graphics flags: Picture.    Ink=7 Paper=0 Bit6=0
+     GOSUB    sc=000  001 
+     PLOT        168  065 
+     LINE       -032  030 
+     LINE        000  072 
+     PLOT        215  086 
+     LINE       -078  046 
+     LINE       -002 -005 
+     LINE        080 -046 
+     PLOT        215  090 
+     LINE       -072  042 
+     LINE       -006  000 
+     PLOT        143  133 
+     LINE        000  034 
+     PLOT        132  167 
+     LINE        000 -071 
+     LINE        004  000 
+     LINE       -095 -001 
+     PLOT        164  068 
+     LINE       -124 -003 
+     PLOT        136  095 
+     LINE        000 -003 
+     LINE       -096 -002 
+     PLOT        040  083 
+     LINE        107  002 
+     LINE        000 -006 
+     LINE       -107 -002 
+     PLOT        147  078 
+     LINE        018 -010 
+     PLOT        146  084 
+     LINE       -009  007 
+     PLOT        164  068 
+     LINE        000 -004 
+     PLOT        144  132 
+     LINE        030  035 
+     PLOT        178  167 
+     LINE       -031 -037 
+     PLOT        046  094 
+     LINE        000 -004 
+     LINE        002 -007 
+     LINE        000 -006 
+     LINE        002 -012 
+     LINE        000 -001 
+     PLOT        144  064 
+     LINE        000  005 
+     LINE       -007  010 
+     LINE       -001  006 
+     LINE       -008  007 
+     LINE       -001  003 
+     PLOT        140  123 
+     LINE        000 -003 
+     LINE        005 -004 
+     LINE        000  005 
+     PLOT        145  116 
+     LINE        005  001 
+     PLOT        143  117 
+     LINE       -002 -008 
+     LINE        000 -009 
+     LINE        002 -007 
+     LINE       -003  000 
+     LINE        005 -004 
+     PLOT        199  089 
+     LINE        000 -005 
+     LINE        007 -004 
+     LINE        000  006 
+     PLOT        206  080 
+     LINE        007  001 
+     PLOT        203  081 
+     LINE       -002 -007 
+     LINE       -001 -010 
+     PLOT        212  080 
+     LINE        001 -010 
+     LINE        001 -006 
+     PLOT        184  098 
+     LINE        000 -007 
+     LINE        007 -004 
+     LINE        000  007 
+     PLOT        191  088 
+     LINE        007  002 
+     PLOT        188  089 
+     LINE       -002 -009 
+     LINE       -001 -007 
+     LINE        002 -009 
+     PLOT        195  088 
+     LINE        001 -009 
+     LINE        001 -007 
+     LINE       -002 -008 
+     PLOT        171  105 
+     LINE        000 -006 
+     LINE        006 -004 
+     LINE        000  007 
+     PLOT        177  096 
+     LINE        007  002 
+     PLOT        174  097 
+     LINE       -002 -009 
+     LINE       -001 -009 
+     LINE        002 -012 
+     PLOT        173  069 
+     LINE       -004 -001 
+     LINE        005 -004 
+     PLOT        181  096 
+     LINE        001 -012 
+     LINE       -002 -017 
+     PLOT        181  068 
+     LINE        003 -002 
+     LINE       -006 -002 
+     PLOT        170  067 
+     LINE        000 -003 
+     PLOT        159  112 
+     LINE        000 -006 
+     LINE        006 -002 
+     LINE        000  005 
+     PLOT        165  105 
+     LINE        005  000 
+     PLOT        162  105 
+     LINE       -002 -013 
+     LINE        002 -018 
+     PLOT        168  104 
+     LINE        002 -014 
+     LINE       -002 -016 
+     PLOT        162  076 
+     LINE       -003  000 
+     LINE        007 -005 
+     LINE        000 -002 
+     LINE        000  002 
+     LINE        005  001 
+     LINE       -003  003 
+     PLOT        151  117 
+     LINE        000 -005 
+     LINE        004 -003 
+     LINE        001  005 
+     PLOT        156  110 
+     LINE        003  000 
+     PLOT        152  111 
+     LINE       -001 -017 
+     LINE        002 -012 
+     PLOT        158  110 
+     LINE        002 -012 
+     LINE       -002 -016 
+     PLOT        153  084 
+     LINE       -003  000 
+     LINE        005 -005 
+     LINE        006  001 
+     PLOT        148  116 
+     LINE        001 -011 
+     LINE       -001 -013 
+     PLOT        145  089 
+     LINE        006  001 
+     PLOT        147  089 
+     LINE        000 -003 
+     PAPER       007
+     INK         000
+     BRIGHT      001
+     ABS MOVE    047  162 
+     BLOCK       012  021  005  001 
+     PLOT        168  064 
+     LINE       -004  000 
+     FILL        001  001 
+     FILL       -009  011 
+     FILL       -025  026 
+     FILL       -020  023 
+     PLOT        208  080 
+     LINE        001 -010 
+     LINE       -001 -006 
+     LINE        005  000 
+     FILL       -001  001 
+     FILL       -004  018 
+     PLOT        192  087 
+     LINE        001 -014 
+     LINE       -001 -009 
+     LINE        002  000 
+     FILL        000  001 
+     FILL        000  027 
+     PLOT        184  065 
+     LINE        000 -001 
+     LINE       -004  002 
+     LINE       -003 -001 
+     LINE        001  016 
+     LINE        000  015 
+     FILL        001 -002 
+     FILL        000  003 
+     FILL       -010  010 
+     PLOT        166  104 
+     LINE        001 -018 
+     LINE       -002 -012 
+     LINE        003 -001 
+     FILL       -002  003 
+     PLOT        158  081 
+     LINE       -002  000 
+     LINE        001  023 
+     LINE       -001  006 
+     FILL        001  001 
+     FILL        002 -010 
+     FILL       -009  009 
+     PLOT        146  116 
+     LINE        001 -014 
+     LINE       -001 -011 
+     LINE        002  000 
+     FILL       -001  001 
+     FILL        000  012 
+     PLOT        137  095 
+     LINE        005  000 
+     SHADE      -003  003  000 
+     PLOT        142  167 
+     LINE       -005  000 
+     SHADE       000 -002  000 
+     PLOT        148  129 
+     PLOT        202  097 
+     LINE        002 -004 
+     LINE        002 -007 
+     PLOT        215  082 
+     LINE        000  008 
+     FILL       -008 -002 
+     FILL       -008  003 
+     SHADE      -020  010  000 
+     PLOT        175  114 
+     PLOT        208  167 
+     LINE       -039 -049 
+     PLOT        175  114 
+     LINE        040  050 
+     LINE        000  003 
+     LINE       -006  000 
+     SHADE       000 -003  000 
+     PLOT        211  166 
+     LINE       -040 -050 
+     PLOT        150  132 
+     LINE       -001 -003 
+     PLOT        152  135 
+     LINE        001 -009 
+     PLOT        155  139 
+     LINE       -001 -014 
+     PLOT        158  142 
+     LINE        002 -014 
+     LINE        000 -006 
+     PLOT        163  148 
+     LINE       -001 -013 
+     LINE        001 -014 
+     PLOT        167  153 
+     LINE        001 -015 
+     LINE       -001 -020 
+     PLOT        172  159 
+     LINE       -001 -016 
+     LINE        002 -019 
+     PLOT        176  129 
+     LINE        002  018 
+     LINE       -003  017 
+     PLOT        180  167 
+     LINE       -001 -014 
+     LINE        002 -018 
+     PLOT        185  140 
+     LINE        001  015 
+     LINE       -001  012 
+     PLOT        191  167 
+     LINE       -001 -010 
+     LINE        001 -010 
+     PLOT        195  152 
+     LINE        001  012 
+     LINE       -001  003 
+     PLOT        200  167 
+     LINE        001 -007 
+     PLOT        157  141 
+     LINE        001 -018 
+     PLOT        164  150 
+     LINE        002 -014 
+     LINE       -001 -017 
+     PLOT        174  126 
+     LINE        001  020 
+     LINE       -001  016 
+     PLOT        184  167 
+     LINE       -002  000 
+     LINE        002 -016 
+     LINE       -001 -014 
+     PLOT        193  150 
+     LINE        001  017 
+     PLOT        207  167 
+     LINE       -003  000 
+     LINE        000 -004 
+     FILL        001  001 
+     FILL       -008  000 
+     FILL       -009  000 
+     FILL       -019 -004 
+     FILL       -020 -020 
+     FILL       -028 -010 
+     FILL       -038 -013 
+     FILL       -038 -039 
+     FILL       -045 -033 
+     FILL       -046 -026 
+     PLOT        144  134 
+     LINE        029  033 
+     PLOT        215  163 
+     LINE        000 -099 
+     SHADE      -008  040  085 
+     PLOT        187  089 
+     LINE        000 -004 
+     PAPER       002
+     ABS MOVE    042  093 
+     BLOCK       003  011  005  010 
+     ABS MOVE    137  092 
+     BLOCK       003  000  017  010 
+     ABS MOVE    147  066 
+     BLOCK       000  002  018  013 
+     ABS MOVE    150  074 
+     ABS MOVE    145  081 
+     ABS MOVE    154  072 
+     PLOT        163  064 
+     LINE       -018  000 
+     SHADE       002  002  017 
+     SHADE      -003  019  017 
+     SHADE      -012  029  017 
+     PLOT        040  064 
+     LINE        000  031 
+     SHADE       003 -002  017 
+     SHADE       002 -014  017 
+     SHADE       004 -009  017 
+     SHADE       003 -020  017 
+     SHADE       096 -007  017 
+     SHADE       108 -024  017 
+     BRIGHT      000
+     PAPER       007
+     ABS MOVE    211  159 
+     BLOCK       008  001  025  002 
+     ABS MOVE    196  138 
+     BLOCK       005  000  024  004 
+     ABS MOVE    189  129 
+     BLOCK       003  000  023  005 
+     ABS MOVE    181  118 
+     ABS MOVE    182  120 
+     BRIGHT      001
+     PLOT        061  162 
+     LINE        046 -002 
+     PLOT        106  161 
+     LINE       -045  002 
+     PLOT        062  162 
+     LINE        002 -052 
+     LINE        041  001 
+     LINE       -002  048 
+     LINE       -006 -001 
+     LINE       -004  002 
+     LINE       -006 -001 
+     LINE       -004  001 
+     LINE       -005 -001 
+     LINE       -004  001 
+     LINE       -006 -001 
+     LINE       -004  003 
+     PLOT        063  159 
+     LINE        000 -011 
+     PLOT        064  111 
+     LINE        024  000 
+     PLOT        104  112 
+     LINE        000  014 
+     PLOT        071  152 
+     LINE        001 -033 
+     LINE        024  001 
+     LINE        000  031 
+     LINE       -024  001 
+     PAPER       003
+     ABS MOVE    066  158 
+     BLOCK       005  004  008  002 
+     PAPER       004
+     ABS MOVE    074  150 
+     BLOCK       003  002  009  003 
+     PLOT        074  151 
+     PLOT        075  150 
+     PLOT        074  148 
+     PLOT        075  147 
+     PLOT        075  146 
+     PLOT        074  145 
+     PLOT        075  143 
+     PLOT        082  151 
+     PLOT        083  149 
+     PLOT        082  148 
+     PLOT        083  147 
+     PLOT        082  145 
+     PLOT        083  144 
+     PLOT        091  150 
+     PLOT        092  149 
+     PLOT        091  148 
+     PLOT        092  146 
+     PLOT        091  145 
+     PLOT        092  143 
+     PLOT        078  143 
+     LINE        000 -004 
+     LINE        003 -002 
+     LINE        000 -005 
+     LINE       -003 -003 
+     LINE        000 -003 
+     LINE        012  001 
+     LINE        000  003 
+     LINE       -002  002 
+     LINE        000  005 
+     LINE        002  001 
+     LINE        001  005 
+     LINE       -003  000 
+     LINE       -001 -002 
+     LINE       -002  000 
+     LINE        000  003 
+     LINE       -003  000 
+     LINE        000 -003 
+     LINE       -001  000 
+     LINE       -001  003 
+     LINE       -003  000 
+     SHADE       006 -006  000 
+     PAPER       003
+     PLOT        076  118 
+     PLOT        075  117 
+     PLOT        076  115 
+     PLOT        076  113 
+     PLOT        088  119 
+     LINE       -001 -005 
+     PLOT        094  112 
+     PLOT        095  113 
+     PLOT        094  115 
+     PLOT        095  117 
+     PLOT        103  133 
+     PLOT        102  134 
+     PLOT        103  136 
+     PLOT        103  138 
+     PLOT        103  140 
+     PLOT        102  141 
+     PLOT        103  142 
+     PAPER       007
+     PLOT        058  167 
+     LINE       -008 -006 
+     LINE       -004 -007 
+     LINE       -003 -013 
+     LINE       -003 -022 
+     LINE        000  048 
+     LINE        017  000 
+     SHADE      -002 -001  000 
+     PLOT        040  098 
+     LINE        091  001 
+     PLOT        107  099 
+     LINE        000 -002 
+     PLOT        067  097 
+     LINE        000 -001 
+     PLOT        065  109 
+     LINE        000 -003 
+     PLOT        067  109 
+     LINE        000 -002 
+     PLOT        069  109 
+     LINE        000 -003 
+     PLOT        071  109 
+     LINE        000 -001 
+     PLOT        073  109 
+     LINE        000 -002 
+     PLOT        075  109 
+     LINE        000 -001 
+     PLOT        077  109 
+     LINE        000 -001 
+     PLOT        079  109 
+     LINE        000 -002 
+     PLOT        081  109 
+     PLOT        081  107 
+     PLOT        083  109 
+     LINE        000 -001 
+     PLOT        086  110 
+     LINE        000 -001 
+     PLOT        088  110 
+     LINE        000 -002 
+     PLOT        090  110 
+     LINE        000 -003 
+     PLOT        092  110 
+     LINE        000 -002 
+     PLOT        094  110 
+     LINE        000 -001 
+     PLOT        096  110 
+     LINE        000 -001 
+     PLOT        098  110 
+     LINE        000 -002 
+     PLOT        100  110 
+     LINE        000 -001 
+     PLOT        102  110 
+     LINE        000 -001 
+     PLOT        104  110 
+     LINE        000 -002 
+     END
+
+Location  11 graphics flags: Picture.    Ink=7 Paper=0 Bit6=0
+     GOSUB    sc=000  010 
+     PAPER       005
+     ABS MOVE    042  094 
+     BLOCK       003  012  005  010 
+     ABS MOVE    149  084 
+     BLOCK       002  000  018  011 
+     ABS MOVE    157  069 
+     BLOCK       001  000  019  012 
+     BLOCK       000  001  019  013 
+     END
+
+Location  12 graphics flags: Subroutine. Ink=7 Paper=1 Bit6=0
+
+Location  13 graphics flags: Subroutine. Ink=7 Paper=1 Bit6=0
+     GOSUB    sc=000  001 
+     PLOT        055  065 
+     LINE        000  102 
+     LINE        016  000 
+     LINE        000 -095 
+     LINE       -015 -007 
+     PLOT        071  072 
+     LINE        113  000 
+     LINE        000  095 
+     LINE        015  000 
+     LINE        000 -103 
+     LINE       -015  008 
+     PLOT        072  073 
+     LINE        023  022 
+     LINE        064  000 
+     LINE        026 -023 
+     PLOT        096  096 
+     LINE       -025  065 
+     PLOT        158  096 
+     LINE        026  063 
+     FILL       -032 -072 
+     PLOT        200  064 
+     LINE        015  000 
+     LINE        000  103 
+     LINE       -016  000 
+     PLOT        055  167 
+     LINE       -015  000 
+     LINE        000 -103 
+     LINE        014  000 
+     SHADE      -008  016  000 
+     SHADE       152  008  000 
+     PAPER       006
+     INK         000
+     BLOCK       012  001  005  001 
+     ABS MOVE    201  164 
+     BLOCK       012  001  025  001 
+     BRIGHT      001
+     ABS MOVE    190  164 
+     BLOCK       012  001  023  001 
+     ABS MOVE    061  164 
+     BLOCK       012  001  007  001 
+     ABS MOVE    061  068 
+     BLOCK       000  016  007  013 
+     PLOT        185  089 
+     LINE        014 -003 
+     PLOT        185  110 
+     LINE        013 -001 
+     PLOT        185  130 
+     LINE        013  000 
+     PLOT        185  151 
+     LINE        013  001 
+     PLOT        070  089 
+     LINE       -014 -003 
+     PLOT        070  108 
+     LINE       -014 -001 
+     PLOT        070  128 
+     LINE       -014  000 
+     PLOT        070  148 
+     LINE       -014  002 
+     PLOT        064  150 
+     LINE       -001  016 
+     PLOT        063  127 
+     LINE       -002 -020 
+     PLOT        062  087 
+     LINE        001 -018 
+     PLOT        191  087 
+     LINE        000 -018 
+     PLOT        191  110 
+     LINE        001  020 
+     PLOT        192  152 
+     LINE       -001  014 
+     PLOT        184  071 
+     LINE       -115  000 
+     PLOT        063  166 
+     LINE       -003 -022 
+     LINE       -002 -028 
+     LINE        001 -034 
+     LINE        002 -015 
+     SHADE      -002  002  000 
+     SHADE      -003  024  000 
+     SHADE      -005  056  000 
+     SHADE      -004  080  000 
+     SHADE      -001  088  000 
+     LINE        010 -001 
+     LINE        014 -002 
+     LINE       -029  000 
+     SHADE       005  001  000 
+     PLOT        191  165 
+     LINE        004 -019 
+     LINE        002 -029 
+     LINE       -001 -027 
+     LINE       -003 -022 
+     SHADE       002  000  000 
+     SHADE       004  024  000 
+     SHADE       005  048  000 
+     SHADE       005  080  000 
+     SHADE       000  096  000 
+     LINE       -005 -002 
+     LINE       -012 -002 
+     LINE        021  000 
+     SHADE      -005  001  000 
+     BRIGHT      000
+     PLOT        200  085 
+     LINE        014  000 
+     PLOT        201  108 
+     LINE        013 -001 
+     PLOT        201  129 
+     LINE        014  001 
+     PLOT        201  150 
+     LINE        012  000 
+     PLOT        054  150 
+     LINE       -014  000 
+     PLOT        053  129 
+     LINE       -012 -001 
+     PLOT        053  106 
+     LINE       -013  000 
+     PLOT        053  085 
+     LINE       -012 -001 
+     ABS MOVE    074  097 
+     BLOCK       000  013  009  009 
+     PLOT        158  096 
+     LINE       -062  000 
+     PLOT        098  097 
+     LINE        057  000 
+     PLOT        072  097 
+     LINE        003 -001 
+     LINE        006  000 
+     LINE        008 -001 
+     LINE        008  001 
+     LINE        068  000 
+     LINE        011 -001 
+     LINE        007  001 
+     PAPER       005
+     BRIGHT      001
+     ABS MOVE    073  089 
+     BLOCK       002  013  009  010 
+     LINE        004 -001 
+     PLOT        080  084 
+     LINE       -003 -001 
+     PLOT        074  081 
+     LINE       -001  001 
+     PLOT        175  087 
+     LINE        004  001 
+     PLOT        183  083 
+     LINE       -005  001 
+     BRIGHT      000
+     ABS MOVE    074  164 
+     BLOCK       007  013  009  001 
+     INK         004
+     PLOT        072  118 
+     LINE        005 -001 
+     LINE        003 -005 
+     LINE        004  000 
+     LINE        003 -008 
+     LINE       -015  000 
+     FILL        002  002 
+     PLOT        097  104 
+     LINE        003  002 
+     LINE        002 -001 
+     LINE        001  002 
+     LINE        003  002 
+     LINE        002 -002 
+     LINE        002  003 
+     LINE        003 -001 
+     LINE        004  005 
+     LINE        005 -002 
+     LINE        005 -003 
+     LINE        002 -003 
+     LINE        004  000 
+     LINE        002  002 
+     LINE        003 -001 
+     LINE        004  005 
+     LINE        004  000 
+     LINE        002 -004 
+     LINE        002 -001 
+     LINE        006  001 
+     LINE        005  002 
+     LINE        003  000 
+     LINE        002 -003 
+     LINE        003 -001 
+     LINE        004  003 
+     LINE        004  003 
+     LINE        002  003 
+     LINE        004 -001 
+     LINE        000 -010 
+     LINE       -085  000 
+     FILL        007  001 
+     FILL        047  002 
+     FILL        063  003 
+     FILL        081  001 
+     FILL        066  002 
+     PLOT    o   163  109 
+     PLOT        130  107 
+     PLOT        131  108 
+     PLOT        132  107 
+     PLOT        133  109 
+     PLOT        133  110 
+     PLOT        127  110 
+     PLOT        128  111 
+     PLOT        124  111 
+     PLOT        123  113 
+     PLOT        121  115 
+     PLOT        119  113 
+     PLOT        117  115 
+     PLOT        116  115 
+     PLOT        115  114 
+     PLOT        112  111 
+     PLOT        111  112 
+     PLOT        110  111 
+     ABS MOVE    110  111 
+     PLOT        107  109 
+     PLOT        105  110 
+     PLOT        103  109 
+     PLOT        140  113 
+     PLOT        143  113 
+     PLOT        143  114 
+     PLOT        144  114 
+     PLOT        145  113 
+     PLOT        148  112 
+     PLOT        150  110 
+     PLOT        151  112 
+     PLOT        154  109 
+     PLOT        155  110 
+     PLOT        156  109 
+     PLOT        159  112 
+     PLOT        160  111 
+     PLOT        175  112 
+     PLOT        177  115 
+     PLOT        179  117 
+     PLOT        180  116 
+     PLOT        182  115 
+     PLOT        129  112 
+     LINE        005  002 
+     LINE        002  005 
+     LINE        004  006 
+     LINE        003  006 
+     LINE        005 -004 
+     LINE        004 -008 
+     PLOT        151  124 
+     LINE        004  005 
+     LINE        006 -007 
+     LINE        007  009 
+     LINE        006 -009 
+     LINE        004  007 
+     LINE        005 -004 
+     PLOT        183  120 
+     LINE       -008  000 
+     LINE        000 -008 
+     LINE       -023  000 
+     LINE        000  008 
+     LINE       -014  000 
+     INK         000
+     FILL        002  002 
+     FILL        017  000 
+     FILL        032  000 
+     PLOT        135  115 
+     LINE        000 -003 
+     LINE       -004  000 
+     PLOT        133  113 
+     LINE        002  000 
+     INK         004
+     PAPER       000
+     PLOT        134  110 
+     PLOT        139  112 
+     PLOT        144  115 
+     PLOT        149  110 
+     PLOT        154  110 
+     PLOT        161  111 
+     PLOT        173  111 
+     PLOT        178  116 
+     PLOT        138  110 
+     PAPER       005
+     INK         000
+     PLOT     i  150  124 
+     LINE     i -002 -004 
+     PLOT     i  160  122 
+     LINE     i  003 -004 
+     LINE     i  002 -004 
+     PLOT     i  173  122 
+     LINE     i -002 -004 
+     PLOT        171  126 
+     LINE     i -006 -014 
+     INK         004
+     PAPER       000
+     LINE     i -003 -008 
+     PLOT     i  147  109 
+     LINE     i -002 -004 
+     PLOT     i  182  109 
+     LINE     i -003 -002 
+     LINE     i -001 -003 
+     INK         000
+     PAPER       005
+     PLOT        095  104 
+     LINE       -002  007 
+     LINE       -006  009 
+     LINE       -006  006 
+     LINE       -002 -004 
+     PLOT        079  124 
+     LINE       -003  005 
+     LINE       -001  004 
+     LINE       -002 -005 
+     LINE       -001  010 
+     PLOT        072  120 
+     LINE        015  000 
+     FILL       -004  001 
+     FILL       -015  003 
+     PLOT        088  115 
+     LINE        000 -011 
+     LINE        006  000 
+     FILL       -005  001 
+     FILL       -001  005 
+     FILL       -003  008 
+     PLOT     i  075  130 
+     LINE     i -001 -006 
+     PLOT     i  078  124 
+     LINE     i -001 -003 
+     PAPER       000
+     INK         004
+     PLOT        086  110 
+     PLOT        084  117 
+     PLOT        078  118 
+     PLOT     i  079  111 
+     LINE     i -001 -004 
+     LINE     i -003  006 
+     LINE     i -003 -001 
+     PLOT     i  085  104 
+     LINE     i -001  005 
+     LINE     i -002  003 
+     PAPER       005
+     INK         007
+     PLOT        099  157 
+     LINE       -001 -002 
+     LINE        003 -002 
+     LINE        006 -001 
+     LINE        009  002 
+     LINE        008 -003 
+     LINE        007  002 
+     LINE        012  001 
+     LINE       -009  002 
+     LINE       -003  001 
+     LINE       -003  002 
+     LINE       -004  000 
+     LINE       -010  001 
+     LINE       -012 -001 
+     LINE       -003 -001 
+     FILL        003 -001 
+     PLOT     i  103  153 
+     LINE     i -001  002 
+     PLOT     i  114  154 
+     LINE     i -001  002 
+     LINE     i  004  002 
+     LINE     i  004  001 
+     PLOT     i  122  152 
+     LINE     i -001  001 
+     PLOT     i  126  152 
+     LINE     i  003  001 
+     PLOT     i  107  159 
+     LINE     i -002 -001 
+     PLOT     i  132  153 
+     PLOT     i  133  154 
+     PLOT     i  134  153 
+     PLOT     i  135  154 
+     PLOT     i  136  153 
+     PLOT     i  124  152 
+     PLOT     i  122  152 
+     PLOT     i  120  152 
+     PLOT     i  118  154 
+     PLOT     i  116  154 
+     PLOT     i  111  153 
+     PLOT     i  108  152 
+     PLOT     i  107  153 
+     PLOT     i  105  153 
+     PLOT     i  104  152 
+     PLOT     i  101  154 
+     PLOT     i  100  153 
+     PLOT     i  099  154 
+     PLOT     i  100  155 
+     PLOT     i  099  156 
+     PLOT     i  098  155 
+     PLOT        146  154 
+     PLOT        149  154 
+     PLOT        152  154 
+     PLOT        154  150 
+     LINE       -003 -001 
+     LINE       -001 -002 
+     LINE        005 -002 
+     LINE        004  002 
+     LINE        002  002 
+     LINE       -007  001 
+     LINE        009 -001 
+     PLOT        166  149 
+     PLOT        169  149 
+     FILL       -012 -001 
+     PLOT     i  158  147 
+     PLOT     i  157  148 
+     PLOT     i  156  147 
+     PLOT     i  157  146 
+     PLOT     i  155  146 
+     PLOT     i  154  147 
+     PLOT     i  153  146 
+     PLOT     i  152  147 
+     PLOT     i  153  148 
+     INK         006
+     PLOT        111  161 
+     LINE        001  003 
+     LINE        002  003 
+     LINE        011  000 
+     LINE        002 -004 
+     LINE        001 -003 
+     LINE       -008  000 
+     FILL       -001  001 
+     END
+
+Location  14 graphics flags: Subroutine. Ink=7 Paper=1 Bit6=0
+
+Location  15 graphics flags: Subroutine. Ink=7 Paper=1 Bit6=0
+
+Location  16 graphics flags: Picture.    Ink=7 Paper=0 Bit6=0
+     GOSUB    sc=000  010 
+     PLOT        040  099 
+     LINE        000  024 
+     PLOT        059  167 
+     LINE        072  000 
+     PLOT        143  167 
+     LINE        032  000 
+     LINE        000  000 
+     SHADE      -024 -008  016 
+     SHADE      -090 -001  016 
+     LINE        033  000 
+     SHADE      -020 -008  016 
+     LINE        000  000 
+     SHADE      -028 -032  016 
+     SHADE      -030 -008  017 
+     SHADE      -008 -008  016 
+     SHADE      -038 -024  016 
+     SHADE      -047 -032  016 
+     SHADE      -054 -032  016 
+     END
+
+Location  17 graphics flags: Picture.    Ink=7 Paper=0 Bit6=0
+     GOSUB    sc=000  018 
+     END
+
+Location  18 graphics flags: Picture.    Ink=7 Paper=0 Bit6=0
+     GOSUB    sc=000  001 
+     PLOT        063  072 
+     LINE        002  043 
+     LINE        004  020 
+     LINE        015  021 
+     PLOT        192  072 
+     LINE       -002  044 
+     LINE       -004  016 
+     LINE       -007  013 
+     LINE       -011  011 
+     LINE       -009  005 
+     LINE       -016  005 
+     LINE       -015  001 
+     LINE       -020 -001 
+     LINE       -013 -003 
+     LINE       -011 -007 
+     PLOT        063  072 
+     LINE       -023  000 
+     PLOT        192  072 
+     LINE        023  000 
+     PLOT        064  088 
+     PLOT        064  072 
+     LINE        007  007 
+     LINE        001  043 
+     LINE        003  016 
+     LINE        010  016 
+     LINE        009  008 
+     PLOT        191  072 
+     LINE       -007  007 
+     LINE       -001  044 
+     LINE       -004  016 
+     LINE       -006  008 
+     LINE       -007  008 
+     LINE       -007  005 
+     PLOT        073  104 
+     LINE        109  000 
+     PLOT        107  165 
+     LINE        004 -001 
+     LINE        006 -004 
+     LINE        004 -006 
+     LINE        003 -011 
+     LINE       -001 -009 
+     LINE       -002 -008 
+     LINE       -004 -006 
+     LINE       -006 -005 
+     LINE       -011 -002 
+     LINE       -008  002 
+     LINE       -007  005 
+     LINE       -004  009 
+     LINE       -002  009 
+     LINE        001  008 
+     PLOT        127  141 
+     LINE        001  007 
+     LINE        002  006 
+     LINE        004  005 
+     LINE        005  004 
+     LINE        006  002 
+     PLOT        127  141 
+     LINE        001 -007 
+     LINE        002 -009 
+     LINE        004 -005 
+     LINE        006 -004 
+     LINE        008 -002 
+     LINE        009  002 
+     LINE        008  006 
+     LINE        002  003 
+     LINE        002  006 
+     LINE        001  011 
+     LINE       -003  012 
+     PLOT        174  144 
+     LINE       -001 -007 
+     LINE        002 -009 
+     LINE        003 -006 
+     LINE        005 -005 
+     PLOT        105  164 
+     LINE        007 -003 
+     LINE        003 -002 
+     LINE        004 -006 
+     LINE        003 -012 
+     LINE       -002 -011 
+     LINE       -003 -007 
+     LINE       -006 -006 
+     LINE       -010 -002 
+     LINE       -009  002 
+     LINE       -005  004 
+     LINE       -004  008 
+     LINE       -002  010 
+     LINE        001  009 
+     PLOT        148  164 
+     LINE       -006 -002 
+     LINE       -006 -003 
+     LINE       -004 -006 
+     LINE       -003 -011 
+     LINE        001 -010 
+     LINE        002 -007 
+     LINE        004 -004 
+     LINE        006 -004 
+     LINE        008 -001 
+     LINE        005  001 
+     LINE        005  004 
+     LINE        003  002 
+     LINE        003  005 
+     LINE        001  009 
+     LINE        001  006 
+     LINE       -002  006 
+     LINE       -001  006 
+     PLOT        176  143 
+     LINE       -001 -008 
+     LINE        002 -006 
+     LINE        002 -005 
+     LINE        004 -005 
+     PLOT        167  145 
+     LINE       -006 -015 
+     LINE       -005 -008 
+     LINE       -009 -006 
+     FILL        012  005 
+     PLOT        121  145 
+     LINE       -007 -016 
+     LINE       -005 -006 
+     LINE       -010 -006 
+     FILL        008  001 
+     LINE       -016  032 
+     PLOT        089  157 
+     LINE        022 -040 
+     PLOT        099  164 
+     LINE        018 -034 
+     PLOT        113  160 
+     LINE        008 -019 
+     PLOT        151  117 
+     LINE       -020  035 
+     PLOT        131  132 
+     LINE        005 -011 
+     PLOT        140  160 
+     LINE        021 -037 
+     PLOT        153  162 
+     LINE        012 -024 
+     PLOT        176  138 
+     LINE        005 -008 
+     PLOT        138  116 
+     LINE       -003  002 
+     LINE       -004  004 
+     LINE       -001  002 
+     LINE       -002  004 
+     LINE       -001  009 
+     LINE       -001  007 
+     LINE        002  006 
+     LINE        002  006 
+     LINE        002  002 
+     PLOT        172  140 
+     LINE        002 -013 
+     LINE        006 -008 
+     LINE        002 -002 
+     PLOT        089  116 
+     LINE       -005  004 
+     LINE       -003  007 
+     LINE       -002  008 
+     LINE       -001  007 
+     LINE        000 -009 
+     LINE        001 -003 
+     LINE        001 -004 
+     LINE        003 -005 
+     SHADE      -015 -016  000 
+     SHADE       104 -024  000 
+     PLOT        215  073 
+     LINE        000 -009 
+     LINE       -175  000 
+     LINE        000  008 
+     SHADE       088  000  051 
+     PLOT        112  111 
+     LINE        024  000 
+     PLOT        128  111 
+     LINE        000  006 
+     PLOT        131  117 
+     LINE       -012  000 
+     PLOT        121  117 
+     LINE        000  006 
+     PLOT        121  110 
+     LINE        000 -004 
+     PLOT        160  111 
+     LINE        019  000 
+     PLOT        175  112 
+     LINE        000  005 
+     PLOT        177  117 
+     LINE       -013  000 
+     PLOT        168  117 
+     LINE        000  006 
+     PLOT        168  111 
+     LINE        000 -004 
+     PLOT        088  106 
+     LINE       -013  000 
+     PLOT        080  107 
+     LINE        000  004 
+     PLOT        083  111 
+     LINE       -010  000 
+     PLOT        075  111 
+     LINE        000  006 
+     PLOT        078  117 
+     LINE       -006  000 
+     PAPER       002
+     INK         000
+     ABS MOVE    075  111 
+     BLOCK       003  013  009  005 
+     ABS MOVE    081  137 
+     BLOCK       001  011  010  003 
+     ABS MOVE    089  153 
+     BLOCK       000  009  011  002 
+     ABS MOVE    106  161 
+     BLOCK       000  004  013  001 
+     ABS MOVE    073  099 
+     BLOCK       000  013  009  009 
+     BLOCK       002  001  009  009 
+     BLOCK       001  004  009  009 
+     ABS MOVE    181  098 
+     BLOCK       002  001  021  009 
+     BLOCK       001  004  018  009 
+     PLOT        126  156 
+     LINE        000  004 
+     PLOT        120  160 
+     LINE        012  000 
+     LINE        000  005 
+     PLOT        135  165 
+     LINE       -012  000 
+     PLOT        126  165 
+     LINE        000  002 
+     BRIGHT      001
+     ABS MOVE    045  163 
+     BLOCK       012  003  005  001 
+     BLOCK       003  004  005  001 
+     BLOCK       001  005  005  001 
+     BLOCK       000  007  005  001 
+     ABS MOVE    209  069 
+     BLOCK       012  003  023  001 
+     BLOCK       001  017  009  012 
+     ABS MOVE    113  083 
+     BLOCK       000  006  014  011 
+     BLOCK       000  003  011  011 
+     BLOCK       001  003  014  010 
+     ABS MOVE    181  166 
+     BLOCK       000  004  018  001 
+     BLOCK       001  001  021  001 
+     BLOCK       003  000  022  001 
+     PLOT        199  111 
+     LINE        009  000 
+     PLOT        207  111 
+     LINE       -003 -016 
+     PLOT        200  110 
+     LINE        003 -017 
+     LINE        001  017 
+     SHADE       001 -001  000 
+     FILL       -002  000 
+     SHADE       000 -009  000 
+     PLOT        056  111 
+     LINE       -009  000 
+     PLOT        048  110 
+     LINE        003 -017 
+     PLOT        055  110 
+     LINE       -003 -019 
+     PLOT        051  110 
+     LINE       -001 -015 
+     SHADE       000  009  000 
+     FILL        002  002 
+     INK         006
+     PLOT        055  112 
+     LINE       -002  007 
+     LINE       -001 -007 
+     PLOT        049  112 
+     LINE        002  014 
+     LINE        000 -013 
+     PLOT        200  112 
+     LINE        002  007 
+     LINE        000 -006 
+     LINE        004 -001 
+     LINE       -003  014 
+     LINE        001 -013 
+     END
+
+Location  19 graphics flags: Picture.    Ink=7 Paper=0 Bit6=0
+     GOSUB    sc=000  001 
+     INK         004
+     PLOT        063  095 
+     LINE       -005 -001 
+     LINE       -003 -003 
+     LINE        003 -001 
+     LINE        001 -003 
+     LINE        004  000 
+     LINE        003 -002 
+     LINE        007 -002 
+     LINE        006  002 
+     LINE        006 -001 
+     LINE        007  001 
+     LINE        004  002 
+     PLOT        064  095 
+     LINE        021  001 
+     LINE        002  004 
+     LINE        002  003 
+     LINE        005  001 
+     LINE       -001  004 
+     LINE       -003  004 
+     LINE        006 -004 
+     LINE        003 -006 
+     PLOT        099  105 
+     LINE        005 -001 
+     LINE        008 -002 
+     LINE        012  001 
+     LINE        012  003 
+     LINE        012  006 
+     LINE        011  007 
+     LINE        013  004 
+     LINE        010  000 
+     LINE        008 -006 
+     LINE        008 -012 
+     LINE        003 -010 
+     LINE       -001 -009 
+     LINE       -004 -006 
+     LINE       -010 -004 
+     LINE       -026 -001 
+     LINE       -048  003 
+     PLOT        097  087 
+     LINE        006 -002 
+     LINE       -007 -005 
+     LINE       -002 -003 
+     LINE        011 -001 
+     LINE        003  002 
+     LINE        005  001 
+     FILL        003  003 
+     FILL       -040  008 
+     LINE     i  000  000 
+     LINE     i  048  003 
+     LINE     i  020  005 
+     LINE     i  007  005 
+     LINE     i  004  008 
+     LINE     i  001  008 
+     LINE     i -003  008 
+     PLOT        101  084 
+     LINE     i  015  002 
+     LINE     i  006  003 
+     LINE     i  005  003 
+     LINE     i  005  001 
+     LINE     i  005 -002 
+     LINE     i  002 -004 
+     PLOT     i  179  112 
+     LINE     i -006  001 
+     LINE     i -006 -002 
+     LINE     i -004 -007 
+     LINE     i -001 -013 
+     LINE     i -002 -005 
+     LINE     i -004 -001 
+     LINE     i -007  001 
+     LINE     i -006 -004 
+     PLOT     i  096  077 
+     LINE     i  002  002 
+     PLOT     i  099  077 
+     LINE     i  002  002 
+     PLOT     i  103  076 
+     LINE     i  001  003 
+     PLOT     i  061  088 
+     LINE     i  002  001 
+     LINE     i  002 -001 
+     PLOT     i  059  093 
+     LINE     i -001 -001 
+     PLOT     i  062  095 
+     LINE     i  002 -001 
+     LINE     i  003  001 
+     PLOT        063  096 
+     LINE        001  004 
+     LINE        002  003 
+     LINE        000 -007 
+     FILL       -002  000 
+     PLOT        069  096 
+     LINE        000  002 
+     LINE        002  002 
+     LINE       -001 -004 
+     PLOT     i  070  095 
+     LINE       -001  000 
+     PLOT        093  109 
+     LINE       -001  001 
+     PLOT        091  104 
+     LINE        000  003 
+     LINE       -003  003 
+     LINE        002 -006 
+     LINE        000  003 
+     PLOT     i  065  086 
+     LINE     i  006  001 
+     LINE     i  004 -001 
+     LINE     i  005  003 
+     LINE     i  005  000 
+     PLOT     i  087  095 
+     LINE     i  002 -001 
+     LINE     i  003  000 
+     PLOT        070  087 
+     LINE     i  001 -002 
+     PLOT     i  076  087 
+     LINE     i  000 -002 
+     INK         007
+     ABS MOVE    066  101 
+     PLOT        092  096 
+     LINE     i  002  000 
+     LINE     i  001  004 
+     LINE     i  000  002 
+     LINE     i -002  001 
+     PLOT     i  091  103 
+     LINE     i -003 -007 
+     BLOCK       000  001  010  009 
+     PLOT     i  090  103 
+     LINE     i -002  000 
+     PLOT     i  091  098 
+     LINE     i  001  002 
+     LINE     i  000 -002 
+     PLOT     i  088  100 
+     LINE     i -001 -002 
+     PLOT     i  085  096 
+     LINE     i -005  000 
+     INK         004
+     PLOT     i  091  095 
+     LINE     i  002  000 
+     PLOT     i  086  095 
+     LINE     i  001 -003 
+     LINE     i  004 -001 
+     PLOT     i  103  104 
+     LINE        005  003 
+     LINE        005 -003 
+     LINE        005  001 
+     LINE        004  005 
+     LINE        009 -002 
+     LINE        004  002 
+     LINE        004  007 
+     LINE        008 -002 
+     LINE        004  004 
+     LINE        004  007 
+     LINE        009 -003 
+     LINE        005  004 
+     LINE        005 -002 
+     LINE        004  001 
+     LINE        003 -002 
+     PLOT     i  104  103 
+     LINE     i  002 -003 
+     PLOT     i  074  095 
+     LINE     i  001 -002 
+     PLOT     i  073  094 
+     PLOT     i  072  095 
+     PLOT     i  074  093 
+     PLOT     i  072  093 
+     PLOT     i  071  094 
+     PLOT     i  069  094 
+     PLOT     i  068  095 
+     PLOT     i  067  094 
+     PLOT     i  077  096 
+     PLOT     i  078  095 
+     PLOT     i  079  096 
+     PLOT     i  080  095 
+     PLOT     i  082  095 
+     PLOT     i  083  094 
+     PLOT     i  084  093 
+     PLOT     i  082  093 
+     PLOT     i  081  092 
+     PLOT        162  100 
+     LINE     i -001 -006 
+     LINE     i  000 -004 
+     LINE     i -002 -003 
+     LINE     i -002 -001 
+     LINE     i -004  000 
+     PLOT     i  158  087 
+     LINE     i  002  004 
+     PLOT     i  122  090 
+     LINE     i -007 -003 
+     LINE     i -006 -001 
+     END
+
+Location  20 graphics flags: Subroutine. Ink=7 Paper=1 Bit6=0
+
+Location  21 graphics flags: Subroutine. Ink=7 Paper=1 Bit6=0
+
+Location  22 graphics flags: Subroutine. Ink=7 Paper=1 Bit6=0
+
+Location  23 graphics flags: Picture.    Ink=7 Paper=0 Bit6=0
+     GOSUB    sc=000  001 
+     INK         002
+     PLOT        112  134 
+     LINE        001  002 
+     LINE        003  001 
+     LINE        003 -001 
+     LINE        001 -008 
+     LINE       -001 -008 
+     LINE       -005 -001 
+     LINE       -002  001 
+     LINE       -001  013 
+     PLOT        130  136 
+     LINE        004  001 
+     LINE        002 -002 
+     PLOT        136  121 
+     LINE       -003 -002 
+     LINE       -004  001 
+     LINE       -001  003 
+     LINE       -001  011 
+     LINE        002  002 
+     PLOT        136  135 
+     LINE        000 -014 
+     PLOT        110  139 
+     LINE        001  012 
+     LINE       -002  010 
+     LINE        005 -007 
+     LINE        004 -011 
+     LINE        003 -001 
+     LINE        004  001 
+     LINE        004 -001 
+     LINE        002  010 
+     LINE        004  009 
+     LINE        003 -022 
+     LINE        002 -013 
+     LINE       -002 -031 
+     LINE       -003 -018 
+     LINE       -002 -005 
+     PLOT        110  138 
+     LINE       -001 -022 
+     LINE        002 -028 
+     LINE        002 -012 
+     LINE        002 -004 
+     LINE        009  001 
+     LINE        009 -001 
+     FILL       -008  040 
+     FILL       -021  064 
+     PLOT     i  120  124 
+     LINE     i -001 -010 
+     LINE     i -003 -012 
+     LINE     i  001 -003 
+     LINE     i  006 -003 
+     LINE     i  006  003 
+     LINE     i  001  005 
+     LINE     i -003  020 
+     LINE     i -001  011 
+     LINE     i  002  003 
+     LINE     i  005  002 
+     PLOT     i  132  139 
+     LINE     i -005 -003 
+     PLOT     i  121  125 
+     LINE     i  000  010 
+     LINE     i -003  003 
+     LINE     i -004  001 
+     PLOT     i  115  138 
+     LINE     i  005 -002 
+     PLOT     i  119  104 
+     LINE     i -001 -002 
+     PLOT     i  126  103 
+     LINE     i  001 -002 
+     PLOT     i  129  119 
+     LINE     i  003 -002 
+     LINE     i  003  000 
+     PLOT     i  128  118 
+     LINE     i  003 -003 
+     LINE     i  003 -001 
+     PLOT     i  119  119 
+     LINE     i -006 -002 
+     PLOT     i  118  119 
+     LINE     i -002 -004 
+     LINE     i -004 -001 
+     PLOT     i  129  105 
+     PLOT     i  128  106 
+     PLOT     i  127  107 
+     PLOT     i  128  108 
+     PLOT     i  127  109 
+     PLOT     i  126  110 
+     PLOT     i  128  110 
+     PLOT     i  127  111 
+     PLOT     i  128  112 
+     PLOT     i  127  113 
+     PLOT     i  126  114 
+     PLOT     i  125  115 
+     PLOT     i  127  115 
+     PLOT     i  127  117 
+     PLOT     i  127  119 
+     PLOT     i  114  089 
+     LINE     i  004 -001 
+     LINE     i  003 -002 
+     LINE     i  003 -004 
+     LINE     i  003  005 
+     LINE     i  003 -001 
+     LINE     i  004  003 
+     PLOT     i  133  092 
+     LINE     i  002 -004 
+     LINE     i -001 -003 
+     PLOT     i  114  092 
+     LINE     i -001 -005 
+     PLOT        136  143 
+     LINE     i -001  014 
+     LINE     i  000 -013 
+     PLOT     i  110  145 
+     LINE       -002  015 
+     PAPER       007
+     BRIGHT      001
+     INK         000
+     ABS MOVE    115  130 
+     BLOCK       001  000  014  005 
+     ABS MOVE    131  123 
+     BLOCK       001  000  016  005 
+     PLOT        134  135 
+     LINE        001  000 
+     LINE        000 -005 
+     LINE        000 -009 
+     PLOT        130  122 
+     PLOT        130  123 
+     PLOT        130  124 
+     LINE        001 -002 
+     LINE       -001  004 
+     LINE        001 -002 
+     PLOT        117  126 
+     LINE        000 -004 
+     PLOT        116  122 
+     LINE        000  003 
+     PAPER       000
+     INK         007
+     PLOT        122  144 
+     LINE       -001  005 
+     PLOT        124  144 
+     LINE        000  002 
+     PLOT        126  144 
+     LINE        001  003 
+     PLOT        125  147 
+     LINE        000  002 
+     INK         002
+     BRIGHT      000
+     PLOT        140  096 
+     LINE        017 -003 
+     LINE        002  002 
+     LINE        005  001 
+     LINE        004 -006 
+     LINE        005 -020 
+     LINE        001 -006 
+     LINE        008  016 
+     LINE        001  005 
+     LINE        002  002 
+     LINE        006  000 
+     LINE        002 -001 
+     LINE        002 -014 
+     LINE       -010 -002 
+     LINE       -003 -006 
+     LINE       -008  000 
+     FILL        003  003 
+     LINE       -014  000 
+     LINE       -002  004 
+     LINE       -003  010 
+     LINE       -001 -014 
+     PLOT        108  096 
+     LINE       -015 -003 
+     LINE       -004  003 
+     LINE       -004 -002 
+     LINE       -005 -021 
+     LINE       -001 -009 
+     LINE        016  000 
+     LINE       -001  013 
+     LINE        003 -007 
+     LINE        001 -006 
+     LINE        056  000 
+     PLOT        140  096 
+     LINE       -003 -019 
+     LINE       -002 -005 
+     LINE       -002 -002 
+     LINE       -012  001 
+     LINE       -006 -001 
+     LINE       -003  004 
+     LINE       -002  007 
+     LINE       -001  015 
+     FILL       -019 -012 
+     FILL        055 -008 
+     PLOT     i  095  074 
+     LINE     i -001  005 
+     PLOT        154  072 
+     LINE     i -001  008 
+     PLOT     i  151  078 
+     PLOT     i  152  077 
+     PLOT     i  151  076 
+     PLOT     i  152  075 
+     PLOT     i  153  074 
+     PLOT     i  152  073 
+     PLOT     i  153  072 
+     PLOT     i  154  071 
+     PLOT     i  153  070 
+     PLOT     i  152  069 
+     PLOT     i  153  068 
+     PLOT     i  152  067 
+     PLOT     i  153  066 
+     PLOT     i  152  065 
+     PLOT     i  153  064 
+     PLOT     i  151  064 
+     PLOT     i  149  064 
+     PLOT     i  148  065 
+     PLOT     i  150  065 
+     PLOT     i  150  067 
+     PLOT        127  070 
+     LINE       -009  000 
+     PLOT        121  072 
+     LINE     i  000 -004 
+     PLOT     i  124  072 
+     LINE     i -002 -005 
+     PLOT     i  126  071 
+     LINE     i  001 -003 
+     PLOT     i  124  071 
+     LINE     i  001 -004 
+     PLOT     i  151  068 
+     PLOT     i  150  069 
+     PLOT     i  152  071 
+     PLOT     i  193  084 
+     LINE     i -005 -001 
+     PLOT     i  194  081 
+     LINE     i -004 -003 
+     PLOT     i  194  077 
+     LINE     i -003 -003 
+     LINE     i -003  000 
+     PLOT        188  069 
+     LINE        000 -005 
+     INK         007
+     PLOT        193  064 
+     LINE        000  007 
+     PLOT        191  088 
+     LINE        000  032 
+     PLOT        187  088 
+     LINE        000  032 
+     LINE       -009  001 
+     LINE       -002  027 
+     LINE       -003 -005 
+     LINE        005  018 
+     LINE        004 -016 
+     LINE       -003  003 
+     LINE        002 -022 
+     LINE        005  000 
+     LINE        000  008 
+     LINE       -002 -002 
+     LINE        004  015 
+     LINE        004 -016 
+     LINE       -003  003 
+     LINE        001 -008 
+     LINE        006  000 
+     LINE        000  021 
+     LINE       -003 -005 
+     LINE        004  019 
+     LINE        005 -016 
+     LINE       -002  002 
+     LINE       -001 -025 
+     LINE       -007 -002 
+     PLOT        088  096 
+     LINE       -002  003 
+     PLOT        089  096 
+     LINE       -001  005 
+     PLOT        090  096 
+     LINE        002  004 
+     PLOT        162  097 
+     LINE       -002  003 
+     PLOT        164  096 
+     LINE        002  002 
+     LINE        001  002 
+     PLOT        164  097 
+     LINE        001  004 
+     END
+
+Location  24 graphics flags: Picture.    Ink=7 Paper=0 Bit6=0
+     GOSUB    sc=000  003 
+     PAPER       000
+     INK         002
+     PLOT        184  159 
+     LINE        027  000 
+     PLOT        203  159 
+     LINE        000 -010 
+     LINE        005  000 
+     LINE       -029  000 
+     PLOT        189  149 
+     LINE        000 -010 
+     LINE        009  000 
+     PLOT        203  139 
+     LINE        000 -009 
+     PLOT        213  130 
+     END
+
+Location  25 graphics flags: Picture.    Ink=7 Paper=0 Bit6=0
+     GOSUB    sc=000  003 
+     END
+
+Location  26 graphics flags: Picture.    Ink=7 Paper=0 Bit6=0
+     GOSUB    sc=000  001 
+     PLOT        040  071 
+     LINE        175  000 
+     PLOT        159  080 
+     LINE        000  023 
+     LINE       -063  000 
+     LINE        000 -023 
+     PLOT        096  103 
+     LINE       -003  000 
+     LINE        000  004 
+     LINE        069  000 
+     LINE        000 -004 
+     LINE       -004  000 
+     PLOT        215  072 
+     LINE       -004  005 
+     LINE       -011  008 
+     LINE       -012  006 
+     LINE       -014  004 
+     LINE       -015  002 
+     PLOT        040  072 
+     LINE        002  004 
+     LINE        004  005 
+     LINE        008  006 
+     LINE        008  003 
+     LINE        008  002 
+     LINE        015  002 
+     LINE        010  001 
+     PLOT        093  107 
+     LINE        005  004 
+     LINE        059  000 
+     LINE        004 -003 
+     PLOT        128  112 
+     LINE        000  031 
+     LINE        008  000 
+     LINE        000 -031 
+     PLOT        144  112 
+     LINE        000  040 
+     LINE       -007 -008 
+     PLOT        143  152 
+     LINE       -023  000 
+     LINE        007 -008 
+     PLOT        120  151 
+     LINE        000 -040 
+     PLOT        175  103 
+     LINE        000  049 
+     LINE        017 -002 
+     LINE        000 -048 
+     LINE       -017  001 
+     PLOT        183  104 
+     LINE        000  039 
+     LINE       -008  009 
+     PLOT        183  143 
+     LINE        008 -001 
+     PLOT        088  152 
+     LINE       -017 -001 
+     LINE        000 -048 
+     LINE        017  001 
+     LINE        000  048 
+     LINE       -008 -009 
+     LINE       -009  001 
+     PLOT        079  143 
+     LINE        001 -039 
+     PLOT        040  167 
+     LINE        000 -103 
+     LINE        175  000 
+     LINE        000  103 
+     PAPER       003
+     INK         000
+     BLOCK       012  021  005  001 
+     SHADE      -056 -100  016 
+     PLOT        159  080 
+     LINE       -063  000 
+     PLOT        214  167 
+     LINE       -017  000 
+     LINE        005 -020 
+     LINE        001 -027 
+     LINE       -005 -034 
+     LINE       -008 -005 
+     LINE       -012 -004 
+     LINE       -033 -005 
+     PLOT        089  072 
+     LINE       -014  002 
+     LINE       -012  004 
+     LINE       -006  005 
+     LINE       -002  005 
+     LINE       -002  022 
+     LINE       -001  028 
+     LINE        003  016 
+     LINE        007  013 
+     LINE       -021  000 
+     PLOT        046  167 
+     LINE       -003 -040 
+     LINE        002 -047 
+     LINE        007 -009 
+     PLOT        188  072 
+     LINE        013  003 
+     LINE        007  006 
+     LINE        005  046 
+     LINE       -002  039 
+     FILL        002 -002 
+     FILL       -001 -093 
+     FILL       -168  000 
+     FILL       -167 -093 
+     SHADE      -008 -008  000 
+     SHADE      -016 -088  000 
+     SHADE      -160 -008  000 
+     SHADE      -153 -088  000 
+     PLOT        137  103 
+     LINE        010 -003 
+     LINE        008 -004 
+     LINE        004 -007 
+     FILL       -001  004 
+     PLOT        116  103 
+     LINE       -009 -003 
+     LINE       -007 -006 
+     LINE       -003 -006 
+     FILL        000  004 
+     LINE        061  000 
+     PLOT        158  097 
+     LINE       -061  000 
+     PLOT        103  097 
+     LINE        000 -009 
+     PLOT        114  088 
+     LINE        000 -008 
+     PLOT        114  098 
+     LINE        000  005 
+     PLOT        127  097 
+     LINE        000 -009 
+     PLOT        141  088 
+     LINE        000 -008 
+     PLOT        141  097 
+     LINE        000  005 
+     PLOT        152  097 
+     LINE        000 -009 
+     PLOT        142  086 
+     PLOT        143  087 
+     PLOT        144  086 
+     PLOT        142  084 
+     PLOT        142  082 
+     PLOT        116  087 
+     PLOT        115  086 
+     PLOT        116  085 
+     PLOT        115  084 
+     PLOT        118  087 
+     PLOT        107  096 
+     PLOT        106  095 
+     PLOT        105  094 
+     PLOT        104  093 
+     PLOT        104  095 
+     PLOT        105  096 
+     PLOT        104  091 
+     PLOT        115  101 
+     PLOT        116  102 
+     PLOT        118  102 
+     PLOT        129  096 
+     PLOT        128  095 
+     PLOT        129  094 
+     PLOT        128  093 
+     PLOT        128  091 
+     PLOT        153  093 
+     PLOT        155  095 
+     PLOT        153  095 
+     PLOT        041  103 
+     LINE        013  003 
+     LINE        017  002 
+     PLOT        089  109 
+     LINE        008  001 
+     PLOT        159  110 
+     LINE        015 -001 
+     PLOT        192  108 
+     LINE        021 -002 
+     PLOT        045  125 
+     LINE        026 -001 
+     PLOT        088  124 
+     LINE        032  000 
+     PLOT        144  124 
+     LINE        030  001 
+     PLOT        192  125 
+     LINE        023  002 
+     PLOT        043  144 
+     LINE        028 -002 
+     PLOT        089  142 
+     LINE        030 -002 
+     PLOT        145  140 
+     LINE        030  001 
+     PLOT        192  142 
+     LINE        021  003 
+     PLOT        043  163 
+     LINE        040 -003 
+     LINE        032 -002 
+     LINE        049  001 
+     LINE        049  003 
+     PLOT        181  103 
+     LINE        000 -010 
+     PLOT        181  160 
+     LINE        000  007 
+     PLOT        157  159 
+     LINE        000 -019 
+     PLOT        157  123 
+     LINE        000 -013 
+     PLOT        125  159 
+     LINE        000  008 
+     PLOT        098  159 
+     LINE        000 -018 
+     PLOT        098  124 
+     LINE        000 -014 
+     PLOT        115  140 
+     LINE       -001 -016 
+     PLOT        171  125 
+     LINE       -001  016 
+     PLOT        066  092 
+     LINE       -001  015 
+     PLOT        064  125 
+     LINE        001  017 
+     PLOT        066  161 
+     LINE        001  006 
+     PLOT        049  122 
+     LINE        000 -016 
+     PLOT        080  088 
+     LINE        003  001 
+     LINE        003 -001 
+     LINE        003  001 
+     PLOT        089  079 
+     LINE        003  001 
+     LINE        004 -001 
+     PLOT        120  076 
+     LINE        003  001 
+     LINE        005 -001 
+     PLOT        169  084 
+     LINE        003  001 
+     LINE        004 -001 
+     PLOT        166  124 
+     LINE       -001 -004 
+     LINE       -003 -002 
+     PLOT        166  120 
+     LINE        002 -005 
+     PLOT        112  158 
+     LINE       -001 -005 
+     LINE       -005 -003 
+     PLOT        110  152 
+     LINE        003 -002 
+     LINE        003  001 
+     PLOT        060  107 
+     LINE       -001  004 
+     LINE       -003  004 
+     PLOT        060  111 
+     LINE        001  003 
+     LINE        003  000 
+     PLOT        072  093 
+     LINE       -001  002 
+     LINE        002  003 
+     PLOT        073  095 
+     LINE        004  002 
+     BLOCK       006  000  009  003 
+     PLOT        105  109 
+     LINE        000  012 
+     LINE        001  000 
+     LINE        000 -012 
+     PLOT        102  109 
+     LINE        007  000 
+     PLOT        110  118 
+     LINE       -009  000 
+     PLOT        149  109 
+     PLOT        147  110 
+     LINE        005  000 
+     PLOT        150  109 
+     BRIGHT      001
+     PLOT        073  147 
+     BLOCK       005  001  009  003 
+     PLOT        121  147 
+     BLOCK       004  002  015  003 
+     PLOT        177  147 
+     BLOCK       005  001  022  003 
+     PAPER       007
+     ABS MOVE    188  105 
+     BLOCK       004  000  023  004 
+     ABS MOVE    132  113 
+     BLOCK       003  000  016  004 
+     ABS MOVE    076  107 
+     BLOCK       004  000  009  004 
+     PAPER       002
+     ABS MOVE    100  107 
+     BLOCK       000  007  012  008 
+     BRIGHT      000
+     PLOT        156  098 
+     BLOCK       002  007  012  009 
+     PAPER       003
+     PLOT        151  132 
+     LINE        002 -008 
+     LINE       -001 -007 
+     LINE       -005  002 
+     LINE       -001 -007 
+     PLOT        151  133 
+     LINE        007  001 
+     LINE        003 -002 
+     LINE       -002 -007 
+     LINE        004 -009 
+     LINE        002 -012 
+     LINE        001 -014 
+     LINE       -004 -002 
+     LINE       -002  000 
+     FILL        001  002 
+     FILL        000  011 
+     FILL        000  026 
+     FILL       -010  025 
+     FILL       -003  040 
+     PLOT        151  129 
+     LINE       -001 -002 
+     LINE        003 -001 
+     PLOT        160  103 
+     LINE     i  000 -016 
+     END
+
+Location  27 graphics flags: Subroutine. Ink=7 Paper=1 Bit6=0
+
+Location  28 graphics flags: Subroutine. Ink=7 Paper=1 Bit6=0
+
+Location  29 graphics flags: Picture.    Ink=7 Paper=0 Bit6=0
+     GOSUB    sc=000  001 
+     PLOT        040  167 
+     LINE        105 -018 
+     LINE        000 -079 
+     LINE       -038 -006 
+     PLOT        143  151 
+     LINE        072  000 
+     PLOT        041  166 
+     LINE        050 -008 
+     LINE        000 -024 
+     LINE       -050  001 
+     LINE        000  031 
+     PLOT        041  131 
+     LINE        050 -001 
+     LINE        000 -026 
+     LINE       -051 -004 
+     LINE        000  031 
+     PLOT        040  095 
+     LINE        051  005 
+     LINE        000 -025 
+     LINE       -051 -008 
+     LINE        000  027 
+     PLOT        095  134 
+     LINE        044 -001 
+     LINE        000  016 
+     LINE       -044  008 
+     LINE        000 -023 
+     PLOT        095  130 
+     LINE        044 -001 
+     LINE        000 -021 
+     LINE       -044 -003 
+     LINE        000  024 
+     PLOT        095  101 
+     LINE        044  002 
+     LINE        000 -020 
+     LINE       -043 -006 
+     LINE       -001  024 
+     PLOT        144  072 
+     LINE        071  000 
+     PLOT        167  073 
+     LINE        000  054 
+     LINE        002  005 
+     LINE        006  005 
+     LINE        006  002 
+     LINE        013  000 
+     LINE        004 -001 
+     LINE        005 -004 
+     LINE        003 -006 
+     PLOT        207  127 
+     LINE        000 -055 
+     LINE       -031  003 
+     LINE        000  048 
+     LINE        002  007 
+     LINE        007  006 
+     LINE        007  001 
+     LINE        008 -001 
+     PLOT        168  073 
+     LINE        004  002 
+     LINE        000  054 
+     LINE        004  005 
+     LINE        006  004 
+     PAPER       005
+     INK         000
+     ABS MOVE    042  167 
+     BLOCK       012  021  005  001 
+     PLOT    o   201  072 
+     LINE    o  -034  000 
+     SHADE       002  008  000 
+     PLOT        178  077 
+     LINE        026 -002 
+     LINE        000  024 
+     LINE       -026  001 
+     LINE        000 -023 
+     PLOT        178  102 
+     LINE        026 -001 
+     LINE        000  008 
+     LINE       -026  000 
+     LINE        000 -008 
+     PLOT        178  111 
+     LINE        026  000 
+     LINE        000  015 
+     LINE       -002  006 
+     LINE       -006  002 
+     LINE       -008  000 
+     LINE       -005 -002 
+     LINE       -003 -004 
+     LINE       -002 -006 
+     LINE        000 -011 
+     PLOT        200  098 
+     LINE       -021  001 
+     LINE        000 -020 
+     PLOT        179  104 
+     LINE        000  004 
+     LINE        023  000 
+     PLOT        194  133 
+     LINE       -008  000 
+     LINE       -002 -002 
+     LINE       -003 -002 
+     LINE       -001 -004 
+     LINE       -001 -012 
+     PLOT        181  111 
+     LINE        004  014 
+     LINE        006  008 
+     SHADE      -005 -004  000 
+     PLOT        182  098 
+     LINE       -001 -020 
+     SHADE      -001  000  000 
+     PLOT        182  102 
+     LINE        000  005 
+     SHADE      -001 -001  000 
+     PLOT        176  088 
+     LINE       -004  000 
+     PLOT        215  072 
+     LINE        000 -008 
+     LINE       -113  000 
+     FILL        071  002 
+     SHADE       072  032  017 
+     LINE       -005  005 
+     LINE       -016  032 
+     LINE       -007  032 
+     LINE        001  026 
+     LINE        006  008 
+     LINE       -041  000 
+     LINE        000 -103 
+     LINE        064  000 
+     SHADE      -009  002  000 
+     SHADE      -024  016  000 
+     SHADE      -032  036  000 
+     SHADE      -040  040  000 
+     SHADE      -040  069  000 
+     SHADE      -034  088  000 
+     SHADE      -032  100  000 
+     SHADE      -036  099  000 
+     SHADE      -045  100  000 
+     SHADE      -048  101  000 
+     PLOT        090  104 
+     LINE       -014  002 
+     LINE        000  024 
+     LINE        000 -023 
+     LINE       -016 -001 
+     PLOT        063  103 
+     LINE       -007  028 
+     LINE       -004 -002 
+     LINE        005 -027 
+     LINE       -006  000 
+     LINE       -002  015 
+     LINE        004  001 
+     PLOT        048  118 
+     LINE       -001  009 
+     LINE       -005  000 
+     LINE        001 -023 
+     PLOT        051  128 
+     LINE       -003 -001 
+     FILL        040 -016 
+     PLOT        089  134 
+     LINE       -013  001 
+     LINE        000  025 
+     FILL        008 -008 
+     PLOT        043  158 
+     LINE        005  001 
+     LINE        002 -022 
+     PLOT        049  154 
+     LINE        005 -002 
+     LINE        002 -016 
+     LINE        000  024 
+     LINE        007 -002 
+     LINE        001 -021 
+     PLOT        064  141 
+     LINE       -006 -001 
+     PLOT        058  144 
+     LINE        006  001 
+     FILL        024 -049 
+     PLOT        041  090 
+     LINE        005  000 
+     LINE        001 -021 
+     PLOT        047  085 
+     LINE        004  000 
+     LINE        001 -015 
+     LINE       -001  019 
+     LINE        005  000 
+     LINE        002 -017 
+     LINE        000  021 
+     LINE        006  001 
+     LINE        000 -024 
+     PLOT        064  077 
+     LINE       -004 -001 
+     PLOT        060  081 
+     LINE        004  001 
+     PLOT        056  082 
+     LINE       -004 -001 
+     LINE       -006 -001 
+     PLOT        075  098 
+     LINE        000 -021 
+     LINE        016  000 
+     PLOT        075  077 
+     LINE       -010 -001 
+     SHADE       048  000  034 
+     SHADE       028  016  034 
+     PLOT        127  102 
+     LINE        000 -017 
+     LINE        011 -001 
+     FILL        000  003 
+     PLOT        128  108 
+     LINE        000  020 
+     FILL        008 -008 
+     PLOT        128  134 
+     LINE        000  016 
+     FILL        003 -002 
+     PLOT        097  079 
+     LINE        005  001 
+     LINE       -001  016 
+     LINE       -005 -001 
+     PLOT        101  093 
+     LINE       -006 -001 
+     PLOT        096  090 
+     LINE        005  001 
+     PLOT        101  094 
+     LINE        004  000 
+     LINE        001 -013 
+     LINE       -004 -001 
+     SHADE       001  002  000 
+     LINE        003  012 
+     PLOT        105  092 
+     LINE        004  001 
+     LINE        001 -011 
+     LINE       -003 -001 
+     PLOT        110  092 
+     LINE        003  001 
+     LINE        001 -010 
+     LINE       -003  000 
+     PLOT        112  093 
+     LINE       -004  001 
+     FILL        003 -004 
+     PLOT        126  086 
+     LINE       -014 -001 
+     PLOT        115  101 
+     LINE        005 -005 
+     LINE        003 -005 
+     LINE        002 -005 
+     SHADE       001  003  000 
+     PLOT        096  126 
+     LINE        005  001 
+     LINE        002 -019 
+     LINE       -007 -001 
+     LINE        000  006 
+     LINE        001 -002 
+     LINE        005  002 
+     PLOT        102  118 
+     LINE       -006 -002 
+     FILL        002 -001 
+     PLOT        101  124 
+     LINE        007 -015 
+     LINE        004  001 
+     LINE       -008  013 
+     LINE       -001 -001 
+     LINE        005 -008 
+     PLOT        107  119 
+     LINE        003  002 
+     LINE        007 -010 
+     LINE       -003 -002 
+     LINE       -003  003 
+     SHADE       001  001  000 
+     PLOT        108  109 
+     LINE       -004  001 
+     PLOT        127  112 
+     LINE       -012  000 
+     PLOT        127  112 
+     LINE       -003  008 
+     LINE       -010  009 
+     SHADE       012 -009  000 
+     PLOT        127  113 
+     LINE       -002 -005 
+     FILL        002  002 
+     PLOT        096  136 
+     LINE        006  000 
+     LINE       -002  016 
+     LINE       -004 -001 
+     PLOT        100  147 
+     LINE       -004 -001 
+     PLOT        100  144 
+     LINE       -004 -001 
+     PLOT        101  146 
+     LINE        003  001 
+     LINE        001 -010 
+     LINE       -003 -001 
+     PLOT        104  152 
+     LINE        002 -016 
+     LINE        003  000 
+     LINE       -002  016 
+     LINE       -003 -001 
+     LINE       -004 -001 
+     PLOT        109  147 
+     LINE        004  000 
+     LINE        001 -010 
+     LINE       -004 -001 
+     LINE        002  004 
+     LINE       -002  002 
+     LINE        001  003 
+     PLOT        119  152 
+     LINE        005 -006 
+     LINE        002 -006 
+     LINE       -001 -006 
+     SHADE       002  002  000 
+     PLOT        052  166 
+     LINE       -008  000 
+     PLOT        150  111 
+     LINE        011  000 
+     PLOT        159  111 
+     LINE       -004 -013 
+     PLOT        152  110 
+     LINE        003 -015 
+     FILL        000  008 
+     PLOT        152  099 
+     LINE        006  000 
+     PLOT        158  105 
+     LINE       -007  000 
+     PLOT        215  152 
+     LINE        000  015 
+     LINE       -144  000 
+     SHADE       064 -008  034 
+     BRIGHT      001
+     ABS MOVE    196  134 
+     BLOCK       008  000  024  005 
+     ABS MOVE    201  076 
+     BLOCK       006  000  025  006 
+     ABS MOVE    189  076 
+     BLOCK       002  000  023  010 
+     ABS MOVE    165  076 
+     BLOCK       009  002  018  003 
+     ABS MOVE    169  148 
+     BLOCK       000  004  021  003 
+     ABS MOVE    169  140 
+     BLOCK       000  002  021  004 
+     ABS MOVE    106  153 
+     BLOCK       000  001  012  002 
+     ABS MOVE    099  150 
+     BLOCK       001  000  012  003 
+     ABS MOVE    112  127 
+     BLOCK       000  002  012  006 
+     ABS MOVE    104  119 
+     BLOCK       001  001  012  007 
+     ABS MOVE    099  132 
+     BLOCK       000  001  012  005 
+     ABS MOVE    099  099 
+     BLOCK       000  002  012  009 
+     BLOCK       002  001  012  009 
+     ABS MOVE    136  151 
+     BLOCK       010  001  016  003 
+     ABS MOVE    126  079 
+     BLOCK       001  002  013  012 
+     ABS MOVE    170  134 
+     INK         002
+     PLOT        152  112 
+     LINE        001  007 
+     LINE        001  006 
+     LINE        001 -013 
+     PLOT        158  112 
+     LINE       -001  006 
+     LINE       -002  010 
+     PLOT        155  132 
+     PLOT        154  128 
+     PLOT        153  124 
+     PLOT        154  114 
+     PLOT        153  113 
+     SHADE       004  000  000 
+     FILL        001  002 
+     FILL        001 -001 
+     END
+
+Location  30 graphics flags: Picture.    Ink=7 Paper=0 Bit6=0
+     GOSUB    sc=000  001 
+     END
+
+Location  31 graphics flags: Subroutine. Ink=7 Paper=0 Bit6=0
+
+Location  32 graphics flags: Subroutine. Ink=7 Paper=0 Bit6=0
+
+Location  33 graphics flags: Subroutine. Ink=7 Paper=0 Bit6=0
+
+

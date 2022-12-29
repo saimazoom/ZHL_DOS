@@ -1,0 +1,2094 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+  <link rel="dns-prefetch" href="https://github.githubassets.com/">
+  <link rel="dns-prefetch" href="https://avatars0.githubusercontent.com/">
+  <link rel="dns-prefetch" href="https://avatars1.githubusercontent.com/">
+  <link rel="dns-prefetch" href="https://avatars2.githubusercontent.com/">
+  <link rel="dns-prefetch" href="https://avatars3.githubusercontent.com/">
+  <link rel="dns-prefetch" href="https://github-cloud.s3.amazonaws.com/">
+  <link rel="dns-prefetch" href="https://user-images.githubusercontent.com/">
+
+
+
+  <link crossorigin="anonymous" media="all" integrity="sha512-hddDYPWR0gBbqLRmIZP242WMEiYsVkYI2UCYCVUHB4h5DhD2cbtFJYG+HPh21dZGb+sbgDHxQBNJCBq7YbmlBQ==" rel="stylesheet" href="8bitC_8bitC_ENG.md%20at%20master%20%C2%B7%20Fabrizio-Caruso_8bitC_files/frameworks-02a3eaa24db2bd1ed9b64450595fc2cf.css">
+  
+    <link crossorigin="anonymous" media="all" integrity="sha512-YdIM/FwAk7kxvPGCpeT2JXxPrThv4m9rH7fLzjn+dg3zKb+PWOaxX1ioiOcmOb64+LeDKgBXsGL4b/BJQY/cdA==" rel="stylesheet" href="8bitC_8bitC_ENG.md%20at%20master%20%C2%B7%20Fabrizio-Caruso_8bitC_files/github-102d2679bcc893600ce928d5c6d34297.css">
+    
+    
+    
+    
+
+
+  <meta name="viewport" content="width=device-width">
+  
+  <title>8bitC/8bitC_ENG.md at master · Fabrizio-Caruso/8bitC</title>
+    <meta name="description" content="Document how to optimize C for 8-bit vintage architectures - Fabrizio-Caruso/8bitC">
+    <link rel="search" type="application/opensearchdescription+xml" href="https://github.com/opensearch.xml" title="GitHub">
+  <link rel="fluid-icon" href="https://github.com/fluidicon.png" title="GitHub">
+  <meta property="fb:app_id" content="1401488693436528">
+
+    <meta name="twitter:image:src" content="https://avatars3.githubusercontent.com/u/29057615?s=400&amp;v=4"><meta name="twitter:site" content="@github"><meta name="twitter:card" content="summary"><meta name="twitter:title" content="Fabrizio-Caruso/8bitC"><meta name="twitter:description" content="Document how to optimize C for 8-bit vintage architectures - Fabrizio-Caruso/8bitC">
+    <meta property="og:image" content="https://avatars3.githubusercontent.com/u/29057615?s=400&amp;v=4"><meta property="og:site_name" content="GitHub"><meta property="og:type" content="object"><meta property="og:title" content="Fabrizio-Caruso/8bitC"><meta property="og:url" content="https://github.com/Fabrizio-Caruso/8bitC"><meta property="og:description" content="Document how to optimize C for 8-bit vintage architectures - Fabrizio-Caruso/8bitC">
+
+  <link rel="assets" href="https://github.githubassets.com/">
+  <link rel="web-socket" href="wss://live.github.com/_sockets/VjI6NDY4Mzc2ODYyOjkzMTk4ZmZiMzAyNDJjMDBlZDMzOTllNWEyM2RkNzY3MmRlMzEzYjhlNjI3ZTcxZWI0NmQyZmM2MDIyNWVlMDg=--7b80372fce4925056c2a1ff93d40e956c8a5e047">
+  <link rel="sudo-modal" href="https://github.com/sessions/sudo_modal">
+
+    
+
+
+
+  
+
+  
+
+      <meta name="google-site-verification" content="KT5gs8h0wvaagLKAVWq8bbeNwnZZK1r1XQysX3xurLU">
+    <meta name="google-site-verification" content="ZzhVyEFwb7w3e0-uOTltm8Jsck2F5StVihD0exw2fsA">
+    <meta name="google-site-verification" content="GXs5KoUUkNCoaAZn7wPN-t01Pywp9M3sEjnt_3_ZWPc">
+
+    <meta name="octolytics-host" content="collector.githubapp.com"><meta name="octolytics-app-id" content="github"><meta name="octolytics-event-url" content="https://collector.githubapp.com/github-external/browser_event"><meta name="octolytics-dimension-request_id" content="C392:3BB8C:C49A23D:12B68284:5E097E16"><meta name="octolytics-dimension-region_edge" content="ams"><meta name="octolytics-dimension-region_render" content="iad"><meta name="octolytics-dimension-ga_id" content="1991273837.1568300043" class="js-octo-ga-id"><meta name="octolytics-dimension-visitor_id" content="2244352419271695370"><meta name="octolytics-actor-id" content="14364808"><meta name="octolytics-actor-login" content="saimazoom"><meta name="octolytics-actor-hash" content="077184d8466fccdb58a8532778dce29e75468750c2968b1f1ce567e2596b264a">
+
+
+
+
+
+    <meta name="google-analytics" content="UA-3769691-2">
+
+  <meta class="js-ga-set" name="userId" content="eeaea2170bf8a9722c5ed382933fb076">
+
+<meta class="js-ga-set" name="dimension1" content="Logged In">
+
+
+
+  
+
+      <meta name="hostname" content="github.com">
+    <meta name="user-login" content="saimazoom">
+
+      <meta name="expected-hostname" content="github.com">
+
+      <meta name="js-proxy-site-detection-payload" content="ZDAyMDIzZGUwZmJkZmFlNjRjYTI4ODM2Yzk5OTUyYjZiZDFmNmFlMmM1NTY3NWVhZWQyMGY5NDQ1MTc0MGQ5YXx7InJlbW90ZV9hZGRyZXNzIjoiODAuMTI4LjkzLjE2OCIsInJlcXVlc3RfaWQiOiJDMzkyOjNCQjhDOkM0OUEyM0Q6MTJCNjgyODQ6NUUwOTdFMTYiLCJ0aW1lc3RhbXAiOjE1Nzc2ODA0MDcsImhvc3QiOiJnaXRodWIuY29tIn0=">
+
+    <meta name="enabled-features" content="MARKETPLACE_FEATURED_BLOG_POSTS,MARKETPLACE_INVOICED_BILLING,MARKETPLACE_SOCIAL_PROOF_CUSTOMERS,MARKETPLACE_TRENDING_SOCIAL_PROOF,MARKETPLACE_RECOMMENDATIONS,MARKETPLACE_PENDING_INSTALLATIONS,NOTIFY_ON_BLOCK,RELATED_ISSUES,GHE_CLOUD_TRIAL">
+
+    <meta name="html-safe-nonce" content="e615f390cc56f25f7d683ee9b3a2885f9b75e48f">
+
+  <meta http-equiv="x-pjax-version" content="61f8c219e8739359a3bf9c46bc342ad6">
+  
+
+      <link href="https://github.com/Fabrizio-Caruso/8bitC/commits/master.atom" rel="alternate" title="Recent Commits to 8bitC:master" type="application/atom+xml">
+
+  <meta name="go-import" content="github.com/Fabrizio-Caruso/8bitC git https://github.com/Fabrizio-Caruso/8bitC.git">
+
+  <meta name="octolytics-dimension-user_id" content="29057615"><meta name="octolytics-dimension-user_login" content="Fabrizio-Caruso"><meta name="octolytics-dimension-repository_id" content="162503740"><meta name="octolytics-dimension-repository_nwo" content="Fabrizio-Caruso/8bitC"><meta name="octolytics-dimension-repository_public" content="true"><meta name="octolytics-dimension-repository_is_fork" content="false"><meta name="octolytics-dimension-repository_network_root_id" content="162503740"><meta name="octolytics-dimension-repository_network_root_nwo" content="Fabrizio-Caruso/8bitC"><meta name="octolytics-dimension-repository_explore_github_marketplace_ci_cta_shown" content="false">
+
+
+    
+
+
+  <meta name="browser-stats-url" content="https://api.github.com/_private/browser/stats">
+
+  <meta name="browser-errors-url" content="https://api.github.com/_private/browser/errors">
+
+  <link rel="mask-icon" href="https://github.githubassets.com/pinned-octocat.svg" color="#000000">
+  <link rel="icon" type="image/x-icon" class="js-site-favicon" href="https://github.githubassets.com/favicon.ico">
+
+<meta name="theme-color" content="#1e2327">
+
+
+
+  <meta name="webauthn-auth-enabled" content="true">
+
+  <meta name="webauthn-registration-enabled" content="true">
+
+  <link rel="manifest" href="https://github.com/manifest.json" crossorigin="use-credentials">
+
+  <meta name="selected-link" value="repo_source" data-pjax-transient=""><meta name="analytics-location" content="/&lt;user-name&gt;/&lt;repo-name&gt;/blob/show" data-pjax-transient=""><meta name="request-id" content="C392:3BB8C:C49B87F:12B69F5F:5E097E36" data-pjax-transient=""><link rel="canonical" href="https://github.com/Fabrizio-Caruso/8bitC/blob/master/8bitC_ENG.md" data-pjax-transient=""><link href="https://github.com/Fabrizio-Caruso/8bitC/commits/master.atom" rel="alternate" title="Recent Commits to 8bitC:master" type="application/atom+xml" data-pjax-transient=""></head>
+
+  <body class="logged-in env-production min-width-lg intent-mouse">
+    
+
+  <div class="position-relative js-header-wrapper ">
+    <a href="#start-of-content" tabindex="1" class="p-3 bg-blue text-white show-on-focus js-skip-to-content">Skip to content</a>
+    <span class="Progress progress-pjax-loader position-fixed width-full js-pjax-loader-bar">
+      <span class="progress-pjax-loader-bar top-0 left-0" style="width: 100%;"></span>
+    </span>
+
+    
+    
+    
+
+
+          <header class="Header" role="banner">
+
+    <div class="Header-item">
+      <a class="Header-link" href="https://github.com/" data-hotkey="g d" aria-label="Homepage" data-ga-click="Header, go to dashboard, icon:logo">
+  <svg class="octicon octicon-mark-github v-align-middle" height="32" viewBox="0 0 16 16" version="1.1" width="32" aria-hidden="true"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
+</a>
+
+    </div>
+
+
+    <div class="Header-item Header-item--full">
+        <div class="header-search mr-3 scoped-search site-scoped-search js-site-search position-relative js-jump-to" role="combobox" aria-owns="jump-to-results" aria-label="Search or jump to" aria-haspopup="listbox" aria-expanded="false">
+  <div class="position-relative">
+    <!-- '"` --><!-- </textarea></xmp> --><form class="js-site-search-form" role="search" aria-label="Site" data-scope-type="Repository" data-scope-id="162503740" data-scoped-search-url="/Fabrizio-Caruso/8bitC/search" data-unscoped-search-url="/search" action="/Fabrizio-Caruso/8bitC/search" accept-charset="UTF-8" method="get"><input name="utf8" type="hidden" value="✓">
+      <label class="form-control input-sm header-search-wrapper p-0 header-search-wrapper-jump-to position-relative d-flex flex-justify-between flex-items-center js-chromeless-input-container">
+        <input type="text" class="form-control input-sm header-search-input jump-to-field js-jump-to-field js-site-search-focus js-site-search-field is-clearable" data-hotkey="s,/" name="q" placeholder="Search or jump to…" data-unscoped-placeholder="Search or jump to…" data-scoped-placeholder="Search or jump to…" autocapitalize="off" aria-autocomplete="list" aria-controls="jump-to-results" aria-label="Search or jump to…" data-jump-to-suggestions-path="/_graphql/GetSuggestedNavigationDestinations#csrf-token=Pyyhh4HQWhtE/axpl6nIbcoRyyJUqsJ0WNBRWZWpght3Fm9vnl/SZp2qGEHZJRWQqGq0IOVD4aURoVbtMZwDmw==" spellcheck="false" autocomplete="off">
+          <input type="hidden" class="js-site-search-type-field" name="type">
+            <img src="8bitC_8bitC_ENG.md%20at%20master%20%C2%B7%20Fabrizio-Caruso_8bitC_files/search-key-slash.svg" alt="" class="mr-2 header-search-key-slash">
+
+            <div class="Box position-absolute overflow-hidden d-none jump-to-suggestions js-jump-to-suggestions-container">
+              
+<ul class="d-none js-jump-to-suggestions-template-container">
+  
+
+<li class="d-flex flex-justify-start flex-items-center p-0 f5 navigation-item js-navigation-item js-jump-to-suggestion" role="option">
+  <a tabindex="-1" class="no-underline d-flex flex-auto flex-items-center jump-to-suggestions-path js-jump-to-suggestion-path js-navigation-open p-2" href="">
+    <div class="jump-to-octicon js-jump-to-octicon flex-shrink-0 mr-2 text-center d-none">
+      <svg height="16" width="16" class="octicon octicon-repo flex-shrink-0 js-jump-to-octicon-repo d-none" title="Repository" aria-label="Repository" viewBox="0 0 12 16" version="1.1" role="img"><path fill-rule="evenodd" d="M4 9H3V8h1v1zm0-3H3v1h1V6zm0-2H3v1h1V4zm0-2H3v1h1V2zm8-1v12c0 .55-.45 1-1 1H6v2l-1.5-1.5L3 16v-2H1c-.55 0-1-.45-1-1V1c0-.55.45-1 1-1h10c.55 0 1 .45 1 1zm-1 10H1v2h2v-1h3v1h5v-2zm0-10H2v9h9V1z"></path></svg>
+      <svg height="16" width="16" class="octicon octicon-project flex-shrink-0 js-jump-to-octicon-project d-none" title="Project" aria-label="Project" viewBox="0 0 15 16" version="1.1" role="img"><path fill-rule="evenodd" d="M10 12h3V2h-3v10zm-4-2h3V2H6v8zm-4 4h3V2H2v12zm-1 1h13V1H1v14zM14 0H1a1 1 0 00-1 1v14a1 1 0 001 1h13a1 1 0 001-1V1a1 1 0 00-1-1z"></path></svg>
+      <svg height="16" width="16" class="octicon octicon-search flex-shrink-0 js-jump-to-octicon-search d-none" title="Search" aria-label="Search" viewBox="0 0 16 16" version="1.1" role="img"><path fill-rule="evenodd" d="M15.7 13.3l-3.81-3.83A5.93 5.93 0 0013 6c0-3.31-2.69-6-6-6S1 2.69 1 6s2.69 6 6 6c1.3 0 2.48-.41 3.47-1.11l3.83 3.81c.19.2.45.3.7.3.25 0 .52-.09.7-.3a.996.996 0 000-1.41v.01zM7 10.7c-2.59 0-4.7-2.11-4.7-4.7 0-2.59 2.11-4.7 4.7-4.7 2.59 0 4.7 2.11 4.7 4.7 0 2.59-2.11 4.7-4.7 4.7z"></path></svg>
+    </div>
+
+    <img class="avatar mr-2 flex-shrink-0 js-jump-to-suggestion-avatar d-none" alt="" aria-label="Team" src="" width="28" height="28">
+
+    <div class="jump-to-suggestion-name js-jump-to-suggestion-name flex-auto overflow-hidden text-left no-wrap css-truncate css-truncate-target">
+    </div>
+
+    <div class="border rounded-1 flex-shrink-0 bg-gray px-1 text-gray-light ml-1 f6 d-none js-jump-to-badge-search">
+      <span class="js-jump-to-badge-search-text-default d-none" aria-label="in this repository">
+        In this repository
+      </span>
+      <span class="js-jump-to-badge-search-text-global d-none" aria-label="in all of GitHub">
+        All GitHub
+      </span>
+      <span aria-hidden="true" class="d-inline-block ml-1 v-align-middle">↵</span>
+    </div>
+
+    <div aria-hidden="true" class="border rounded-1 flex-shrink-0 bg-gray px-1 text-gray-light ml-1 f6 d-none d-on-nav-focus js-jump-to-badge-jump">
+      Jump to
+      <span class="d-inline-block ml-1 v-align-middle">↵</span>
+    </div>
+  </a>
+</li>
+
+</ul>
+
+<ul class="d-none js-jump-to-no-results-template-container">
+  <li class="d-flex flex-justify-center flex-items-center f5 d-none js-jump-to-suggestion p-2">
+    <span class="text-gray">No suggested jump to results</span>
+  </li>
+</ul>
+
+<ul id="jump-to-results" role="listbox" class="p-0 m-0 js-navigation-container jump-to-suggestions-results-container js-jump-to-suggestions-results-container">
+  
+
+<li class="d-flex flex-justify-start flex-items-center p-0 f5 navigation-item js-navigation-item js-jump-to-scoped-search d-none" role="option">
+  <a tabindex="-1" class="no-underline d-flex flex-auto flex-items-center jump-to-suggestions-path js-jump-to-suggestion-path js-navigation-open p-2" href="">
+    <div class="jump-to-octicon js-jump-to-octicon flex-shrink-0 mr-2 text-center d-none">
+      <svg height="16" width="16" class="octicon octicon-repo flex-shrink-0 js-jump-to-octicon-repo d-none" title="Repository" aria-label="Repository" viewBox="0 0 12 16" version="1.1" role="img"><path fill-rule="evenodd" d="M4 9H3V8h1v1zm0-3H3v1h1V6zm0-2H3v1h1V4zm0-2H3v1h1V2zm8-1v12c0 .55-.45 1-1 1H6v2l-1.5-1.5L3 16v-2H1c-.55 0-1-.45-1-1V1c0-.55.45-1 1-1h10c.55 0 1 .45 1 1zm-1 10H1v2h2v-1h3v1h5v-2zm0-10H2v9h9V1z"></path></svg>
+      <svg height="16" width="16" class="octicon octicon-project flex-shrink-0 js-jump-to-octicon-project d-none" title="Project" aria-label="Project" viewBox="0 0 15 16" version="1.1" role="img"><path fill-rule="evenodd" d="M10 12h3V2h-3v10zm-4-2h3V2H6v8zm-4 4h3V2H2v12zm-1 1h13V1H1v14zM14 0H1a1 1 0 00-1 1v14a1 1 0 001 1h13a1 1 0 001-1V1a1 1 0 00-1-1z"></path></svg>
+      <svg height="16" width="16" class="octicon octicon-search flex-shrink-0 js-jump-to-octicon-search d-none" title="Search" aria-label="Search" viewBox="0 0 16 16" version="1.1" role="img"><path fill-rule="evenodd" d="M15.7 13.3l-3.81-3.83A5.93 5.93 0 0013 6c0-3.31-2.69-6-6-6S1 2.69 1 6s2.69 6 6 6c1.3 0 2.48-.41 3.47-1.11l3.83 3.81c.19.2.45.3.7.3.25 0 .52-.09.7-.3a.996.996 0 000-1.41v.01zM7 10.7c-2.59 0-4.7-2.11-4.7-4.7 0-2.59 2.11-4.7 4.7-4.7 2.59 0 4.7 2.11 4.7 4.7 0 2.59-2.11 4.7-4.7 4.7z"></path></svg>
+    </div>
+
+    <img class="avatar mr-2 flex-shrink-0 js-jump-to-suggestion-avatar d-none" alt="" aria-label="Team" src="" width="28" height="28">
+
+    <div class="jump-to-suggestion-name js-jump-to-suggestion-name flex-auto overflow-hidden text-left no-wrap css-truncate css-truncate-target">
+    </div>
+
+    <div class="border rounded-1 flex-shrink-0 bg-gray px-1 text-gray-light ml-1 f6 d-none js-jump-to-badge-search">
+      <span class="js-jump-to-badge-search-text-default d-none" aria-label="in this repository">
+        In this repository
+      </span>
+      <span class="js-jump-to-badge-search-text-global d-none" aria-label="in all of GitHub">
+        All GitHub
+      </span>
+      <span aria-hidden="true" class="d-inline-block ml-1 v-align-middle">↵</span>
+    </div>
+
+    <div aria-hidden="true" class="border rounded-1 flex-shrink-0 bg-gray px-1 text-gray-light ml-1 f6 d-none d-on-nav-focus js-jump-to-badge-jump">
+      Jump to
+      <span class="d-inline-block ml-1 v-align-middle">↵</span>
+    </div>
+  </a>
+</li>
+
+  
+
+<li class="d-flex flex-justify-start flex-items-center p-0 f5 navigation-item js-navigation-item js-jump-to-global-search d-none" role="option">
+  <a tabindex="-1" class="no-underline d-flex flex-auto flex-items-center jump-to-suggestions-path js-jump-to-suggestion-path js-navigation-open p-2" href="">
+    <div class="jump-to-octicon js-jump-to-octicon flex-shrink-0 mr-2 text-center d-none">
+      <svg height="16" width="16" class="octicon octicon-repo flex-shrink-0 js-jump-to-octicon-repo d-none" title="Repository" aria-label="Repository" viewBox="0 0 12 16" version="1.1" role="img"><path fill-rule="evenodd" d="M4 9H3V8h1v1zm0-3H3v1h1V6zm0-2H3v1h1V4zm0-2H3v1h1V2zm8-1v12c0 .55-.45 1-1 1H6v2l-1.5-1.5L3 16v-2H1c-.55 0-1-.45-1-1V1c0-.55.45-1 1-1h10c.55 0 1 .45 1 1zm-1 10H1v2h2v-1h3v1h5v-2zm0-10H2v9h9V1z"></path></svg>
+      <svg height="16" width="16" class="octicon octicon-project flex-shrink-0 js-jump-to-octicon-project d-none" title="Project" aria-label="Project" viewBox="0 0 15 16" version="1.1" role="img"><path fill-rule="evenodd" d="M10 12h3V2h-3v10zm-4-2h3V2H6v8zm-4 4h3V2H2v12zm-1 1h13V1H1v14zM14 0H1a1 1 0 00-1 1v14a1 1 0 001 1h13a1 1 0 001-1V1a1 1 0 00-1-1z"></path></svg>
+      <svg height="16" width="16" class="octicon octicon-search flex-shrink-0 js-jump-to-octicon-search d-none" title="Search" aria-label="Search" viewBox="0 0 16 16" version="1.1" role="img"><path fill-rule="evenodd" d="M15.7 13.3l-3.81-3.83A5.93 5.93 0 0013 6c0-3.31-2.69-6-6-6S1 2.69 1 6s2.69 6 6 6c1.3 0 2.48-.41 3.47-1.11l3.83 3.81c.19.2.45.3.7.3.25 0 .52-.09.7-.3a.996.996 0 000-1.41v.01zM7 10.7c-2.59 0-4.7-2.11-4.7-4.7 0-2.59 2.11-4.7 4.7-4.7 2.59 0 4.7 2.11 4.7 4.7 0 2.59-2.11 4.7-4.7 4.7z"></path></svg>
+    </div>
+
+    <img class="avatar mr-2 flex-shrink-0 js-jump-to-suggestion-avatar d-none" alt="" aria-label="Team" src="" width="28" height="28">
+
+    <div class="jump-to-suggestion-name js-jump-to-suggestion-name flex-auto overflow-hidden text-left no-wrap css-truncate css-truncate-target">
+    </div>
+
+    <div class="border rounded-1 flex-shrink-0 bg-gray px-1 text-gray-light ml-1 f6 d-none js-jump-to-badge-search">
+      <span class="js-jump-to-badge-search-text-default d-none" aria-label="in this repository">
+        In this repository
+      </span>
+      <span class="js-jump-to-badge-search-text-global d-none" aria-label="in all of GitHub">
+        All GitHub
+      </span>
+      <span aria-hidden="true" class="d-inline-block ml-1 v-align-middle">↵</span>
+    </div>
+
+    <div aria-hidden="true" class="border rounded-1 flex-shrink-0 bg-gray px-1 text-gray-light ml-1 f6 d-none d-on-nav-focus js-jump-to-badge-jump">
+      Jump to
+      <span class="d-inline-block ml-1 v-align-middle">↵</span>
+    </div>
+  </a>
+</li>
+
+
+    <li class="d-flex flex-justify-center flex-items-center p-0 f5 js-jump-to-suggestion">
+      <img src="8bitC_8bitC_ENG.md%20at%20master%20%C2%B7%20Fabrizio-Caruso_8bitC_files/octocat-spinner-128.gif" alt="Octocat Spinner Icon" class="m-2" width="28">
+    </li>
+</ul>
+
+            </div>
+      </label>
+</form>  </div>
+</div>
+
+
+      <nav class="d-flex" aria-label="Global">
+
+  <a class="js-selected-navigation-item Header-link  mr-3" data-hotkey="g p" data-ga-click="Header, click, Nav menu - item:pulls context:user" aria-label="Pull requests you created" data-selected-links="/pulls /pulls/assigned /pulls/mentioned /pulls" href="https://github.com/pulls">
+    Pull requests
+</a>
+  <a class="js-selected-navigation-item Header-link  mr-3" data-hotkey="g i" data-ga-click="Header, click, Nav menu - item:issues context:user" aria-label="Issues you created" data-selected-links="/issues /issues/assigned /issues/mentioned /issues" href="https://github.com/issues">
+    Issues
+</a>
+    <div class="mr-3">
+      <a class="js-selected-navigation-item Header-link" data-ga-click="Header, click, Nav menu - item:marketplace context:user" data-octo-click="marketplace_click" data-octo-dimensions="location:nav_bar" data-selected-links=" /marketplace" href="https://github.com/marketplace">
+        Marketplace
+</a>      
+
+    </div>
+
+  <a class="js-selected-navigation-item Header-link  mr-3" data-ga-click="Header, click, Nav menu - item:explore" data-selected-links="/explore /trending /trending/developers /integrations /integrations/feature/code /integrations/feature/collaborate /integrations/feature/ship showcases showcases_search showcases_landing /explore" href="https://github.com/explore">
+    Explore
+</a>
+
+</nav>
+
+    </div>
+
+
+
+    <div class="Header-item">
+      
+
+    <a aria-label="You have no unread notifications" class="Header-link notification-indicator position-relative tooltipped tooltipped-sw js-socket-channel js-notification-indicator" data-hotkey="g n" data-ga-click="Header, go to notifications, icon:read" data-channel="notification-changed:14364808" href="https://github.com/notifications">
+        <span class="mail-status "></span>
+        <svg class="octicon octicon-bell" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M14 12v1H0v-1l.73-.58c.77-.77.81-2.55 1.19-4.42C2.69 3.23 6 2 6 2c0-.55.45-1 1-1s1 .45 1 1c0 0 3.39 1.23 4.16 5 .38 1.88.42 3.66 1.19 4.42l.66.58H14zm-7 4c1.11 0 2-.89 2-2H5c0 1.11.89 2 2 2z"></path></svg>
+</a>
+    </div>
+
+
+    <div class="Header-item position-relative">
+      <details class="details-overlay details-reset">
+  <summary class="Header-link" aria-label="Create new…" data-ga-click="Header, create new, icon:add" aria-haspopup="menu" role="button">
+    <svg class="octicon octicon-plus" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 9H7v5H5V9H0V7h5V2h2v5h5v2z"></path></svg> <span class="dropdown-caret"></span>
+  </summary>
+  <details-menu class="dropdown-menu dropdown-menu-sw" role="menu">
+    
+<a role="menuitem" class="dropdown-item" href="https://github.com/new" data-ga-click="Header, create new repository">
+  New repository
+</a>
+
+  <a role="menuitem" class="dropdown-item" href="https://github.com/new/import" data-ga-click="Header, import a repository">
+    Import repository
+  </a>
+
+<a role="menuitem" class="dropdown-item" href="https://gist.github.com/" data-ga-click="Header, create new gist">
+  New gist
+</a>
+
+  <a role="menuitem" class="dropdown-item" href="https://github.com/organizations/new" data-ga-click="Header, create new organization">
+    New organization
+  </a>
+
+
+  <div role="none" class="dropdown-divider"></div>
+  <div class="dropdown-header">
+    <span title="Fabrizio-Caruso/8bitC">This repository</span>
+  </div>
+    <a role="menuitem" class="dropdown-item" href="https://github.com/Fabrizio-Caruso/8bitC/issues/new" data-ga-click="Header, create new issue" data-skip-pjax="">
+      New issue
+    </a>
+
+
+  </details-menu>
+</details>
+
+    </div>
+
+    <div class="Header-item position-relative mr-0">
+      
+  <details class="details-overlay details-reset js-feature-preview-indicator-container" data-feature-preview-indicator-src="/users/saimazoom/feature_preview/indicator_check.json">
+
+  <summary class="Header-link" aria-label="View profile and more" data-ga-click="Header, show menu, icon:avatar" aria-haspopup="menu" role="button">
+    <img alt="@saimazoom" class="avatar" src="8bitC_8bitC_ENG.md%20at%20master%20%C2%B7%20Fabrizio-Caruso_8bitC_files/14364808.png" width="20" height="20">
+      <span class="feature-preview-indicator js-feature-preview-indicator"></span>
+    <span class="dropdown-caret"></span>
+  </summary>
+  <details-menu class="dropdown-menu dropdown-menu-sw mt-2" style="width: 180px" role="menu">
+    <div class="header-nav-current-user css-truncate"><a role="menuitem" class="no-underline user-profile-link px-3 pt-2 pb-2 mb-n2 mt-n1 d-block" href="https://github.com/saimazoom" data-ga-click="Header, go to profile, text:Signed in as">Signed in as <strong class="css-truncate-target">saimazoom</strong></a></div>
+    <div role="none" class="dropdown-divider"></div>
+
+      <div class="pl-3 pr-3 f6 user-status-container js-user-status-context pb-1" data-url="/users/status?compact=1&amp;link_mentions=0&amp;truncate=1">
+        
+<div class="js-user-status-container
+    user-status-compact rounded-1 px-2 py-1 mt-2
+    border
+  " data-team-hovercards-enabled="">
+  <details class="js-user-status-details details-reset details-overlay details-overlay-dark">
+    <summary class="btn-link btn-block link-gray no-underline js-toggle-user-status-edit toggle-user-status-edit " role="menuitem" data-hydro-click="{&quot;event_type&quot;:&quot;user_profile.click&quot;,&quot;payload&quot;:{&quot;profile_user_id&quot;:29057615,&quot;target&quot;:&quot;EDIT_USER_STATUS&quot;,&quot;user_id&quot;:14364808,&quot;client_id&quot;:&quot;522554018.1568300042&quot;,&quot;originating_request_id&quot;:&quot;C392:3BB8C:C49A23D:12B68284:5E097E16&quot;,&quot;originating_url&quot;:&quot;https://github.com/Fabrizio-Caruso/8bitC&quot;,&quot;referrer&quot;:&quot;https://t.co/soL33FJsf2?amp=1&quot;}}" data-hydro-click-hmac="faa83936763fc5ff062d6b934bdf80e7ae35be5454045f1d2dd6fadb750f0fe8">
+      <div class="d-flex">
+        <div class="f6 lh-condensed user-status-header
+          d-inline-block v-align-middle
+            user-status-emoji-only-header circle
+            pr-2
+" style="max-width: 29px">
+          <div class="user-status-emoji-container flex-shrink-0 mr-1 mt-1 lh-condensed-ultra v-align-bottom" style="">
+            <svg class="octicon octicon-smiley" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8zm4.81 12.81a6.72 6.72 0 01-2.17 1.45c-.83.36-1.72.53-2.64.53-.92 0-1.81-.17-2.64-.53-.81-.34-1.55-.83-2.17-1.45a6.773 6.773 0 01-1.45-2.17A6.59 6.59 0 011.21 8c0-.92.17-1.81.53-2.64.34-.81.83-1.55 1.45-2.17.62-.62 1.36-1.11 2.17-1.45A6.59 6.59 0 018 1.21c.92 0 1.81.17 2.64.53.81.34 1.55.83 2.17 1.45.62.62 1.11 1.36 1.45 2.17.36.83.53 1.72.53 2.64 0 .92-.17 1.81-.53 2.64-.34.81-.83 1.55-1.45 2.17zM4 6.8v-.59c0-.66.53-1.19 1.2-1.19h.59c.66 0 1.19.53 1.19 1.19v.59c0 .67-.53 1.2-1.19 1.2H5.2C4.53 8 4 7.47 4 6.8zm5 0v-.59c0-.66.53-1.19 1.2-1.19h.59c.66 0 1.19.53 1.19 1.19v.59c0 .67-.53 1.2-1.19 1.2h-.59C9.53 8 9 7.47 9 6.8zm4 3.2c-.72 1.88-2.91 3-5 3s-4.28-1.13-5-3c-.14-.39.23-1 .66-1h8.59c.41 0 .89.61.75 1z"></path></svg>
+          </div>
+        </div>
+        <div class="
+          d-inline-block v-align-middle
+          
+          
+           css-truncate css-truncate-target 
+           user-status-message-wrapper f6" style="line-height: 20px;">
+          <div class="d-inline-block text-gray-dark v-align-text-top text-left">
+              <span class="text-gray ml-2">Set status</span>
+          </div>
+        </div>
+      </div>
+    </summary>
+    <details-dialog class="details-dialog rounded-1 anim-fade-in fast Box Box--overlay" role="dialog" tabindex="-1" aria-modal="true">
+      <!-- '"` --><!-- </textarea></xmp> --><form class="position-relative flex-auto js-user-status-form" action="/users/status?compact=1&amp;link_mentions=0&amp;truncate=1" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="✓"><input type="hidden" name="_method" value="put"><input type="hidden" name="authenticity_token" value="ljRV8DaosL8J4ruHAusV6zuf8Mo72EMamX3QCCiRWBXTzvxd8qdtnKlayUF7z8RzUDmihQvPwPxjxLLXTAp8tw==">
+        <div class="Box-header bg-gray border-bottom p-3">
+          <button class="Box-btn-octicon js-toggle-user-status-edit btn-octicon float-right" type="reset" aria-label="Close dialog" data-close-dialog="">
+            <svg class="octicon octicon-x" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48L7.48 8z"></path></svg>
+          </button>
+          <h3 class="Box-title f5 text-bold text-gray-dark">Edit status</h3>
+        </div>
+        <input type="hidden" name="emoji" class="js-user-status-emoji-field" value="">
+        <input type="hidden" name="organization_id" class="js-user-status-org-id-field" value="">
+        <div class="px-3 py-2 text-gray-dark">
+          <div class="js-characters-remaining-container position-relative mt-2">
+            <div class="input-group d-table form-group my-0 js-user-status-form-group">
+              <span class="input-group-button d-table-cell v-align-middle" style="width: 1%">
+                <button type="button" aria-label="Choose an emoji" class="btn-outline btn js-toggle-user-status-emoji-picker btn-open-emoji-picker p-0">
+                  <span class="js-user-status-original-emoji" hidden=""></span>
+                  <span class="js-user-status-custom-emoji"></span>
+                  <span class="js-user-status-no-emoji-icon">
+                    <svg class="octicon octicon-smiley" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8s3.58 8 8 8 8-3.58 8-8-3.58-8-8-8zm4.81 12.81a6.72 6.72 0 01-2.17 1.45c-.83.36-1.72.53-2.64.53-.92 0-1.81-.17-2.64-.53-.81-.34-1.55-.83-2.17-1.45a6.773 6.773 0 01-1.45-2.17A6.59 6.59 0 011.21 8c0-.92.17-1.81.53-2.64.34-.81.83-1.55 1.45-2.17.62-.62 1.36-1.11 2.17-1.45A6.59 6.59 0 018 1.21c.92 0 1.81.17 2.64.53.81.34 1.55.83 2.17 1.45.62.62 1.11 1.36 1.45 2.17.36.83.53 1.72.53 2.64 0 .92-.17 1.81-.53 2.64-.34.81-.83 1.55-1.45 2.17zM4 6.8v-.59c0-.66.53-1.19 1.2-1.19h.59c.66 0 1.19.53 1.19 1.19v.59c0 .67-.53 1.2-1.19 1.2H5.2C4.53 8 4 7.47 4 6.8zm5 0v-.59c0-.66.53-1.19 1.2-1.19h.59c.66 0 1.19.53 1.19 1.19v.59c0 .67-.53 1.2-1.19 1.2h-.59C9.53 8 9 7.47 9 6.8zm4 3.2c-.72 1.88-2.91 3-5 3s-4.28-1.13-5-3c-.14-.39.23-1 .66-1h8.59c.41 0 .89.61.75 1z"></path></svg>
+                  </span>
+                </button>
+              </span>
+              <text-expander keys=": @" data-mention-url="/autocomplete/user-suggestions" data-emoji-url="/autocomplete/emoji">
+                <input type="text" autocomplete="off" data-no-org-url="/autocomplete/user-suggestions" data-org-url="/suggestions?mention_suggester=1" data-maxlength="80" class="d-table-cell width-full form-control js-user-status-message-field js-characters-remaining-field" placeholder="What's happening?" name="message" aria-label="What is your current status?">
+              </text-expander>
+              <div class="error">Could not update your status, please try again.</div>
+            </div>
+            <div style="margin-left: 53px" class="my-1 text-small label-characters-remaining js-characters-remaining" data-suffix="remaining" hidden="">
+              80 remaining
+            </div>
+          </div>
+          <include-fragment class="js-user-status-emoji-picker" data-url="/users/status/emoji"></include-fragment>
+          <div class="overflow-auto ml-n3 mr-n3 px-3 border-bottom" style="max-height: 33vh">
+            <div class="user-status-suggestions js-user-status-suggestions collapsed overflow-hidden">
+              <h4 class="f6 text-normal my-3">Suggestions:</h4>
+              <div class="mx-3 mt-2 clearfix">
+                  <div class="float-left col-6">
+                      <button type="button" value=":palm_tree:" class="d-flex flex-items-baseline flex-items-stretch lh-condensed f6 btn-link link-gray no-underline js-predefined-user-status mb-1">
+                        <div class="emoji-status-width mr-2 v-align-middle js-predefined-user-status-emoji">
+                          <g-emoji alias="palm_tree" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f334.png">🌴</g-emoji>
+                        </div>
+                        <div class="d-flex flex-items-center no-underline js-predefined-user-status-message ws-normal text-left" style="border-left: 1px solid transparent">
+                          On vacation
+                        </div>
+                      </button>
+                      <button type="button" value=":face_with_thermometer:" class="d-flex flex-items-baseline flex-items-stretch lh-condensed f6 btn-link link-gray no-underline js-predefined-user-status mb-1">
+                        <div class="emoji-status-width mr-2 v-align-middle js-predefined-user-status-emoji">
+                          <g-emoji alias="face_with_thermometer" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f912.png">🤒</g-emoji>
+                        </div>
+                        <div class="d-flex flex-items-center no-underline js-predefined-user-status-message ws-normal text-left" style="border-left: 1px solid transparent">
+                          Out sick
+                        </div>
+                      </button>
+                  </div>
+                  <div class="float-left col-6">
+                      <button type="button" value=":house:" class="d-flex flex-items-baseline flex-items-stretch lh-condensed f6 btn-link link-gray no-underline js-predefined-user-status mb-1">
+                        <div class="emoji-status-width mr-2 v-align-middle js-predefined-user-status-emoji">
+                          <g-emoji alias="house" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f3e0.png">🏠</g-emoji>
+                        </div>
+                        <div class="d-flex flex-items-center no-underline js-predefined-user-status-message ws-normal text-left" style="border-left: 1px solid transparent">
+                          Working from home
+                        </div>
+                      </button>
+                      <button type="button" value=":dart:" class="d-flex flex-items-baseline flex-items-stretch lh-condensed f6 btn-link link-gray no-underline js-predefined-user-status mb-1">
+                        <div class="emoji-status-width mr-2 v-align-middle js-predefined-user-status-emoji">
+                          <g-emoji alias="dart" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f3af.png">🎯</g-emoji>
+                        </div>
+                        <div class="d-flex flex-items-center no-underline js-predefined-user-status-message ws-normal text-left" style="border-left: 1px solid transparent">
+                          Focusing
+                        </div>
+                      </button>
+                  </div>
+              </div>
+            </div>
+            <div class="user-status-limited-availability-container">
+              <div class="form-checkbox my-0">
+                <input type="checkbox" name="limited_availability" value="1" class="js-user-status-limited-availability-checkbox" data-default-message="I may be slow to respond." aria-describedby="limited-availability-help-text-truncate-true-compact-true" id="limited-availability-truncate-true-compact-true">
+                <label class="d-block f5 text-gray-dark mb-1" for="limited-availability-truncate-true-compact-true">
+                  Busy
+                </label>
+                <p class="note" id="limited-availability-help-text-truncate-true-compact-true">
+                  When others mention you, assign you, or request your review,
+                  GitHub will let them know that you have limited availability.
+                </p>
+              </div>
+            </div>
+          </div>
+            
+
+<div class="d-inline-block f5 mr-2 pt-3 pb-2">
+  <div class="d-inline-block mr-1">
+    Clear status
+  </div>
+
+  <details class="js-user-status-expire-drop-down f6 dropdown details-reset details-overlay d-inline-block mr-2">
+    <summary class="f5 btn-link link-gray-dark border px-2 py-1 rounded-1" aria-haspopup="true">
+      <div class="js-user-status-expiration-interval-selected d-inline-block v-align-baseline">
+        Never
+      </div>
+      <div class="dropdown-caret"></div>
+    </summary>
+
+    <ul class="dropdown-menu dropdown-menu-se pl-0 overflow-auto" style="width: 220px; max-height: 15.5em">
+      <li>
+        <button type="button" class="btn-link dropdown-item js-user-status-expire-button ws-normal" title="Never">
+          <span class="d-inline-block text-bold mb-1">Never</span>
+          <div class="f6 lh-condensed">Keep this status until you clear your status or edit your status.</div>
+        </button>
+      </li>
+      <li class="dropdown-divider" role="none"></li>
+        <li>
+          <button type="button" class="btn-link dropdown-item ws-normal js-user-status-expire-button" title="in 30 minutes" value="2019-12-30T05:03:27Z">
+            in 30 minutes
+          </button>
+        </li>
+        <li>
+          <button type="button" class="btn-link dropdown-item ws-normal js-user-status-expire-button" title="in 1 hour" value="2019-12-30T05:33:27Z">
+            in 1 hour
+          </button>
+        </li>
+        <li>
+          <button type="button" class="btn-link dropdown-item ws-normal js-user-status-expire-button" title="in 4 hours" value="2019-12-30T08:33:27Z">
+            in 4 hours
+          </button>
+        </li>
+        <li>
+          <button type="button" class="btn-link dropdown-item ws-normal js-user-status-expire-button" title="today" value="2019-12-30T23:59:59Z">
+            today
+          </button>
+        </li>
+        <li>
+          <button type="button" class="btn-link dropdown-item ws-normal js-user-status-expire-button" title="this week" value="2020-01-05T23:59:59Z">
+            this week
+          </button>
+        </li>
+    </ul>
+  </details>
+  <input class="js-user-status-expiration-date-input" type="hidden" name="expires_at" value="">
+</div>
+
+          <include-fragment class="js-user-status-org-picker" data-url="/users/status/organizations"></include-fragment>
+        </div>
+        <div class="d-flex flex-items-center flex-justify-between p-3 border-top">
+          <button type="submit" disabled="disabled" class="width-full btn btn-primary mr-2 js-user-status-submit">
+            Set status
+          </button>
+          <button type="button" disabled="disabled" class="width-full js-clear-user-status-button btn ml-2 ">
+            Clear status
+          </button>
+        </div>
+</form>    </details-dialog>
+  </details>
+</div>
+
+      </div>
+      <div role="none" class="dropdown-divider"></div>
+
+
+    <a role="menuitem" class="dropdown-item" href="https://github.com/saimazoom" data-ga-click="Header, go to profile, text:your profile">Your profile</a>
+
+    <a role="menuitem" class="dropdown-item" href="https://github.com/saimazoom?tab=repositories" data-ga-click="Header, go to repositories, text:your repositories">Your repositories</a>
+
+    <a role="menuitem" class="dropdown-item" href="https://github.com/saimazoom?tab=projects" data-ga-click="Header, go to projects, text:your projects">Your projects</a>
+
+    <a role="menuitem" class="dropdown-item" href="https://github.com/saimazoom?tab=stars" data-ga-click="Header, go to starred repos, text:your stars">Your stars</a>
+      <a role="menuitem" class="dropdown-item" href="https://gist.github.com/mine" data-ga-click="Header, your gists, text:your gists">Your gists</a>
+
+
+
+
+
+    <div role="none" class="dropdown-divider"></div>
+      
+<div id="feature-enrollment-toggle" class="hide-sm hide-md feature-preview-details position-relative">
+  <button type="button" class="dropdown-item btn-link" role="menuitem" data-feature-preview-trigger-url="/users/saimazoom/feature_previews" data-feature-preview-close-details="{&quot;event_type&quot;:&quot;feature_preview.clicks.close_modal&quot;,&quot;payload&quot;:{&quot;client_id&quot;:&quot;522554018.1568300042&quot;,&quot;originating_request_id&quot;:&quot;C392:3BB8C:C49A23D:12B68284:5E097E16&quot;,&quot;originating_url&quot;:&quot;https://github.com/Fabrizio-Caruso/8bitC&quot;,&quot;referrer&quot;:&quot;https://t.co/soL33FJsf2?amp=1&quot;,&quot;user_id&quot;:14364808}}" data-feature-preview-close-hmac="824e0cdfeedb2b651e4ea2409a2930b9b46eb5c3bf4854e8e1f278187017099c" data-hydro-click="{&quot;event_type&quot;:&quot;feature_preview.clicks.open_modal&quot;,&quot;payload&quot;:{&quot;link_location&quot;:&quot;user_dropdown&quot;,&quot;client_id&quot;:&quot;522554018.1568300042&quot;,&quot;originating_request_id&quot;:&quot;C392:3BB8C:C49A23D:12B68284:5E097E16&quot;,&quot;originating_url&quot;:&quot;https://github.com/Fabrizio-Caruso/8bitC&quot;,&quot;referrer&quot;:&quot;https://t.co/soL33FJsf2?amp=1&quot;,&quot;user_id&quot;:14364808}}" data-hydro-click-hmac="70f34a91848c487b178ff8c25885de29cfc989df61d8aba2003fd82e06645325">
+    Feature preview
+  </button>
+    <span class="feature-preview-indicator js-feature-preview-indicator"></span>
+</div>
+
+    <a role="menuitem" class="dropdown-item" href="https://help.github.com/" data-ga-click="Header, go to help, text:help">Help</a>
+    <a role="menuitem" class="dropdown-item" href="https://github.com/settings/profile" data-ga-click="Header, go to settings, icon:settings">Settings</a>
+    <!-- '"` --><!-- </textarea></xmp> --><form class="logout-form" action="/logout" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="✓"><input type="hidden" name="authenticity_token" value="HeJDOZGi2UAwgzTasbzk1Hd+RV029Cv2PxUTCV6vj9ojuuR0Zy4eTJEmudkUnBLYaM4NE0cUg0HL8yXN5n3CFg==">
+      
+      <button type="submit" class="dropdown-item dropdown-signout" data-ga-click="Header, sign out, icon:logout" role="menuitem">
+        Sign out
+      </button>
+      <input type="text" name="required_field_1218" class="form-control" hidden="hidden">
+<input type="hidden" name="timestamp" value="1577680407222" class="form-control">
+<input type="hidden" name="timestamp_secret" value="efa989be1e8772dcf7614c6fc374a50fc864f125b9b99927892162e5074c925c" class="form-control">
+
+</form>  </details-menu>
+</details>
+
+    </div>
+
+  </header>
+
+      
+
+  </div>
+
+  <div id="start-of-content" class="show-on-focus"></div>
+
+
+    <div id="js-flash-container">
+
+</div>
+
+
+
+  <div class="application-main " data-commit-hovercards-enabled="">
+        <div itemscope="" itemtype="http://schema.org/SoftwareSourceCode" class="">
+    <main id="js-repo-pjax-container" data-pjax-container="">
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  <div class=" pagehead repohead readability-menu experiment-repo-nav pt-0 pt-lg-4 ">
+    <div class="repohead-details-container clearfix container-lg p-responsive d-none d-lg-block">
+
+      <ul class="pagehead-actions">
+
+
+
+
+  <li>
+    
+    <!-- '"` --><!-- </textarea></xmp> --><form data-remote="true" class="clearfix js-social-form js-social-container" action="/notifications/subscribe" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="✓"><input type="hidden" name="authenticity_token" value="bDk0rdmQV+fP4raC+fxgD7NwF8xOyqtmA8PDGGl+99XvYdNGHUMN/3fkvIYdd5BkWv5d/p0Xy2uqw/bQbNQWyw==">      <input type="hidden" name="repository_id" value="162503740">
+
+      <details class="details-reset details-overlay select-menu float-left">
+        <summary class="select-menu-button float-left btn btn-sm btn-with-count" data-hydro-click="{&quot;event_type&quot;:&quot;repository.click&quot;,&quot;payload&quot;:{&quot;target&quot;:&quot;WATCH_BUTTON&quot;,&quot;repository_id&quot;:162503740,&quot;client_id&quot;:&quot;522554018.1568300042&quot;,&quot;originating_request_id&quot;:&quot;C392:3BB8C:C49B87F:12B69F5F:5E097E36&quot;,&quot;originating_url&quot;:&quot;https://github.com/Fabrizio-Caruso/8bitC/blob/master/8bitC_ENG.md?_pjax=%23js-repo-pjax-container&quot;,&quot;referrer&quot;:&quot;https://github.com/Fabrizio-Caruso/8bitC&quot;,&quot;user_id&quot;:14364808}}" data-hydro-click-hmac="0fe7d7d9e75158ec9eed2c23e83b2b7f3a04ef29ac68540f6994cd111e7744f9" data-ga-click="Repository, click Watch settings, action:blob#show" aria-haspopup="menu" role="button">          <span data-menu-button="">
+              <svg class="octicon octicon-eye v-align-text-bottom" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8.06 2C3 2 0 8 0 8s3 6 8.06 6C13 14 16 8 16 8s-3-6-7.94-6zM8 12c-2.2 0-4-1.78-4-4 0-2.2 1.8-4 4-4 2.22 0 4 1.8 4 4 0 2.22-1.78 4-4 4zm2-4c0 1.11-.89 2-2 2-1.11 0-2-.89-2-2 0-1.11.89-2 2-2 1.11 0 2 .89 2 2z"></path></svg>
+              Watch
+          </span>
+</summary>        <details-menu class="select-menu-modal position-absolute mt-5" style="z-index: 99;" role="menu">
+          <div class="select-menu-header">
+            <span class="select-menu-title">Notifications</span>
+          </div>
+          <div class="select-menu-list">
+            <button type="submit" name="do" value="included" class="select-menu-item width-full" aria-checked="true" role="menuitemradio">
+              <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"></path></svg>
+              <div class="select-menu-item-text">
+                <span class="select-menu-item-heading">Not watching</span>
+                <span class="description">Be notified only when participating or @mentioned.</span>
+                <span class="hidden-select-button-text" data-menu-button-contents="">
+                  <svg class="octicon octicon-eye v-align-text-bottom" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8.06 2C3 2 0 8 0 8s3 6 8.06 6C13 14 16 8 16 8s-3-6-7.94-6zM8 12c-2.2 0-4-1.78-4-4 0-2.2 1.8-4 4-4 2.22 0 4 1.8 4 4 0 2.22-1.78 4-4 4zm2-4c0 1.11-.89 2-2 2-1.11 0-2-.89-2-2 0-1.11.89-2 2-2 1.11 0 2 .89 2 2z"></path></svg>
+                  Watch
+                </span>
+              </div>
+            </button>
+
+            <button type="submit" name="do" value="release_only" class="select-menu-item width-full" aria-checked="false" role="menuitemradio">
+              <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"></path></svg>
+              <div class="select-menu-item-text">
+                <span class="select-menu-item-heading">Releases only</span>
+                <span class="description">Be notified of new releases, and when participating or @mentioned.</span>
+                <span class="hidden-select-button-text" data-menu-button-contents="">
+                  <svg class="octicon octicon-eye v-align-text-bottom" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8.06 2C3 2 0 8 0 8s3 6 8.06 6C13 14 16 8 16 8s-3-6-7.94-6zM8 12c-2.2 0-4-1.78-4-4 0-2.2 1.8-4 4-4 2.22 0 4 1.8 4 4 0 2.22-1.78 4-4 4zm2-4c0 1.11-.89 2-2 2-1.11 0-2-.89-2-2 0-1.11.89-2 2-2 1.11 0 2 .89 2 2z"></path></svg>
+                  Unwatch releases
+                </span>
+              </div>
+            </button>
+
+            <button type="submit" name="do" value="subscribed" class="select-menu-item width-full" aria-checked="false" role="menuitemradio">
+              <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"></path></svg>
+              <div class="select-menu-item-text">
+                <span class="select-menu-item-heading">Watching</span>
+                <span class="description">Be notified of all conversations.</span>
+                <span class="hidden-select-button-text" data-menu-button-contents="">
+                  <svg class="octicon octicon-eye v-align-text-bottom" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8.06 2C3 2 0 8 0 8s3 6 8.06 6C13 14 16 8 16 8s-3-6-7.94-6zM8 12c-2.2 0-4-1.78-4-4 0-2.2 1.8-4 4-4 2.22 0 4 1.8 4 4 0 2.22-1.78 4-4 4zm2-4c0 1.11-.89 2-2 2-1.11 0-2-.89-2-2 0-1.11.89-2 2-2 1.11 0 2 .89 2 2z"></path></svg>
+                  Unwatch
+                </span>
+              </div>
+            </button>
+
+            <button type="submit" name="do" value="ignore" class="select-menu-item width-full" aria-checked="false" role="menuitemradio">
+              <svg class="octicon octicon-check select-menu-item-icon" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M12 5l-8 8-4-4 1.5-1.5L4 10l6.5-6.5L12 5z"></path></svg>
+              <div class="select-menu-item-text">
+                <span class="select-menu-item-heading">Ignoring</span>
+                <span class="description">Never be notified.</span>
+                <span class="hidden-select-button-text" data-menu-button-contents="">
+                  <svg class="octicon octicon-mute v-align-text-bottom" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8 2.81v10.38c0 .67-.81 1-1.28.53L3 10H1c-.55 0-1-.45-1-1V7c0-.55.45-1 1-1h2l3.72-3.72C7.19 1.81 8 2.14 8 2.81zm7.53 3.22l-1.06-1.06-1.97 1.97-1.97-1.97-1.06 1.06L11.44 8 9.47 9.97l1.06 1.06 1.97-1.97 1.97 1.97 1.06-1.06L13.56 8l1.97-1.97z"></path></svg>
+                  Stop ignoring
+                </span>
+              </div>
+            </button>
+          </div>
+        </details-menu>
+      </details>
+        <a class="social-count js-social-count" href="https://github.com/Fabrizio-Caruso/8bitC/watchers" aria-label="1 user is watching this repository">
+          1
+        </a>
+</form>
+  </li>
+
+  <li>
+      <div class="js-toggler-container js-social-container starring-container ">
+    <form class="starred js-social-form" action="/Fabrizio-Caruso/8bitC/unstar" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="✓"><input type="hidden" name="authenticity_token" value="DJXLoh73ad9IGM58bq/pwYJrVuuyCiJYu/aDaOC8NG8CmHAjTZAv5APOe43Oh6HpqpjPaPnSrK1Y9g9z3O16Mg==">
+      <input type="hidden" name="context" value="repository">
+      <button type="submit" class="btn btn-sm btn-with-count js-toggler-target" aria-label="Unstar this repository" title="Unstar Fabrizio-Caruso/8bitC" data-hydro-click="{&quot;event_type&quot;:&quot;repository.click&quot;,&quot;payload&quot;:{&quot;target&quot;:&quot;UNSTAR_BUTTON&quot;,&quot;repository_id&quot;:162503740,&quot;client_id&quot;:&quot;522554018.1568300042&quot;,&quot;originating_request_id&quot;:&quot;C392:3BB8C:C49B87F:12B69F5F:5E097E36&quot;,&quot;originating_url&quot;:&quot;https://github.com/Fabrizio-Caruso/8bitC/blob/master/8bitC_ENG.md?_pjax=%23js-repo-pjax-container&quot;,&quot;referrer&quot;:&quot;https://github.com/Fabrizio-Caruso/8bitC&quot;,&quot;user_id&quot;:14364808}}" data-hydro-click-hmac="a352611d822492e09429741cc751f9eb1bee2de3de1c27a67f4fd10c114750cb" data-ga-click="Repository, click unstar button, action:blob#show; text:Unstar">        <svg aria-label="star" height="16" class="octicon octicon-star v-align-text-bottom" viewBox="0 0 14 16" version="1.1" width="14" role="img"><path fill-rule="evenodd" d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74L14 6z"></path></svg>
+
+        Unstar
+</button>        <a class="social-count js-social-count" href="https://github.com/Fabrizio-Caruso/8bitC/stargazers" aria-label="19 users starred this repository">
+           19
+        </a>
+</form>
+    <form class="unstarred js-social-form" action="/Fabrizio-Caruso/8bitC/star" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="✓"><input type="hidden" name="authenticity_token" value="mxJL2TgnF8QniycnHHnwXYiWPEvciZQjJRuZkl4zwSIwPRFP1FLdrhwXydXKOSye/uceYDcF+Ue8YfNngsYxDw==">
+      <input type="hidden" name="context" value="repository">
+      <button type="submit" class="btn btn-sm btn-with-count js-toggler-target" aria-label="Unstar this repository" title="Star Fabrizio-Caruso/8bitC" data-hydro-click="{&quot;event_type&quot;:&quot;repository.click&quot;,&quot;payload&quot;:{&quot;target&quot;:&quot;STAR_BUTTON&quot;,&quot;repository_id&quot;:162503740,&quot;client_id&quot;:&quot;522554018.1568300042&quot;,&quot;originating_request_id&quot;:&quot;C392:3BB8C:C49B87F:12B69F5F:5E097E36&quot;,&quot;originating_url&quot;:&quot;https://github.com/Fabrizio-Caruso/8bitC/blob/master/8bitC_ENG.md?_pjax=%23js-repo-pjax-container&quot;,&quot;referrer&quot;:&quot;https://github.com/Fabrizio-Caruso/8bitC&quot;,&quot;user_id&quot;:14364808}}" data-hydro-click-hmac="1a58111480a04255459d20f01d4f833306c89b590f6a5aac643d2b1c983e67f3" data-ga-click="Repository, click star button, action:blob#show; text:Star">        <svg aria-label="star" height="16" class="octicon octicon-star v-align-text-bottom" viewBox="0 0 14 16" version="1.1" width="14" role="img"><path fill-rule="evenodd" d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74L14 6z"></path></svg>
+
+        Star
+</button>        <a class="social-count js-social-count" href="https://github.com/Fabrizio-Caruso/8bitC/stargazers" aria-label="19 users starred this repository">
+          19
+        </a>
+</form>  </div>
+
+  </li>
+
+  <li>
+          <!-- '"` --><!-- </textarea></xmp> --><form class="btn-with-count" action="/Fabrizio-Caruso/8bitC/fork" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="✓"><input type="hidden" name="authenticity_token" value="3jaDtGNI/V+Kd+h79N/YRUH3Uwt4sRQR8QeVupjcBFRWbsa2S9D7/YmuTlCbnSHjoAbadzE8bcEuqrNio+89PQ==">
+            <button class="btn btn-sm btn-with-count" data-hydro-click="{&quot;event_type&quot;:&quot;repository.click&quot;,&quot;payload&quot;:{&quot;target&quot;:&quot;FORK_BUTTON&quot;,&quot;repository_id&quot;:162503740,&quot;client_id&quot;:&quot;522554018.1568300042&quot;,&quot;originating_request_id&quot;:&quot;C392:3BB8C:C49B87F:12B69F5F:5E097E36&quot;,&quot;originating_url&quot;:&quot;https://github.com/Fabrizio-Caruso/8bitC/blob/master/8bitC_ENG.md?_pjax=%23js-repo-pjax-container&quot;,&quot;referrer&quot;:&quot;https://github.com/Fabrizio-Caruso/8bitC&quot;,&quot;user_id&quot;:14364808}}" data-hydro-click-hmac="0af2dc2fed424e3531002d8438cd8923e741bbdf54e00c686d8333a30c9cfe66" data-ga-click="Repository, show fork modal, action:blob#show; text:Fork" type="submit" title="Fork your own copy of Fabrizio-Caruso/8bitC to your account" aria-label="Fork your own copy of Fabrizio-Caruso/8bitC to your account">              <svg class="octicon octicon-repo-forked v-align-text-bottom" viewBox="0 0 10 16" version="1.1" width="10" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8 1a1.993 1.993 0 00-1 3.72V6L5 8 3 6V4.72A1.993 1.993 0 002 1a1.993 1.993 0 00-1 3.72V6.5l3 3v1.78A1.993 1.993 0 005 15a1.993 1.993 0 001-3.72V9.5l3-3V4.72A1.993 1.993 0 008 1zM2 4.2C1.34 4.2.8 3.65.8 3c0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2zm3 10c-.66 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2zm3-10c-.66 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2z"></path></svg>
+              Fork
+</button></form>
+    <a href="https://github.com/Fabrizio-Caruso/8bitC/network/members" class="social-count" aria-label="1 user forked this repository">
+      1
+    </a>
+  </li>
+</ul>
+
+      <h1 class="public ">
+    <svg class="octicon octicon-repo" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9H3V8h1v1zm0-3H3v1h1V6zm0-2H3v1h1V4zm0-2H3v1h1V2zm8-1v12c0 .55-.45 1-1 1H6v2l-1.5-1.5L3 16v-2H1c-.55 0-1-.45-1-1V1c0-.55.45-1 1-1h10c.55 0 1 .45 1 1zm-1 10H1v2h2v-1h3v1h5v-2zm0-10H2v9h9V1z"></path></svg>
+  <span class="author" itemprop="author"><a class="url fn" rel="author" data-hovercard-type="user" data-hovercard-url="/users/Fabrizio-Caruso/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/Fabrizio-Caruso">Fabrizio-Caruso</a></span><!--
+--><span class="path-divider">/</span><!--
+--><strong itemprop="name"><a data-pjax="#js-repo-pjax-container" href="https://github.com/Fabrizio-Caruso/8bitC">8bitC</a></strong>
+  
+
+</h1>
+
+    </div>
+    
+<nav class="hx_reponav reponav js-repo-nav js-sidenav-container-pjax container-lg p-responsive d-none d-lg-block" itemscope="" itemtype="http://schema.org/BreadcrumbList" aria-label="Repository" data-pjax="#js-repo-pjax-container">
+
+  <span itemscope="" itemtype="http://schema.org/ListItem" itemprop="itemListElement">
+    <a class="js-selected-navigation-item selected reponav-item" itemprop="url" data-hotkey="g c" aria-current="page" data-selected-links="repo_source repo_downloads repo_commits repo_releases repo_tags repo_branches repo_packages /Fabrizio-Caruso/8bitC" href="https://github.com/Fabrizio-Caruso/8bitC">
+      <div class="d-inline"><svg class="octicon octicon-code" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M9.5 3L8 4.5 11.5 8 8 11.5 9.5 13 14 8 9.5 3zm-5 0L0 8l4.5 5L6 11.5 2.5 8 6 4.5 4.5 3z"></path></svg></div>
+      <span itemprop="name">Code</span>
+      <meta itemprop="position" content="1">
+</a>  </span>
+
+    <span itemscope="" itemtype="http://schema.org/ListItem" itemprop="itemListElement">
+      <a itemprop="url" data-hotkey="g i" class="js-selected-navigation-item reponav-item" data-selected-links="repo_issues repo_labels repo_milestones /Fabrizio-Caruso/8bitC/issues" href="https://github.com/Fabrizio-Caruso/8bitC/issues">
+        <div class="d-inline"><svg class="octicon octicon-issue-opened" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 011.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7zm1 3H6v5h2V4zm0 6H6v2h2v-2z"></path></svg></div>
+        <span itemprop="name">Issues</span>
+        <span class="Counter">0</span>
+        <meta itemprop="position" content="2">
+</a>    </span>
+
+
+  <span itemscope="" itemtype="http://schema.org/ListItem" itemprop="itemListElement">
+    <a data-hotkey="g p" data-skip-pjax="true" itemprop="url" class="js-selected-navigation-item reponav-item" data-selected-links="repo_pulls checks /Fabrizio-Caruso/8bitC/pulls" href="https://github.com/Fabrizio-Caruso/8bitC/pulls">
+      <div class="d-inline"><svg class="octicon octicon-git-pull-request" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M11 11.28V5c-.03-.78-.34-1.47-.94-2.06C9.46 2.35 8.78 2.03 8 2H7V0L4 3l3 3V4h1c.27.02.48.11.69.31.21.2.3.42.31.69v6.28A1.993 1.993 0 0010 15a1.993 1.993 0 001-3.72zm-1 2.92c-.66 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2zM4 3c0-1.11-.89-2-2-2a1.993 1.993 0 00-1 3.72v6.56A1.993 1.993 0 002 15a1.993 1.993 0 001-3.72V4.72c.59-.34 1-.98 1-1.72zm-.8 10c0 .66-.55 1.2-1.2 1.2-.65 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2zM2 4.2C1.34 4.2.8 3.65.8 3c0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2z"></path></svg></div>
+      <span itemprop="name">Pull requests</span>
+      <span class="Counter">1</span>
+      <meta itemprop="position" content="4">
+</a>  </span>
+
+    <span itemscope="" itemtype="http://schema.org/ListItem" itemprop="itemListElement" class="position-relative float-left">
+      <a data-hotkey="g w" data-skip-pjax="true" class="js-selected-navigation-item reponav-item" data-selected-links="repo_actions /Fabrizio-Caruso/8bitC/actions" href="https://github.com/Fabrizio-Caruso/8bitC/actions">
+        <div class="d-inline"><svg class="octicon octicon-play" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M14 8A7 7 0 110 8a7 7 0 0114 0zm-8.223 3.482l4.599-3.066a.5.5 0 000-.832L5.777 4.518A.5.5 0 005 4.934v6.132a.5.5 0 00.777.416z"></path></svg></div>
+        Actions
+</a>
+    </span>
+
+    <a data-hotkey="g b" class="js-selected-navigation-item reponav-item" data-selected-links="repo_projects new_repo_project repo_project /Fabrizio-Caruso/8bitC/projects" href="https://github.com/Fabrizio-Caruso/8bitC/projects">
+      <div class="d-inline"><svg class="octicon octicon-project" viewBox="0 0 15 16" version="1.1" width="15" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M10 12h3V2h-3v10zm-4-2h3V2H6v8zm-4 4h3V2H2v12zm-1 1h13V1H1v14zM14 0H1a1 1 0 00-1 1v14a1 1 0 001 1h13a1 1 0 001-1V1a1 1 0 00-1-1z"></path></svg></div>
+      Projects
+      <span class="Counter">0</span>
+</a>
+
+    <a class="js-selected-navigation-item reponav-item" data-hotkey="g w" data-selected-links="repo_wiki /Fabrizio-Caruso/8bitC/wiki" href="https://github.com/Fabrizio-Caruso/8bitC/wiki">
+      <div class="d-inline"><svg class="octicon octicon-book" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M3 5h4v1H3V5zm0 3h4V7H3v1zm0 2h4V9H3v1zm11-5h-4v1h4V5zm0 2h-4v1h4V7zm0 2h-4v1h4V9zm2-6v9c0 .55-.45 1-1 1H9.5l-1 1-1-1H2c-.55 0-1-.45-1-1V3c0-.55.45-1 1-1h5.5l1 1 1-1H15c.55 0 1 .45 1 1zm-8 .5L7.5 3H2v9h6V3.5zm7-.5H9.5l-.5.5V12h6V3z"></path></svg></div>
+      Wiki
+</a>
+    <a data-skip-pjax="true" class="js-selected-navigation-item reponav-item" data-selected-links="security alerts policy code_scanning /Fabrizio-Caruso/8bitC/security/advisories" href="https://github.com/Fabrizio-Caruso/8bitC/security/advisories">
+      <div class="d-inline"><svg class="octicon octicon-shield" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M0 2l7-2 7 2v6.02C14 12.69 8.69 16 7 16c-1.69 0-7-3.31-7-7.98V2zm1 .75L7 1l6 1.75v5.268C13 12.104 8.449 15 7 15c-1.449 0-6-2.896-6-6.982V2.75zm1 .75L7 2v12c-1.207 0-5-2.482-5-5.985V3.5z"></path></svg></div>
+      Security
+</a>
+    <a class="js-selected-navigation-item reponav-item" data-selected-links="repo_graphs repo_contributors dependency_graph pulse people /Fabrizio-Caruso/8bitC/pulse" href="https://github.com/Fabrizio-Caruso/8bitC/pulse">
+      <div class="d-inline"><svg class="octicon octicon-graph" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M16 14v1H0V0h1v14h15zM5 13H3V8h2v5zm4 0H7V3h2v10zm4 0h-2V6h2v7z"></path></svg></div>
+      Insights
+</a>
+
+</nav>
+
+  <div class="reponav-wrapper reponav-small d-lg-none">
+  <nav class="reponav js-reponav text-center no-wrap" itemscope="" itemtype="http://schema.org/BreadcrumbList">
+
+    <span itemscope="" itemtype="http://schema.org/ListItem" itemprop="itemListElement">
+      <a class="js-selected-navigation-item selected reponav-item" itemprop="url" aria-current="page" data-selected-links="repo_source repo_downloads repo_commits repo_releases repo_tags repo_branches repo_packages /Fabrizio-Caruso/8bitC" href="https://github.com/Fabrizio-Caruso/8bitC">
+        <span itemprop="name">Code</span>
+        <meta itemprop="position" content="1">
+</a>    </span>
+
+      <span itemscope="" itemtype="http://schema.org/ListItem" itemprop="itemListElement">
+        <a itemprop="url" class="js-selected-navigation-item reponav-item" data-selected-links="repo_issues repo_labels repo_milestones /Fabrizio-Caruso/8bitC/issues" href="https://github.com/Fabrizio-Caruso/8bitC/issues">
+          <span itemprop="name">Issues</span>
+          <span class="Counter">0</span>
+          <meta itemprop="position" content="2">
+</a>      </span>
+
+    <span itemscope="" itemtype="http://schema.org/ListItem" itemprop="itemListElement">
+      <a itemprop="url" class="js-selected-navigation-item reponav-item" data-selected-links="repo_pulls checks /Fabrizio-Caruso/8bitC/pulls" href="https://github.com/Fabrizio-Caruso/8bitC/pulls">
+        <span itemprop="name">Pull requests</span>
+        <span class="Counter">1</span>
+        <meta itemprop="position" content="3">
+</a>    </span>
+
+      <span itemscope="" itemtype="http://schema.org/ListItem" itemprop="itemListElement">
+        <a itemprop="url" class="js-selected-navigation-item reponav-item" data-selected-links="repo_projects new_repo_project repo_project /Fabrizio-Caruso/8bitC/projects" href="https://github.com/Fabrizio-Caruso/8bitC/projects">
+          <span itemprop="name">Projects</span>
+          <span class="Counter">0</span>
+          <meta itemprop="position" content="4">
+</a>      </span>
+
+      <span itemscope="" itemtype="http://schema.org/ListItem" itemprop="itemListElement">
+        <a itemprop="url" class="js-selected-navigation-item reponav-item" data-selected-links="repo_wiki /Fabrizio-Caruso/8bitC/wiki" href="https://github.com/Fabrizio-Caruso/8bitC/wiki">
+          <span itemprop="name">Wiki</span>
+          <meta itemprop="position" content="5">
+</a>      </span>
+
+      <a itemprop="url" class="js-selected-navigation-item reponav-item" data-selected-links="security alerts policy code_scanning /Fabrizio-Caruso/8bitC/security/advisories" href="https://github.com/Fabrizio-Caruso/8bitC/security/advisories">
+        <span itemprop="name">Security</span>
+        <meta itemprop="position" content="6">
+</a>
+      <a class="js-selected-navigation-item reponav-item" data-selected-links="pulse /Fabrizio-Caruso/8bitC/pulse" href="https://github.com/Fabrizio-Caruso/8bitC/pulse">
+        Pulse
+</a>
+      <span itemscope="" itemtype="http://schema.org/ListItem" itemprop="itemListElement">
+        <a itemprop="url" class="js-selected-navigation-item reponav-item" data-selected-links="community /Fabrizio-Caruso/8bitC/community" href="https://github.com/Fabrizio-Caruso/8bitC/community">
+          Community
+</a>      </span>
+
+  </nav>
+</div>
+
+
+  </div>
+<div class="container-lg clearfix new-discussion-timeline experiment-repo-nav  p-responsive">
+  <div class="repository-content ">
+
+    
+    
+
+
+  
+
+
+    <a class="d-none js-permalink-shortcut" data-hotkey="y" href="https://github.com/Fabrizio-Caruso/8bitC/blob/3ffcc21667f00237fb556e8c20c7b758ecebf26b/8bitC_ENG.md">Permalink</a>
+
+    <!-- blob contrib key: blob_contributors:v21:b322baa9d9e16089163c9780962ceffe -->
+      
+
+    <div class="d-flex flex-items-start flex-shrink-0 pb-3 flex-column flex-md-row">
+      <span class="d-flex flex-justify-between width-full width-md-auto">
+        
+<details class="details-reset details-overlay select-menu branch-select-menu  hx_rsm" id="branch-select-menu">
+  <summary class="btn btn-sm select-menu-button css-truncate" data-hotkey="w" title="Switch branches or tags" aria-haspopup="menu" role="button">
+    <i>Branch:</i>
+    <span class="css-truncate-target" data-menu-button="">master</span>
+  </summary>
+
+  <details-menu class="select-menu-modal hx_rsm-modal position-absolute" style="z-index: 99;" src="/Fabrizio-Caruso/8bitC/refs/master/8bitC_ENG.md?source_action=show&amp;source_controller=blob" preload="" role="menu">
+    <include-fragment class="select-menu-loading-overlay anim-pulse">
+      <svg height="32" class="octicon octicon-octoface" viewBox="0 0 16 16" version="1.1" width="32" aria-hidden="true"><path fill-rule="evenodd" d="M14.7 5.34c.13-.32.55-1.59-.13-3.31 0 0-1.05-.33-3.44 1.3-1-.28-2.07-.32-3.13-.32s-2.13.04-3.13.32c-2.39-1.64-3.44-1.3-3.44-1.3-.68 1.72-.26 2.99-.13 3.31C.49 6.21 0 7.33 0 8.69 0 13.84 3.33 15 7.98 15S16 13.84 16 8.69c0-1.36-.49-2.48-1.3-3.35zM8 14.02c-3.3 0-5.98-.15-5.98-3.35 0-.76.38-1.48 1.02-2.07 1.07-.98 2.9-.46 4.96-.46 2.07 0 3.88-.52 4.96.46.65.59 1.02 1.3 1.02 2.07 0 3.19-2.68 3.35-5.98 3.35zM5.49 9.01c-.66 0-1.2.8-1.2 1.78s.54 1.79 1.2 1.79c.66 0 1.2-.8 1.2-1.79s-.54-1.78-1.2-1.78zm5.02 0c-.66 0-1.2.79-1.2 1.78s.54 1.79 1.2 1.79c.66 0 1.2-.8 1.2-1.79s-.53-1.78-1.2-1.78z"></path></svg>
+    </include-fragment>
+  </details-menu>
+</details>
+
+        <div class="BtnGroup flex-shrink-0 d-md-none">
+          <a href="https://github.com/Fabrizio-Caruso/8bitC/find/master" class="js-pjax-capture-input btn btn-sm BtnGroup-item" data-pjax="" data-hotkey="t">
+            Find file
+          </a>
+          <clipboard-copy value="8bitC_ENG.md" class="btn btn-sm BtnGroup-item" tabindex="0" role="button">
+            Copy path
+          </clipboard-copy>
+        </div>
+      </span>
+      <h2 id="blob-path" class="breadcrumb flex-auto min-width-0 text-normal flex-md-self-center ml-md-2 mr-md-3 my-2 my-md-0">
+        <span class="js-repo-root text-bold"><span class="js-path-segment"><a data-pjax="true" href="https://github.com/Fabrizio-Caruso/8bitC"><span>8bitC</span></a></span></span><span class="separator">/</span><strong class="final-path">8bitC_ENG.md</strong>
+      </h2>
+
+      <div class="BtnGroup flex-shrink-0 d-none d-md-inline-block">
+        <a href="https://github.com/Fabrizio-Caruso/8bitC/find/master" class="js-pjax-capture-input btn btn-sm BtnGroup-item" data-pjax="" data-hotkey="t">
+          Find file
+        </a>
+        <clipboard-copy value="8bitC_ENG.md" class="btn btn-sm BtnGroup-item" tabindex="0" role="button">
+          Copy path
+        </clipboard-copy>
+      </div>
+    </div>
+
+    
+
+
+
+    
+
+  <div class="Box Box--condensed d-flex flex-column flex-shrink-0">
+      <div class="Box-body d-flex flex-justify-between bg-blue-light flex-column flex-md-row flex-items-start flex-md-items-center">
+        <span class="pr-md-4 f6">
+          <a rel="author" data-skip-pjax="true" data-hovercard-type="user" data-hovercard-url="/users/Fabrizio-Caruso/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/Fabrizio-Caruso"><img class="avatar" src="8bitC_8bitC_ENG.md%20at%20master%20%C2%B7%20Fabrizio-Caruso_8bitC_files/29057615.jfif" alt="@Fabrizio-Caruso" width="20" height="20"></a>
+          <a class="text-bold link-gray-dark lh-default v-align-middle" rel="author" data-hovercard-type="user" data-hovercard-url="/users/Fabrizio-Caruso/hovercard" data-octo-click="hovercard-link-click" data-octo-dimensions="link_type:self" href="https://github.com/Fabrizio-Caruso">Fabrizio-Caruso</a>
+            <span class="lh-default v-align-middle">
+              <a data-pjax="true" title="8bitC_ENG.md updated from https://stackedit.io/" class="link-gray" href="https://github.com/Fabrizio-Caruso/8bitC/commit/3ffcc21667f00237fb556e8c20c7b758ecebf26b">8bitC_ENG.md updated from</a> <a href="https://stackedit.io/" rel="nofollow">https://stackedit.io/</a>
+            </span>
+        </span>
+        <span class="d-inline-block flex-shrink-0 v-align-bottom f6 mt-2 mt-md-0">
+          <a class="pr-2 text-mono link-gray" href="https://github.com/Fabrizio-Caruso/8bitC/commit/3ffcc21667f00237fb556e8c20c7b758ecebf26b" data-pjax="">3ffcc21</a>
+          <relative-time datetime="2019-03-27T18:13:00Z" class="no-wrap" title="27 mar. 2019 19:13 CET">on 27 Mar</relative-time>
+        </span>
+      </div>
+
+    <div class="Box-body d-flex flex-items-center flex-auto f6 border-bottom-0 flex-wrap">
+      <details class="details-reset details-overlay details-overlay-dark lh-default text-gray-dark float-left mr-2" id="blob_contributors_box">
+        <summary class="btn-link" role="button">
+          <span><strong>1</strong> contributor</span>
+        </summary>
+        <details-dialog class="Box Box--overlay d-flex flex-column anim-fade-in fast" aria-label="Users who have contributed to this file" src="/Fabrizio-Caruso/8bitC/contributors-list/master/8bitC_ENG.md" preload="" role="dialog" aria-modal="true">
+          <div class="Box-header">
+            <button class="Box-btn-octicon btn-octicon float-right" type="button" aria-label="Close dialog" data-close-dialog="">
+              <svg class="octicon octicon-x" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48L7.48 8z"></path></svg>
+            </button>
+            <h3 class="Box-title">
+              Users who have contributed to this file
+            </h3>
+          </div>
+          <include-fragment class="octocat-spinner my-3" aria-label="Loading..."></include-fragment>
+        </details-dialog>
+      </details>
+    </div>
+  </div>
+
+
+
+
+
+    <div class="Box mt-3 position-relative">
+      
+<div class="Box-header py-2 d-flex flex-column flex-shrink-0 flex-md-row flex-md-items-center">
+  <div class="text-mono f6 flex-auto pr-3 flex-order-2 flex-md-order-1 mt-2 mt-md-0">
+
+      853 lines (839 sloc)
+      <span class="file-info-divider"></span>
+    51.4 KB
+  </div>
+
+  <div class="d-flex py-1 py-md-0 flex-auto flex-order-1 flex-md-order-2 flex-sm-grow-0 flex-justify-between">
+
+    <div class="BtnGroup">
+      <a id="raw-url" class="btn btn-sm BtnGroup-item" href="https://github.com/Fabrizio-Caruso/8bitC/raw/master/8bitC_ENG.md">Raw</a>
+        <a class="btn btn-sm js-update-url-with-hash BtnGroup-item" data-hotkey="b" href="https://github.com/Fabrizio-Caruso/8bitC/blame/master/8bitC_ENG.md">Blame</a>
+      <a rel="nofollow" class="btn btn-sm BtnGroup-item" href="https://github.com/Fabrizio-Caruso/8bitC/commits/master/8bitC_ENG.md">History</a>
+    </div>
+
+
+    <div>
+            <a class="btn-octicon tooltipped tooltipped-nw hide-sm" href="github-windows://openRepo/https://github.com/Fabrizio-Caruso/8bitC?branch=master&amp;filepath=8bitC_ENG.md" aria-label="Open this file in GitHub Desktop" data-ga-click="Repository, open with desktop, type:windows">
+                <svg class="octicon octicon-device-desktop" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M15 2H1c-.55 0-1 .45-1 1v9c0 .55.45 1 1 1h5.34c-.25.61-.86 1.39-2.34 2h8c-1.48-.61-2.09-1.39-2.34-2H15c.55 0 1-.45 1-1V3c0-.55-.45-1-1-1zm0 9H1V3h14v8z"></path></svg>
+            </a>
+
+            <!-- '"` --><!-- </textarea></xmp> --><form class="inline-form js-update-url-with-hash" action="/Fabrizio-Caruso/8bitC/edit/master/8bitC_ENG.md" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="✓"><input type="hidden" name="authenticity_token" value="ys9RCDzznEbRGzMU3kSxBaNcviX+Rnh7/YMIcVEFJveg7OEKEvqLPFHd9Q4jfqbycnbXdNOkzw4ZTRd2jH4d+Q==">
+              <button class="btn-octicon tooltipped tooltipped-nw" type="submit" aria-label="Fork this project and edit the file" data-hotkey="e" data-disable-with="">
+                <svg class="octicon octicon-pencil" viewBox="0 0 14 16" version="1.1" width="14" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M0 12v3h3l8-8-3-3-8 8zm3 2H1v-2h1v1h1v1zm10.3-9.3L12 6 9 3l1.3-1.3a.996.996 0 011.41 0l1.59 1.59c.39.39.39 1.02 0 1.41z"></path></svg>
+              </button>
+</form>
+          <!-- '"` --><!-- </textarea></xmp> --><form class="inline-form" action="/Fabrizio-Caruso/8bitC/delete/master/8bitC_ENG.md" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden" value="✓"><input type="hidden" name="authenticity_token" value="JSuZGO48yyUl3F8p+G+ZHzqFhSx+ESN2rUiPOmwKqdlL2TZ+xl0K1MELSy0uMk1dvYMogebEnnbxIPzxdRQhqw==">
+            <button class="btn-octicon btn-octicon-danger tooltipped tooltipped-nw" type="submit" aria-label="Fork this project and delete the file" data-disable-with="">
+              <svg class="octicon octicon-trashcan" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M11 2H9c0-.55-.45-1-1-1H5c-.55 0-1 .45-1 1H2c-.55 0-1 .45-1 1v1c0 .55.45 1 1 1v9c0 .55.45 1 1 1h7c.55 0 1-.45 1-1V5c.55 0 1-.45 1-1V3c0-.55-.45-1-1-1zm-1 12H3V5h1v8h1V5h1v8h1V5h1v8h1V5h1v9zm1-10H2V3h9v1z"></path></svg>
+            </button>
+</form>    </div>
+  </div>
+</div>
+
+
+
+
+      
+  <div id="readme" class="Box-body readme blob js-code-block-container">
+    <article class="markdown-body entry-content p-3 p-md-6" itemprop="text"><hr>
+<hr>
+<p><a target="_blank" rel="noopener noreferrer" href="https://github.com/Fabrizio-Caruso/8bitC/blob/master/8bitC.jpg"><img src="8bitC_8bitC_ENG.md%20at%20master%20%C2%B7%20Fabrizio-Caruso_8bitC_files/8bitC.jpg" alt="8-bit C" style="max-width:100%;"></a></p>
+<h1 id="user-content-portable-and-optimized-c-for-8-bit-systems"><a id="user-content-portable-and-optimized-c-for-8-bit-systems" class="anchor" aria-hidden="true" href="#portable-and-optimized-c-for-8-bit-systems"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Portable and Optimized C for 8-bit Systems</h1>
+<p>This article describes some optimizing techniques for ANSI C code for <strong>all</strong> 8-bit <em>vintage</em>
+ systems, i.e., computers, consoles, hand-helds, scientific calculators 
+from the end of the '70s until mid '90s and in particular for the 
+systems based on the following <em>architectures</em> (and the derived and compatible architectures):</p>
+<ul>
+<li>Intel 8080 (*)</li>
+<li>MOS 6502</li>
+<li>Motorola 6809</li>
+<li>Zilog Z80 (*)</li>
+</ul>
+<p>(*) The Zilog Z80 is an extension of the Intel 8080. Therefore an 
+Intel 8080 binary is compatible with a Z80-based system but not the 
+other way round.</p>
+<p>Most of the techniques presented here remain valid on other 8-bit architectures such as the COSMAC 1802 and the Intel 8051.</p>
+<p>The goal of this article is two-fold:</p>
+<ol>
+<li>present general techniques to <strong>optimize</strong> C code for <strong>all</strong> 8-bit systems;</li>
+<li>present general techniques to write <strong>portable</strong> C code, i.e., valid and compatible code for <strong>all</strong> 8-bit systems, including systems that are not natively and explicitly supported by C compilers</li>
+</ol>
+<h2 id="user-content-preconditions"><a id="user-content-preconditions" class="anchor" aria-hidden="true" href="#preconditions"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Preconditions</h2>
+<p>This article is <strong>not</strong> a introduction nor a manual for the <em>C</em> language and has the following preconditions:</p>
+<ul>
+<li>knowledge of the <em>C</em> language;</li>
+<li>knowledge of structured and object-oriented programming;</li>
+<li>familiarity with compilers and linkers.</li>
+</ul>
+<p>Besides this article does not cover in depth some advanced topics such as:</p>
+<ul>
+<li>coding in specific domains such as graphics, sound, input/output;</li>
+<li>interaction between C and Assembly.</li>
+</ul>
+<p>These advanced topics are very important and would require separate articles.</p>
+<h2 id="user-content-definitions"><a id="user-content-definitions" class="anchor" aria-hidden="true" href="#definitions"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Definitions</h2>
+<p>In this article we will refer to <em>system</em>, <em>target</em> and <em>architecture</em> with the following meanings:</p>
+<ul>
+<li>A <em>system</em> is any kind of processor-equipped machine such as 
+computers, consoles, hand-helds, scientific calculators, embedded 
+systems, etc.</li>
+<li>A <em>target</em> of a compiler is any kind of <em>system</em> 
+supported by the compiler, i.e., a system for which the compiler 
+provides specific support with libraries and the generator of a binary 
+in a format that is usable by an emulator and/or real hardware.</li>
+<li>An <em>architecture</em> is a processor family (e.g., Intel 8080, MOS 6502, etc.). Therefore a <em>target</em> has an <em>architecture</em>
+ that corresponds to its processor. So it has only one architecture 
+unless if it has two or more processors belonging to different families 
+(such as the Commodore 128, which has both a Z80 and a 6502-derived 
+processor)</li>
+</ul>
+<h2 id="user-content-multi-target-cross-compilers"><a id="user-content-multi-target-cross-compilers" class="anchor" aria-hidden="true" href="#multi-target-cross-compilers"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Multi-target cross-compilers</h2>
+<p>In order to produce binaries from source code we recommend <em>multi-target</em> <em>cross-compilers</em> (i.e., compilers that are run on a modern PC and that produce binaries for multiple <em>targets</em>).</p>
+<h3 id="user-content-cross-compilers-vs-native-compilers"><a id="user-content-cross-compilers-vs-native-compilers" class="anchor" aria-hidden="true" href="#cross-compilers-vs-native-compilers"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Cross-compilers vs native compilers</h3>
+<p>We do not recommend the use of <em>native</em> compilers because they
+ would be inconvenient (even if used inside an accelerated emulator) and
+ would never produce the same kind of optimized code due to the limited 
+resources of the 8-bit system.</p>
+<p>In particular we will refer to the following <em>multi-target</em> <em>cross-compilers</em>:</p>
+<table>
+<thead>
+<tr>
+<th>Architecture</th>
+<th>Compiler/Dev-Kit</th>
+<th>Web Page</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Intel 8080</td>
+<td>ACK</td>
+<td><a href="https://github.com/davidgiven/ack">https://github.com/davidgiven/ack</a></td>
+</tr>
+<tr>
+<td>MOS 6502</td>
+<td>CC65</td>
+<td><a href="https://github.com/cc65/cc65">https://github.com/cc65/cc65</a></td>
+</tr>
+<tr>
+<td>Motorola 6809</td>
+<td>CMOC</td>
+<td><a href="https://perso.b2b2c.ca/~sarrazip/dev/cmoc.html" rel="nofollow">https://perso.b2b2c.ca/~sarrazip/dev/cmoc.html</a></td>
+</tr>
+<tr>
+<td>Zilog 80</td>
+<td>SCCZ80/ZSDCC (Z88DK)</td>
+<td><a href="https://github.com/z88dk/z88dk">https://github.com/z88dk/z88dk</a></td>
+</tr>
+</tbody>
+</table><p>We mention other <em>multi-target</em> <em>cross-compilers</em> that we do not cover here but for which most of the described general techniques are valid:</p>
+<ul>
+<li>SDCC (<a href="http://sdcc.sourceforge.net/" rel="nofollow">http://sdcc.sourceforge.net/</a>) for several architectures including the 8-bit Zilog Z80 and Intel 8051;</li>
+<li>LCC1802 (<a href="https://sites.google.com/site/lcc1802/" rel="nofollow">https://sites.google.com/site/lcc1802/</a>) for the COSMAC 1802 8-bit processor;</li>
+<li>GCC-6809 (<a href="https://github.com/bcd/gcc">https://github.com/bcd/gcc</a>) for the Motorola 6809 (GCC adaptation);</li>
+<li>GCC-6502 (<a href="https://github.com/itszor/gcc-6502-bits">https://github.com/itszor/gcc-6502-bits</a>) for the MOS 6502 (GCC adaptation);</li>
+<li>SmallC-85 (<a href="https://github.com/ncb85/SmallC-85">https://github.com/ncb85/SmallC-85</a>) for the Intel 8080/8085 ;</li>
+<li>devkitSMS (<a href="https://github.com/sverx/devkitSMS">https://github.com/sverx/devkitSMS</a>) for Sega  Z80-based consoles (Sega Master System, Sega Game Gear, Sega SG-1000).</li>
+</ul>
+<p>We remark that the Z88DK dev-kit provides two compilers:</p>
+<ul>
+<li>the more reliable SCCZ80 that also offers fast compilation,</li>
+<li>the experimental ZSDCC (Z80-only optimized SDCC version) that can 
+produce faster and more compact code than SCCZ80 at the cost of much 
+slower compilation and the risk introducing erratic behavior.</li>
+</ul>
+<p>Almost all of considered compilers generate code for just one architecture (they are <em>mono-architecture</em>) even though they are <em>multi-target</em>. ACK is an exception because it is <em>multi-architecture</em> (Intel 8080, Intel 8088/8086, I386, 68K, MIPS, PDP11, etc.).</p>
+<p>This article is <em>not</em> an introduction nor a manual for these compilers and it will <em>not</em> cover the following topics:</p>
+<ul>
+<li>compiler installation</li>
+<li>basic usage of the compiler</li>
+</ul>
+<p>For details on these topics we refer to the compiler’s manuals and web pages.</p>
+<p><strong>A sub-set of ANSI C</strong><br>
+In this article we will refer to <em>ANSI C</em> as to a large sub-set of the C89 standard where <code>float</code> and <code>long long</code> are optional but pointers to functions and pointers to <code>struct</code> are present.<br>
+We will not consider previous versions such as C in <em>K&amp;R</em> syntax.</p>
+<h2 id="user-content-motivation"><a id="user-content-motivation" class="anchor" aria-hidden="true" href="#motivation"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Motivation</h2>
+<p>Why should we use C to code for vintage 8-bit systems?<br>
+Traditionally these systems were coded in either Assembly or interpreted BASIC or a mix of the two.<br>
+Given the limited resources, Assembly was often necessary. BASIC was 
+convenient for its simplicity and because an interpreter was often 
+present on the system’s ROM.</p>
+<p>If we limit our comparison to just Assembly, BASIC and C, the following tables summarizes the reasons of using C:</p>
+<table>
+<thead>
+<tr>
+<th>language</th>
+<th>simplicity</th>
+<th>portability</th>
+<th>efficiency</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Assembly</td>
+<td>low</td>
+<td>no</td>
+<td>optimal</td>
+</tr>
+<tr>
+<td>BASIC</td>
+<td>high</td>
+<td>low</td>
+<td>low</td>
+</tr>
+<tr>
+<td>C</td>
+<td>high</td>
+<td>high</td>
+<td>good</td>
+</tr>
+</tbody>
+</table><h3 id="user-content-very-high-portability"><a id="user-content-very-high-portability" class="anchor" aria-hidden="true" href="#very-high-portability"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Very high portability</h3>
+<p>In particular ANSI C allows us:</p>
+<ul>
+<li>to ease porting from different architectures</li>
+<li>to write “universal” code, that is valid code for different targets <em>without</em> any necessary modification</li>
+</ul>
+<h3 id="user-content-good-performance"><a id="user-content-good-performance" class="anchor" aria-hidden="true" href="#good-performance"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Good performance</h3>
+<p>Someone sees C as a sort of universal Assembly language. I do not 
+fully agree with this statement because optimally-written C will never 
+beat optimally-written Assembly.<br>
+Nevertheless, C is the closest language to Assembly among the languages that allow high level programming.</p>
+<h3 id="user-content-sentimental-drawbacks"><a id="user-content-sentimental-drawbacks" class="anchor" aria-hidden="true" href="#sentimental-drawbacks"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>“Sentimental drawbacks”</h3>
+<p>One not fully rational reason for not using C in this context is the fact that coding in C provides a less <em>vintage</em>
+ experience compared to BASIC and Assembly because it was less common on
+ the home computers from the 80s (but it was common on 8-bit business 
+computers such as on computers that used the CP/M operating system).<br>
+On the other hand, I believe that a good reason for coding in C is that C allows us to code for any 8-bit system.</p>
+<h2 id="user-content-writing-portable-code"><a id="user-content-writing-portable-code" class="anchor" aria-hidden="true" href="#writing-portable-code"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Writing portable code</h2>
+<p>Writing easily portable code or even directly compilable code for 
+different architectures is possible in C through different strategies:</p>
+<ul>
+<li>Write code that is <em>hardware-agnostic</em> through <em>abstract interfaces</em> (i.e., is hardware-independent APIs)</li>
+<li>Use different implementations of the <em>interfaces</em> and select them at compilation-time (by using <em>precompiler-directives</em> or by providing different files at linking-time)</li>
+</ul>
+<h3 id="user-content-writing-portable-code-for-targets-of-a-dev-kit"><a id="user-content-writing-portable-code-for-targets-of-a-dev-kit" class="anchor" aria-hidden="true" href="#writing-portable-code-for-targets-of-a-dev-kit"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Writing portable code for targets of a dev-kit</h3>
+<p>This is trivial if our multi-target dev-kit provides a multi-target 
+library or if we just use standard C libraries (e.g., stdio, stdlib, 
+etc.). Under these conditions we just need to recompile our code. The 
+multi-target library will do the “magic” for us.</p>
+<p>Unfortunately only CC65 and Z88DK provide significant multi-target 
+libraries for input and output other than standard C libraries:</p>
+<table>
+<thead>
+<tr>
+<th>Dev-Kit</th>
+<th>Architecture</th>
+<th>multi-target libraries</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Z88DK</td>
+<td>Zilog Z80</td>
+<td>standard C lib, conio, vt52, vt100, sprite software, UDG, bitmap</td>
+</tr>
+<tr>
+<td>CC65</td>
+<td>MOS 6502</td>
+<td>standard C lib, conio, tgi (bitmap)</td>
+</tr>
+<tr>
+<td>CMOC</td>
+<td>Motorola 6809</td>
+<td>standard C lib</td>
+</tr>
+<tr>
+<td>ACK</td>
+<td>Intel 8080</td>
+<td>standard C lib</td>
+</tr>
+</tbody>
+</table><p>In particular Z88DK has very powerful libraries for multi-target graphics and even provides APIs for software sprites (<a href="https://github.com/z88dk/z88dk/wiki/monographics">https://github.com/z88dk/z88dk/wiki/monographics</a>) and redefined characters for most of its 80 targets.<br>
+<strong>Example</strong>: The code of the game H-Tron (<a href="https://sourceforge.net/projects/h-tron/" rel="nofollow">https://sourceforge.net/projects/h-tron/</a>) uses Z88DK’s APIs for low resolution bitmap graphics for a multitude of Z80-based targets.</p>
+<p>Therefore if we were to use exclusively the standard C libraries we 
+could compile our code with ACK, CMOC, CC65 and Z88DK. If we used <em>conio</em> we could compile the code with CC65 and Z88DK (maybe with minor adaptations).</p>
+<p>In all other cases, if we want to write portable code on different 
+architectures and systems, we would need to write a “hardware 
+abstraction layer” that allows us to <strong>separate</strong>:</p>
+<ul>
+<li>the code that does not depend on the hardware (e.g., the logic part)</li>
+<li>the code that depends on the harware (e.g., input/output in a videogame)</li>
+</ul>
+<p>This <em>pattern</em> is very common in modern programming and it is 
+not exclusive to C. For this purpose C provides a set of tools to 
+implement this <em>pattern</em> to select the different portions of code required by each hardware at compilation-time.<br>
+In particular C provides a powerful pre-compiler with commands such as:</p>
+<ul>
+<li><code>#define</code> -&gt; to define a <em>macro</em></li>
+<li><code>#if</code> … <code>defined(...)</code> … <code>#elif</code> … <code>#else</code> -&gt; to select code portions that depend on the existence of value of a given macro</li>
+</ul>
+<p>Moreover all compilers provide the option <code>-D</code> to pass a 
+macro to the pre-compiler. Some compilers such as CC65 implicitly define
+ a macro that depends on the selected target (e.g., <em><strong>VIC20</strong></em>).</p>
+<p>In our code we may have something like:</p>
+<pre><code>...
+		#elif defined(__PV1000__)
+			#define XSize 28
+		#elif defined(__OSIC1P__) || defined(__G800__) || defined(__RX78__) 
+			#define XSize 24
+		#elif defined(__VIC20__) 
+			#define XSize 22
+...
+</code></pre>
+<p>When we compile for the <em>Vic 20</em> target, the pre-compiler will select for us the <em>Vic 20</em>-specific definition of <code>XSize</code>.<br>
+This also allows to select specific options for the configuration of the
+ target (additional memory, video card, video mode, debug compilation, 
+etc.).</p>
+<p>As main example we refer to the <em>Cross-Chase</em> project:<br>
+<a href="https://github.com/Fabrizio-Caruso/CROSS-CHASE">https://github.com/Fabrizio-Caruso/CROSS-CHASE</a></p>
+<p>The code of <em>Cross-Chase</em> provides an example of how to write <em>universal</em> code for any system and architecture:</p>
+<ul>
+<li>the code of the game (<em>src/chase</em> directory) is hardware-independent</li>
+<li>the code of the <em>crossLib</em> library  (<em>src/cross_lib</em> directory) implements all the hardware-specific details</li>
+</ul>
+<h3 id="user-content-writing-portable-code-even-for-unsupported-systems"><a id="user-content-writing-portable-code-even-for-unsupported-systems" class="anchor" aria-hidden="true" href="#writing-portable-code-even-for-unsupported-systems"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Writing portable code even for unsupported systems</h3>
+<p>The dev-kits under our consideration support a list of targets for 
+each architecture by providing specific libraries. Nevertheless it is 
+possible to exploit these dev-kits for other systems with the same 
+architecture but we will have to implement all the hardware-specific 
+code:</p>
+<ul>
+<li>the necessary code for input/output (e.g., graphics, sounds, keyboard, joystick, etc.)</li>
+<li>the necessary code for correct machine initialization</li>
+</ul>
+<p>Alternatively, it is possible to extend a dev-kit to support to new targets.</p>
+<p>In many cases, we can use the ROM routines to do this (see the section on the ROM routines)</p>
+<p>Moreover we may have to convert the binary to a format that can be accepted by the system.</p>
+<p>Therefore, we can indeed write portable code for even these unsupported systems.</p>
+<p>For example CC65 does not support the <em>BBC Micro</em>, nor the <em>Atari 7800</em> and CMOC does not support the <em>Olivetti Prodest PC128</em>. Yet, it is possible to use these dev-kits to produce binaries for such targets:</p>
+<ul>
+<li>Cross Chase (<a href="https://github.com/Fabrizio-Caruso/CROSS-CHASE">https://github.com/Fabrizio-Caruso/CROSS-CHASE</a>) supports (theoretically) any architecture even the unsupported ones such as for example the l’Olivetti Prodest PC128.</li>
+<li>The game Robotsfindskitten is been compiled for thr Atari 7800 with CC65 (<a href="https://sourceforge.net/projects/rfk7800/files/rfk7800/" rel="nofollow">https://sourceforge.net/projects/rfk7800/files/rfk7800/</a>).</li>
+<li>BBC has already been added unofficially as an experimental new target in CC65 (<a href="https://github.com/dominicbeesley/cc65">https://github.com/dominicbeesley/cc65</a>).</li>
+</ul>
+<h4 id="user-content-compilation-for-unsupported-targets"><a id="user-content-compilation-for-unsupported-targets" class="anchor" aria-hidden="true" href="#compilation-for-unsupported-targets"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Compilation for unsupported targets</h4>
+<p>We give a list of compilation options for generic targets for each 
+dev-kit. These options tell to compile without any dependence on a 
+specific target. For more details we refer to the manual of the 
+dev-kits.</p>
+<table>
+<thead>
+<tr>
+<th>Architecture</th>
+<th>Dev-Kit</th>
+<th>Option(s)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Intel 8080</td>
+<td>ACK</td>
+<td>(*)</td>
+</tr>
+<tr>
+<td>MOS 6502</td>
+<td>CC65</td>
+<td><code>+none</code></td>
+</tr>
+<tr>
+<td>Motorola 6809</td>
+<td>CMOC</td>
+<td><code>--nodefaultlibs</code></td>
+</tr>
+<tr>
+<td>Zilog 80</td>
+<td>SCCZ80/ZSDCC (Z88DK)</td>
+<td><code>+test</code>, <code>+embedded</code> (new lib),  <code>+cpm</code> (generic CP/M target)</td>
+</tr>
+</tbody>
+</table><p>(*) ACK officially only supports the CP/M-80 for the Intel 
+8080 architecture but it is possible to use ACK to build generic Intel 
+8080 binaries but it is not very simple because ACK uses a sequence of 
+commands to produce intermediate results (including the “EM” byte-code):</p>
+<ol>
+<li><code>ccp.ansi</code>:  C precompiler</li>
+<li><code>em_cemcom.ansi</code>: compiles precompiled C code into “EM” byte-code</li>
+<li><code>em_opt</code>: optimizes “EM” byte-code</li>
+<li><code>cpm/ncg</code>: generates Intel 8080 Assembly from “EM” bytecode</li>
+<li><code>cpm/as</code>: generates Intel 8080 binary from Assembly</li>
+<li><code>em_led</code>: links object files</li>
+</ol>
+<h2 id="user-content-general-c-code-optimization"><a id="user-content-general-c-code-optimization" class="anchor" aria-hidden="true" href="#general-c-code-optimization"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>General C code optimization</h2>
+<p>We describe some general rules to improve the code that do not depend on whether the architecture is 8-bit or not.</p>
+<h3 id="user-content-re-use-same-functions"><a id="user-content-re-use-same-functions" class="anchor" aria-hidden="true" href="#re-use-same-functions"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Re-use same functions</h3>
+<p>In general, in whatever programming language we want to code, it is important to avoid code duplication and unnecessary code.</p>
+<h4 id="user-content-structured-programming"><a id="user-content-structured-programming" class="anchor" aria-hidden="true" href="#structured-programming"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Structured programming</h4>
+<p>We have to examine each function in order to find common portions that we can <em>factor</em> by introducing <em>sub-functions</em> that are original function can call.<br>
+However we must take into account that, beyond a certain limit, 
+excessive code granularity has negative effects because each function 
+call has a computational and memory cost.</p>
+<h5 id="user-content-passing-variables"><a id="user-content-passing-variables" class="anchor" aria-hidden="true" href="#passing-variables"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Passing variables</h5>
+<p>If two functions do the same thing on different objects then just 
+simply use the same function and pass to it the specific object as a 
+parameter.</p>
+<h5 id="user-content-passing-pointers-to-functions"><a id="user-content-passing-pointers-to-functions" class="anchor" aria-hidden="true" href="#passing-pointers-to-functions"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Passing pointers to functions</h5>
+<p>In other cases, some portions of the code differ only by an applied 
+function. In such cases, we should write one function to which we pass a
+ pointer to the specific function we want to apply.</p>
+<p>Not everyone is familiar with the C syntax for pointer to functions. Therefore we give here a simple example in which we define <code>sumOfSomething(range, something)</code> that sums  <code>something(i)</code> on values of <code>i</code> from 0 to <code>i-1</code>:</p>
+<pre><code>unsigned short sumOfSomething(unsigned char range, unsigned short (* something) (unsigned char))
+{
+    unsigned char i;
+    unsigned short res =0;
+    for(i=0;i&lt;range;++i)
+    {
+        res+=something(i);
+    }
+    return res;
+}
+</code><p><code></code></p></pre><p></p>
+<p>Hence given the two functions:</p>
+<pre><code>unsigned short square(unsigned char val)
+{
+        return val*val;
+}
+</code></pre>
+<pre><code>unsigned short next(unsigned char val)
+{
+    return ++val;
+}
+</code></pre>
+<p>we can use <code>sumOfSomething</code> on either of the two:</p>
+<pre><code>printf("%d\n",sumOfSomething(4,square));
+</code></pre>
+<p>prints 14, i.e., the sum of squares of 0,1,2,3.</p>
+<pre><code>printf("%d\n",sumOfSomething(4,next));
+</code></pre>
+<p>prints 10, i.e., the sum of 0+1,1+1,2+1,3+1.</p>
+<h5 id="user-content-passing-offsets-to-struct"><a id="user-content-passing-offsets-to-struct" class="anchor" aria-hidden="true" href="#passing-offsets-to-struct"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Passing offsets to struct</h5>
+<p>In some cases it is possible to generalize the code by passing a parameter to avoid writing very similar functions.<br>
+An advanced example is in <a href="https://github.com/Fabrizio-Caruso/CROSS-CHASE/blob/master/src/chase/character.h">https://github.com/Fabrizio-Caruso/CROSS-CHASE/blob/master/src/chase/character.h</a> where, given a <code>struct</code> with two fields <code>_x</code> and <code>_y</code>,<br>
+we want to be able to change the value of one field or the other in different situations:</p>
+<pre><code>	struct CharacterStruct
+	{
+		unsigned char _x;
+		unsigned char _y;
+		...
+	};
+	typedef struct CharacterStruct Character;
+</code></pre>
+<p>We avoid two different functions for <code>_x</code> and <code>_y</code> by creating one function to which we pass an <em>offset</em> to select the field:</p>
+<pre><code>	unsigned char moveCharacter(Character* hunterPtr, unsigned char offset)
+	{
+		if((unsigned char) * ((unsigned char*)hunterPtr+offset) &lt; ... )
+		{
+			++(*((unsigned char *) hunterPtr+offset));
+		}
+		else if((unsigned char) *((unsigned char *) hunterPtr+offset) &gt; ... )
+		{
+			--(*((unsigned char *) hunterPtr+offset));
+		}
+	...
+	}
+</code></pre>
+<p>In this case, we use the fact that the field <code>_y</code> is exactly one byte after the field <code>_x</code>. Therefore with <code>offset=0</code> we access <code>_x</code> and with <code>offset=1</code> we access <code>_y</code>.</p>
+<p><strong>Warning</strong>: We must always remember that adding a 
+parameter has a cost and we must verify that the cost of the parameter 
+is lower than the cost of an extra function (e.g., by looking at the 
+size of the obtained binary).</p>
+<h4 id="user-content-same-code-on-similar-objects"><a id="user-content-same-code-on-similar-objects" class="anchor" aria-hidden="true" href="#same-code-on-similar-objects"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Same code on similar <em>objects</em></h4>
+<p>We can do even better and use the same code on <em>objects</em> that are not identical but shares some common features by using <code>offset</code> in <code>struct</code>, <em>pointers to functions</em>, etc. In general this is possible through <em>object-oriented programming</em> whose light-weight implementation for 8-bit systems is described in a subsequent section in this article.</p>
+<h3 id="user-content-pre-incrementdecrement--vs-post-incrementdecrement"><a id="user-content-pre-incrementdecrement--vs-post-incrementdecrement" class="anchor" aria-hidden="true" href="#pre-incrementdecrement--vs-post-incrementdecrement"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Pre-increment/decrement  vs Post-increment/decrement</h3>
+<p>We must avoid post-increment/decrement operators (<code>i++</code>, <code>i--</code>) when they are not needed, i.e.,  when we do not need the original value and replace them with (<code>++i</code>, <code>--i</code>). The reason is that the post-increment operator requires at least an extra operation to save the original value.<br>
+Remark: It is totally useless to use a post-increment in a <code>for</code> loop.</p>
+<h3 id="user-content-constant-vs-variables"><a id="user-content-constant-vs-variables" class="anchor" aria-hidden="true" href="#constant-vs-variables"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Constant vs Variables</h3>
+<p>Any architecture will perform better if variables are replaced by constants.</p>
+<h4 id="user-content-use-constants"><a id="user-content-use-constants" class="anchor" aria-hidden="true" href="#use-constants"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Use constants</h4>
+<p>Therefore if a variable has a known value at compilation-time, it is important to replace it with a constant.<br>
+If its value depends on some compilation option, then we should use a <em>macro</em> to set its value.</p>
+<h4 id="user-content-help-the-compiler-recognize-constants"><a id="user-content-help-the-compiler-recognize-constants" class="anchor" aria-hidden="true" href="#help-the-compiler-recognize-constants"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Help the compiler recognize constants</h4>
+<p>For <em>single pass</em> compilers (the majority of 8-bit 
+cross-compilers, e.g., CC65), it is important to help the compiler 
+decide whether a given expression is a constant.</p>
+<p><strong><em>Example</em></strong> (from <a href="https://www.cc65.org/doc/coding.html" rel="nofollow">https://www.cc65.org/doc/coding.html</a>):<br>
+A <em>single pass</em> compiler may evaluate the following expression from left to right and miss the fact that <code>OFFS+3</code> is a constant:</p>
+<pre><code>	#define OFFS   4
+	int  i;
+	i = i + OFFS + 3;
+</code></pre>
+<p>In this case it would be better to re-write <code>i = i + OFFS+3</code> as <code>i = OFFS+3+i</code> or <code>i = i + (OFFS+3)</code>:</p>
+<pre><code>	#define OFFS   4
+	int  i;
+	i = OFFS + 3 + i;
+</code></pre>
+<h2 id="user-content-bit-specific-code-optimization"><a id="user-content-8-bit-specific-code-optimization" class="anchor" aria-hidden="true" href="#8-bit-specific-code-optimization"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>8-bit specific code optimization</h2>
+<p>The C language has both high level constructs (such as <code>struct</code>, functions as parameters, etc.) and low level constructs (such as pointers, bitwise operators, etc.).<br>
+This is not enough to make C a programming language well-suited for programming 8-bit systems.</p>
+<h3 id="user-content-implement-peek-and-poke-in-c"><a id="user-content-implement-peek-and-poke-in-c" class="anchor" aria-hidden="true" href="#implement-peek-and-poke-in-c"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Implement <code>peek</code> and <code>poke</code> in C</h3>
+<p>Most probably we will need to read and write single bytes from and to
+ specific memory locations. In old BASIC this was done through <code>peek</code> and <code>poke</code>
+ commands. In C we must do this through pointers whose syntax is not 
+very readable. In order to make our code more readable we can create the
+ following macros:</p>
+<pre><code>    #define POKE(addr,val)  (*(unsigned char*) (addr) = (val))
+    #define PEEK(addr)      (*(unsigned char*) (addr))
+</code></pre>
+<p>Remark: The compilers will produce optimal code when we use constants as parameters of these macros.</p>
+<p>For more details we refer to: <a href="https://github.com/cc65/wiki/wiki/PEEK-and-POKE">https://github.com/cc65/wiki/wiki/PEEK-and-POKE</a></p>
+<h3 id="user-content-the-best-types-for-8-bit-systems"><a id="user-content-the-best-types-for-8-bit-systems" class="anchor" aria-hidden="true" href="#the-best-types-for-8-bit-systems"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>The “best types” for 8-bit systems</h3>
+<p>First of all we must take into account that we have the following situation:</p>
+<ul>
+<li>all arithmetic operations are just 8-bit</li>
+<li>most of other operations use 8 bits while some may use 16 bits and none uses 32 bits</li>
+<li><code>signed</code> operations are slower than <code>unsigned</code> operations</li>
+<li>the hardware does not support <em>floating point</em> operations</li>
+</ul>
+<h4 id="user-content-integer-vs-floating-point-types"><a id="user-content-integer-vs-floating-point-types" class="anchor" aria-hidden="true" href="#integer-vs-floating-point-types"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Integer vs floating point types</h4>
+<p>The C languages provides <code>signed</code> integer types (<code>char</code>, <code>short</code>, <code>int</code>, <code>long</code>, <code>long long</code>, etc.) and their <code>unsigned</code> counterparts.<br>
+Most cross compilers (but not CC65) support the <code>float</code> type (for <em>floating point</em> numbers), which we do not cover here. We only remark that <code>float</code> numbers in 8-bit architecture are always <em>software float</em> and therefore have a high computational cost. Hence we should only use them when strictly necessary.</p>
+<h4 id="user-content-our-friend-unsigned"><a id="user-content-our-friend-unsigned" class="anchor" aria-hidden="true" href="#our-friend-unsigned"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Our friend <em>unsigned</em></h4>
+<p>Since the 8-bit architectures under consideration do <strong>NOT</strong> handle <code>signed</code> types well, we must avoid them whenever possible.</p>
+<h4 id="user-content-size-matters"><a id="user-content-size-matters" class="anchor" aria-hidden="true" href="#size-matters"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>“Size matters!”</h4>
+<p>The size of the standard integer types depend on the compiler and architecture and not on the C standard.<br>
+Recently the C99 standard has introduced some types that have an unambiguous size (e.g., <code>uint8_t</code> for an 8-bit <code>unsigend</code> integer).</p>
+<p>In order to use these types in our code we should include <code>stdint.h</code> with:</p>
+<pre><code>	#include &lt;stdint.h&gt;
+</code></pre>
+<p>Not all 8-bit cross compiler support these types.</p>
+<p>Fortunately for most 8-bit compilers we have the following situation:</p>
+<table>
+<thead>
+<tr>
+<th>type</th>
+<th>number of bits</th>
+<th><code>stdint.h</code></th>
+<th>alternative name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>unsigned char</code></td>
+<td>8</td>
+<td><code>uint8_t</code></td>
+<td><code>byte</code></td>
+</tr>
+<tr>
+<td><code>unsigned short</code></td>
+<td>16</td>
+<td><code>uint16_t</code></td>
+<td><code>word</code></td>
+</tr>
+<tr>
+<td><code>unsigned int</code></td>
+<td>16</td>
+<td><code>uint16_t</code></td>
+<td><code>word</code></td>
+</tr>
+<tr>
+<td><code>unsigned long</code></td>
+<td>32</td>
+<td><code>uint32_t</code></td>
+<td><code>dword</code></td>
+</tr>
+</tbody>
+</table><p>Therefore we must:</p>
+<ul>
+<li>use <code>unsigned char</code> (or <code>uint8_t</code>) for arithmetic operations whenever possible;</li>
+<li>use <code>unsigned char</code> (or <code>uint8_t</code>) and <code>unsigned short</code> (or <code>uint16_t</code>) for all other operations and avoid all 32-bit operations.</li>
+</ul>
+<p>Remark: When the fixed-size types are not available we can introduce them by using <code>typedef</code>:</p>
+<pre><code>	typedef unsigned char uint8_t;
+	typedef unsigned short uint16_t;
+	typedef unsigned long uint32_t;
+</code></pre>
+<h3 id="user-content-choice-of-the-operations"><a id="user-content-choice-of-the-operations" class="anchor" aria-hidden="true" href="#choice-of-the-operations"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Choice of the operations</h3>
+<p>When writing code for an 8-bit architecture we must avoid inefficient
+ operations or operations that force us to use inefficient types (such 
+as <code>signed</code> or 32-bit types).</p>
+<h4 id="user-content-avoid-signed"><a id="user-content-avoid-signed" class="anchor" aria-hidden="true" href="#avoid-signed"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Avoid <em>signed</em></h4>
+<p>In particular, it is often possible to rewrite the code in a way to 
+avoid subtractions or when this is not possible, we can at least have a 
+code that does not produce negative results.</p>
+<h4 id="user-content-avoid-explicit-products"><a id="user-content-avoid-explicit-products" class="anchor" aria-hidden="true" href="#avoid-explicit-products"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Avoid explicit products</h4>
+<p>All the architectures under consideration, with the only exception of
+ the Motorola 6809, do not have a product operation between two 8-bit 
+values. Therefore, if possible, we should avoid products or limit 
+ourselves to products and divisions by power of 2 that we can implement 
+with the <em>&lt;&lt;</em> e <em>&gt;&gt;</em> operators:</p>
+<pre><code>	unsigned char foo, bar;
+	...
+	foo &lt;&lt; 2; // multiply by 2^2=4
+	bar &gt;&gt; 1; // divide by 2^1=2
+</code></pre>
+<h4 id="user-content-rewrite-some-operations"><a id="user-content-rewrite-some-operations" class="anchor" aria-hidden="true" href="#rewrite-some-operations"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Rewrite some operations</h4>
+<p>Other operations such as <em>modulo</em> can be rewritten in a more 
+efficient way for the 8-bit systems by using bit-wise operators because 
+the compiler is not always capable of optimizing these operations:</p>
+<pre><code>	unsigned char foo;
+	...
+	if(foo&amp;1) // equivalent to foo%2
+	{
+		...
+	}
+</code></pre>
+<h3 id="user-content-variables-and-parameters"><a id="user-content-variables-and-parameters" class="anchor" aria-hidden="true" href="#variables-and-parameters"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Variables and parameters</h3>
+<p>One of the greatest limitations of the MOS 6502-architecture is not 
+the lack of registers as someone may think but it is the small size of 
+its <em>hardware stack</em> (in <em>page one</em>: <code>$0100-01FF</code>), which is unusable in C for managing the <em>scope</em> of variables and parameter passing.<br>
+Therefore a C compiler for the MOS 6502 may have to use a <em>software stack</em>:</p>
+<ul>
+<li>to manage the scope of local variables,</li>
+<li>to manage parameter passing.</li>
+</ul>
+<p>The other 8-bit architectures under our consideration may suffer less
+ from this problem but the scope of local variables and parameter 
+passing also have a cost when a <em>hardware stack</em> can be used.</p>
+<h4 id="user-content-an-antipattern-may-help-us"><a id="user-content-an-antipattern-may-help-us" class="anchor" aria-hidden="true" href="#an-antipattern-may-help-us"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>An <em>antipattern</em> may help us</h4>
+<p>One way to mitigate this problem is to reduce the use of local variables and passed parameters. This is clearly an <em>antipattern</em> and if we were to apply it to all our code we would get some <em>spaghetti code</em>.<br>
+We must therefore wisely choose which variables deserve to be local and which variables can be declared as global.<br>
+We would then have less re-usable code but we will gain in efficiency. I am <strong>NOT</strong> suggesting the use of just global variables and to renounce to all parameters in functions.</p>
+<h4 id="user-content-do-not-use-re-entrant-functions"><a id="user-content-6502-do-not-use-re-entrant-functions" class="anchor" aria-hidden="true" href="#6502-do-not-use-re-entrant-functions"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>[6502] Do not use re-entrant functions</h4>
+<p>The CC65 compiler for the MOS 6502 architecture provides the <code>-Cl</code> option that tells the compiler to interpret all local variables as <code>static</code>, i.e., global.<br>
+This has the effect of avoiding the use of the <em>software stack</em> for their scope. This also has the effect of making all the functions <em>non-reentrant</em>.<br>
+In practice this prevents us from using recursive functions. This is not
+ a serious loss because recursion would be a costly operation, which we 
+should avoid on 8-bit systems.</p>
+<h4 id="user-content-use-page-zero"><a id="user-content-6502-use-page-zero" class="anchor" aria-hidden="true" href="#6502-use-page-zero"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>[6502] Use page zero</h4>
+<p>Standard C provides the <code>register</code> keyword to give a hint to the compiler to use a register for a given variable.<br>
+Most modern compiler simply ignore this keyword because their optimizers can choose better than the programmer.<br>
+This is also true for most of the compilers under consideration but not 
+for CC65 that uses this keyword to tell the compiler to use <em>page zero</em>
+ for a given variable.  The MOS 6502 can access this page more 
+efficiently than any other memory area. The operating system already 
+uses this page but the CC65 compilers leaves a few available bytes for 
+the programmer. By default CC65 reserves 6 bytes in page zero for 
+variables declared as <code>register</code>.<br>
+One may think that all variables should be declared as <code>register</code> but things are <strong>NOT</strong>
+ so simple because everything has a cost. In order to store a variable 
+in page zero, some extra operations are required. Hence, page zero 
+provides an advantage only for variables that are heavily used.<br>
+In practice the two most common scenarios where this is the case are:</p>
+<ol>
+<li>parameters of type pointer to <code>struct</code> that are used at least 3 times within the function scope;</li>
+<li>variables inside a loop that is repeated at least about 100 times.</li>
+</ol>
+<p>A reference with more details is: <a href="https://www.cc65.org/doc/cc65-8.html" rel="nofollow">https://www.cc65.org/doc/cc65-8.html</a></p>
+<p>My personal advice is to compile and verify if the produced binary is shorter/faster.</p>
+<h3 id="user-content-binary-structure"><a id="user-content-binary-structure" class="anchor" aria-hidden="true" href="#binary-structure"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Binary structure</h3>
+<p>If our program uses data in a specific memory area, it would be 
+better to have the data already stored in the binary and have the load 
+process of the binary copy the data at the expected locations without 
+any code to do actual copying of the data.<br>
+If the data is in the source code instead, we will have to copy them and we will also end up having them twice in memory.<br>
+The most common case is the data for sprites and redefined characters or tiles.</p>
+<p>Different compilers provide different tools to define the final binary structure.</p>
+<h4 id="user-content-cc65-let-us-instruct-the-linker"><a id="user-content-cc65-let-us-instruct-the-linker" class="anchor" aria-hidden="true" href="#cc65-let-us-instruct-the-linker"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>[CC65] Let us instruct the linker</h4>
+<p>It is possible to configure CC65’s linker through a .cfg file that 
+describes the structure of the binary that we want to produce.<br>
+This is not very simple and a description of the linker would go beyond the scope of this article. For details we refer to<br>
+<a href="https://cc65.github.io/doc/ld65.html" rel="nofollow">https://cc65.github.io/doc/ld65.html</a><br>
+We advice to read the manual and start by modifying the default .cfg file in order to adapt it to one’s use-case.</p>
+<h5 id="user-content-exomizer-can-help-us-also-on-this"><a id="user-content-exomizer-can-help-us-also-on-this" class="anchor" aria-hidden="true" href="#exomizer-can-help-us-also-on-this"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Exomizer can help us (also) on this</h5>
+<p>In some cases we may have graphics data in a memory area far from the
+ code and have them both on the same binary. If we do this, we may end 
+up with a “hole” between the two areas.<br>
+A common example is provided by the C64 where graphics data may be in higher memory than the code.<br>
+In this case I recommend the <em>exomizer</em> tool to compress the binary:  <a href="https://bitbucket.org/magli143/exomizer/wiki/Home" rel="nofollow">https://bitbucket.org/magli143/exomizer/wiki/Home</a></p>
+<h4 id="user-content-z88dk-appmake-does-almost-everything-for-us"><a id="user-content-z88dk-appmake-does-almost-everything-for-us" class="anchor" aria-hidden="true" href="#z88dk-appmake-does-almost-everything-for-us"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>[Z88DK] <em>Appmake</em> does almost everything for us</h4>
+<p>Z88DK makes our life easier and its power <em>appmake</em> tool automatically builds binaries in the correct format for most scenarios.<br>
+Z88DK also allows the user to define <em>memory sections</em> and to redefine the binary “packaging” but doing this is quite complicated.<br>
+This topic is treated in detail in:<br>
+<a href="https://github.com/z88dk/z88dk/issues/860">https://github.com/z88dk/z88dk/issues/860</a></p>
+<h3 id="user-content-code-on-multiple-files"><a id="user-content-code-on-multiple-files" class="anchor" aria-hidden="true" href="#code-on-multiple-files"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Code on multiple files</h3>
+<p>Usually separating the source code into multiple files is a good 
+practice but it may produce poorer code because 8-bit optimizers do not 
+perform <em>link-time optimization</em>, i.e., they cannot optimize code between two or more files and only optimize each file separately.<br>
+For example if we have a function that is called only once and the 
+function is defined in the same file where it is invoked, then the 
+optimizer may be able to <em>inline</em> it but this would never be possible if the function were defined and invoked in different files.<br>
+My advice is <strong>not</strong> to create one or few huge files but to
+ take into account how separating the code into multiple files can 
+affect the optimization.</p>
+<h2 id="user-content-advanced-memory-use"><a id="user-content-advanced-memory-use" class="anchor" aria-hidden="true" href="#advanced-memory-use"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Advanced memory use</h2>
+<p>The C compiler usually produces a unique binary that contains both 
+code and data, which will be loaded in specific memory locations (even 
+with non contiguous memory areas).</p>
+<p>In many architectures some RAM areas are used as <em>buffers</em> for the ROM routines or are used only in some special cases (e.g., some graphics modes).<br>
+My advice is to study the memory map. For example for the Vic 20 we would have to look at:<br>
+<a href="http://www.zimmers.net/cbmpics/cbm/vic/memorymap.txt" rel="nofollow">http://www.zimmers.net/cbmpics/cbm/vic/memorymap.txt</a></p>
+<p>In particular we should look for:</p>
+<ul>
+<li>cassette buffer, keyboard buffer, printer buffer disk buffer, etc.</li>
+<li>memory used by ROM routines and in particular by BASIC routines</li>
+<li>memory areas used by special graphics modes</li>
+<li>free small portions of free memory that are not usually used by code
+ because they are not contiguous with the main code memory area.</li>
+</ul>
+<p>These memory areas could be used by our code if they do not serve 
+their standard purpose in our use-case, e.g., if we do not intend to use
+ the tape after the program has been loaded (including from the tape), 
+then we can use the tape buffer in our code to store some variables.</p>
+<p><em>Useful cases</em><br>
+We list some of these useful memory areas for some systems including many with very limited RAM:</p>
+<table>
+<thead>
+<tr>
+<th>computer</th>
+<th>descrizione</th>
+<th>area</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Commodore 16/116/+4</td>
+<td>BASIC input buffer</td>
+<td>$0200-0258</td>
+</tr>
+<tr>
+<td>Commodore 16/116/+4</td>
+<td>tape buffer</td>
+<td>$0333-03F2</td>
+</tr>
+<tr>
+<td>Commodore Pet</td>
+<td>system input buffer</td>
+<td>$0200-0250</td>
+</tr>
+<tr>
+<td>Commodore Pet</td>
+<td>tape buffer</td>
+<td>$033A-03F9</td>
+</tr>
+<tr>
+<td>Commodore 64 &amp; Vic 20</td>
+<td>BASIC input buffer</td>
+<td>$0200-0258</td>
+</tr>
+<tr>
+<td>Commodore 64 &amp; Vic 20</td>
+<td>tape buffer</td>
+<td>$033C-03FB</td>
+</tr>
+<tr>
+<td>Galaksija</td>
+<td>variable a-z</td>
+<td>$2A00-2A68</td>
+</tr>
+<tr>
+<td>Sinclair Spectrum 16K/48K</td>
+<td>printer buffer</td>
+<td>$5B00-5BFF</td>
+</tr>
+<tr>
+<td>Mattel Aquarius</td>
+<td>random number space</td>
+<td>$381F-3844</td>
+</tr>
+<tr>
+<td>Mattel Aquarius</td>
+<td>input buffer</td>
+<td>$3860-38A8</td>
+</tr>
+<tr>
+<td>Oric</td>
+<td>alternate charset</td>
+<td>$B800-B7FF</td>
+</tr>
+<tr>
+<td>Oric</td>
+<td>grabable hires memory</td>
+<td>$9800-B3FF</td>
+</tr>
+<tr>
+<td>Oric</td>
+<td>Page 4</td>
+<td>$0400-04FF</td>
+</tr>
+<tr>
+<td>Sord M5</td>
+<td>RAM for ROM routines (*)</td>
+<td>$7000-73FF</td>
+</tr>
+<tr>
+<td>TRS-80 Model I/III/IV</td>
+<td>RAM for ROM routines (*)</td>
+<td>$4000-41FF</td>
+</tr>
+<tr>
+<td>VZ200</td>
+<td>printer buffer &amp; misc</td>
+<td>$7930-79AB</td>
+</tr>
+<tr>
+<td>VZ200</td>
+<td>BASIC line input buffer</td>
+<td>$79E8-7A28</td>
+</tr>
+</tbody>
+</table><p>(*): Multiple buffer and auxiliary ram for ROM routiens. For more details please refer to:<br>
+<a href="http://m5.arigato.cz/m5sysvar.html" rel="nofollow">http://m5.arigato.cz/m5sysvar.html</a> and <a href="http://www.trs-80.com/trs80-zaps-internals.htm" rel="nofollow">http://www.trs-80.com/trs80-zaps-internals.htm</a></p>
+<p>In standard C we can only define some pointer and array variables at some specific memory locations.</p>
+<p>In the following with give a theoretical example on how to define 
+some of these pointer and array variables at address starting at <code>0xC000</code> where given a 5-byte <code>struct</code> type <code>Character</code> we want to also handle the following variables:</p>
+<ul>
+<li><code>player</code> of type  <code>Character</code>,</li>
+<li><code>ghosts</code>, an <code>array</code> with 8 <code>Character</code> elements (40=$28 bytes)</li>
+<li><code>bombs</code>, an array with 4 <code>Character</code> elements (20=$14 bytes)</li>
+</ul>
+<pre><code>	Character *ghosts = 0xC000;
+	Character *bombs = 0xC000+$28;
+	Character *player = 0xC000+$28+$14;
+</code></pre>
+<p>This generic solution with pointers does not always produce optimal code because it forces us to <em>dereference</em> our pointers and creates pointer variables (usually 2 bytes per pointer) that the compiler has to allocate in memory.</p>
+<p>No standard solution exists to store any other type of variables in a
+ specific memory area but the CC65 and Z88DK linkers provide a special 
+syntax to do this and let us save hundreds or even thousands of precious
+ bytes. Some examples are in<br>
+<a href="https://github.com/Fabrizio-Caruso/CROSS-CHASE/tree/master/src/cross_lib/memory">https://github.com/Fabrizio-Caruso/CROSS-CHASE/tree/master/src/cross_lib/memory</a></p>
+<p>In particular we will have to create an Assembly file: a .s file 
+(underCC65) or .asm file (under Z88DK) that we will link to our binary. 
+In this file we will be able to assign each variable to a specific 
+memory area.<br>
+Remark: We need to <strong>add</strong> an <em>underscore</em> prefix to each variable.</p>
+<p>CC65 syntax (Commodore Vic 20 example)</p>
+<pre><code>	.export _ghosts;
+	_ghosts = $33c
+	.export _bombs;
+	_bombs = _ghosts + $28 
+	.export _player;
+	_player = _bombs + $14
+</code></pre>
+<p>Z88DK syntax (Galaksija example)</p>
+<pre><code>	PUBLIC _ghosts, _bombs, _player
+	defc _ghosts = 0x2A00
+	defc _bombs = _ghosts + $28 
+	defc _player = _bombs + $14
+</code></pre>
+<p>CMOC provides the <code>--data=&lt;address&gt;</code> option to allocate all writable global variables at a given starting memory address.</p>
+<p>ACK documentation does not say anything about this. We could 
+nevertheless define pointer and array types at given free memory 
+locations through the generic standard syntax.</p>
+<h2 id="user-content-object-oriented-programming"><a id="user-content-object-oriented-programming" class="anchor" aria-hidden="true" href="#object-oriented-programming"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Object-oriented programming</h2>
+<p>Contrary to common belief, object-oriented programming is possible in
+ ANSI C and can help up produce more compact compact in certain 
+situations. There are complete object-oriented frameworks for ANSI C 
+(e.g., Gnome is writtwn with <em>GObject</em>, which is one of these frameworks).</p>
+<p>We can implement <em>classes</em>, <em>polymorphim</em> and <em>inheritance</em> very efficiently even for memory-limited 8-bit systems.</p>
+<p>A detailed description of object-oriented programming goes beyond the purpose of this articile.<br>
+Here we decribe how to implement its main features:</p>
+<ul>
+<li>Use <em>pointers to functions</em> to implement *polymorphic" methods, i.e., methods with <em>dynamic binding</em>, whose behavior is defined at <em>run-time</em>. It is possible to avoid the implementation of a <em>vtable</em> if we limit ourselves to classes with just one polymorphic method.</li>
+<li>Use <em>pointers to <code>struct</code></em> and <em>composition</em> to implelent <em>sub-classes</em>: given a  <code>struct</code> A, we implement a sub-class with a <code>struct</code> B defined as a  <code>struct</code> whose <strong>first</strong> field is of type A. When passing pointers to such new <code>struct</code>, the C language guarantees that the <em>offset</em> of B are the same as the ones of A and therefore a pointer to B can be <em>cast</em> into a pointer to A.</li>
+</ul>
+<p>Example (taken from <a href="https://github.com/Fabrizio-Caruso/CROSS-CHASE/tree/master/src/chase">https://github.com/Fabrizio-Caruso/CROSS-CHASE/tree/master/src/chase</a>)<br>
+Let us define <code>Item</code> as a sub-class of<code>Character</code> to which we add some variables and a polymorphic method <code>_effect()</code>:</p>
+<pre><code>	struct CharacterStruct
+	{
+		unsigned char _x;
+		unsigned char _y;
+		unsigned char _status;
+		Image* _imagePtr;
+	};
+	typedef struct CharacterStruct Character;
+...
+ 	struct ItemStruct
+	{
+		Character _character;
+		void (*_effect)(void);
+		unsigned short _coolDown;
+		unsigned char _blink;
+	};
+	typedef struct ItemStruct Item;
+</code></pre>
+<p>We can then pass a pointer to  <code>Item</code> as if it were a pointer to  <code>Character</code> (by performing a simple <em>cast</em>):</p>
+<pre><code>	Item *myIem;
+	void foo(Character * aCharacter);
+	...
+	foo((Character *)myItem);
+</code></pre>
+<p>Why can we save memory by doing this?<br>
+Because we may treat different, yet similar, objects with the same code and so avoid code duplication.</p>
+<h2 id="user-content-optimized-compilation"><a id="user-content-optimized-compilation" class="anchor" aria-hidden="true" href="#optimized-compilation"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Optimized compilation</h2>
+<p>We won’t cover exhaustively all compilation options of the 
+cross-compilers under our consideration. We refer to their respective 
+manuals for the derails.<br>
+Here we give a list of options to produced optimized code on our compilers.</p>
+<h3 id="user-content-aggressive-compilation"><a id="user-content-aggressive-compilation" class="anchor" aria-hidden="true" href="#aggressive-compilation"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>“Aggressive” compilation</h3>
+<p>The following options will apply the highest optimizations to produce faster and above all more compact code:</p>
+<table>
+<thead>
+<tr>
+<th>Architecture</th>
+<th>Compiler</th>
+<th>Options</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Intel 8080</td>
+<td>ACK</td>
+<td><code>-O6</code></td>
+</tr>
+<tr>
+<td>Zilog Z80</td>
+<td>SCCZ80 (Z88DK)</td>
+<td><code>-O3</code></td>
+</tr>
+<tr>
+<td>Zilog Z80</td>
+<td>ZSDCC (Z88DK)</td>
+<td><code>-SO3</code> <code>--max-alloc-node20000</code></td>
+</tr>
+<tr>
+<td>MOS 6502</td>
+<td>CC65</td>
+<td><code>-O</code> <code>-Cl</code></td>
+</tr>
+<tr>
+<td>Motorola 6809</td>
+<td>CMOC</td>
+<td><code>-O2</code></td>
+</tr>
+</tbody>
+</table><h4 id="user-content-speed-vs-memory"><a id="user-content-speed-vs-memory" class="anchor" aria-hidden="true" href="#speed-vs-memory"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Speed vs Memory</h4>
+<p>The most common problem for many 8-bit systems is the presence of 
+little memory for code and data. Usually optimizing for speed also 
+improves memory usage but this is not always the case. In some other 
+cases, our goal is speed even at the cost of extra memory. Some 
+compilers provide options to specify our preference with respect to 
+speed and memory:</p>
+<table>
+<thead>
+<tr>
+<th>Architecture</th>
+<th>Compiler</th>
+<th>Options</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Zilog Z80</td>
+<td>ZSDCC (Z88DK)</td>
+<td><code>--opt-code-size</code></td>
+<td>Optimize memory</td>
+</tr>
+<tr>
+<td>Zilog Z80</td>
+<td>SCCZ80 (Z88DK)</td>
+<td><code>--opt-code-speed</code></td>
+<td>Optimize speed</td>
+</tr>
+<tr>
+<td>MOS 6502</td>
+<td>CC65</td>
+<td><code>-Oi</code>, <code>-Os</code></td>
+<td>Optimize speed</td>
+</tr>
+</tbody>
+</table><p><strong>Known problems</strong></p>
+<ul>
+<li>CC65: <code>-Cl</code> prevents the use of recursive functions</li>
+<li>ZSDCC: has bugs that do not depend on the options and has specific bugs that are triggered by <code>-SO3</code> when no <code>--max-alloc-node20000</code> option is provided.</li>
+</ul>
+<p>In order to avoid these problems and reduce compilation time we 
+recommend the use of just SCCZ80 for Z80 during development and 
+debugging and resort to ZSDCC only for the final optimization and tests.</p>
+<h2 id="user-content-avoid-linking-useless-code"><a id="user-content-avoid-linking-useless-code" class="anchor" aria-hidden="true" href="#avoid-linking-useless-code"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Avoid linking useless code</h2>
+<p>Our compilers will not always be able to detect and remove unused and
+ useless code from the binary. Therefore we must avoid to include it in 
+the first place.</p>
+<p>We can do even better with some of the compilers by instructing them 
+to not include some standard libraries or even portions of the libraries
+ that we are sure not to use.</p>
+<h3 id="user-content-avoid-the-standard-library"><a id="user-content-avoid-the-standard-library" class="anchor" aria-hidden="true" href="#avoid-the-standard-library"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Avoid the standard library</h3>
+<p>Avoiding the standard library can save some generated code. This has a significant impact when using ACK to produce <code>CP/M-80</code> binaries. When compiling with ACK, whenever possible, we shoud try to replace functions such as <code>printf</code> and <code>scanf</code> with just <code>getchar()</code> and <code>putchar(c)</code>.</p>
+<h3 id="user-content-z88dk-special-pragmas-to-remove-code"><a id="user-content-z88dk-special-pragmas-to-remove-code" class="anchor" aria-hidden="true" href="#z88dk-special-pragmas-to-remove-code"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>[z88dk] Special <code>pragma</code>'s to remove code</h3>
+<p>Z88DK provides several <em>pragma</em> commands to instruct the compiler and linker to not include some useless code.</p>
+<p>For example:</p>
+<pre><code>#pragma printf = "%c %u"
+</code></pre>
+<p>includes only <code>%c</code> and <code>%u</code> converts and excludes all the others;</p>
+<pre><code>#pragma-define:CRT_INITIALIZE_BSS=0
+</code></pre>
+<p>does not generate code to inizialize the BSS memory area;</p>
+<pre><code>#pragma output CRT_ON_EXIT = 0x10001
+</code></pre>
+<p>the program does not when it exists (e.g., to BASIC);</p>
+<pre><code>#pragma output CLIB_MALLOC_HEAP_SIZE = 0
+</code></pre>
+<p>no <code>heap</code> memory (i.e., no <code>malloc</code> are possible);</p>
+<pre><code>#pragma output CLIB_STDIO_HEAP_SIZE = 0
+</code></pre>
+<p>removes <code>stdio heap</code> (no file can be opened).</p>
+<p>More examples are in: <a href="https://github.com/Fabrizio-Caruso/CROSS-CHASE/blob/master/src/cross_lib/cfg/z88dk">https://github.com/Fabrizio-Caruso/CROSS-CHASE/blob/master/src/cross_lib/cfg/z88dk</a></p>
+<h2 id="user-content-use-rom-routines"><a id="user-content-use-rom-routines" class="anchor" aria-hidden="true" href="#use-rom-routines"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Use ROM routines</h2>
+<p>Most of the 8-bit systems (almost all computers), have plenty of 
+routines in ROM. It is important to know about them and use them when 
+they are need. In order to use them explicitly in our code, we may have 
+to write some <em>in line</em> Assembly in our C code (or use separate 
+Assembly routines). How to do this is different in every dev-kit and we 
+refer to their respective manuals for more details.</p>
+<p>This is very important for systems that are not natively supported by
+ the compilers and for which all input/output routines have to be 
+written.</p>
+<p>Example (taken from <a href="https://github.com/Fabrizio-Caruso/CROSS-CHASE/blob/master/src/cross_lib/display/display_macros.c">https://github.com/Fabrizio-Caruso/CROSS-CHASE/blob/master/src/cross_lib/display/display_macros.c</a>)</p>
+<p>In order to display characters on the screen for the Thomson Mo5, Mo6
+ and Olivetti Prodest PC128 (which are not supported by CMOC), we can 
+use the ROM routine by using a little in line Assembly code:</p>
+<pre><code>	void PUTCH(unsigned char ch)
+	{
+		asm
+		{
+			ldb ch
+			swi
+			.byte 2
+		}
+	}
+</code></pre>
+<h4 id="user-content-libraries-may-already-use-rom-routines"><a id="user-content-libraries-may-already-use-rom-routines" class="anchor" aria-hidden="true" href="#libraries-may-already-use-rom-routines"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Libraries may already use ROM routines</h4>
+<p>Luckily we use ROM routines implicitly by just using the libraries 
+that are provided by the dev-kit. This saves us a lot of RAM memory 
+because the code is already stored in ROM.<br>
+Nevertheless we must take into consideration that when we use a ROM 
+routine may add some constraints in our code because we cannot modify 
+them and they may use some auxiliary RAM locations (e.g., buffers) that 
+we won’t be allowed to use.</p>
+<h4 id="user-content-basck-let-us-find-the-rom-routines"><a id="user-content-basck-let-us-find-the-rom-routines" class="anchor" aria-hidden="true" href="#basck-let-us-find-the-rom-routines"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>BASCK: let us find the ROM routines</h4>
+<p>When information on the ROM routines of a lesser known system is scant or we do not know the <em>entry points</em> (start addresses) of such routines we may resort <em>BASCK</em> (<a href="https://github.com/z88dk/z88dk/blob/master/support/basck/basck.c">https://github.com/z88dk/z88dk/blob/master/support/basck/basck.c</a>, developed by Stefano Bodrato), which is distributed as part of Z88DK. <em>BASCK</em>
+ takes as input ROM files of Z80 and 6502-based systems and searches for
+ known patterns of ROM routines. Once the routines and the their <em>entry points</em> are found, using them is not always simple but in some cases it is trivial.</p>
+<p>Example</p>
+<ol>
+<li>Let us say we are looking for the PRINT routine in the ROM, then we 
+run BASCK and we filter its output with the “PRS” string  (e.g., with 
+the Unix “grep” command )</li>
+</ol>
+<pre><code>&gt; basck -map romfile.rom |grep PRS  
+PRS = $AAAA ; Create string entry and print it
+</code></pre>
+<p>This gives us the address of the PRINT routine.</p>
+<ol start="2">
+<li>Now we can write C or Assembly code to use it:</li>
+</ol>
+<pre><code>extern void rom_prs(char * str) __z88dk_fastcall @0xAAAA;
+</code><p><code>main() {<br>
+rom_prs ("Hello WORLD !");<br>
+while (1){};<br>
+}
+</code></p></pre><p></p>
+<h2 id="user-content-exploit-the-graphics-chips"><a id="user-content-exploit-the-graphics-chips" class="anchor" aria-hidden="true" href="#exploit-the-graphics-chips"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Exploit the graphics chips</h2>
+<p>As seen in the previous section, even if we could in C we should not 
+forget the specific hardware. In some cases the hardware can help us 
+write more compact and faster code. In particular the graphics chip can 
+help us save lots of RAM.</p>
+<p>Example (TI VDP chip such as the TMS9918A used in the MSX, Spectravideo, Memotech MTX, Sord M5, etc.)<br>
+In some cases we could exploit a special text mode (<em>Mode 1</em>) 
+where the color of a character is implicitfor each group of characters. 
+In such case, a single byte is sufficient to define a character and its 
+color. The 8-bit Atari computer have a similar text mode (graphics mode 
+1+16, Antic mode 6).</p>
+<p>Example (VIC chip used in the Commodore Vic 20)<br>
+The Commodore Vic 20 is a special case because of its hardware limits 
+(RAM totale: 5k, RAM disponibile per il codice: 3,5K) but also for some 
+of the tricks it provides to reduce the impact of these limits.<br>
+One surprising feature of this chip, is its ability to map just a subset
+ of its characters to RAM while mapping the rest to ROM. If we only need
+ n (&lt;=64) redefined characters we can map onto RAM just 64 of them 
+with <code>POKE(0x9005,0xFF);</code>. In such a way we may also use less than 64.</p>
+<p>Moreover, in some cases we can use the separate video ram to which 
+some graphics chips have access (e.g., the TI VDP, MOS VDC of the C128, 
+etc.) for different purposes than doing graphics, such as storing data. 
+This is possible but it has a very high computational cost because the 
+CPU has an indirect access to this separate RAM.</p>
+</article>
+  </div>
+
+    </div>
+
+  
+
+  <details class="details-reset details-overlay details-overlay-dark">
+    <summary data-hotkey="l" aria-label="Jump to line" role="button"></summary>
+    <details-dialog class="Box Box--overlay d-flex flex-column anim-fade-in fast linejump" aria-label="Jump to line" role="dialog" aria-modal="true">
+      <!-- '"` --><!-- </textarea></xmp> --><form class="js-jump-to-line-form Box-body d-flex" action="" accept-charset="UTF-8" method="get"><input name="utf8" type="hidden" value="✓">
+        <input class="form-control flex-auto mr-3 linejump-input js-jump-to-line-field" type="text" placeholder="Jump to line…" aria-label="Jump to line" autofocus="">
+        <button type="submit" class="btn" data-close-dialog="">Go</button>
+</form>    </details-dialog>
+  </details>
+
+
+
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+</main>
+  </div>
+  
+
+  </div>
+
+        
+<div class="footer container-lg width-full px-3" role="contentinfo">
+  <div class="position-relative d-flex flex-justify-between pt-6 pb-2 mt-6 f6 text-gray border-top border-gray-light ">
+    <ul class="list-style-none d-flex flex-wrap ">
+      <li class="mr-3">© 2019 GitHub, Inc.</li>
+        <li class="mr-3"><a data-ga-click="Footer, go to terms, text:terms" href="https://github.com/site/terms">Terms</a></li>
+        <li class="mr-3"><a data-ga-click="Footer, go to privacy, text:privacy" href="https://github.com/site/privacy">Privacy</a></li>
+        <li class="mr-3"><a data-ga-click="Footer, go to security, text:security" href="https://github.com/security">Security</a></li>
+        <li class="mr-3"><a href="https://githubstatus.com/" data-ga-click="Footer, go to status, text:status">Status</a></li>
+        <li><a data-ga-click="Footer, go to help, text:help" href="https://help.github.com/">Help</a></li>
+    </ul>
+
+    <a aria-label="Homepage" title="GitHub" class="footer-octicon d-none d-lg-block mx-lg-4" href="https://github.com/">
+      <svg height="24" class="octicon octicon-mark-github" viewBox="0 0 16 16" version="1.1" width="24" aria-hidden="true"><path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
+</a>
+   <ul class="list-style-none d-flex flex-wrap ">
+        <li class="mr-3"><a data-ga-click="Footer, go to contact, text:contact" href="https://github.com/contact">Contact GitHub</a></li>
+        <li class="mr-3"><a href="https://github.com/pricing" data-ga-click="Footer, go to Pricing, text:Pricing">Pricing</a></li>
+      <li class="mr-3"><a href="https://developer.github.com/" data-ga-click="Footer, go to api, text:api">API</a></li>
+      <li class="mr-3"><a href="https://training.github.com/" data-ga-click="Footer, go to training, text:training">Training</a></li>
+        <li class="mr-3"><a href="https://github.blog/" data-ga-click="Footer, go to blog, text:blog">Blog</a></li>
+        <li><a data-ga-click="Footer, go to about, text:about" href="https://github.com/about">About</a></li>
+
+    </ul>
+  </div>
+  <div class="d-flex flex-justify-center pb-6">
+    <span class="f6 text-gray-light"></span>
+  </div>
+</div>
+
+
+
+  <div id="ajax-error-message" class="ajax-error-message flash flash-error">
+    <svg class="octicon octicon-alert" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8.893 1.5c-.183-.31-.52-.5-.887-.5s-.703.19-.886.5L.138 13.499a.98.98 0 000 1.001c.193.31.53.501.886.501h13.964c.367 0 .704-.19.877-.5a1.03 1.03 0 00.01-1.002L8.893 1.5zm.133 11.497H6.987v-2.003h2.039v2.003zm0-3.004H6.987V5.987h2.039v4.006z"></path></svg>
+    <button type="button" class="flash-close js-ajax-error-dismiss" aria-label="Dismiss error">
+      <svg class="octicon octicon-x" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48L7.48 8z"></path></svg>
+    </button>
+    You can’t perform that action at this time.
+  </div>
+
+
+    
+    <script crossorigin="anonymous" integrity="sha512-/VSJJF96vCzSgC6y09Z4FqzjjuXRWOKIq2twF0Nb5/v8xy4qzngnH6Au6TFwbmNN/lborYJsojEpgIbYjoGvHQ==" type="application/javascript" src="8bitC_8bitC_ENG.md%20at%20master%20%C2%B7%20Fabrizio-Caruso_8bitC_files/frameworks-fd548924.js"></script>
+    
+    <script crossorigin="anonymous" async="async" integrity="sha512-0mcBYsTTDNy016WuG7Zu/Pb5dsdoVzVb5FlxH4btAPKKyTBKn+5g6N6lXxmMo1WokYH8uOYuLpTgLjU29jSqcA==" type="application/javascript" src="8bitC_8bitC_ENG.md%20at%20master%20%C2%B7%20Fabrizio-Caruso_8bitC_files/github-bootstrap-d2670162.js"></script>
+    
+    
+    
+  <div class="js-stale-session-flash flash flash-warn flash-banner" hidden="">
+    <svg class="octicon octicon-alert" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M8.893 1.5c-.183-.31-.52-.5-.887-.5s-.703.19-.886.5L.138 13.499a.98.98 0 000 1.001c.193.31.53.501.886.501h13.964c.367 0 .704-.19.877-.5a1.03 1.03 0 00.01-1.002L8.893 1.5zm.133 11.497H6.987v-2.003h2.039v2.003zm0-3.004H6.987V5.987h2.039v4.006z"></path></svg>
+    <span class="js-stale-session-flash-signed-in" hidden="">You signed in with another tab or window. <a href="">Reload</a> to refresh your session.</span>
+    <span class="js-stale-session-flash-signed-out" hidden="">You signed out in another tab or window. <a href="">Reload</a> to refresh your session.</span>
+  </div>
+  <template id="site-details-dialog">
+  <details class="details-reset details-overlay details-overlay-dark lh-default text-gray-dark hx_rsm" open="">
+    <summary role="button" aria-label="Close dialog"></summary>
+    <details-dialog class="Box Box--overlay d-flex flex-column anim-fade-in fast hx_rsm-dialog hx_rsm-modal">
+      <button class="Box-btn-octicon m-0 btn-octicon position-absolute right-0 top-0" type="button" aria-label="Close dialog" data-close-dialog="">
+        <svg class="octicon octicon-x" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48L7.48 8z"></path></svg>
+      </button>
+      <div class="octocat-spinner my-6 js-details-dialog-spinner"></div>
+    </details-dialog>
+  </details>
+</template>
+
+  <div class="Popover js-hovercard-content position-absolute" style="display: none; outline: currentcolor none medium; top: 277px; left: 328px; z-index: 100;" tabindex="0">
+  <div class="Popover-message Popover-message--large Box box-shadow-large Popover-message--top-left" style="width:360px;"></div>
+</div>
+
+  <div aria-live="polite" class="js-global-screen-reader-notice sr-only"></div>
+
+  
+
+
+</body></html>

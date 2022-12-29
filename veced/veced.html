@@ -1,0 +1,1439 @@
+<html lang="en-US"></html>
+
+<html>
+	<head>
+		<title> Vector Editor v0.1</title>
+		<meta charset="utf-8">
+		<style>
+			canvas, img {
+			image-rendering: optimizeSpeed;
+			image-rendering: -moz-crisp-edges;
+			image-rendering: -webkit-optimize-contrast;
+			image-rendering: optimize-contrast;
+			image-rendering: pixelated;
+			-ms-interpolation-mode: nearest-neighbor;
+			border: 5px solid #ddd;
+		}
+
+		</style>
+	</head>
+<script type="text/javascript">
+
+// El editor funciona pintando el contenido de la cola de comandos.
+// La cola de comandos se muestra por pantalla de modo que podemos
+// modificarla en tiempo real para obtener distintos resultados.
+
+keyCharToCode = {"Backspace":8,"Tab":9,"Enter":13,"Shift":16,"Ctrl":17,"Alt":18,"Pause/Break":19,"Caps Lock":20,"Esc":27,"Space":32,"Page Up":33,"Page Down":34,"End":35,"Home":36,"Left":37,"Up":38,"Right":39,"Down":40,"Insert":45,"Delete":46,"0":48,"1":49,"2":50,"3":51,"4":52,"5":53,"6":54,"7":55,"8":56,"9":57,"A":65,"B":66,"C":67,"D":68,"E":69,"F":70,"G":71,"H":72,"I":73,"J":74,"K":75,"L":76,"M":77,"N":78,"O":79,"P":80,"Q":81,"R":82,"S":83,"T":84,"U":85,"V":86,"W":87,"X":88,"Y":89,"Z":90,"Windows":91,"Right Click":93,"Numpad 0":96,"Numpad 1":97,"Numpad 2":98,"Numpad 3":99,"Numpad 4":100,"Numpad 5":101,"Numpad 6":102,"Numpad 7":103,"Numpad 8":104,"Numpad 9":105,"Numpad *":106,"Numpad +":107,"Numpad -":109,"Numpad .":110,"Numpad /":111,"F1":112,"F2":113,"F3":114,"F4":115,"F5":116,"F6":117,"F7":118,"F8":119,"F9":120,"F10":121,"F11":122,"F12":123,"Num Lock":144,"Scroll Lock":145,"My Computer":182,"My Calculator":183,";":186,"=":187,",":188,"-":189,".":190,"/":191,"`":192,"[":219,"\\":220,"]":221,"'":222};
+
+var spectrum_pal = 
+	[
+    // Bright 0 
+	0,0,0,     // Black
+	0,0x00,0xD7,   // Blue
+	0xD7,0,0,   // Red
+	0xD7,0,0xD7, // Magenta
+	0,0xD7,0,   // Green
+	0,0xD7,0xD7,  // Cyan
+	0xD7,0xD7,0,  // Yellow
+	0xD7,0xD7,0xD7,	 // White
+	// Bright 1 
+	0,0,0,     // Black
+	0,0x00,0xFF,   // Blue
+	0xFF,0,0,   // Red
+	0xFF,0,0xFF, // Magenta
+	0,0xFF,0,   // Green
+	0,0xFF,0xFF,  // Cyan
+	0xFF,0xFF,0,  // Yellow
+	0xFF,0xFF,0xFF	 // White
+    ];
+
+var C64_pal = 
+[
+    0x00,0x00,0x00, // 0 Black 
+    0xFF,0xFF,0xFF, // 1 White 
+    0x88,0x00,0x00, // 2 Red 
+    0xAA,0xFF,0xEE, // 3 Cyan 
+    0xCC,0x44,0xCC, // 4 Violet/purple 
+    0x00,0xCC,0x55, // 5 Green
+    0x00,0x00,0xAA, // 6 Blue
+    0xEE,0xEE,0x77, // 7 Yellow
+    0xDD,0x88,0x55, // 8 Orange
+    0x66,0x44,0x00, // 9 Brown
+    0xFF,0x77,0x77, // 10 Light red
+    0x33,0x33,0x33, // 11 Dark grey/ Grey 1
+    0x77,0x77,0x77, // 12 Grey 2
+    0xAA,0xFF,0x66, // 13 Light green
+    0x00,0x88,0xFF, // 14 Light blue
+    0xBB,0xBB,0xBB // 15 Light grey
+    ];
+
+var EGA_pal = 
+[
+    0x00,0x00,0x00, // 0 Black 
+    0x00,0x00,0xAA, // 1 Blue 
+    0x00,0xAA,0x00, // 2 Green
+    0x00,0xAA,0xAA, // 3 Cyan
+    0xAA,0x00,0x00, // 4 Red
+    0xAA,0x00,0xAA, // 5 Magenta
+    0xAA,0x55,0x00, // 6 Brown
+    0xAA,0xAA,0xAA, // 7 White / Light gray 
+    0x55,0x55,0x55, // 8 Dark Gray / bright black
+    0x55,0x55,0xFF, // 9 Bright Blue
+    0x55,0xFF,0x55, // 10 Bright Green 
+    0x55,0xFF,0xFF, // 11 Bright cyan  
+    0xFF,0x55,0x55, // 12 Bright red  
+    0xFF,0x55,0xFF, // 13 Bright magenta  
+    0xFF,0xFF,0x55, // 14 Bright yellow  
+    0xFF,0xFF,0xFF // 15 Bright white  
+    ];   
+    
+var canvas;
+var canvas_height;
+var canvas_width;
+var cursor_mode = 'plot'
+var new_command = false 
+var canvas_trace;
+var canvas_grid;
+var canvas_paper;
+
+var pic_width = 256;
+var pic_height = 192;
+var pic_pixel_ratio = 1;
+var pic_len = 0
+var ddbb_len=0 
+var old_pixel = 0; 
+var old_X = 0;
+var old_Y = 0;
+var line_mode_x = 0 
+var line_mode_y = 0
+
+var PIC_INK = 0
+var PIC_PAPER = 0
+var PIC_BGCOLOR = 0
+var PIC_FGCOLOR = 0
+var PIC_BRUSH = 0 // BRUSH offset in bits
+var PIC_SETMODE =0; // 0=SET 1=UNSET
+
+var buffer = new ImageData(pic_width, pic_height); // Buffer used for the drawing
+var dbuffer= new ImageData(pic_width, pic_height); // Buffer used for dumping into screen
+
+var pic_mode = "Spectrum"; // C64, EGA 
+
+var default_pic = "LINE \n 7 7\n 248 7\n 248 80\n 7 80\n 7 7 \n END"
+
+var trace_image = new Image();
+trace_image.src = './lpuente07.png'
+
+
+
+brushes = [ 
+	// Solid
+	1,1,1,1,1,1,1,1,
+	1,1,1,1,1,1,1,1,
+	1,1,1,1,1,1,1,1,
+	1,1,1,1,1,1,1,1,
+	1,1,1,1,1,1,1,1,
+	1,1,1,1,1,1,1,1,
+	1,1,1,1,1,1,1,1,
+	1,1,1,1,1,1,1,1,
+	// Grid 80% 
+	0,1,1,1,0,1,1,1,
+	1,1,1,1,1,1,1,1,
+	1,1,0,1,1,1,0,1,
+	1,1,1,1,1,1,1,1,
+	0,1,1,1,0,1,1,1,
+	1,1,1,1,1,1,1,1,
+	1,1,0,1,1,1,0,1,
+	1,1,1,1,1,1,1,1,
+	// Grid 75%
+	1,1,1,0,1,1,1,0,
+	0,1,0,1,0,1,0,1,
+	1,0,1,1,1,0,1,1,
+	0,1,0,1,0,1,0,1,
+	1,1,1,0,1,1,1,0,
+	0,1,0,1,0,1,0,1,
+	1,0,1,1,1,0,1,1,
+	0,1,0,1,0,1,0,1,
+	// Grid 50% 
+	1,0,1,0,1,0,1,0,
+	0,1,0,1,0,1,0,1,
+	1,0,1,0,1,0,1,0,
+	0,1,0,1,0,1,0,1,
+	1,0,1,0,1,0,1,0,
+	0,1,0,1,0,1,0,1,
+	1,0,1,0,1,0,1,0,
+	0,1,0,1,0,1,0,1,
+	// Grid 25%
+	0,0,0,1,0,0,0,1,
+	1,0,1,0,1,0,1,0,
+	0,1,0,0,0,1,0,0,
+	1,0,1,0,1,0,1,0,
+	0,0,0,1,0,0,0,1,
+	1,0,1,0,1,0,1,0,
+	0,1,0,0,0,1,0,0,
+	1,0,1,0,1,0,1,0,
+	// Grid 12% 
+	1,0,0,0,1,0,0,0,
+	0,0,0,0,0,0,0,0,
+	0,0,1,0,0,0,1,0,
+	0,0,0,0,0,0,0,0,
+	1,0,0,0,1,0,0,0,
+	0,0,0,0,0,0,0,0,
+	0,0,1,0,0,0,1,0,
+	0,0,0,0,0,0,0,0,
+	//; Horizontal rain
+	0,0,0,0,0,0,0,0,
+	0,0,0,0,0,0,1,1,
+	0,0,0,1,1,0,0,0,
+	1,1,0,0,0,0,0,0,
+	0,0,0,0,0,0,0,0,
+	0,0,0,1,1,0,0,0,
+	0,0,0,0,0,0,1,1,
+	0,1,1,0,0,0,0,0
+	]
+
+
+function init () {
+	// Fill the text boxes with default values 
+	document.getElementById("pic_width").value = pic_width
+	document.getElementById("pic_height").value = pic_height
+	document.getElementById("pic_pixel_ratio").value = pic_pixel_ratio
+
+	// Creates and empty database
+	document.getElementById("command_window").value = default_pic
+
+	// Creates the screen buffer	
+    canvas = document.getElementById('can');
+    ctx = canvas.getContext("2d");
+
+	// Set the buffer to the default pic size 
+	canvas.width = pic_width;
+	canvas.height = pic_height;
+	buffer = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+	// Position the tracing layer 
+	clearCanvas ('can_trace')
+	canvas_trace = document.getElementById('can_trace');
+	trace_ctx = canvas_trace.getContext("2d");
+
+	// The tracing image size depends on the image source, not the picture 
+	canvas_trace.width = canvas.width
+	canvas_trace.height = canvas.height
+	canvas_trace.style.width = 	canvas.style.width 
+	canvas_trace.style.height = canvas.style.height
+	canvas_trace.style.zIndex = 0
+	canvas_trace.style.left = getOffset (canvas).left
+	canvas_trace.style.top = getOffset (canvas).top
+	trace_ctx.drawImage (trace_image,0,0)
+	
+	// Grid layer is in native resolution 
+	clearCanvas ('can_grid')
+	canvas_grid = document.getElementById('can_grid');
+	trace_ctx = canvas_trace.getContext("2d");
+	//canvas_grid.width = parseInt(canvas.style.width,10)
+	//canvas_grid.height = parseInt(canvas.style.height,10)
+	canvas_grid.style.width = 	canvas.style.width 
+	canvas_grid.style.height = canvas.style.height
+	canvas_grid.style.zIndex = 0
+	canvas_grid.style.left = getOffset (canvas).left
+	canvas_grid.style.top = getOffset (canvas).top
+	drawGrid ();
+	// Position the grid layer 
+	clearCanvas ('can_grid')
+	
+	// Add the events for the user 
+	canvas_grid.addEventListener("mousemove", function (e) {	
+        findxy('move', e)
+    }, false);
+    canvas_grid.addEventListener("mousedown", function (e) {
+        findxy('down', e)
+    }, false);
+    canvas_grid.addEventListener("mouseup", function (e) {
+        findxy('up', e)
+    }, false);
+    canvas_grid.addEventListener("mouseout", function (e) {
+        findxy('out', e)
+    }, false);
+	document.addEventListener("keydown", function(e) { 
+   			rutina_teclado(e)
+	},false);
+}
+
+function drawGrid ()
+{
+	var ctx = canvas_grid.getContext('2d')   
+	var grid_vsize = 8
+	var grid_hsize = 8
+	var width = canvas_grid.width
+	var height = canvas_grid.height
+	var zoom = document.getElementById('pic_zoom').value
+	zoom = zoom / 100 
+	trans = document.getElementById('grid_trans').value
+	ctx.clearRect(0,0, width,height);
+	
+	ctx.beginPath();
+	ctx.globalAlpha = trans/1000
+	ctx.strokeStyle = 'light-blue'
+
+	// Columns
+	for (var x=0; x<width;x+=grid_hsize*zoom) 
+	{
+		//console.debug (x+",0 to "+x+","+height)
+		ctx.moveTo (x,0)
+		ctx.lineTo(x, height)
+		ctx.stroke()
+	}
+	//Rows
+	for (var y=0; y<height;y+=grid_vsize*zoom) 
+	{
+		//console.debug (x+",0 to "+x+","+height)
+		ctx.moveTo (0,y)
+		ctx.lineTo(width, y)
+		ctx.stroke()
+	}
+
+	ctx.globalAlpha = (trans/100)
+
+}
+
+function getOffset( el ) {
+    var _x = 0;
+    var _y = 0;
+    while( el && !isNaN( el.offsetLeft ) && !isNaN( el.offsetTop ) ) {
+        _x += el.offsetLeft - el.scrollLeft;
+        _y += el.offsetTop - el.scrollTop;
+        el = el.offsetParent;
+    }
+    return { top: _y, left: _x };
+}
+
+function clearCanvas (canvas_id)
+{
+	
+	canvas_tmp = document.getElementById(canvas_id);
+    ctx = canvas_tmp.getContext("2d");
+	tmp = ctx.getImageData(0, 0, canvas_tmp.width, canvas_tmp.height);
+	for (var i=0;i<tmp.data.length;i++) tmp.data[i]=0;
+}
+
+function eraseLineSp (iniX, iniY, finalX, finalY, image)
+{
+	// Algoritmo de Bresenham. No hay antialiasing
+	iniX = parseInt (iniX);
+	iniY = parseInt (iniY);
+	finalX = parseInt (finalX);
+	finalY = parseInt (finalY);
+
+	// console.debug ("drawLine "+iniX +" "+iniY+" "+finalX+" "+finalY);
+	clearPixel (iniX, iniY, image);
+	// 1. Convierte coordenadas para que funcionen en CANVAS
+		// Define differences and error check
+		var dx = Math.abs(finalX - iniX);
+		var dy = Math.abs(finalY - iniY);
+		var sx = (iniX < finalX) ? 1 : -1;
+		var sy = (iniY < finalY) ? 1 : -1;
+		var err = dx - dy;
+			
+		// Main loop
+		while (!((iniX == finalX) && (iniY == finalY))) {
+		var e2 = err << 1;
+		if (e2 > -dy) {
+			err -= dy;
+			iniX += sx;
+		}
+		if (e2 < dx) {
+			err += dx;
+			iniY += sy;
+		}
+		// Set coordinates
+		clearPixel (iniX, iniY, image);
+		}
+}	
+
+
+function drawLineSp (iniX, iniY, finalX, finalY, image)
+{
+	// Algoritmo de Bresenham. No hay antialiasing
+	iniX = parseInt (iniX);
+	iniY = parseInt (iniY);
+	finalX = parseInt (finalX);
+	finalY = parseInt (finalY);
+
+	// console.debug ("drawLine "+iniX +" "+iniY+" "+finalX+" "+finalY);
+	putPixel (iniX, iniY, image);
+	// 1. Convierte coordenadas para que funcionen en CANVAS
+		// Define differences and error check
+		var dx = Math.abs(finalX - iniX);
+		var dy = Math.abs(finalY - iniY);
+		var sx = (iniX < finalX) ? 1 : -1;
+		var sy = (iniY < finalY) ? 1 : -1;
+		var err = dx - dy;
+			
+		// Main loop
+		while (!((iniX == finalX) && (iniY == finalY))) {
+		var e2 = err << 1;
+		if (e2 > -dy) {
+			err -= dy;
+			iniX += sx;
+		}
+		if (e2 < dx) {
+			err += dx;
+			iniY += sy;
+		}
+		// Set coordinates
+		putPixel (iniX, iniY, image);
+		}
+}
+
+// Cambia el color de fondo de un caracter 
+function putPaper (X,Y,image)
+{
+
+}
+
+function putPixel (X,Y, image)
+{
+	// Dibuja un punto...
+	// Cada píxel: RGBA (4bytes)
+	//		For example, to read the blue component's value from the pixel at column 200, row 50 in the image, you would do the following:
+	//blueComponent = imageData.data[((50*(imageData.width*4)) + (200*4)) + 2];
+
+	// 0,0 at bottom left corner
+	//base = ((canvas.height-Y)*(canvas.width*4)+(X*4));
+	// console.debug ("putpixel X="+X+" Y="+Y)
+
+	// 0,0 at top left corner
+	base = ((Y)*(canvas.width*4)+(X*4));
+
+	image.data[ base ] = spectrum_pal[PIC_INK*3]; // R
+	image.data[ base+1 ] = spectrum_pal[PIC_INK*3+1]; // G
+	image.data[ base+2 ] = spectrum_pal[PIC_INK*3+2]; // B
+	image.data[ base+3 ] = 255; // Alfa
+}
+
+function clearPixel (X,Y, image)
+{
+	// Clear a pixel...
+	// Each pixel: RGBA (4bytes)
+	//		For example, to read the blue component's value from the pixel at column 200, row 50 in the image, you would do the following:
+	//blueComponent = imageData.data[((50*(imageData.width*4)) + (200*4)) + 2];
+
+	// 0,0 at bottom left corner
+	//base = ((canvas.height-Y)*(canvas.width*4)+(X*4));
+
+	// 0,0 at top left corner
+	base = ((Y)*(canvas.width*4)+(X*4));
+
+	image.data[ base ] = 255//spectrum_paleta[paws_ink*3]; // R
+	image.data[ base+1 ] = 255//spectrum_paleta[paws_ink*3+1]; // G
+	image.data[ base+2 ] = 255//spectrum_paleta[paws_ink*3+2]; // B
+	image.data[ base+3 ] = 0; // Alfa
+
+	//console.debug ("X="+X," Y= "+Y+"Alfa "+buffer.data[ base+3 ])
+}
+
+
+function readPixel (X,Y, image)
+{
+	base = ((Y)*(canvas.width*4)+(X*4));
+	//console.debug ("X="+X+"Y="+Y+" "+buffer.data[base+3])
+	return image.data[ base+3 ]
+}
+
+function sleep(milliseconds) {
+  const date = Date.now();
+  let currentDate = null;
+  do {
+    currentDate = Date.now();
+  } while (currentDate - date < milliseconds);
+}
+
+
+function fill (x,y, pattern_offset, image)
+{
+	
+	next_x = x
+	next_y = y
+
+	while (next_x!=255 && next_y!=255)
+	{
+		x = next_x
+		y = next_y
+
+		next_x = 255
+		next_y = 255
+			
+		// Monochrome fill rutine 
+		// 1st Scan to the left until a set pixel is found 
+		while (readPixel(x,y,image)==0)
+		{
+			x--;
+		}
+		// 2nd Fill pixels to the right until a set pixel is found 
+		while (readPixel(++x,y,image)==0)
+		{
+			// OR with the pixel mask 
+			if (readPixel(x,y,image)==0)
+				{
+					if (brushes[pattern_offset*8+x%8+(y%8)*8]>0) 
+						putPixel(x,y,image);
+				}
+			// if the scanline below is empty then store it for later use
+			if (readPixel(x,y+1,image)==0) 
+				{
+					next_x = x;
+					next_y = y+1;
+				}
+		}
+		//console.debug ("Next Line "+next_x+" "+next_y)	
+	}	
+}
+
+
+function to_bytes ()
+{
+	/* 
+	https://wiki.scummvm.org/index.php/AGI/Specifications/Pic#General_actions
+
+	0xF0: Change picture color and enable picture draw.
+
+    0xF1: Disable picture draw. (Not used)
+    0xF2: Change priority color and enable priority draw. (Not used)
+    0xF3: Disable priority draw. (Not used)
+    0xF4: Draw a Y corner. (Not used)
+    0xF5: Draw an X corner. (Not used)
+    0xF6: Absolute line (long lines).
+    0xF7: Relative line (short lines).
+    0xF8: Fill.
+    0xF9: Change pen size and style.
+	0xFA: Plot with pen.
+    0xFB--0xFE: Unused in most AGI games.
+	*/
+	
+	/* Some specifics 
+	: New entry in the database 
+	; Comment
+	0xF0 COLOR byte
+		For ZX Spectrum PAPER | INK 
+		It affects only 0xFA Plot with pen command 
+	0xF8 Fill x y 
+	 It takes only two arguments, texture is defined by 0xF9 Change pen and style
+	
+	0xF9: Change pen size and style 
+		BRUSH byte
+		Bits are used differently 
+		7 6 5 4 3 2 1 0 
+		Bit 7: 0 Set Draw, 1 Unset Draw 
+		Bits 0-6 (0-127) as pattern bit offset 
+			0 Solid
+			8 80% Grey
+			16 75% Grey 
+			24 50% Grey
+			32 25% Grey 
+			40 12% Grey 
+			48 Horizontal Fill 
+	0xF6 and 0xF7
+		Affected by 0xF9 "Change pen size and style". Lines can unset parts of the picture or make use of the texture during drawing. 
+
+	0xFA Plot with pen
+		It is affected by 0xF0 "Color" and 0xF9 "Change pen size and style". When a texture is used the whole char is filled. 
+	
+	0xFB: CALL byte 
+			  Where byte is the TAG number of the picture to be drawed in the current position. 
+	0xFC: TAG number 
+			  This command is used to identify a picture in the database. It is not encoded in the output database. 
+			  TAG numbers can be used to CALL pictures during drawing (i.e. drawing repetitive patterns like windows)
+			  Pictures to be called by TAG gets their coordinates offset by the lastest coordinates used. 
+	*/
+
+	var bytes= new Uint8Array(1024); // Up to 1Kbyte per picture
+	var pointer = 0;
+	var args=0;
+	var cmd = 0
+	var arg_array;
+	var arg_counter=0;
+	var x0,y0,x1,y1
+
+	// 1. Extract info from textarea
+	var cola_comandos = document.getElementById('command_window').value.split('\n');
+	
+	for (var i=0; i < cola_comandos.length; i++)
+	{
+		// Extract the line
+		linea = cola_comandos[i];
+		// Remove extra black spaces
+		linea = linea.toLowerCase().trim();
+
+		// Remove comments 
+		comment_marker = linea.indexOf(";");
+		
+		if (comment_marker>-1)
+			linea = linea.substr(0,comment_marker);
+			if (linea.length==0) continue; // If nothing is left move to the next line...
+
+		var res = linea.trim().split(/[\s,]+/);
+		for (var j=0; j< res.length;j++)
+		{
+			
+			if (res[j]=="color") {
+				bytes[pointer++] = 0xF0
+				cmd = 0xF0
+				args = 1 // Color to be used, ZX Spectrum PAPER | INK  
+				arg_array=[]				
+				continue
+			}	
+			
+			if (res[j]=="line") {
+				bytes[pointer++] = 0xF6
+				cmd = 0xF6				
+				args = 2 ; // X0 Y0 
+				arg_counter = 0
+				arg_array=[]
+				continue
+			}
+			if (res[j]=="rline") {
+				bytes[pointer++] = 0xF7
+				cmd = 0xF7
+				arg_counter = 0
+				args = 2 // deltaX deltaY 
+				arg_array=[]				
+				continue
+			}
+			if (res[j]=="brush") {
+				bytes[pointer++] = 0xF9
+				cmd = 0xF9
+				args = 1 // Brush pen and style 
+				arg_array=[]				
+				continue
+			}	
+
+			if (res[j]=="plot") {
+				bytes[pointer++] = 0xFA
+				cmd = 0xFA
+				args = 2 // X0 Y0 
+				arg_array=[]				
+				continue
+			}	
+			if (res[j]=='fill') {
+				// 	0xF8: Fill.
+				bytes[pointer++] = 0xF8
+				cmd = 0xF8
+				args = 2 // X0 Y0, Pattern in use is defined by 0xF9 Brush command 
+				arg_array=[]				
+				continue
+			}
+			// TAG 
+			// Tags start with : and are followed by a number in decimal 
+			if (res[j]==":")
+				{
+					cmd = 0xFC
+					// TAGs commands are not encoded in the database 
+					args = 1 ; // Identifier (0-255) 
+					arg_counter = 0
+					arg_array=[]					
+					continue;
+				}
+			// CALL byte
+			if (res[j]=="call")
+				{
+					cmd = 0xFB
+					bytes[pointer++] = 0xFB
+					args = 1 ; // TAG to be called
+					arg_counter = 0
+					arg_array=[]
+					continue;
+				}
+			
+			// End of the current picture
+			if (res[j]=="end")
+			{
+				bytes[pointer] = 0xFF
+				continue 
+			}
+
+			if (arg_counter < args) 
+			{
+				// Tags command does not add bytes to the database 
+				if (cmd!=0xFC)
+					arg_array.push(parseInt(res[j]))
+				arg_counter++;
+			}
+
+			// Some commands requires postprocessing
+			// END of commands 
+			// Rline 
+			if (arg_counter == args)
+			{
+
+				// COLOR PAPER|INK				
+				if (cmd==0xF0) {
+					bytes[pointer++] = arg_array[0];
+					arg_array=[]		
+					arg_counter=0;		
+					continue
+				}	
+			
+				if (cmd==0xF7)
+				{
+					// console.debug ("RLINE"+arg_array[0]+" "+arg_array[1])
+					// +X +Y 
+					if (arg_array[0]>=0 && arg_array[1]>=0) { 
+						//console.debug ("+X +Y")
+						bytes[pointer++] = arg_array[0]*16+arg_array[1]
+						}
+					// -X +Y
+					if (arg_array[0]<0 && arg_array[1]>=0) {
+						//bytes[pointer++] = arg_array[1]&0x0F
+						//console.debug ("-X +Y")
+						//bytes[pointer++] = (8+Math.abs(arg_array[0])*16)+arg_array[1]
+						bytes[pointer++] = ((8+Math.abs(arg_array[0]))<<4)+(arg_array[1]&0x0F)
+						}
+					// -X -Y
+					if (arg_array[0]<0 && arg_array[1]<0) {
+						//console.debug ("-X -Y")
+						bytes[pointer++] = (8+Math.abs(arg_array[0])<<4)+8+Math.abs(arg_array[1])
+						}
+				
+					// +X .Y	
+					if (arg_array[0]>=0 && arg_array[1]<0) {
+						//console.debug ("+X -Y")
+						bytes[pointer++] = (Math.abs(arg_array[0])*16)+8+Math.abs(arg_array[1])
+						}
+					
+					arg_counter = 0 
+					arg_array=[]				
+				}
+				// Line,Plot 
+				if (cmd==0xF6 || cmd==0xFA)
+				{
+					bytes[pointer++] = arg_array[1] // Y0
+					bytes[pointer++] = arg_array[0] // X0
+					arg_counter = 0 
+					arg_array=[]
+				}
+				// Fil X0 Y0 PATTERN
+				if (cmd==0xF8)
+				{
+					// We store always Y first because the range is always lower than 0xF0: 240
+					bytes[pointer++] = arg_array[1] // Y0
+					bytes[pointer++] = arg_array[0] // X0
+					arg_counter = 0 
+					arg_array=[]
+				}
+				// BRUSH byte 
+				if (cmd==0xF9) {
+					bytes[pointer++] = arg_array[0];
+					arg_array=[]		
+					arg_counter=0;		
+					continue
+				}	
+				// CALL TAG 
+				if (cmd==0xFB) {
+					bytes[pointer++] = arg_array[0];
+					arg_array=[]		
+					arg_counter=0;		
+					continue
+				}	
+			}			
+		}
+	}
+
+	// End of pic 
+	bytes[pointer] = 0xFF
+	console.debug(bytes)
+	pic_len = pointer
+	ddbb_len = pic_len
+	return bytes;
+}
+
+// Timelapse in ms 
+function paint_pic (timelapse=0)
+{
+	/* 
+	https://wiki.scummvm.org/index.php/AGI/Specifications/Pic#General_actions
+
+	0xF0: Change picture color and enable picture draw.
+    0xF1: Disable picture draw.
+    0xF2: Change priority color and enable priority draw.
+    0xF3: Disable priority draw.
+    0xF4: Draw a Y corner.
+    0xF5: Draw an X corner.
+    0xF6: Absolute line (long lines).
+    0xF7: Relative line (short lines).
+    0xF8: Fill.
+    0xF9: Change pen size and style.
+    0xFA: Plot with pen.
+    0xFB--0xFE: Unused in most AGI games.
+	*/
+	// (0,0) is top left corner
+
+	var cmd;
+	var args=0;
+	var arg_array;
+	var arg_counter=0;
+	var x0,y0,x1,y1
+	
+	// By default
+	PIC_SETMODE = 0
+	PIC_INK = 0
+	PIC_PAPER = 7
+	PIC_BRUSH=0
+
+	// 0. Limpia el buffer de pantalla 
+	for (var i=0;i<buffer.data.length;i++) buffer.data[i]=0;
+
+	var bytestring = to_bytes();
+
+	for (var i=0; i<bytestring.length;i++)
+	{
+		// Byte values over 0xF0 belongs always to commands 
+
+		if (bytestring[i]>0xF0 && arg_counter==0)
+		{
+			// 0xFF: End-of-pic 
+			if (bytestring[i]==0xFF) 
+			{
+				// Dump to screen
+				ctx = canvas.getContext("2d");
+				ctx.imageSmoothingEnabled = false
+				canvas.getContext("2d").putImageData (buffer,0,0)
+				return; 
+			}
+
+			// Commands 
+			// Higher than 0xF0 is reserved for commands and End-of-pic (0xFF)
+			// 0xF0: Color PAPER|INK 
+			if (bytestring[i]==0xF0) 
+			{
+				cmd = 0xF0
+				args = 1 // Color to be used, ZX Spectrum PAPER | INK  
+				arg_array=[]				
+				arg_counter=0;
+				continue
+			}	
+
+			// 0xF6: Absolute line (long lines) X0 Y0 X1 Y1 X2 Y2...
+			if (bytestring[i]==0xF6)
+			{
+				x0=0
+				y0=0
+				x1=1
+				y1=1
+				cmd = 0xF6
+				args = 4 // Y0,X0 Y1,X1
+				arg_array = [];
+				arg_counter=0
+				continue
+			}
+			// 0xF7: Relative Line X1|Y1
+			if (bytestring[i]==0xF7)
+			{
+				cmd = 0xF7
+				args = 1 // Both coordinates fits in 1byte 
+				arg_array = [] 
+				arg_counter = 0 
+				arg_array.push(y0)
+				arg_array.push(x0)
+				continue
+			}
+			//     0xF8: Fill.
+			if (bytestring[i]==0xF8) 
+			{
+				x0=0
+				y0=0
+				cmd = 0xF8
+				args = 2 // X0,Y0. Pattern offset is defined by 0xF9 
+				arg_array = [];
+				arg_counter=0
+				continue
+			}
+			/*
+			0xF9: Change pen size and style 
+			BRUSH byte
+			Bits are used differently 
+			7 6 5 4 3 2 1 0 
+			Bit 7: 0 Set Draw, 1 Unset Draw 
+			Bits 0-6 (0-127) as pattern bit offset 
+				0 Solid
+				8 80% Grey
+				16 75% Grey 
+				24 50% Grey
+				32 25% Grey 
+				40 12% Grey 
+				48 Horizontal Fill 1
+			*/
+			if (bytestring[i]==0xF9) 
+			{
+				set_mode = 0;
+				texture_offset =0;
+				args = 1;
+				cmd = 0xF9;
+				arg_array=[];
+				continue;
+			}
+
+			// 0xFA: PLOT X0 Y0
+			if (bytestring[i]==0xFA) 
+			{
+				x0=0
+				y0=0
+				cmd = 0xFA
+				args = 2 // X0,Y0 
+				arg_array = [];
+				arg_counter=0
+				continue
+			}
+
+			// 0xFB: CALL picno
+			if (bytestring[i]==0xFB) 
+			{
+				x0=0
+				y0=0
+				cmd = 0xFB
+				args = 1 // picno 
+				arg_array = [];
+				arg_counter=0
+				continue
+			}
+
+		}	
+		// Parameters 
+		if (arg_counter<args)
+		{
+			// Post processing
+			// RLINE 
+			if (cmd == 0xF7)
+			{
+				x1 = ((bytestring[i] >>> 4)&0x0F)
+				if (x1>7) x1 = -1*(x1 & 0x07)
+				y1 = (bytestring[i] & 0x0F)
+				if (y1>7) y1 = -1*(y1&0x07)	
+				arg_array.push(y0+y1)
+				arg_array.push(x0+x1)
+				arg_counter++
+			}
+			else 
+				arg_array.push(bytestring[i]);
+			
+			arg_counter++;
+		}
+		// --------------------------------------------------		
+		// End for each command 
+		// --------------------------------------------------
+		// All arguments have been retrieved
+		// END of color
+		if (cmd==0xF0 && arg_counter>=args)
+		{
+			PIC_PAPER = (arg_array[0]&0xF0)>>>4;
+			PIC_INK = (arg_array[0]&0x0F);
+			arg_array=[]
+			arg_counter=0
+			args=1
+		}
+
+		// END of RLINE 
+		// END of LINE
+		// Line commands are affected by:
+		//  BRUSH SET_UNSET | OFFSET 
+		
+		if ((cmd==0xF6 || cmd==0xF7) && arg_counter>=args)
+		{
+			//console.debug (arg_array)
+			if (PIC_SETMODE==0) // SET 
+				drawLineSp (arg_array[1], arg_array[0], arg_array[3], arg_array[2],buffer)
+			
+			if (PIC_SETMODE==1) // UNSET
+				eraseLineSp (arg_array[1], arg_array[0], arg_array[3], arg_array[2],buffer)
+			
+			// Line works as a string of coordinates
+			x0 = arg_array[3]
+			y0 = arg_array[2]
+			arg_array=[]
+			arg_array.push(y0)
+			arg_array.push(x0)
+			//arg_array.push(bytestring[i]) // X1
+			args=2
+			arg_counter=0
+			//ctx = canvas.getContext("2d");
+			//ctx.imageSmoothingEnabled = false
+			//canvas.getContext("2d").putImageData (buffer,0,0)
+		}
+
+		// END of BRUSH 
+		if (cmd==0xF9 && arg_counter>=args)
+		{
+			//console.debug ("BRUSH:",arg_array[0])
+			PIC_SETMODE = (arg_array[0]&0x80)>>>7; // 0= Set pixel, 1=Unset pixel 
+			PIC_BRUSH = (arg_array[0]&0x7F) // 0=Solid Color, Bit offset
+			arg_array=[]
+			arg_counter=0
+			args=1
+		}
+
+		// END of PLOT 
+		// Plot is affected by:
+		//  COLOR PAPER | INK
+		//  BRUSH SET_UNSET | OFFSET 
+		if (cmd==0xFA && arg_counter>=args)
+		{
+			x0 = arg_array[1]
+			y0 = arg_array[0]
+			
+			if (PIC_SETMODE==0) // SET 
+				{
+					putPaper (x0,y0, PIC_PAPER)		
+					if (PIC_BRUSH==0) // Solid 1pixel
+					{
+						putPixel (x0, y0, buffer)
+					}
+					else // Brush offset
+					{
+						// OR with the pattern 
+						// Patterns are defined as bit, and OFFSET is defined in BYTES (8bit)
+						for (var pat_i=0;pat_i<64;pat_i++)
+						{
+							xbit = (x0+(pat_i%8))
+							ybit = (y0+(pat_i>>>3))
+							//console.debug (brushes[PIC_BRUSH*8+pat_i]+" "+xbit+" "+ybit)
+							if (brushes[PIC_BRUSH*8+pat_i]>0)
+							{
+								putPixel (xbit,ybit,buffer);
+							}
+						}	
+					}
+				}
+			if (PIC_SETMODE==1) // UNSET 
+				{
+					if (PIC_BRUSH==0) // Solid 1pixel
+					{
+						clearPixel (x0, y0, buffer)
+					}
+					else // Brush offset
+					{
+						// OR with the pattern 
+						for (var pat_i=0;pat_i<64;pat_i++)
+						{
+							xbit = (x0+(pat_i%8))
+							ybit = (y0+(pat_i>>>3))
+							//console.debug (brushes[PIC_BRUSH*8+pat_i]+" "+xbit+" "+ybit)
+							if (brushes[PIC_BRUSH*8+pat_i]>0)
+							{
+								clearPixel (xbit,ybit,buffer);
+							}
+						}	
+					}
+				}
+			arg_array=[]
+			args=2
+			arg_counter=0
+		}
+		// END of FILL 
+		// FILL is affected by 
+		// 	BRUSH SET_UNSET | OFFSET 
+		if (cmd==0xF8 && arg_counter>=args)
+		{
+			x0 = arg_array[1]
+			y0 = arg_array[0]
+			pattern_offset = PIC_BRUSH	
+			fill (x0, y0, pattern_offset, buffer)
+			arg_array=[]
+			args=2; // X,Y
+			arg_counter=0
+		}
+
+		// END of CALL 
+		if (cmd==0xFB && arg_counter>=args)
+		{
+			arg_array=[]
+			arg_counter=0
+			args=1
+		}
+	}
+}
+
+// ----------------------------------------
+// GUI functions 
+// ----------------------------------------
+
+function picZoom ()
+{
+	zoom = document.getElementById('pic_zoom').value
+	console.debug ("Change Zoom "+zoom)
+	//canvas = document.getElementById('can');
+    ctx = canvas.getContext("2d");
+	//canvas.scale(zoom/100,zoom/100);
+	/*
+	canvas.scale
+	canvas.width  = 400;
+	canvas.height = 300; 
+	*/
+	ctx.imageSmoothingEnabled = false
+
+	canvas.style.width  = canvas.width*zoom/100;
+	canvas.style.height = canvas.height*zoom/100;
+
+	// The underlay and the grid have different resolutions
+	// Scales the underlay using original pixel size 
+	canvas_trace.style.width = 	canvas.style.width 
+	canvas_trace.style.height = canvas.style.height
+	// Positions the underlay
+	canvas_trace.style.left = getOffset (canvas).left
+	canvas_trace.style.top = getOffset (canvas).top
+	
+	// Scales the grid 
+	grid_ctx = canvas_grid.getContext("2d");
+	canvas_grid.width = parseInt(canvas.style.width,10)
+	canvas_grid.height = parseInt(canvas.style.height,10)
+	canvas_grid.style.width = canvas.style.width 
+	canvas_grid.style.height = canvas.style.height
+	canvas_grid.style.zIndex = 2
+	canvas_grid.style.left = getOffset (canvas).left
+	canvas_grid.style.top = getOffset (canvas).top
+
+	drawGrid();
+}
+
+function tracing_trans () {
+// 
+	trans = document.getElementById('trans').value
+	canvas_tmp = document.getElementById("can_trace");
+    var ctx =  canvas_tmp.getContext("2d");
+	ctx.clearRect(0,0, canvas_tmp.width,canvas_tmp.height);
+	ctx.globalAlpha = (trans/100)
+	//console.debug (ctx.globalAlpha)
+	ctx.drawImage (trace_image,0,0)
+}
+
+// Keyboard events
+function rutina_teclado (e) 
+{
+
+	if (e.keyCode == keyCharToCode["B"]) // BRUSH command 
+	{
+        // 	BRUSH SET_UNSET | OFFSET 
+		//document.getElementById("command_window").value+="PLOT "+currX+" "+currY+'\n';
+		cursor_mode = 'brush'
+        value=0;
+        if (document.getElementById("Unset").checked==true) value=128;
+        value+=parseInt(document.getElementById("set_brush").value);
+		
+        document.getElementById("command_window").value+="BRUSH "+value+"\n";
+		paint_pic()
+		new_command = true
+        // Calculates the brush value 
+    }
+
+	if (e.keyCode == keyCharToCode["P"]) // PLOT with BRUSH 
+	{
+		//document.getElementById("command_window").value+="PLOT "+currX+" "+currY+'\n';
+		cursor_mode = 'plot'
+		paint_pic()
+		new_command = true
+	}
+
+	if (e.keyCode == keyCharToCode["F"]) // FILL with BRUSH 
+	{
+		// Solid Fill by default
+		//document.getElementById("command_window").value+="FILL \n"+" "+currX+" "+currY+" "+0+"\n";
+		cursor_mode ='fill'
+		new_command = true
+	}
+	
+	if (e.keyCode == keyCharToCode["U"]) // UNDO rolls back the last data point
+	{
+		/*
+		var cola_comandos = document.getElementById('command_window').value.split('\n');
+		var last_index = cola_comands[cola_comands.length-1];
+		// Extract the line
+		prelinea = cola_comandos[cola_comandos.length-2];
+		linea = cola_comandos[cola_comandos.length-1];
+		if (linea=='') // Perhaps an additional \n
+		{
+			linea = cola_comandos[cola_comandos.length-2];
+			prelinea = cola_comandos[cola_comandos.length-3];
+			last_index = cola_comands[cola_comands.length-2];
+		}
+		// Previous line 
+		var res_pre = linea.toLowerCase().trim().split(/[\s,]+/);
+		console.debug (res_pre)
+		// Removes Last line
+		for (i=0;i<cola_comandos[i];i<index)
+		{
+			
+		}
+		
+
+		// Recovers coordinates 
+		var res_last = prelinea.toLowerCase().trim().split(/[\s,]+/);
+		console.debug (res_last)
+		line_mode_x = res_last[0]
+		line_mode_y = res_last[1] 
+
+		*/
+		// Repaint the screen 
+		paint_pic()
+	}
+
+	if (e.keyCode == keyCharToCode["L"]) // LINE
+	{
+		//document.getElementById("command_window").value+="LINE "+(currX)+" "+(currY)+'\n';
+		cursor_mode = 'line'
+		line_mode_x = currX
+		line_mode_y = currY 
+		new_command = true
+	}
+}
+
+// Mouse events
+function findxy(res, e) 
+	{
+	zoom = document.getElementById('pic_zoom').value
+	zoom = zoom/100	
+	currX = Math.floor((e.clientX - canvas.offsetLeft)/zoom);
+	currY = Math.floor((e.clientY - canvas.offsetTop)/zoom);
+
+	// MouseDown 
+	if (res=='down') {
+		console.debug('click:'+cursor_mode)
+
+		if (cursor_mode=='fill')
+		{
+			if (new_command==true)
+			{
+				document.getElementById("command_window").value+="FILL \n";
+				new_command = false;
+			}
+			// Pattern is fixed to 0
+			document.getElementById("command_window").value+=" "+currX+" "+currY+"\n";
+		}
+		
+		if (cursor_mode=='plot')
+		{
+			if (new_command==true) 
+				{
+				document.getElementById("command_window").value+="PLOT \n";
+				new_command = false
+				}
+			document.getElementById("command_window").value+=" "+(currX)+" "+(currY)+'\n';
+		}
+
+		if (cursor_mode =='rline')
+		{
+			console.debug ("RLINE"+currX+" "+line_mode_x)
+			if (new_command==true) 
+				{
+				document.getElementById("command_window").value+="RLINE \n";
+				new_command = false
+				}
+
+			if (Math.abs(currX-line_mode_x)<=7 && Math.abs(currY-line_mode_y)<=7)
+			{
+				document.getElementById("command_window").value+=" "+((currX-line_mode_x)+" "+(currY-line_mode_y))+'\n';
+				line_mode_x = currX
+				line_mode_y = currY 
+			} else {
+				console.debug ("switch over to LINE")
+				new_command = true 
+				cursor_mode='line' // If it is too long then switch to line commands	
+			}
+		}
+
+		if (cursor_mode=='line')
+		{
+			if (new_command==true) 
+				{
+				// Tries to fit a RLINE 
+				if (Math.abs(currX-line_mode_x)<=7 && Math.abs(currY-line_mode_y)<=7)
+					{
+						document.getElementById("command_window").value+="PLOT "+(line_mode_x)+" "+(line_mode_y)+'\n';
+						cursor_mode='rline'		
+						new_command = false				
+					}	
+					else
+					{
+					document.getElementById("command_window").value+="LINE\n"+" "+(line_mode_x)+" "+(line_mode_y)+'\n';
+					new_command = false
+					}
+				}
+			// Adding coordinates x1,y1 		
+			if (Math.abs(currX-line_mode_x)<=7 && Math.abs(currY-line_mode_y)<=7)
+				{
+					document.getElementById("command_window").value+="RLINE "+(currX-line_mode_x)+" "+(currY-line_mode_y)+'\n';
+					cursor_mode='rline'						
+				}		
+				else 
+				{
+				document.getElementById("command_window").value+=" "+(currX)+" "+(currY)+'\n';
+				}	
+			line_mode_x = currX
+			line_mode_y = currY 
+		}
+		paint_pic()
+	}
+
+	//console.debug ("OldX="+old_X+" OldY="+old_Y+" CurrX="+currX+" CurrY="+currY)
+	// Restores the display buffer 
+	for (i=0;i<dbuffer.data.length;i++)
+		{
+			dbuffer.data[i] = buffer.data[i]
+		}
+	
+	dbuffer.width = buffer.width
+	dbuffer.height = buffer.height
+
+	// plot mode 
+	// Set the a pixel in the new position
+
+	// line mode 
+	if (cursor_mode == 'rline' || cursor_mode=='line')
+	{
+		drawLineSp (line_mode_x, line_mode_y, currX, currY, dbuffer)
+	} else putPixel (currX, currY, dbuffer)
+
+	// Repaint the canvas
+	canvas.getContext("2d").putImageData (dbuffer,0,0)
+
+	document.getElementById("statusbar").textContent="X:"+currX+" ,Y="+currY+" ,Pic len:"+pic_len+"bytes, DDBB len:"+ddbb_len+"bytes";
+	}
+function save()
+{
+    var bytestring = to_bytes();
+    var save_string ="defb "
+    i = 0
+    while (bytestring[i]!=255 && i<bytestring.length)
+        {
+        save_string+= "0x"+("0"+bytestring[i].toString(16)).substr(-2)
+        if (i>0 && (i%80)==0) 
+            {
+                save_string+="\n defb "
+            } else save_string+=","
+        i++;
+        }
+    save_string+="0xFF"
+    alert (save_string)
+}
+</script>
+<body onload="init();picZoom();tracing_trans()">
+<table border=0 width=100% height=100% border=1>
+	<!-- Tool box -->
+	<tr><td colspan=2>
+		 Picture mode <select id="pic_mode">
+            <option value=0>Spectrum</option>
+            <option value=1>C64</option>
+            <option value=2>EGA</option>
+        </select>
+       
+        <button id="help">Help</button>
+		<button id="new">New database</button>
+		<button id="load">Load database</button>
+		<button id="save" onClick="javascript:save()">Save database</button>
+		<button id="trace">Load tracing image</button>
+		<button id="new_pic">New picture</button>
+
+            
+        <input type=radio name="brush_type" id="Set" checked>Set Pixel</input>
+		<input type=radio name="brush_type" id="Unset">Unset Pixel</input>
+	                
+        <select name="Brush" id="set_brush">
+            <option value=0>Solid</option>
+            <option value=8>Grey 80%</option>
+            <option value=16>Grey 75%</option>
+            <option value=24>Grey 50%</option>
+            <option value=32>Grey 25%</option>
+            <option value=40>Grey 12%</option>
+            <option value=48>Horizontal 1</option>
+         </select>
+
+        <button id="Redraw" onmousedown="javascript:paint_pic()">Redraw picture</button>
+     </tr>
+	<tr><td colspan=2>
+		Width=<input type=text id="pic_width" size=3></input>
+		Height=<input type=text id="pic_height" size=3></input>
+		Pixel ratio=<input type=text id="pic_pixel_ratio" size=1></input>
+	
+		Picture #<select name="pic_select" id="pic-select"></select>
+		Zoom <select name="Zoom" id="pic_zoom" onchange="javascript:picZoom()"><option value=100>100%</option><option value=200  >200%</option><option value=300 >300%</option><option value=400 selected="selected">400%</option><option value=500 >500%</option></select>
+
+		Tracing Opacity <select id="trans" onchange="javascript:tracing_trans()"><option value=0>0%</option><option value=25 selected="selected">25%</option><option value=50>50%</option><option value=75 >75%</option><option value=100>100%</option></select>
+	
+		Grid Opacity <select id="grid_trans" onchange="javascript:drawGrid()">
+                        <option value=10 selected="selected">10%</option>
+                        <option value=25>25%</option>
+                        <option value=50 >50%</option>
+                        <option value=75>75%</option>
+                     </select>
+	</td></tr>
+
+	<tr height=10%>
+		<td colspan=2>
+		<div id="statusbar" style="">X: ,Y: ,Pic len: bytes, DDBB len: bytes</div>
+		</td>
+	</tr>
+
+<tr><td height=75% width=75% style="background-color: darkgrey;">
+	<canvas id="can_trace" style="position:absolute; top:0;left:0;border:0px solid;z-index:0; "></canvas>
+	<canvas id="can" style="position:relative; top:0;left:0;border:0px solid;z-index:2; cursor: none"></canvas>
+	<canvas id="can_grid" style="position:absolute; top:0;left:0;border:0px solid;z-index:3;cursor: none"></canvas>
+	</td>
+	<td style="vertical-align:text-top;">
+        <textarea id="command_window" style="width:100%;height:400;"></textarea>
+        <!-- Palette !-->
+        <!-- Color Palette !-->
+        <br>
+        Paper color
+        <table id="paper">
+        <!-- Bright 0 !-->
+            <tr height=32>
+                <td width=32 id="pal0" bgcolor="#000000" align="center" onClick="">0</td>
+                <td width=32 id="pal1" bgcolor="#0000D7" align="center">1</td>
+                <td width=32 id="pal2" bgcolor="#D70000" align="center">2</td>
+                <td width=32 id="pal3" bgcolor="#D700D7" align="center">3</td>
+                <td width=32 id="pal4" bgcolor="#00D700" align="center">4</td>
+                <td width=32 id="pal5" bgcolor="#00D7D7" align="center">5</td>
+                <td width=32 id="pal6" bgcolor="#D7D700" align="center">6</td>
+                <td width=32 id="pal6" bgcolor="#D7D7D7" align="center">7</td>
+            </tr>    
+            <tr height=32>
+                <td width=32 id="pal8" bgcolor="#000000" align="center">8</td>
+                <td width=32 id="pal9" bgcolor="#0000FF" align="center">9</td>
+                <td width=32 id="pal10" bgcolor="#FF0000" align="center">10</td>
+                <td width=32 id="pal11" bgcolor="#FF00FF" align="center">11</td>
+                <td width=32 id="pal12" bgcolor="#00FF00" align="center">12</td>
+                <td width=32 id="pal13" bgcolor="#00FFFF" align="center">13</td>
+                <td width=32 id="pal14" bgcolor="#FFFF00" align="center">14</td>
+                <td width=32 id="pal14" bgcolor="#FFFFFF" align="center">15</td>
+            </tr> <!-- White !-->
+        </table>        
+
+        Ink color
+        <table id="ink">
+        <!-- Bright 0 !-->
+            <tr height=32>
+                <td width=32 id="pal0" bgcolor="#000000" align="center" onClick="">0</td>
+                <td width=32 id="pal1" bgcolor="#0000D7" align="center">1</td>
+                <td width=32 id="pal2" bgcolor="#D70000" align="center">2</td>
+                <td width=32 id="pal3" bgcolor="#D700D7" align="center">3</td>
+                <td width=32 id="pal4" bgcolor="#00D700" align="center">4</td>
+                <td width=32 id="pal5" bgcolor="#00D7D7" align="center">5</td>
+                <td width=32 id="pal6" bgcolor="#D7D700" align="center">6</td>
+                <td width=32 id="pal6" bgcolor="#D7D7D7" align="center">7</td>
+            </tr>    
+            <tr height=32>
+                <td width=32 id="pal8" bgcolor="#000000" align="center">8</td>
+                <td width=32 id="pal9" bgcolor="#0000FF" align="center">9</td>
+                <td width=32 id="pal10" bgcolor="#FF0000" align="center">10</td>
+                <td width=32 id="pal11" bgcolor="#FF00FF" align="center">11</td>
+                <td width=32 id="pal12" bgcolor="#00FF00" align="center">12</td>
+                <td width=32 id="pal13" bgcolor="#00FFFF" align="center">13</td>
+                <td width=32 id="pal14" bgcolor="#FFFF00" align="center">14</td>
+                <td width=32 id="pal14" bgcolor="#FFFFFF" align="center">15</td>
+            </tr> <!-- White !-->
+        </table>        
+
+        
+        
+        </td>
+</tr>
+
+</body>
+</html>

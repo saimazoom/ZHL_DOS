@@ -1,0 +1,77 @@
+XL3
+H 2 areas 19 global symbols
+S .__.ABS. Def000000
+A _CODE size 0 flags 0 addr 0
+A CODE size 0 flags 0 addr 0
+S _print_string Def000000
+S _drawSprite Def000000
+S _clearchar Def000000
+S _setAttr Def000000
+S _clearScreen Def000000
+S _getKey Def000000
+S _setRamLayout Def000000
+S _print_char Def000000
+S _randomNumber Def000000
+S _drawVline Def000000
+S _waitForAnyKey Def000000
+S _HighResMode Def000000
+S _drawLine Def000000
+S _waitForNoKey Def000000
+S _drawRectangle Def000000
+S _splitScreen Def000000
+S _scrollArriba2 Def000000
+S _pfill Def000000
+S _clearVideoBitmap Def000000
+S _putPixel Def000000
+S _clearVideoColorMem Def000000
+S _drawHline Def000000
+S _clearVideoRam Def000000
+S _scrollArriba Def000000
+T 00 00 00
+R 00 00 01 00
+T 00 00 00
+R 00 00 01 00
+T 00 00 00
+R 00 00 01 00
+T 00 00 00
+R 00 00 01 00
+T 00 00 00
+R 00 00 01 00
+T 00 00 00
+R 00 00 01 00
+T 00 00 00
+R 00 00 01 00
+T 00 00 00
+R 00 00 01 00
+T 00 00 00
+R 00 00 01 00
+T 00 00 00
+R 00 00 01 00
+T 00 00 00
+R 00 00 01 00
+T 00 00 00
+R 00 00 01 00
+T 00 00 00
+R 00 00 01 00
+T 00 00 00
+R 00 00 01 00
+T 00 00 00
+R 00 00 01 00
+T 00 00 00
+R 00 00 01 00
+T 00 00 00
+R 00 00 01 00
+T 00 00 00
+R 00 00 01 00
+T 00 00 00
+R 00 00 01 00
+T 00 00 00
+R 00 00 01 00
+T 00 00 00
+R 00 00 01 00
+T 00 00 00
+R 00 00 01 00
+T 00 00 00
+R 00 00 01 00
+T 00 00 00
+R 00 00 01 00
