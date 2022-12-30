@@ -2295,6 +2295,11 @@ void  writeText (BYTE *texto)
 	BYTE texto_buffer[256];
     BYTE buffer[20]; // Buffer de palabras
 	#endif
+
+    #ifdef DOS
+	BYTE texto_buffer[256];
+    BYTE buffer[20]; // Buffer de palabras
+	#endif
     
     BYTE counter=0;
     BYTE texto_counter=0;

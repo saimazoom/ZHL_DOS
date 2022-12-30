@@ -49,6 +49,13 @@
     #define ROWS_HEIGHT 	24
 #endif
 
+#ifdef DOS 
+    #define SCREEN_WIDTH 	320
+    #define SCREEN_HEIGHT 	200 
+    #define COLS_WIDTH		40
+    #define ROWS_HEIGHT 	24
+#endif 
+
 // Spectrum
 #define INK_BLACK      0x00
 #define INK_BLUE       0x01
@@ -73,6 +80,12 @@
 
 
 // C64 colors
+
+// CPC colors
+
+// DOS colors
+
+
 
 // Global definitions
 // Aux

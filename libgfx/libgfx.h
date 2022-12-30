@@ -10,6 +10,11 @@
 	#define __CALLEE__ 
 #endif 
 
+#ifdef DOS
+	#define __FASTCALL__ 
+	#define __CALLEE__ 
+#endif 
+
 
 #define BYTE unsigned char
 #define WORD unsigned int

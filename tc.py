@@ -3,9 +3,17 @@ import sys
 import getopt
 import shutil
 import itertools
-import json
+# For Python 2.4 compatibility 
+# https://pypi.python.org/packages/2.4/s/simplejson/
+try:
+    import json
+except ImportError:
+    import simplejson as json
 
-from collections import Counter
+try: 
+    from collections import Counter
+except ImportError 
+    print "Warning: Python Collections Counter not supported, fallback to legacy function"
 
 def usage():
     print "Dictionary Text compressor v0.1. Written by KMBR. ";
@@ -109,15 +117,15 @@ def main(argv):
     content = [w.replace('"', '') for w in content]
     content = [w.replace('\r', '') for w in content]
     content = [w.replace('\n', '') for w in content]
-    # Sustituye las ñ y los caracteres acentuados por los nuevos símbolos
-    content = [w.replace('á', '#') for w in content]
-    content = [w.replace('é', '$') for w in content]
-    content = [w.replace('í', '%') for w in content]
-    content = [w.replace('ó', '&') for w in content]
-    content = [w.replace('ú', '\'') for w in content]
-    content = [w.replace('ñ', '+') for w in content]
-    content = [w.replace('¿', '/') for w in content]
-    content = [w.replace('¡', '<') for w in content]
+    # Sustituye las ï¿½ y los caracteres acentuados por los nuevos sï¿½mbolos
+    content = [w.replace('ï¿½', '#') for w in content]
+    content = [w.replace('ï¿½', '$') for w in content]
+    content = [w.replace('ï¿½', '%') for w in content]
+    content = [w.replace('ï¿½', '&') for w in content]
+    content = [w.replace('ï¿½', '\'') for w in content]
+    content = [w.replace('ï¿½', '+') for w in content]
+    content = [w.replace('ï¿½', '/') for w in content]
+    content = [w.replace('ï¿½', '<') for w in content]
 
     
     print "Finished... ",len(content)," lines";
@@ -142,7 +150,7 @@ def main(argv):
         # De 5 en 5 caracteres...
         symbols_5 = symbols_5+ ([line[i:i+5] for i in range(0, len(line)-5, 1)]);
 
-    # Convierte a arrays de 1 dimensión...
+    # Convierte a arrays de 1 dimensiï¿½n...
     print "... OK";
   
     #3. Calcula las frecuencias
@@ -156,12 +164,12 @@ def main(argv):
     symbols_5_freq = Counter (symbols_5);
     symbols_5_freq = symbols_5_freq.most_common();
   
-    # Busca la distribución óptima de símbolos por fuerza bruta
+    # Busca la distribuciï¿½n ï¿½ptima de sï¿½mbolos por fuerza bruta
     
     #3. Ordena de mayor a menor frecuencia.
     
     numAbrevTanteo = [ -1, -1, 0, 0, 0, 0 ]; # Histograma temporal 
-    #bestnumAbrev = [ -1, -1, 70, 6, 6, 8 ]; # Histograma usado por PAWs, 90 símbolos
+    #bestnumAbrev = [ -1, -1, 70, 6, 6, 8 ]; # Histograma usado por PAWs, 90 sï¿½mbolos
     bestnumAbrev = [ -1, -1, 86, 14, 19, 0]; # 42.06% , 86 14 19 0
     
     best_compression = 0;
@@ -179,7 +187,7 @@ def main(argv):
     
     for k in permutations:
         
-        # Sólo tomamos las permutaciones cuyos elementos suman el número máximo de símbolos
+        # Sï¿½lo tomamos las permutaciones cuyos elementos suman el nï¿½mero mï¿½ximo de sï¿½mbolos
         if (sum(k)==total_symbols):
             compressed_content=[];
             numAbrevTanteo = [ -1, -1, k[0], k[1], k[2], k[3] ]; 
@@ -209,7 +217,7 @@ def main(argv):
                 compressed_content.append(w);
                 count=count+1;
               
-            # 5. Calcula el porcentaje de compresión  
+            # 5. Calcula el porcentaje de compresiï¿½n  
             if (initial_size>0): 
                 compression = float(100*(float(initial_size-total_size)/initial_size)); 
             

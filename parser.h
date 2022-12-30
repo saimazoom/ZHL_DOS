@@ -26,6 +26,11 @@ There is no __CALLEE__ in CC65
 	#define __CALLEE__  
 #endif
 
+#ifdef DOS 
+	#define __FASTCALL__ 
+	#define __CALLEE__  
+#endif 
+
 // Parser structures
 
 // Parser Structures
@@ -217,5 +222,3 @@ void setConnection (BYTE loc_orig, BYTE value, BYTE loc_dest);
 BYTE getConnection (BYTE loc_orig, BYTE value);
 extern void incr16bit (BYTE *pointer);
 void ACCGetWord (BYTE wordnum);
-
-

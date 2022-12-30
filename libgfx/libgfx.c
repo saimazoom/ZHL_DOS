@@ -1,6 +1,4 @@
 
-// Each compiler has its own 'manias'
-
 #if defined(C64) || defined(CPC)
      #include "./libgfx.h"
 #else 
