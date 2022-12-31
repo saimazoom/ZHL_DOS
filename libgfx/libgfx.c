@@ -623,3 +623,135 @@ void paint_pic (unsigned char *bytestring)
 	}
 }
 
+#ifdef DOS
+
+
+     void waitForAnyKey() 
+     {
+          while (!kbhit());
+     }
+     void waitForNoKey () 
+     {
+          while (kbhit());
+     }
+
+     unsigned char getKey ()
+     {
+          return (unsigned char)getch();
+     }
+     // Function: TextMode
+     // Input: None
+     // Output: Set the mode in text 80x25 in CGA/EGA/VGA modes. 
+     void TextMode () 
+     {
+          // set text mode 80x25 (CGA, EGA, VGA)
+          _setvideomode ( _TEXTC80);
+          // Clears the screen
+
+     }
+
+     // Function: HighResMode
+     // Input: None
+     // Output: Set the mode in graphics. CGA 320x200 4 colors, EGA 320x200 16 colors
+     void HighResMode ()
+     {
+          struct videoconfig vc;
+          _getvideoconfig( &vc );
+
+          #ifdef CGA 
+          if( vc.monitor == _MONO ) {
+               _setvideomode ( _MRESNOCOLOR);
+          } else {
+               _setvideomode ( _MRES4COLOR);
+          }
+          #endif 
+
+          #ifdef EGA
+          if( vc.monitor == _MONO ) {
+               _setvideomode ( _MRESNOCOLOR);
+          } else {
+               _setvideomode ( _MRES16COLOR);
+          }
+
+          _setvideomode ( _MRES16COLOR);
+          #endif
+          // Clears the screen 
+     }
+
+     void clearScreen (BYTE color);
+     {
+          _setbkcolor ();
+          //_settextcolor ();
+          //_settextposition ();
+          _clearscreen (_GCLEARSCREEN);
+
+     }
+
+     // Graphics functions in HighResMode 
+     void putPixel (BYTE x, BYTE Y)
+     {
+          #ifdef CGA 
+          #endif 
+
+          #ifdef EGA
+          #endif 
+     }
+
+     void drawLine (BYTE x0, BYTE y0, BYTE x1, BYTE y1)
+     {
+          #ifdef CGA 
+          #endif 
+
+          #ifdef EGA
+          #endif
+     }
+
+     void eraseLine (BYTE x0, BYTE y0, BYTE x1, BYTE y1)
+     {
+          #ifdef CGA 
+          #endif 
+
+          #ifdef EGA
+          #endif
+
+     }
+
+     // Pictures in DOS are RLE files (PCX)
+     void paint_pic (unsigned char *bytestring)
+     {
+          #ifdef CGA 
+          #endif 
+
+          #ifdef EGA
+          #endif
+
+     }
+
+     void fill (BYTE x, BYTE y)
+     {
+          #ifdef CGA 
+          #endif 
+
+          #ifdef EGA
+          #endif
+     }
+     void pfill (BYTE x, BYTE y, BYTE pattern)
+     {
+          #ifdef CGA 
+          #endif 
+
+          #ifdef EGA
+          #endif
+     }
+
+     void clearchar (BYTE x, BYTE y, BYTE color)ç
+     {
+          #ifdef CGA 
+          #endif 
+
+          #ifdef EGA
+          #endif
+     }
+{
+
+#endif 

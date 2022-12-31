@@ -342,6 +342,10 @@
     #define FLASH          0x00
 #endif 
 
+// Colors in DOS 
+#ifdef DOS
+#endif
+
 
 // The function being called (callee) is responsible for cleaning up the stack after finishing. 
 
@@ -352,6 +356,11 @@
    extern void __FASTCALL__ clearVideoColorMem (BYTE color); 
    extern void __FASTCALL__ clearVideoRam (BYTE color); 
    extern void __FASTCALL__ clearVideoBitmap (BYTE color); // Bitmap memrory
+#endif
+
+#ifdef DOS 
+    extern void HighResMode(); // CGA: 320x200 4 colors per pixel, EGA: 320x200 16 colors per pixel
+    extern void TextMode(); // CGA/EGA/VGA: 80x25 16 colors Text mode 
 #endif
 
 extern void __CALLEE__ scrollArriba (BYTE fila_inicial, BYTE columna_inicial);

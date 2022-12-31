@@ -3,6 +3,6 @@ TEXT, CGA and EGA versions
 (C) 2022 KMBR
 --------------------------------------
 
-English and Spanish versions 
+English and Spanish language included 
 
   

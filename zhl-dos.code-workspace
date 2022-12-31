@@ -6,5 +6,10 @@
 		{
 			"path": "libgfx"
 		}
-	]
+	],
+	"settings": {
+		"files.associations": {
+			"parser.h": "c"
+		}
+	}
 }

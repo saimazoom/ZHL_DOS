@@ -9,14 +9,6 @@
 // Librería gráfica
 #include "./libgfx/libgfx.h"
  
-// Additional headers for DOS story files
-#ifdef DOS
-	#include <stdio.h> 
-	#include <conio.h>
-	#include <graph.h>
-	#include <io.h>
-	#include <malloc.h>
-#endif 
 
 // Compiler options for ZX Spectrum
 #ifdef ZX
@@ -40,7 +32,7 @@
 #ifdef CPC 
 #endif 
 
-// Compiler options for DOS games
+// Compiler options for DOS
 #ifdef DOS
 #endif 
 
@@ -60,6 +52,8 @@ char proceso2_post();
 // Tablas externas de procesos y respuestas
 // ------------------------------------------
 
+extern char respuestas_desierto ();
+
 // Variables que necesitamos del parser...
 // Se pueden declarar más tablas de flags para el juego pero el parser
 // sólo trabaja con esta. 
@@ -70,7 +64,7 @@ extern BYTE gWord_number; // Marker for current word, 1st word is 1
 extern BYTE gChar_number; // Marker for current char, 1st char is 0
 
 // Tabla de imágenes del juego
-// extern unsigned char L01_img[];
+extern unsigned char L01_img[];
 
 // Include binary files for the adventure
 #ifdef ZX
@@ -83,6 +77,7 @@ extern BYTE gChar_number; // Marker for current char, 1st char is 0
 img_t imagenes_t [] = {
     { 0,0,0}
     };
+
 
 // Tabla de regiones
 // Regiones del juego...
@@ -939,7 +934,29 @@ char respuestas()
 	// Aquí separamos las tablas de respuestas por funciones, esto no permite utilizar paginación en los modelos
 	// con más memoria. 
 
+	// ---------------------------------------------
+	// Desierto
+	// ---------------------------------------------
+
+	if (flocalidad==l_Desierto || flocalidad==l_Entrada || flocalidad==l_Escaleras)
+		{
+			respuestas_desierto ();
+		}
+
+	// -----------------------------------------------
+	// Primera Planta
+	// -----------------------------------------------
 	
+	// -----------------------------------------------
+	// Segunda Planta
+	// -----------------------------------------------
+	
+	// -----------------------------------------------
+	// Subterráneo
+	// -----------------------------------------------
+
+
+
  NOTDONE;
 // ================= LIBRERíA BASE FINAL=======================================
 }
@@ -954,10 +971,7 @@ char respuestas_post()
  //setRAMPage(0);
  // respuestas_post_pagina0();
 
-// ---------------------------------------------------------------------
 // ------------------- LIBRERÍA BASE -----------------------------------
-// ---------------------------------------------------------------------
-
  // Comandos de dirección...
  // writeText ("Respuestas Post: %u %u^", flags[fverb], flags[fnoun1]);
  // Movimiento entre localidades...
@@ -1040,9 +1054,6 @@ char respuestas_post()
     ACCsysmess(SYSMESS_IDONTUNDERSTAND);
     newLine();
 	NOTDONE;
-	// -------------------------------------------
-	// Fin LIBRERIA BASE
-	// -------------------------------------------
 }
 
 char proceso1() // Antes de la descripción de la localidad...
@@ -1068,13 +1079,11 @@ char proceso2() // Después de cada turno, haya tenido o no éxito la entrada en l
 
 void main (void)
 {
-	
 	// Inicializar variables
 	initParser ();                // Inicializa el parser y la pantalla
 	
-	/*
-	
-	// Añadir menú de juego
+
+// Añadir menú de juego
 	defineTextWindow (0,0,32,24); // Pantalla reducida en 128Kb, Gráficos + Texto
 	flags[LOCATION_MAX] = 34; // Número más alto de localidad
 	ACCability(10,20); // 10 objetos, 20 piedras
@@ -1093,8 +1102,7 @@ void main (void)
 	{
 		main();
 	}
-	*/
-
+	
 	// To the void...
 #ifdef ZX
 	#asm 
