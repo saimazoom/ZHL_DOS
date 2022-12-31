@@ -155,15 +155,19 @@ def main(argv):
   
     #3. Calcula las frecuencias
     print "Creating frecuency tables..."
-    symbols_2_freq = Counter (symbols_2);
-    symbols_2_freq = symbols_2_freq.most_common();
-    symbols_3_freq = Counter (symbols_3);
-    symbols_3_freq = symbols_3_freq.most_common();
-    symbols_4_freq = Counter (symbols_4);
-    symbols_4_freq = symbols_4_freq.most_common();
-    symbols_5_freq = Counter (symbols_5);
-    symbols_5_freq = symbols_5_freq.most_common();
-  
+    try:
+        symbols_2_freq = Counter (symbols_2);
+        symbols_2_freq = symbols_2_freq.most_common();
+        symbols_3_freq = Counter (symbols_3);
+        symbols_3_freq = symbols_3_freq.most_common();
+        symbols_4_freq = Counter (symbols_4);
+        symbols_4_freq = symbols_4_freq.most_common();
+        symbols_5_freq = Counter (symbols_5);
+        symbols_5_freq = symbols_5_freq.most_common();
+    except err:  
+        # Build the histogram manually 
+        # For Python versions < 2.7 (i.e. MSDOS)
+
     # Busca la distribuci�n �ptima de s�mbolos por fuerza bruta
     
     #3. Ordena de mayor a menor frecuencia.
