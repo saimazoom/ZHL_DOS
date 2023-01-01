@@ -72,57 +72,6 @@
     #endif 
 #endif 
 
-// Color tables 
-// Spectrum
-#ifdef ZX 
-    #define INK_BLACK      0x00
-    #define INK_BLUE       0x01
-    #define INK_RED        0x02
-    #define INK_MAGENTA    0x03
-    #define INK_GREEN      0x04
-    #define INK_CYAN       0x05
-    #define INK_YELLOW     0x06
-    #define INK_WHITE      0x07
-
-    #define PAPER_BLACK    0x00
-    #define PAPER_BLUE     0x08
-    #define PAPER_RED      0x10
-    #define PAPER_MAGENTA  0x18
-    #define PAPER_GREEN    0x20
-    #define PAPER_CYAN     0x28
-    #define PAPER_YELLOW   0x30
-    #define PAPER_WHITE    0x38
-
-    // BRIGHT attribute affects to both ink and paper for a given char.
-    #define BRIGHT         0x40 
-    #define FLASH          0x80
-#endif 
-
-// C64 colors
-
-// CPC colors
-
-// DOS colors
-#ifdef DOS 
-// BRIGHT attribute is different for each background(PAPER) and foreground (INK)
-    #define INK_BLACK      _BLACK
-    #define INK_BLUE       _BLUE,
-    #define INK_RED        _RED
-    #define INK_MAGENTA    _MAGENTA
-    #define INK_GREEN      _GREEN
-    #define INK_CYAN       _CYAN
-    #define INK_BROWN      _BROWN
-    #define INK_YELLOW     _YELLOW
-    #define INK_WHITE      _WHITE
-
-    #define INK_BLACK             _BLACK
-    #define INK_BRIGHT_BLUE       _LIGHTBLUE
-    #define INK_BRIGHT_RED        _LIGHTRED
-    #define INK_BRIGHT_MAGENTA    _LIGHTMAGENTA
-    #define INK_BRIGHT_GREEN      _LIGHTGREEN
-    #define INK_BRIGHT_CYAN       _LIGHTCYAN
-    #define INK_BRIGHT_WHITE      _BRIGHTWHITE
-#endif 
 
 // Global definitions
 // Aux

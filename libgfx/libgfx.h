@@ -342,9 +342,29 @@
     #define FLASH          0x00
 #endif 
 
-// Colors in DOS 
-#ifdef DOS
-#endif
+// DOS colors
+#ifdef DOS 
+// BRIGHT attribute is different for each background(PAPER) and foreground (INK)
+// 16 colors INK and 16 colors PAPER per character
+    #define INK_BLACK      _BLACK
+    #define INK_BLUE       _BLUE,
+    #define INK_RED        _RED
+    #define INK_MAGENTA    _MAGENTA
+    #define INK_GREEN      _GREEN
+    #define INK_CYAN       _CYAN
+    #define INK_BROWN      _BROWN
+    #define INK_YELLOW     _YELLOW
+    #define INK_WHITE      _WHITE
+
+    #define INK_BLACK             _BLACK
+    #define INK_BRIGHT_BLUE       _LIGHTBLUE
+    #define INK_BRIGHT_RED        _LIGHTRED
+    #define INK_BRIGHT_MAGENTA    _LIGHTMAGENTA
+    #define INK_BRIGHT_GREEN      _LIGHTGREEN
+    #define INK_BRIGHT_CYAN       _LIGHTCYAN
+    #define INK_BRIGHT_WHITE      _BRIGHTWHITE
+    #define INK_BRIGHT_YELLOW     _LIGHTYELLOW
+#endif 
 
 
 // The function being called (callee) is responsible for cleaning up the stack after finishing. 
