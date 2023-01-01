@@ -346,24 +346,60 @@
 #ifdef DOS 
 // BRIGHT attribute is different for each background(PAPER) and foreground (INK)
 // 16 colors INK and 16 colors PAPER per character
-    #define INK_BLACK      _BLACK
-    #define INK_BLUE       _BLUE,
-    #define INK_RED        _RED
-    #define INK_MAGENTA    _MAGENTA
-    #define INK_GREEN      _GREEN
-    #define INK_CYAN       _CYAN
-    #define INK_BROWN      _BROWN
-    #define INK_YELLOW     _YELLOW
-    #define INK_WHITE      _WHITE
+/* From WATCOM CLIB.PDF Page 1126 
+            0 Black
+            1 Blue
+            2 Green
+            3 Cyan
+            4 Red
+            5 Magenta
+            6 Brown
+            7 White
+            8 Gray
+            9 Light Blue
+            10 Light Green
+            11 Light Cyan
+            12 Light Red
+            13 Light Magenta
+            14 Yellow
+            15 Bright White
+*/ 
 
-    #define INK_BLACK             _BLACK
-    #define INK_BRIGHT_BLUE       _LIGHTBLUE
-    #define INK_BRIGHT_RED        _LIGHTRED
-    #define INK_BRIGHT_MAGENTA    _LIGHTMAGENTA
-    #define INK_BRIGHT_GREEN      _LIGHTGREEN
-    #define INK_BRIGHT_CYAN       _LIGHTCYAN
-    #define INK_BRIGHT_WHITE      _BRIGHTWHITE
-    #define INK_BRIGHT_YELLOW     _LIGHTYELLOW
+    #define INK_BLACK      0x00
+    #define INK_BLUE       0x01
+    #define INK_RED        0x04
+    #define INK_MAGENTA    0x05
+    #define INK_GREEN      0x02
+    #define INK_CYAN       0x03
+    #define INK_BROWN      0x06
+    #define INK_YELLOW     0x0E
+    #define INK_WHITE      0x07
+    #define INK_BRIGHT_BLUE 0x09
+    #define INK_BRIGHT_RED  0x0C
+    #define INK_BRIGHT_MAGENTA    0x0D
+    #define INK_BRIGHT_GREEN      0x0A
+    #define INK_BRIGHT_CYAN       0x0B
+    #define INK_BRIGHT_WHITE      0x0F
+    #define INK_BRIGHT_YELLOW     0x0E
+
+
+    #define PAPER_BLACK      0x00
+    #define PAPER_BLUE       0x10
+    #define PAPER_RED        0x40
+    #define PAPER_MAGENTA    0x50
+    #define PAPER_GREEN      0x20
+    #define PAPER_CYAN       0x30
+    #define PAPER_BROWN      0x60
+    #define PAPER_YELLOW     0xE0
+    #define PAPER_WHITE      0x70
+    #define PAPER_BRIGHT_BLUE       0x90
+    #define PAPER_BRIGHT_RED        0xC0
+    #define PAPER_BRIGHT_MAGENTA    0xD0
+    #define PAPER_BRIGHT_GREEN      0xA0
+    #define PAPER_BRIGHT_CYAN       0xB0
+    #define PAPER_BRIGHT_WHITE      0xF0
+    #define PAPER_BRIGHT_YELLOW     0xE0
+
 #endif 
 
 

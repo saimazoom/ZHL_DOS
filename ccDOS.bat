@@ -31,8 +31,8 @@ pause
 WCC386 .\libgfx\libgfx.c -dDOS -dSPANISH -bt=DOS -dTEXT
 pause
 
-WASM .\libgfx\libgfx_DOS.asm 
+REM WASM .\libgfx\libgfx_DOS.asm 
 
-wlink name zhl.exe file {libgfx.obj juego.obj parser.obj libgfx_DOS.obj} 
+wlink name zhl.exe file {libgfx.obj juego.obj parser.obj} 
 
 

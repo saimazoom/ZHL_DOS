@@ -96,8 +96,8 @@ extern char  respuestas();
 extern char  respuestas_post ();
 
 // Main flow
-extern  void  initParser ();
-extern  void  ParserLoop ();
+extern void  InitParser (); 
+extern void  ParserLoop ();
 
 // Library for parsing strings
 void  parse();
@@ -107,6 +107,7 @@ BYTE buscador (token_t *tabla, unsigned char *word, unsigned char*result);
 extern BYTE CNDobjfound(BYTE attrno, BYTE locno);
 extern BYTE CNDobjnotfound(BYTE attrno, BYTE locno);
 extern BYTE __FASTCALL__ CNDcarried(BYTE objno);
+extern BYTE __FASTCALL__ CNDnotcarr(BYTE objid);
 extern BYTE __FASTCALL__ CNDpresent(BYTE objno);
 extern BYTE __FASTCALL__ CNDabsent(BYTE objno);
 extern BYTE __FASTCALL__ CNDworn(BYTE objno);
@@ -170,8 +171,10 @@ extern void ACCautod ();
 extern void ACCscore ();
 extern void ACCturns ();
 extern void ACCability(BYTE maxObjectsCarried, BYTE maxWeightCarried);
+extern void ACCanykey(); 
+extern BYTE ACCNextWord ();
 
-// Library functions for the parser
+// Library functions for the parser, not to be used by the user 
 void writeValue (unsigned int value);
 BYTE  __FASTCALL__ isAccesibleContainer(BYTE objno);
 extern BYTE __FASTCALL__ findMatchingObject(BYTE locno);
@@ -204,7 +207,7 @@ extern void __FASTCALL__ writeTextln (unsigned char *texto);
 void __FASTCALL__ writeSysMessage (BYTE messno);
 void __FASTCALL__ writeMessage (BYTE messno);
 void __FASTCALL__ writeObject(BYTE objno);
-BYTE setObjectLocation(BYTE objno, BYTE location);
+void setObjectLocation(BYTE objno, BYTE location);
 void defineGraphWindow (BYTE x, BYTE y, BYTE width, BYTE height);
 extern void defineTextWindow (BYTE x, BYTE y, BYTE width, BYTE height);
 extern void clearTextWindow (BYTE color, BYTE clear);

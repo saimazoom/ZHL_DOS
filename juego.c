@@ -1,4 +1,9 @@
-// ISO 8859-15
+// ZHL. Written by KMBR.
+// 2016,2019,2021,2023 KMBR
+// This code is licensed under a Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0) 
+// https://creativecommons.org/licenses/by-nc-nd/4.0/
+// Use ISO 8819-15 Encoding 
+
 #include <string.h>
 #include "./parser_defs.h"
 #include "./parser.h"
@@ -11,11 +16,10 @@
  
 // Additional headers for DOS story files
 #ifdef DOS
-	#include <stdio.h> 
-	#include <conio.h>
-	#include <graph.h>
-	#include <io.h>
-	#include <malloc.h>
+    #include <conio.h>
+    #include <graph.h>
+    #include <stdio.h>
+    #include <string.h>
 #endif 
 
 // Compiler options for ZX Spectrum
@@ -61,81 +65,113 @@ char proceso2_post();
 // ------------------------------------------
 
 // Variables que necesitamos del parser...
-// Se pueden declarar más tablas de flags para el juego pero el parser
-// sólo trabaja con esta. 
+// Se pueden declarar mï¿½s tablas de flags para el juego pero el parser
+// sï¿½lo trabaja con esta. 
 extern unsigned char flags[255]; // Flags 60...250 Disponibles para el usuario
 extern unsigned char playerInput[80];
 extern unsigned char playerWord[25];
 extern BYTE gWord_number; // Marker for current word, 1st word is 1
 extern BYTE gChar_number; // Marker for current char, 1st char is 0
 
-// Tabla de imágenes del juego
-// extern unsigned char L01_img[];
+// Tabla de imï¿½genes del juego
+// Tabla de imï¿½genes del juego
+extern unsigned char *L01_img;
+extern unsigned char *L02_img;
+extern unsigned char *L03_img;
+extern unsigned char *L04_img;
+extern unsigned char *L05_img;
+extern unsigned char *L06_img;
+extern unsigned char *L07_img;
+extern unsigned char *Europa_img;
 
 // Include binary files for the adventure
 #ifdef ZX
 	#asm
+	_L01_img:
+	BINARY "./res/lPuente07.scr.rcs.zx7"
+	_L02_img:
+	BINARY "./res/lnode1.scr.rcs.zx7"
+	_L03_img:
+	BINARY "./res/lEsclusa.scr.rcs.zx7"
+	_L04_img:
+	BINARY "./res/lBodega01.scr.rcs.zx7"
+	_L05_img:
+	BINARY "./res/lExterior03.scr.rcs.zx7"
+	_L06_img:
+	BINARY "./res/lEntrada03.scr.rcs.zx7"
+	_L07_img:
+	BINARY "./res/lzonaA1.scr.rcs.zx7"
+	_Europa_img:
+	BINARY "./res/Europa.scr.rcs.zx7"
 	#endasm
-#endif 
 
 // id, page, memory pointer
 // Terminated with 0
 img_t imagenes_t [] = {
+    { 1,0, L01_img},   
+    { 2,0, L02_img},   
+    { 3,0, L03_img},   
+ 	{ 4,0, L04_img},   
+    { 5,0, L05_img},   
+    { 6,0, L06_img},   
+    { 7,0, L07_img},   
+    { 8,0, L07_img},   
+	{ 9,0, Europa_img},
     { 0,0,0}
     };
+#else 
+img_t imagenes_t [] = {
+    { 0,0,0}
+    };
+#endif 
 
 // Tabla de regiones
 // Regiones del juego...
-unsigned char region_exterior [] = { 4,6,7,0 };
-unsigned char region_entrada [] = { 13,10,17,14,9,0 };
-unsigned char region_superior [] = { 3,8,23,26,27,0 };
-unsigned char region_inferior [] = { 12,15,19,2,5,11,21,16,29,18,27,28,25,24,30,1,31,20,0 };
+//unsigned char region_exterior [] = { 4,6,7,0 };
+//unsigned char region_entrada [] = { 13,10,17,14,9,0 };
+//unsigned char region_superior [] = { 3,8,23,26,27,0 };
+//unsigned char region_inferior [] = { 12,15,19,2,5,11,21,16,29,18,27,28,25,24,30,1,31,20,0 };
 
 // Tabla de localidades de la aventura
 // 250 to 255 reservadas
-// última localidad como ID 0 
+// ï¿½ltima localidad como ID 0 
+// unsigned char *name;
+//	unsigned char *descripcion;
+//	unsigned char id;
+//  unsigned char visitado
+//	unsigned long int atributos; // 32bit
 
+#ifdef SPANISH 
 loc_t localidades_t [] =
 {
-	// L1
-    {"ACCESO A LA TRAMPA","Esta sala tiene algo raro, como si faltase algo importante. No hay ninguna salida en la pared norte, las otras están oradadas de pequeños agujeros. ", 1, FALSE, 0x00000000 },
-	{"ALTAR DE OFRENDAS","Debo estar en otro de los altares de ofrendas. Sobre una columna reposa un recipiente.",2, FALSE, 0x00000000},
-	{"ANTESALA","Una fisura en la pared deja pasar la luz. El suelo cubierto de arena muestra las huellas dejadas por los trabajadores. ",3, FALSE, 0x00000000},
-	{"DESIERTO","El sol comienza su lento trepar por el azul. El suelo pedregroso del desierto se arrastra hasta la entrada del Valle de los Reyes. ",4, FALSE, 0x00000000},
-    {"SALA DIMINUTA","Un estrecho recinto permite avanzar de este a oeste. La altura del techo es la normal, pero en este espacio apenas cabe una persona.", 5, FALSE, 0x00000000},
-	{"ENTRADA","Al final de una explanada se encuentra la pirámide descubierta por el profesor Petrie. ", 6, FALSE, 0x00000000},
-	{"ESCALERA","La entrada a la pirámide se asemeja a la de otras tumbas del valle. Desperdigadas por el suelo, veo un montón de herramientas que parecen haber sido abandonadas a toda prisa.",  7, FALSE, 0x00000000},
-	{"ESTANCIA","Dos vasijas policromadas flanquean una de las puertas de la estancia, situada al sur, mientras que la otra salida se sitúa al oeste", 8},
-	{"PASADIZO ESTRECHO", "", 9 , FALSE, 0x00000000},
-	{"FINAL DEL CORREDOR", "El corredor gira al oeste ante un tramo ascendente de escaleras. Los muros son lisos y carentes de ornamentos.",10, FALSE, 0x00000000},
-	{"PASAJE","Esta cámara es la central de la tumba. De aquí parten pasillos hacia otras salas en todas las direcciones.  ^",11, FALSE, 0x00000000},
-	{"DISTRIBUIDOR", "La altura del techo me obliga a caminar ligeramente agachada. Todo sigue siendo muy austero. El pasillo comunica con otras salas al norte y al oeste. ",12, FALSE, 0x00000000},
-	{"CORREDOR LARGO","Dejando atrás la claridad del valle, el corredor se adentra en la tumba.", 13, FALSE, 0x00000000},
-	{"PASADIZO BAJO", "Aquí el pasillo se estrecha y se retuerce al norte. Hay varias herramientas rotas tiradas por el suelo. ",	14, FALSE, 0x00000000},
-	{"PASAJE DE LOS GRABADOS","El corredor comunica el distribuidor con una sala al oeste. A diferencia de otros pasillos en este veo algunos grabados.", 15, FALSE, 0x00000000},
-	{"PASARELA","Es increíble lo que estoy viendo. Un puente colgante sobre una sima comunica al este con otra región de la galería.", 16, FALSE, 0x00000000},
-	{"PASILLO PROFUNDO","El pasillo desciende a una galería subterránea. ",17, FALSE, 0x00000000},
-	// {"POZO DE ALMAS", "Este lugar resulta realmente triste y desolado, con altas y estrechas columnas, muchas de ellas rotas. Algunos pictogramas decoran las paredes. Puedes volver a subir por la cuerda.",	18},
-	{"RAMPA", "Otra rampa me interna aun más en el corazón de la tumba. ", 19, FALSE, 0x00000000},
-	{"SALA ALARGADA","Un pasillo estrecho y de techo elevado desciende aun más en la galería. ", 20, FALSE, 0x00000000},
-	{"SALA DE LA LUMINARIA","En una de las paredes hay un hueco que probablemente se usaba para iluminar la estancia. ", 21, FALSE, 0x00000000},
-	{"SALA DE LA MOMIA", "Los trabajadores encontraron una momia y apoyaron el sarcófago en la pared. Me pregunto por qué mostrarían tan poco cuidado. ", 22, FALSE, 0x00000000},
-	{"SALA DE LA VIDA ETERNA", "En esta sala hay varios objetos usados durante el enterramiento. Veo varias estatuas de animales, adornos y las ruedas de un carro real. ",		23, FALSE, 0x00000000},
-	{"SALA DE LOS VIVOS","La figura de Anubis me sugiere lo que Carter menciona como la antesala de la muerte. Un recinto que se ha encontrado en las grandes pirámides de Giza. Si esto es así, ¿Cuales son las auténticas dimensiones de esta tumba?",24, FALSE, 0x00000000},
-	{"ALTAR DE PIEDRA", "Esta sala está parcialmente sepultada por un derrumbe. De entre los escombros surge un altar de piedra. ",	 25, FALSE, 0x00000000},
-	{"SALA DE COFRE","Recipientes con aceite sagrado iluminan un cofre con muchos grabados. Al oeste un gran arco permite el acceso a una sala aparentemente importante. Al norte está la salida.", 26, FALSE, 0x00000000},
-	/*
-	{"SALA DEL DIOS REY","Esta sala parece completamente dedicada a la vida del rey Aceps I. En la imagen, parece querer ponerse un anillo, pesando sobre su cabeza una espada con una copa. La sala tiene pasajes al norte y al sur.",				   27},
-	{"SALA DEL ESPACIO","Gracias a un boquete en la pared, se aprecia la sala hacia el sur. Es como si se hubiera hecho aposta, un ventanal para que la imagen del rey, al norte, pudiese contemplar el altar.",		  	   28},
-	*/
-	{"SALA DEL SEPULCRO","Finalmente aquí se halla el sepulcro del Rey. Un pesado féretro de piedra adornado con numerosos pictogramas. Ubicados en las esquinas hay varios focos de luz y una polea. ", 29, FALSE, 0x00000000},
-	/*
-	{"SALA FUNERARIA","En las paredes se aprecian los grabados de un papiro. Solo hay un pasaje al norte.", 30},
-	{"TRAMPA", "Alrededor de la salida aparecen grabados de todo tipo. Una abertura de forma oblonga rompe la uniformidad de una de las paredes al sur. Puedes volver al norte.",		  		   							   31},
-	*/
-	{"MESA","",34, FALSE, 0x00000000}, // Como superficie-contenedor
+	{"Puente de mando","Los instrumentos de navegación iluminan el puente de mando. En el exterior, una tormenta de hielo se abate sobre la superficie de Europa. ",lPuente, FALSE, 0x00000000},
+	{"Nodo central ","Los módulos de la nave están en penumbra. El nodo central conecta con el puente de mando, la esclusa al oeste y la bodega al sur. ",lNodo, FALSE, 0x00000000},
+	{"Esclusa","Se escucha con intensidad la tormenta golpeando contra el fuselaje. Las sombras crean formas siniestras en los trajes de exploración. ",lEsclusa, FALSE, 0x00000000},
+	{"Bodega de carga","La zona de carga tiene espacio suficiente para atender pequeños envíos entre particulares. En la sombras hay varios paquetes que esperan su entrega. ", lBodega, FALSE, 0x00000000},
+	{"Exterior","Me envuelve una tormenta de nieve y cristales de hielo que me impide ver en la distancia. Al oeste se distingue un edificio que podría ser la entrada del almacén.",lExterior, FALSE, 0x00000000},
+    {"Entrada al almacén","Una mole de metal se encuentra enclavada en la superficie helada de Europa. ",lAlmacen, FALSE, 0x00000000},
+    {"Zona A1","Las monótonas estanterías repletas de contenedores blancos crean una atmósfera impersonal. Al oeste un oscuro pasillo da acceso a una sala roja.",lZonaA1, FALSE, 0x00000000},
+    {"Zona A2","El pasillo termina en una sala abovedada iluminada en rojo. Las monótonas estanterías prosiguen su curso con más contenedores blancos perfectamente ordenados.",lZonaA2, FALSE, 0x00000000},
     {"","",0, FALSE, 0x00000000}
 };
+#endif
+
+#ifdef ENGLISH
+loc_t localidades_t [] =
+{
+	{"Bridge", "The bridge is dimly illuminated by the navigation panel. Outside, an ice storm is raging over the surface of Europe. ",lPuente, FALSE, 0x00000000},
+	{"Central node ", "The ship's modules are in twilight. The central node connects to the command bridge, the airlock to the west and the cargo to the south. ",lNodo, FALSE, 0x00000000},
+	{"Airlock", "The storm can be heard pounding intensely against the hull. The poor lighting traces sinister shapes in the exploration suits. ",lEsclusa, FALSE, 0x00000000},
+	{"Cargo hold", "The cargo area has enough space to handle small shipments. In the shadows there are several packages awaiting delivery. ", lBodega, FALSE, 0x00000000},
+	{"Outside", "I am engulfed by a storm of snow and ice crystals preventing me from seeing in the distance. To the west I can make out a building that could be the entrance to the warehouse.",lExterior, FALSE, 0x00000000},
+    {"Warehouse entrance", "A mass of metal sits nestled on the frozen surface of Europe. ",lAlmacen, FALSE, 0x00000000},
+    {"Zone A1", "The monotonous shelves filled with white containers create an impersonal atmosphere. To the west a dark corridor leads to a red room.",lZonaA1, FALSE, 0x00000000},
+    {"Zone A2", "The corridor ends in a vaulted room lit in red. The monotonous shelves continue their course with more neatly arranged white containers.",lZonaA2, FALSE, 0x00000000},
+	{"","",0, FALSE, 0x00000000}
+};   
+#endif 
+
+// Localidades para contenedores
 
 // Tabla de conexiones...
 // Se usan los ID de localidad para idenfiticar las conexiones
@@ -143,39 +179,15 @@ loc_t localidades_t [] =
 cnx_t conexiones_t [] =
 {
 // LOC | AL_N | AL_S | AL_E | AL_O | AL_NE | AL_NO | AL_SE | AL_SO | ARRIB | ABAJO | ENTRAR | SALIR 
-	{1,{	0,	20,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0}},
-	{2,{	0,	19,		5,		0,		0,		0,		0,		0,		0,		0,		0,		0}}, // Altar ofrendas
-	{3,{	0,	23,		8,		0,		0,		0,		0,		0,		0,		10,		0,		0}},// Antesala
-	{4,{	0,	6,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0}}, // Desierto
-	{5,{	0,	0,		11,		2,		0,		0,		0,		0,		0,		0,		0,		0}}, // Sala Diminuta
-	{6,{	4,	7,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0}}, // Entrada
-	{7,{	6,	13,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0}}, // Escaleras Cafax
-	{8,{	0,	26,		0,		3,		0,		0,		0,		0,		0,		0,		0,		0}}, // Estancia
-	{9,{	0,	0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0}}, // Pasadizo Estrecho, DESCARTADA
-	{10,{	13,	0,		0,		14,		0,		0,		0,		0,		3,		0,		0,		0}}, // Final del Corredor
-	{11,{	20,	12,		21,		5,		0,		0,		0,		0,		0,		0,		0,		0}}, // Gran Pasaje
-	{12,{	11,	0,		0,		15,		0,		0,		0,		0,		17,		0,		0,		0}}, // Gran Sala, Distr
-	{13,{	7,	10,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0}}, // Largo Corredor
-	{14,{	17,	0,		10,		0,		0,		0,		0,		0,		0,		0,		0,		0}}, // Pasadizo Bajo
-	{15,{	0,	0,		12,		19,		0,		0,		0,		0,		0,		0,		0,		0}}, // Pasaje de Grabados
-	{16,{	0,	0,		29,		21,		0,		0,		0,		0,		0,		0,		0,		0}}, // Pasarela
-	{17,{	0,	14,		0,		0,		0,		0,		0,		0,		0,	   12,		0,		0}}, // Pasillo Profundo
-//	{18,{	0,	0,		0,		0,		0,		0,		0,		0,		29,		0}}, // Pozo de Almas
-	{19,{	2,	0,		15,		0,		0,		0,		0,		0,		0,		0,		0,		0}}, // Rampa
-	{20,{	1,	11,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0}}, // Sala Alargada
-	{21,{	0,	24,		16,		11,		0,		0,		0,		0,		0,		0,		0,		0}}, // Luminaria
-	{22,{	0,	0,		0,		26,		0,		0,		0,		0,		0,		0,		0,		0}}, // Sala de Momia
-	{23,{	3,	0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0}}, // Sala Vida Eterna
-	{24,{	0,	21,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0}}, // Sala de Vivos
-	{25,{	0,	29,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0}}, // Altar de Piedra
-	{26,{	8,	0,		22,		0,		0,		0,		0,		0,		0,		0,		0,		0}}, // Cofre
-	{27,{	0,	0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0}}, // Dios Rey, DESCARTADA
-	{28,{	0,	0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0}}, // Sala del Espacio DESCARTADA
-	{29,{	0,	0,		0,		16,		0,		0,		0,		0,		0,      0,		0,		0}},// Sala del Sepulcro
-	{30,{	0,	0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0}}, // Sala funeraria, DESCARTADA
-	{31,{	1,	0,		0,		0,		0,		0,		0,		0,		0,		0,		0,		0}}, // Trampa, DESCARTADA
-	{33,{   0,  0,      0,      0,      0,      0,      0,      0,      0,      0,		0,		0}}, // Créditos orig
-	{34,{   0,  0,      0,      0,      0,      0,      0,      0,      0,      0,		0,		0}} // Mesa
+	{lPuente,{	0,		lNodo,		0,		0,		0,		0,		0,		0,		0,		lNodo,	0,	0}},
+	{lNodo,{lPuente,		lBodega,		0,		lEsclusa,		0,		0,		0,		0,		lPuente,		0,0,0}},
+	{lEsclusa,{0,		0,		lNodo,		0,		0,		0,		0,		0,		0,		0,0,0}},
+	{lBodega,{lNodo,		0,		0,		0,		0,		0,		0,		0,		lNodo,		0,0,0}},
+	{lExterior,{0,		0,		lEsclusa,		lEntrada,		0,		0,		0,		0,		0,		0,0,0}},
+	{lEntrada,{0,		0,		lExterior,		0,		0,		0,		0,		0,		0,		0,0,0}},
+	{lZonaA1,{0,		0,		lEntrada,		lZonaA2,		0,		0,		0,		0,		0,		0,0,lEntrada}},
+	{lZonaA2,{0,		0,		lZonaA1,		0,		0,		0,		0,		0,		0,		0,0,0}},
+	{0,{	0,		0,		0,		0,		0,		0,		0,		0,		0,		0,0,0}}
 	};
 
 
@@ -184,12 +196,203 @@ cnx_t conexiones_t [] =
 // Text, message_id (1 to 255)
 // Messages can be printed directly in the code just calling the function writeText (unsigned char *string)
 // More than one message table can be defined
+#ifdef SPANISH 
+
 token_t mensajes_t [] =
 {
-	{"",0},
+	{"ZHL^ Entregamos su paquete en 24h. ^ (c) 2016, 2019, 2021 KMBR. Release 5.",1},
+	{"No veo nada en particular.",2},
+	{"ZHL by KMBR",3},
+	{"Descienden al nodo central.",4},
+	{"Ascienden al puente de mando.",5},
+	{"El módulo para comandar la nave.",6},
+	{"La vía láctea en nuestro caso.",7},
+	{"La consola de navegación de la nave. Es un modelo bastante nuevo, el ordenador de abordo se encarga de la navegación y todos los comandos se realizan por voz. En este momento la pantalla de la consola está en negro.",8},
+	{"-Funcionamos en modo de bajo consumo. La consola debe permanecer apagada -responde el ordenador.",9},
+	{"Proviene de la consola de mandos. La consola está en modo de bajo consumo. ",10},
+	{"Nieve y hielo a 150 Celsius bajo cero.",11},
+	{"El sistema térmico apenas puede evitar la formación de cristales en el exterior del parabrisas.",12},
+	{"Se forman en los gradientes térmicos del parabrisas de la nave.",13},
+	{"La nave de reparto donde hago la ruta. Es un modelo industrial construido con módulos estándar. Hace su trabajo y no se avería demasiadas veces.",14},
+	{"-Controla la temperatura en el interior y en los instrumentos para evitar su deterioro -informa el ordenador.",15},
+	{"Es uno de los dos trajes de supervivencia necesario para realizar EVA. El traje es completamente automático y tiene una autonomía de ocho horas. ",16},
+	{"Paquetes a entregar por el sistema solar.",17},
+	{"Está apagada.",18},
+	{"No sobreviviré en Europa sin el traje protector.",19},
+	{"-Para evitar contaminación deja el traje antes de pasar al nodo central -te recuerda el ordenador.",20},
+	{"La esclusa sirve para igualar la presión entre el exterior y el interior de la nave. Se controla con el bóton rojo para cerrar y el botón verde para abrir. ",21},
+	{"Está cerrada.",22},
+	{"Está abierta.",23},
+	{"-La esclusa se abre con los controles manuales -informa el ordenador.",24}, 
+	{"-La esclusa se cierra con los controles manuales -informa el ordenador. ",25},
+	{"Pulsar para abrir la esclusa. ^ADVERTENCIA: ANTES DE ABRIR USAR EL TRAJE DE SUPERVIVENCIA EN ENTORNOS HOSTILES.",26},
+	{"Pulsar para cerrar la esclusa.",27},
+	{"-La esclusa ya está abierta.",28},
+	{"-Abriendo compuerta exterior y aislando el interior -dice el ordenador. La compuerta exterior se abre con un siseo mientras se igualan las presiones.",29},
+	{"-Cerrando compuerta exterior- repite el ordenador",30},
+	{"Una vez la compuerta exterior se ha cerrado, unos chorros de aire a presión surgen de las paredes para eliminar los contaminantes e igualar de nuevo la presión.",30},
+	{"Un panel se abre y permite el acceso al interior de la nave.",31},
+	{"-La esclusa ya está cerrada -reporta el ordenador de abordo.",32},
+	{"Apenas unos milímetros de plástico y metal te separan del exterior.",33},
+	{"Frío al tacto.",34},
+	{"Como en una noche oscura salvo por el brillo esquivo de los trozos de hielo que están cayendo.",35},
+	{"La nave modular estándar de ZHL. Pintada de amarillo y con el logo de la compañía en grandes letras rojas.",36},
+	{"ZHL 24h",37},
+	{"Con dificultad distingo el perfil de un edificio de metal en la tormenta. ",38},
+	{"En un lateral de la entrada brilla un teclado numérico.",39},
+	{"Por una abertura se desliza un cañón láser que te apunta: TECLEE EL CóDIGO DE ACCESO. TIENE UNA OPORTUNIDAD ANTES DE SER DESINTEGRADO.",40},
+	{"Un cañón de aspecto peligroso sigue mis movimientos.",41},
+	{"Todo son cajas blancas de tamaño similar. Las más grandes se encuentran en los estantes más bajos.",42},
+	{"Alojan decenas de pequeños contenedores blancos.",43},
+	{"Todo funcional. El espacio suficiente para mantener las condiciones necesarias para preservar materiales biológicos.",44},
+	{"Una elevada bóveda forma el techo de esta sala.",45},
+	{"Un paquete azul con un gran indicador de peligro biológico en el frontal. ",46},
+	{"-Este es el paquete -susurra el ordenador en tu oído.",47},
+	{"-No puedo, las directivas de la empresa me lo impiden. ",48},
+	{"Peligro biológico. Conservar a menos de 15 celsius bajo cero. No manipular sin protección. No abrir. No golpear. Material frágil.",49},
+	// Textos relativos al ordenador
+	{"-Coordino todos los sistemas de la nave. Para hablar conmigo emplea: ordenador comando. Algunas sugerencias de comandos son: ordenador ayuda, ordenador nombre, ordenador misión... -te responde servicial el ordenador de navegación.",50},
+	{"-Oh, vaya como no pensé en leer eso -dice el ordenador con falsa admiración.",51},
+	{" ",52},
+	{"No noto nada en particular.",53},
+	{"Nada que destacar.",54},
+	{"No es especialmente interesante.",55},
+	{"No sucede nada inesperado.",56},
+	{"El aullido del viento resuena en el fuselaje.",57},
+	{"-Buen trabajo -aprueba la voz satisfecha del ordenador.  ",58},
+	{"-Ahora es momento de poner rumbo a Marte. Baja a la bodega de carga mientras reinicio los sistemas de la nave -dice el ordenador con premura. ",59},
+	{"Desciendo los escalones a la bodega y deposito el paquete junto a los demás pendientes de entrega. Al regresar descubro que la sala se ha cerrado.",60},
+	{"-No es nada personal pero es momento de reciclar -dice la voz del ordenador- mientras te fallan las piernas y golpeas con la cabeza contra el suelo.",61}, 
+	{"-Lo más duro es tener que reciclar sus piezas para la siguiente misión. Llegan a creerse humanos. En fin... -suspira el ordenador mientras recoge los restos de tu cuerpo con una robofregona.",62},
+	{"-Central, aquí Tod Connor -dice la voz- Volvemos a Marte con el paquete. Repito volvemos con el paquete. ",63},
+	{"Hay dos botones: rojo y verde. Se utilizan para cerrar y abrir la esclusa al exterior. ",172},
+	{"Los siguientes paquetes para entregar.",173},
+	{"No es momento de jugar al Sokoban.",174},
+	{"-Voolare... ooh oooh -te devuelve cruel el eco de la nave.",175},
+	{"-Cantare, ooh oooh -intentas entonar ^ -Nel blu dipinto di blu...",176},
+	{"Sólo escucho estática. La tormenta interfiere en las comunicaciones.",177},
+	{"Estoy en la cara oculta, no veo Júpiter.",178},
+	{"Satélite helado e inhóspito.",179}, 
+	{"La entrada al almacén. ",180},
+	{"Funciona con comandos de voz al ordenador: ordenador comando.",181}, 
+	{"Es una construcción metálica y rectangular que se interna bajo tierra.",182}, 
+	{"(en el teclado)",183},
+	{"La puerta del almacén ya está abierta.",184},
+	{"El teclado se ilumina en rojo. CLAVE INCORRECTA.",185}, 
+	{"El teclado se ilumina en verde. CLAVE CORRECTA. El cañón láser se repliega en su compartimento.",186}, 
+	{"El cañón láser comienza a calentarse.",187},
+	{"El cañón láser se prepara a disparar. ",188},
+	{"El cañón láser dispara. ",189},
+	{"Pero nada sucede. Una voluta de humo y algunas chispas surgen del cañón.",190},
+	{"Son contenedores de transporte.",191}, 
+	{"(cogiendo antes el traje)",192},
+	{"-Los sistemas ya están en modo de bajo consummo -te recuerda el ordenador.",193},
+	{"-Sólo necesito un paquete azul. ",194},
+	{"La superficie es lisa, sólo se activa con el teclado.", 195},
+	{"E U R O P A",196},
 };
+#endif 
+
+#ifdef ENGLISH
+
+token_t mensajes_t [] =
+{
+	{"ZHL^ We deliver your parcel within 24h. ^ (c) 2016, 2019, 2021 KMBR. Release 5.",1},
+	{"I don't see anything in particular.",2},
+	{"ZHL by KMBR",3},
+	{"They descend to the central node.",4},
+	{"They ascend to the command bridge.",5},
+	{"The module to command the ship.",6},
+	{"The Milky Way in our case.",7},
+	{"The ship's navigation console. It is a fairly new model, the on-board computer is in charge of navigation and all commands are made by voice. At the moment the console screen is black.",8},
+	{"'We are operating in low power mode. The console must remain off', replies the computer.",9},
+	{"It comes from the control console. The console is in low power mode. ",10},
+	{"Snow and ice at minus 150 Celsius.",11},
+	{"The thermal system can hardly prevent the growth of crystals on the outside of the windscreen.",12},
+	{"They form on the thermal gradients of the ship's windscreen",13},
+	{"The delivery shed where I do the route. It is an industrial model built with standard modules. It does its job and doesn't break down too often.",14},
+	{"'It controls the temperature inside and in the instruments to avoid their deterioration,' reports the computer",15},
+	{"It is one of the two survival suits required to perform EVA. The suit is fully automatic and has an autonomy of eight hours. ",16},
+	{"Packages to be delivered throughout the solar system.",17},
+	{"It's off.",18},
+	{"I won't survive in Europe without the protective suit.",19},
+	{"'To avoid contamination, leave the suit behind before passing the central node,'  the computer reminds you.",20},
+	{"The airlock is used to equalise the pressure between the outside and inside of the ship. It is controlled by the red button to close and the green button to open. ",21},
+	{"It is closed.",22},
+	{"It is open.",23},
+	{"'The airlock is opened with the manual controls,' reports the computer",24},
+	 {"'The airlock is opened with the manual controls,' reports the computer",24}, 
+	{"'The airlock is closed with the manual controls,' computer reports. ",25},
+	{"Press to open the airlock. WARNING: WEAR SURVIVAL SUIT IN HOSTILE ENVIRONMENT BEFORE OPENING.",26},
+	{"Press to close the airlock.",27},
+	{"The airlock is now open.",28},
+	{"'Opening outer airlock and isolating the interior,' says the computer. The outer airlock opens with a hiss as the pressures equalise.",29},
+	{"'Closing outer hatch,' repeats the computer",30},
+	{"Once the outer hatch has closed, jets of pressurised air burst out of the walls to remove contaminants and equalise the pressure again.",30}, 
+	{"A panel opens and allows access to the interior of the spacecraft.",31},
+	{"'The airlock is now closed,' reports the on-board computer.",32},
+	{"Just a few millimetres of plastic and metal isolate you from the outside.",33},
+	{"Cold to the touch.",34},
+	{"As in a dark night except for the elusive glow of falling ice chunks.",35},
+	{"The standard ZHL modular ship. Painted yellow and with the company logo in big red letters.",36},
+	{"ZHL 24h",37},
+	{"With difficulty I can make out the outline of a metal building in the storm. ",38},
+	{"On the side of the entrance shines a numeric keypad.",39},
+	{"A laser cannon slides through an opening and points at you: TYPE IN THE ACCESS CODE. YOU HAVE ONE CHANCE BEFORE DESINTEGRATION.",40},
+	{"A dangerous-looking cannon follows my movements.",41},
+	{"All are white boxes of similar size. The largest are on the lowest shelves.",42},
+	{"They house dozens of small white containers.",43},
+	{"Bare minimum. Just enough space to maintain the conditions needed to preserve biological materials.",44},
+	{"A high vault forms the ceiling of this room.",45},
+	{"A blue package with a large biohazard indicator on the front. ",46},
+	{"'This is the package,' the computer whispers in your ear.",47},
+	{"I can't, the company's directives prevent me from doing so. ",48},
+	{"Biohazard. Store below minus 15 Celsius. Do not handle without protection. Do not open. Do not handle unprotected. Fragile material.",49},
+	// Computer-related texts
+	{"'I manage all spacecraft's systems. To talk to me use: computer command. Some suggestions of commands are: computer help, computer name, computer mission..' the navigation computer responds helpfully to you.",50},
+	{"'Oh, I didn't think I'd read that,' says the computer with false admiration.",51},
+	{" ",52},
+	{"I don't notice anything in particular.",53},
+	{"Nothing to highlight.",54},
+	{"It's not particularly interesting.",55},
+	{"Nothing unexpected happens.",56},
+	{"The howl of the wind echoes in the fuselage.",57},
+	{"'Good job,' approves the satisfied voice of the computer.",58},
+	{"'Now it's time to set course for Mars. Go down to the cargo hold while I reboot the ship's systems,' the computer says hastily.",59},
+	{"I descend the steps to the cellar and deposit the package with the others awaiting delivery. When I return I discover that the room has closed.",60},
+	{"'It's nothing personal but it's time to recycle,' says the computer voice, as your legs give out and you bang your head on the floor",61}, 
+	{"'The hardest thing is having to recycle their parts for the next mission. They come to think of themselves as human. Anyway...' sighs the computer as it scoops up the remains of your body with a robo-scrubber.",62},
+	{"'Central, this is Tod Connor,' says the voice, 'I'm returning to Mars with the package. I repeat I'm returning with the package.' ",63},
+	{"There are two buttons: red and green. They are used to close and open the airlock to the outside. ",172},
+	{"Next packages to be delivered.",173},
+	{"This is no time to play Sokoban.",174},
+	{"'Voolare... ooh oooh' you get a cruel echo back from the ship.",175}, 
+	{"'Cantare, ooh oooh 'you try to intone ^ 'Nel blu dipinto di blu...'",176},
+	{"I hear only static. The storm is interfering with communications.",177},
+	{"I'm on the dark side, I can't see Jupiter",178},
+	{"Icy, inhospitable satellite.",179}, 
+	{"The entrance to the warehouse. ",180},
+	{"It works with voice commands to the computer: computer command.",181}, 
+	{"It is a rectangular metal construction that goes underground.",182}, 
+	{"(on the keyboard)",183},
+	{"The warehouse door is already open.",184},
+	{"The keypad is illuminated red. INCORRECT KEY.",185}, 
+	{"The keypad is illuminated green. CORRECT KEY. The laser cannon retracts into its compartment.",186}, 
+	{"Laser cannon begins to heat up.",187},
+	{"The laser cannon prepares to fire. ",188},
+	{"Laser cannon fires. ",189},
+	{"But nothing happens. A puff of smoke and a few sparks emerge from the cannon.",190},
+	{"They're shipping containers.",191}, 
+	{"(picking up the suit first)",192},
+	{"-The systems are already in low power mode - the computer reminds you.",193},
+	{"-I just need a blue packet. ",194},
+	{"The surface is smooth, only activated with the keyboard.", 195},
+	{"E U R O P A",196},
+};
+#endif 
 
 // Messages used by the parser. 
+#ifdef SPANISH
 token_t mensajesSistema_t [] =
 {
 	{"No puedo ver nada, está muy oscuro.^",0},
@@ -269,10 +472,94 @@ token_t mensajesSistema_t [] =
 	{"Salidas visibles:",SYSMESS_EXITSLIST},
 	{"",0}	
 };
+#endif 
+
+#ifdef ENGLISH 
+token_t mensajesSistema_t [] =
+{
+	{"It's too dark to see anything.^",0},
+	{"You can see ",1},
+	{"What do you want me to do now?",2},
+	{"",3},
+	{"",4},
+	{"",5},
+	{"Sorry? Please try other words.^",6},
+	{"I can't go in that direction.^",7},
+	{"Pardon me?^",8},
+	{"I am carrying: ",9},
+	{"(worn)",10},
+	{"nothing at all.",11},
+	{"Are you sure? ",12},
+	{"Do you want to play again? ",13},
+	{"Goodbye...",14},
+	{"OK^",15},
+	{"[...]",16},
+	{"You have typed ",17},
+	{" turn",18},
+	{"s",19},
+	{".^ ",20},
+	{"Your score is ",21},
+	{" point",22},
+	{"I'm not wearing that.^",23},
+	{"I cannot, I'm already wearing that.^",24},
+	{"I already have ",25},
+	{"I cannot see that around.^",26},
+	{"I cannot carry anymore.^",27},
+	{"I don't have that.^",28},
+	{"I'm already wearing ",29},
+	{"Y",30},
+	{"N",31},
+	{"More...",32},
+	{"> ",33},
+	{"",34},
+	{"Time passes ...^",35},
+	{"I've taken ",36},
+	{"I wear ",37},
+	{"I remove ",38},
+	{"I drop ",39},
+	{"I cannot wear  ",40},
+	{"I cannot remove ",41},
+	{"My hands are full!",42},
+	{"It's too heavy.",43},
+	{"I put ",44},
+	{"It is not in ",45},
+	{",",46},
+	{" and ",47},
+	{".",48},
+	{"I don't have ",49},
+	{"I'm not wearing ",50},
+	{"",51},
+	{"That is not in ",52},
+	{"nothing at all",53},
+	{"File not found.^",54},
+	{"Corrupted file.^",55},
+	{"I/O error. File not saved.^",56},
+	{"Directory full.^",57},
+	{"Disc is full.",58},
+	{"Invalid savegame name. Please check the name you entered is correct, and make sure you are trying to load the game from the same file you saved.^",59},
+	{"Please enter savegame name. Remember to note down the name you choose, as it will be requested in order to restore the game status.",60},
+	{"",61},
+	{"Sorry? Please try other words.^",62},
+	{"Here ",SYSMESS_NPCLISTSTART},
+	{"I can see ",SYSMESS_NPCLISTCONTINUE},
+	{"I can see ",SYSMESS_NPCLISTCONTINUE_PLURAL},
+    {"Inside I see ",SYSMESS_INSIDE_YOUCANSEE},
+    {"On top I see ",SYSMESS_OVER_YOUCANSEE},
+    {"",68},
+	{"It is not something I can remove.^",69},
+	{"I put ",SYSMESS_YOUPUTOBJECTON },
+    {"It is not something I can take.^",SYSMESS_YOUCANNOTTAKE},
+	{"It cannot be moved.^", SYSMESS_CANNOTMOVE},
+	{"My hands are empty.^", SYSMESS_CARRYNOTHING},
+	{"Exits:",SYSMESS_EXITSLIST},
+	{"",0}	
+};
+
+#endif 
 
 // Tablas de vocabulario
 // Nombre propios, sustantivos...
-// último elemento debe ser 0
+// ï¿½ltimo elemento debe ser 0
 #define nNorte  1
 #define nSur 	2
 #define nEste	3
@@ -293,6 +580,7 @@ token_t mensajesSistema_t [] =
 #define nSal 12 
 
 
+#ifdef SPANISH 
 token_t nombres_t [] =
 {
     {"norte",           nNorte},  //0
@@ -347,175 +635,194 @@ token_t nombres_t [] =
 	{"turno",       nTurnos},    
 	// Names < 20 can be used as verbs
 	// Nombres para el Vocabulario del juego,
-	{"arena",   n_arena},
-	{"suelo",   n_arena},
-	{"expla",   n_arena},
-	{"desie",   n_arena},
-	{"piram",   n_piramide},
-	{"pies",    n_cuerpo},
-	{"pie",     n_cuerpo},
-    {"cabez",  n_cuerpo},
-	{"cejas",   n_cuerpo},
-	{"brazo",   n_cuerpo},
-	{"piern",   n_cuerpo},
-	{"zapat",   n_cuerpo},
-	{"suela",   n_cuerpo},
-	{"tramp",   n_trampa},
-	{"pinch",   n_pinchos},
-	{"cuchi",   n_pinchos},
-	{"aguja",   n_pinchos},
-	{"acces",   n_acceso},
-	{"altar",   n_altar},
-	{"vasij",   n_vasija},
-	{"recip",   n_vasija},
-	{"urna",    n_vasija},
-	{"urnas",    n_vasija},
-	{"llama",   n_llama},
-	{"fuego",   n_fuego},
-	{"aceit",   n_aceite},
-	{"serpi",   n_serpiente},
-	{"cobra",   n_serpiente},
-	{"bicha",   n_serpiente},
-	{"arana",   n_arana},
-	{"pared",   n_pared},
-	{"muro",    n_pared},
-	{"muros",   n_pared},
-	{"esqui",   n_esquina},
-	{"brech",   n_brecha},
-	{"luz",     n_luz},
-	{"abert",   n_abertura},
-	{"apert",   n_abertura},
-	{"sol",     n_sol},
-	{"cielo",   n_sol},
-	{"feret",   n_sepulcro},
-	{"sepul",   n_sepulcro},
-	{"tumba",   n_sepulcro},
-	{"templ",   n_piramide},
-	{"monum",   n_piramide},
-	{"cafax",   n_cafax},
-	{"aceps",   n_aceps},
-	{"recin",   n_sala},
-	{"sala",    n_sala},
-	{"salas",   n_sala},
-	{"techo",   n_techo},
-	{"suelo",   n_suelo},
-    {"entra",   n_entrada},
-    {"puert",   n_entrada},
-	{"pilar",   n_columna},
-	{"colum",   n_columna},
-	{"escal",   n_escalera},
-	{"nubes",   n_nubes},
-	{"nube",    n_nubes},
-	{"pasad",   n_pasillo},
-	{"corre",   n_pasillo},
-	{"pasil",   n_pasillo},
-	{"detal",   n_arte},
-	{"jerog",   n_arte},
-	{"arte",    n_arte},
-	{"muest",   n_arte},
-	{"picto",   n_arte},
-	{"pintu",   n_arte},
-	{"image",   n_arte},
-	{"graba",   n_arte},
-	{"autor",   n_arte},
-	{"simbo",   n_arte},
-	{"grand",   n_arte},
-	{"majes",   n_arte},
-	{"ojos",    n_ojo},
-	{"ojo",     n_ojo},
-	{"oscur",   n_oscuridad},
-	{"banca",   n_soporte},
-	{"sopor",   n_soporte},
-	{"puent",   n_puente},
-	{"pasar",   n_puente},
-	{"colga",   n_puente},
-	{"sima",    n_sima},
-	{"preci",   n_sima},
-	{"vacio",   n_sima},
-	{"caida",   n_sima},
-	{"rampa",   n_rampa},
-	{"pendi",   n_pendiente},
-	{"objet",   n_objeto},
-    {"hueco",   n_hueco},
-    {"aguje",   n_hueco},
-    {"orifi",   n_hueco},
-    {"ranur",   n_ranura},
-	{"lumin",   n_luminaria},
-	{"brasa",   n_brasa},
-	{"carbo",   n_carbon},
-	{"momia",   n_momia},
-	{"fiamb",   n_momia},
-	{"ataud",   n_ataud},
-	{"tumba",   n_ataud},
-	{"sarco",   n_ataud},
-	{"mesa",    n_mesa},
-	{"polvo",   n_polvo},
-	{"anima",   n_animales},
-	{"semil",   n_semilla},
-	{"maiz",    n_maiz},
-	{"anubi",   n_anubis},
-	{"vivos",   n_vivos},
-	{"farao",   n_farao},
-	{"vida",    n_vida},
-	{"antes",   n_antes},
-	{"muert",   n_muerte},
-	{"charc",   n_charco},
-	{"agua",    n_charco},
-	{"cofre",   n_cofre},
-	{"cerra",   n_cerradura},
-	{"ranur",   n_cerradura},
-	{"cerro",   n_cerradura},
-	{"copa",    n_copa},
-	{"anill",   n_anillo},
-	{"espad",   n_espada},
-	{"cabez",   n_cabeza},
-	{"piedr",   n_piedra},
-	{"mano",    n_mano},
-	{"manos",   n_mano},
-	{"dedo",    n_dedo},
-	{"falan",   n_dedo},
-	{"dedos",   n_dedo},
-	{"hueso",   n_hueso},
-	{"rey",     n_rey},
-    {"farao",   n_rey},
-    {"pozo",    n_pozo},
-    {"herra",   n_herramientas},
-    {"linte",   n_linterna},
-    {"barra",   n_barra},
-    {"cuerd",   n_cuerda},
-    {"soga",    n_cuerda},
-    {"cabo",    n_cuerda},
-    {"antor",   n_antorcha},
-    {"peder",   n_pedernal},
-    {"sanda",   n_sandalia},
-    {"carta",   n_carta},
-    {"teleg",   n_carta},
-    {"nota",    n_carta},
-    {"papel",   n_carta},
-    {"bruju",   n_brujula},
-    {"roca",    n_roca},
-    {"bloqu",   n_roca},
-    {"tabla",   n_tabla},
-    {"mader",   n_tabla},
-	{"trigo",	n_trigo},
-	{"llave",	n_llave},
-	{"tapa",	n_tapa},
-	{"losa",    n_losa},
-	{"poste",	n_poste},
-	{"papir",	n_papiro},
-	{"carto",   n_papiro},
-	{"valle",   n_valle},
-	{"monta",   n_valle},
-	{"expla",   n_suelo},
-	{"polea",   n_polea},
-	{"rueda",   n_polea},
-	{"mecan",   n_polea},
+	{"todo",        nTodo},
+	{"puerta", nPuerta},
+	{"boton", nBoton},
+	{"escal", nEscalera},
+	{"pared", nPared},
+	{"suelo", nSuelo},
+	{"techo", nTecho},
+	{"luz", nLuz},
+	{"haz", nLuz},
+	{"parab", 	nParabrisas},
+	{"caja",	nCaja},
+	{"paque",	nPaquete},
+	{"conte",	nContenedor},
+	{"cielo",	nCielo},
+	{"nave",	nNave},
+	{"fusel",	nNave},
+	{"nodo",	nNodo},
+	{"puent",	nPuente},
+	{"torme",	nTormenta},
+	{"europ",	nEuropa},
+	{"luna",	nLuna},
+	{"lunas",	nLuna},
+	{"satel",	nSatelite},
+	{"jupit",	nJupiter},
+	{"jovia",	nJoviano},
+	{"cara",	nCara},
+	{"lado",	nLado},
+    {"inter", 	nInterior},
+	{"almac",	nAlmacen},
+	{"mole",	nMole},
+	{"edifi",	nEdificio},
+	{"orden", 	nOrdenador},
+//	{"compu", 	nOrdenador},
+	{"ia", 		nOrdenador},
+	{"dot", 	nOrdenador},
+	{"tod",		nOrdenador},	
+	{"navi", 	nOrdenador}, 
+	{"gps", 	nOrdenador},  
+	{"galileo", nOrdenador},
+	{"tom", 	nOrdenador},    
+	{"tomtom", 	nOrdenador}, 
+	{"inter", 	nInterior},
+	{"conso", 	nConsola},
+	{"puent", 	nConsola},
+	{"mando",	 nConsola},
+	{"siste",	nSistema},
+	{"esclu", 	nEsclusa},
+	{"airlo", 	nEsclusa},
+	{"compu",	nEsclusa},
+	{"traje",	nTraje},
+	{"bodega", nBodega},
+	{"boveda", nBoveda},
+	{"estant",	nEstanteria},
+	{"camara",	nCamara},
+	{"canon",	nCanon},
+	{"32768",	n32768},
+	{"tecla",	nTeclas},
+	{"exter",	nExterior},
+	{"fuera",	nFuera},
+	{"afuer",	nFuera},
+	{"etiqu",	nEtiqueta},
+	{"indic",	nIndicador},
+	{"panta", nPantalla},
+	{"instr", nPantalla},
+	{"contr", nControles},
+	{"panel", nPantalla},
+	{"sombr", nSombra},
 	{"",0}
 };
+
+#endif 
+
+#ifdef ENGLISH
+token_t nombres_t [] =
+{
+    {"north",           nNorte},  //0
+	{"n",               nNorte},
+	{"south",             nSur},    //2
+	{"s",               nSur},
+	{"east",            nEste},   //4
+	{"e",               nEste},
+	{"west",           nOeste},  //6
+	{"o",               nOeste},
+	{"northeast",         nNoreste}, //8
+	{"w",               nOeste},
+	{"northwest",        nNorOeste}, //10
+	{"ne",              nNoreste},
+	{"southest",         nSurEste},	 //12
+	{"se",              nSurEste},
+	{"southwest",        nSurOeste},  // 14
+    {"sw",           nSurOeste},
+    {"up",          nArriba},   // 16
+	{"nw",              nNorOeste},
+	{"down",           nAbajo},   // 18
+	{"enter",			nEntrar}, // 20
+	{"exit",			nSalir}, // 22
+	{"leave",			nSalir}, // 22
+	{"up",	nArriba},
+	{"down",  	nAbajo},
+	{"desce",	nAbajo},
+	{"i",               nInventario},
+    {"inven",           nInventario},
+	{"inv",         nInventario },
+	{"score",       nPuntos},
+	{"points",       nPuntos},
+	{"turns",       nTurnos},    
+	// Names < 20 can be used as verbs
+	// Nombres para el Vocabulario del juego,
+	{"all",        nTodo},
+	{"door", nPuerta},
+	{"button", nBoton},
+	{"stair", nEscalera},
+	{"wall", nPared},
+	{"hull",nPared},
+	{"floor", nSuelo},
+	{"ceill", nTecho},
+	{"light", nLuz},
+	{"beam", nLuz},
+	{"winds", 	nParabrisas},
+	{"box",	nCaja},
+	{"parcel",	nPaquete},
+	{"packet",nPaquete},
+	{"packag",nPaquete},
+	{"conta",	nContenedor},
+	{"sky",	nCielo},
+	{"space", 	nNave},
+	{"ship",	nNave},
+	{"fusel",	nNave},
+	{"node",	nNodo},
+	{"bridg",	nPuente},
+	{"storm",	nTormenta},
+	{"europ",	nEuropa},
+	{"moon",	nLuna},
+	{"moons",	nLuna},
+	{"satel",	nSatelite},
+	{"jupit",	nJupiter},
+	{"jovia",	nJoviano},
+	{"face",	nCara},
+	{"side",	nLado},
+    {"inter", 	nInterior},
+	{"wareh",	nAlmacen},
+	{"mass",	nMole},
+	{"build",	nEdificio},
+	{"compu", 	nOrdenador},
+	{"ia", 		nOrdenador},
+	{"dot", 	nOrdenador},
+	{"tod",		nOrdenador},	
+	{"navi", 	nOrdenador}, 
+	{"gps", 	nOrdenador},  
+	{"galileo", nOrdenador},
+	{"tom", 	nOrdenador},    
+	{"tomtom", 	nOrdenador}, 
+	{"inter", 	nInterior},
+	{"conso", 	nConsola},
+	{"bridge", 	nConsola},
+	{"instr",	nSistema},
+	{"airlo", 	nEsclusa},
+	{"hatch",	nEsclusa},
+	{"gate", 	nEsclusa},
+	{"suit",	nTraje},
+	{"cargo", nBodega},
+	{"hold", nBoveda},
+	{"shelv",	nEstanteria},
+	{"camera",	nCamara},
+	{"canno",	nCanon},
+	{"32768",	n32768},
+	{"key",	nTeclas},
+	{"keypad", nTeclas},
+	{"keybo", nTeclas},
+	{"exter",	nExterior},
+	{"outsi",	nFuera},
+	{"label",	nEtiqueta},
+	{"indic",	nIndicador},
+	{"scree", nPantalla},
+	{"instr", nPantalla},
+	{"contr", nControles},
+	{"panel", nPantalla},
+	{"shado", nSombra},
+	{"",0}
+};
+
+#endif 
 
 // Verbos
 // VOCABULARIO
 // Verbos < 20 son iguales a nombres < 20
+#ifdef SPANISH 
+
 token_t verbos_t [] =
 {
     {"coger",	vCoger},
@@ -583,7 +890,7 @@ token_t verbos_t [] =
 	{"VOLTE",	35},
 	{"MOSTR",	36},
 	{"MUEST",	36},
-	{"ENSEÑ", 	36},
+	{"ENSEï¿½", 	36},
 	*/
 	{"escuc", 	vEscuchar},
 	{"oir",		vEscuchar},
@@ -761,7 +1068,7 @@ token_t verbos_t [] =
 	{"EXAMI",	85},
 	{"VACIA",	86},
 	{"VERTE",	86},
-	{"VERTI",	86},  // Término erróneo, pero ampliamente extendido
+	{"VERTI",	86},  // Tï¿½rmino errï¿½neo, pero ampliamente extendido
 	{"VIERT",	86},
 	{"DESPI",	87},
 	{"DESPE",	87},
@@ -867,7 +1174,89 @@ token_t verbos_t [] =
 	{"activ", vUsar},
     {"",0}
 };
+#endif 
 
+#ifdef ENGLISH
+token_t verbos_t [] =
+{
+    {"take",	vCoger},
+    {"pick",	vCoger},
+    {"drop",	vDejar},
+    {"remove",	vQuitar},
+    {"remove",	vSacar},
+    {"remove",	vQuitar},
+    {"l",		vMirar},
+    {"look",	vMirar},
+    {"r",		vMirar},
+    {"redes",	vMirar},
+    {"quit",	vFin},
+    {"save",	vSave},
+    {"salva",	vSave},
+	{"load",	vLoad},
+	{"ramsa",	vRamsave},
+	{"ramlo",	vRamload},
+	{"carga",	vLoad},
+	{"x",       vExaminar},
+	{"exami",	vExaminar},
+	{"ex",		vExaminar},
+	{"regis",	vExaminar},
+	{"say", 	vDecir},
+	{"talk",		vDecir},
+	{"answer", 	vDecir},
+	{"order",  	vDecir},
+	{"throw",	vLanzar},
+	{"push",	vEmpujar},
+	{"press",	vEmpujar},	
+	{"press",	vPulsar},
+	{"turn",  	vGirar},
+	{"rotat",	vGirar},
+	{"listen", 	vEscuchar},
+	{"hear",		vEscuchar},
+	{"touch",	vTocar},
+	{"pat",	vTocar},
+	{"smell",	vOler},
+	{"sniff",	vOler},
+	{"wait",	vEsperar},
+	{"z",		vEsperar},
+	{"sing",	vCantar},
+	{"jump", 	vSaltar},
+	{"attac",	vAtacar},
+	{"kill",	vAtacar},
+	{"fight",	vAtacar},
+	{"punch",	vAtacar},
+	{"kick",	vAtacar},
+	{"pee",	vAtacar},
+	{"open",	vAbrir},
+	{"close",	vCerrar},
+	{"activ",	vEncender},
+	{"deact",	vApagar},
+	{"break",	vRomper},
+	{"destroy",	vRomper},
+	{"put",		vPoner},
+	{"wear", vPoner},
+	{"wear",	vVestir},
+	{"put",	vVestir},
+	{"give",		vDar},
+	{"put",	vMeter},
+	{"insert", 	vMeter},
+	{"go",		vIr},
+	{"walk",		vIr},
+	{"run",	vIr},
+	{"read",		vLeer},
+	{"move",	vEmpujar},
+	{"type", vTeclear},
+	{"write", vEscribir},
+	{"point", vPuntos},
+	{"score", vPuntos},
+	{"turns", vTurnos},
+	{"use", vUsar},
+	{"activ", vUsar},
+    {"",0}
+};
+#endif 
+
+// Tabla de adjetivos
+#ifdef SPANISH
 // Tabla de adjetivos
 token_t adjetivos_t [] =
 {
@@ -895,53 +1284,1140 @@ token_t adjetivos_t [] =
 	{"calie", aCaliente},
 	{"",0}
 };
+#endif 
+
+#ifdef ENGLISH
+token_t adjetivos_t [] =
+{
+	{"small", aPequeno},
+	{"big", aGrande},
+	{"old", aViejo},
+	{"new", aNuevo},
+	{"hard", aDuro},
+	{"soft", aBlando},
+	{"short", aCorto},
+	{"long", aLargo},
+	{"blue", aAzul},
+	{"green", aVerde},
+	{"black", aNegro},
+	{"red", aRojo},
+	{"yellow", aAmarillo},
+	{"therm", aTermico},
+	{"cold", aFrio},
+	{"hot", aCaliente},
+	{"",0}
+};
+#endif
 
 
-// Tabla de objetos
+/// Tabla de objetos
 // No existe la limitación de PAWS donde el objeto 1 siemmpre es la fuente de luz 
 // La luz en ngpaws se calcula en función del atributo de los objetos presentes en la localidad, puestos y llevados.
 // Localidades de sistema: LOCATION_WORN,LOCATION_CARRIED, LOCATION_NONCREATED, LOCATION_HERE, CARRIED, HERE, NONCREATED, WORN
 
 // Atributos con OR: aLight, aWear, aContainer, aNPC, aConcealed, aEdible, aDrinkable, aEnterable, aFemale, aLockable, aLocked, aMale, aNeuter, aOpenable, aOpen, aPluralName, aTransparent, aScenary, aSupporter, aSwitchable, aOn, aStatic, aExamined, aTaken, aDropped, aVisited, aTalked, aWore, aEaten, aPropio, aDeterminado
-
+#ifdef SPANISH
 obj_t objetos_t[]=
 {
     // ID, LOC, NOMBRE, NOMBREID, ADJID, PESO, ATRIBUTOS
-    {1, LOCATION_NONCREATED,"linterna",     n_linterna,EMPTY_WORD,   1,0x0000 | aLight | aSwitchable | aFemale  },
-    {2, 2,"aceite",         n_aceite,EMPTY_WORD,     2,0x0000 | aMale  },                             // Altar de Ofrendas
-    {3, 14,"barra de metal",n_barra,EMPTY_WORD,      1,0x0000 | aFemale  }, // Pasadizo Bajo
-    {4, LOCATION_NONCREATED,"copa",         n_copa,EMPTY_WORD,       1,0x0000 | aFemale  }, // Dentro del Cofre
-    {5, 19,"cuerda",        n_cuerda,EMPTY_WORD,     1,0x0000 | aFemale  }, // Rampa
-    {6, LOCATION_NONCREATED,"espada",       n_espada,EMPTY_WORD,     1,0x0000 | aLight | aSwitchable | aFemale  }, // Dentro del Altar de piedra,
-    {7, 15, "antorcha",     n_antorcha,EMPTY_WORD,   1,0x0000 | aLight | aSwitchable | aFemale  }, // Pasaje de los Grabados
-    {8, LOCATION_NONCREATED,"pedernal",     n_pedernal,EMPTY_WORD,   1,0x0000 | aMale },
-    {9, 30, "sandalia",     n_sandalia,EMPTY_WORD,   1,0x0000 | aFemale  }, // Sala funeraria
-    {10, 5,  "tabla",       n_tabla,EMPTY_WORD,      18,0x0000 | aFemale  }, // Sala diminuta
-    {11, l_LargoCorredor, "bloque",n_roca,EMPTY_WORD,  255,0x0000 | aMale  }, // Corredor Largo
-    {12, 1,"papel",       n_carta,EMPTY_WORD,      1,0x0000 | aMale}, // En la trampa...
-    {13, 254,"br'jula",     n_brujula,EMPTY_WORD,    1,0x0000 | aFemale | aDeterminado }, // Llevado
-	{14, LOCATION_NONCREATED,"semillas de trigo",       n_trigo,EMPTY_WORD,      1,0x0000 | aFemale | aPluralName}, // No llevado
-	{15, l_SalaDeLaVidaEterna,"semillas de maíz",    n_maiz,EMPTY_WORD,    1,0x0000 | aFemale | aPluralName}, // No llevado
-	{16, LOCATION_NONCREATED,"llave",    n_llave,EMPTY_WORD,    1,0x0000 | aFemale }, // No llevado, llave de plata
-	{17, LOCATION_WORN,"mi anillo",      n_anillo,EMPTY_WORD,     1,0x0000 | aPropio | aWear}, // Llevado, el regalo de Carter
-	{34, l_SalaDeLaMomia,"mesa", n_mesa, EMPTY_WORD, 255, 0x0000 | aFemale | aSupporter},
-    {0,0,"",                EMPTY_WORD,EMPTY_WORD,            0,0x0000}
+    {oCaja, lZonaA2,"paquete azul",     nPaquete, aAzul,   1, aMale_hex | aDeterminado_hex},  
+    {oTraje, lEsclusa,"traje presurizado",     nTraje, EMPTY_WORD,   1, aWear_hex| aMale_hex | aDeterminado_hex},  
+	{oEsclusa, lEsclusa,"compuerta de la esclusa", nEsclusa, EMPTY_WORD,   1, aStatic_hex | aFemale_hex | aDeterminado_hex},  
+	{oPuerta, lEntrada,"puerta de metal",     nPuerta, EMPTY_WORD,   1, aStatic_hex | aFemale_hex},  
+	{obotonrojo, lEsclusa,"botón rojo",     nBoton, aRojo,   1, aStatic_hex | aConcealed_hex | aMale_hex},  
+	{obotonverde, lEsclusa,"botón verde",     nBoton, aVerde,   1, aStatic_hex | aConcealed_hex | aMale_hex},  
+	{oCanon, NONCREATED,"cañón de vigilancia",     nCanon, EMPTY_WORD,   1, aStatic_hex | aMale_hex},  
+	{oTeclado, NONCREATED,"teclado",     nTeclado, EMPTY_WORD,   1, aStatic_hex | aMale_hex},  
+    {0,0,"",                EMPTY_WORD,EMPTY_WORD,            0,0x00000000}
 }; // Tabla de objetos de la aventura
+#endif 
+
+#ifdef ENGLISH 
+obj_t objetos_t[]=
+{
+    // ID, LOC, NOMBRE, NOMBREID, ADJID, PESO, ATRIBUTOS
+    {oCaja, lZonaA2,"blue packet",     nPaquete, aAzul,   1, aMale_hex | aDeterminado_hex},  
+    {oTraje, lEsclusa,"presurized suit",     nTraje, EMPTY_WORD,   1, aWear_hex| aMale_hex | aDeterminado_hex},  
+	{oEsclusa, lEsclusa,"airlock gate", nEsclusa, EMPTY_WORD,   1, aStatic_hex | aFemale_hex | aDeterminado_hex},  
+	{oPuerta, lEntrada,"door metal",     nPuerta, EMPTY_WORD,   1, aStatic_hex | aFemale_hex},  
+	{obotonrojo, lEsclusa,"red button",     nBoton, aRojo,   1, aStatic_hex | aConcealed_hex | aMale_hex},  
+	{obotonverde, lEsclusa,"green button",     nBoton, aVerde,   1, aStatic_hex | aConcealed_hex | aMale_hex},  
+	{oCanon, NONCREATED,"surveillance cannon",     nCanon, EMPTY_WORD,   1, aStatic_hex | aMale_hex},  
+	{oTeclado, NONCREATED,"keypad",     nTeclado, EMPTY_WORD,   1, aStatic_hex | aMale_hex},  
+    {0,0,"",                EMPTY_WORD,EMPTY_WORD,            0,0x00000000}
+}; // Tabla de objetos de la aventura
+#endif
+
+
+// Para no usar las tablas de nombres y mensajes podemos aï¿½adir una a medida
+// para las conversaciones con PNJs. 
+
+// Tabla de conversaciï¿½n con el ordenador 
+// El link entre la tabla de temas y los mensajes es el ID. 
+#ifdef SPANISH
+token_t ordenador_topics_t[] = 
+{
+	{"hola",1},
+	{"adios",2},
+	{"traba",3},
+	{"yo",4},
+	{"pilot",4},
+	{"condu",4},
+	{"trans",4},
+	{"torme", 5},
+	{"parab", 5},
+	{"europ",7},
+	{"luna",7},
+	{"jovia",8},
+	{"jupit",8},
+	{"cara",9},
+	{"lado",9},
+	{"donde", 10},
+	{"misio", 11},
+	{"nombr",12},
+	{"model",13},
+	{"mega",14},
+	{"megac",14},
+	{"corpo",14},
+	{"ciber",14},
+	{"cyber",14},
+	{"ac",17},
+	{"avent",17},
+	{"conve",17},
+	{"if", 18},
+	{"fi",18},
+	{"ficci",18},
+	{"inter",18},
+	{"grafi",19},
+	{"transi",20},
+	{"isla", 21},
+	{"uto", 22},
+	{"csg",22},
+	{"kmbr",23},
+	{"kmbrkat",23},
+	{"kno",24},
+	{"dla",25},
+	{"dela",25},
+	{"franc",26},
+	{"ingle",26},
+	{"itali",26},
+	{"alema",26},
+	{"caste",26},
+	{"tecno",27},
+	{"comic",28},
+	{"daniel",29},
+	{"danixi", 29},
+	{"obra",30},
+	{"favor",31},
+	{"jugar",32},
+	{"canci", 33},
+	{"oir", 33},
+	{"tarar", 33},
+	{"canta",33},
+	{"guille",34},
+	{"inter",35},
+	{"viaja",36},
+	{"entra",37},
+	{"codig",38},
+	{"centr",39},
+	{"zeur", 40},
+	{"zhl", 40},
+	{"tierr",41},
+	{"almac",42},
+	{"tempe",43},
+	{"conso",44},
+	{"memoria", 45},
+	{"relax", 46},
+	{"jorna", 46},
+	{"vacac", 46},
+	{"marte", 47},
+	{"venus", 48},
+	{"satur", 48},
+	{"pluto", 48},
+	{"neptu", 48},
+	{"mercu", 48},
+	{"minas", 50},
+	{"tened", 51},
+	{"diabl", 51},
+	{"hierr", 52},
+	{"nique", 52},
+	{"sindi", 53},
+	{"human", 54},
+	{"opera", 55},
+	{"ocio", 56},
+	{"paque", 57},
+	{"sumin", 58},
+	{"paquet", 59},
+	{"recog", 60},
+	{"nave", 61},
+	{"estre", 62},
+	{"sol", 63},
+	{"solar", 64},
+	{"sistm", 65},
+	{"ayuda", 66},
+	{"mensa", 67},
+	{"coman", 67},
+	{"encar", 67},
+	{"entre", 67},
+	{"clave", 70},
+	{"contr", 70},
+	{"passw", 70},
+	{"codig", 70},
+	{"radia", 71},
+	{"esclu", 72},
+	{"boton", 72},
+	{"airlo", 72},
+	{"comun", 68},
+	{"eva", 73},
+	{"traje", 74},
+	{"super", 75},
+	{"prote", 76},
+	{"sigla", 77},
+	{"mierd", 78},
+	{"culo", 78},
+	{"joder", 78},
+	{"puta", 78},
+	{"puton", 78},
+	{"calla", 79},
+	{"bodeg", 80},
+	{"enfri", 81},
+	{"frigo", 81},
+	{"conge", 81},
+	{"",0}
+};
+#endif 
+
+#ifdef ENGLISH
+token_t ordenador_topics_t[] = 
+{
+	{"hi",1},
+	{"bye",2},
+	{"job",3},
+	{"me",4},
+	{"I",4},
+	{"pilot",4},
+	{"drive",4},
+	{"trans",4},
+	{"storm", 5},
+	{"winds", 5},
+	{"europ",7},
+	{"moon",7},
+	{"moons",7},	
+	{"jovia",8},
+	{"jupit",8},
+	{"face",9},
+	{"side",9},
+	{"where", 10},
+	{"missi", 11},
+	{"name",12},
+	{"model",13},
+	{"mega",14},
+	{"megac",14},
+	{"corpo",14},
+	{"ciber",14},
+	{"cyber",14},
+	{"ac",17},
+	{"avent",17},
+	{"conve",17},
+	{"if", 18},
+	{"fi",18},
+	{"ficci",18},
+	{"inter",18},
+	{"graph",19},
+	{"transi",20},
+	{"isla", 21},
+	{"uto", 22},
+	{"csg",22},
+	{"kmbr",23},
+	{"kmbrkat",23},
+	{"kno",24},
+	{"dla",25},
+	{"dela",25},
+	{"frenc",26},
+	{"engli",26},
+	{"itali",26},
+	{"germa",26},
+	{"spani",26},
+	{"tecno",27},
+	{"comic",28},
+	{"daniel",29},
+	{"danixi", 29},
+	{"game",30},
+	{"please",31},
+	{"play",32},
+	{"song", 33},
+	{"listen", 33},
+	{"hummi", 33},
+	{"sing",33},
+	{"guille",34},
+	{"inter",35},
+	{"trave",36},
+	{"enter",37},
+	{"code",38},
+	{"centr",39},
+	{"headq", 39},
+	{"hq",39},
+	{"zeur", 40},
+	{"zhl", 40},
+	{"earth",41},
+	{"wareh",42},
+	{"storm",43},
+	{"conso",44},
+	{"remem", 45},
+	{"memory", 45},
+	{"relax", 46},
+	{"rest", 46},
+	{"holyd", 46},
+	{"mars", 47},
+	{"venus", 48},
+	{"satur", 48},
+	{"pluto", 48},
+	{"neptu", 48},
+	{"mercu", 48},
+	{"mines", 50},
+	{"fork", 51},
+	{"ddevil", 51},
+	{"iron", 52},
+	{"nickel", 52},
+	{"sindi", 53},
+	{"human", 54},
+	{"opera", 55},
+	{"leisu", 56},
+	{"parcel", 57},
+	{"sumin", 58},
+	{"paquet", 59},
+	{"pickup", 60},
+	{"ship", 61},
+	{"space",61},
+	{"star", 62},
+	{"sun", 63},
+	{"solar", 64},
+	{"systm", 65},
+	{"help", 66},
+	{"messa", 67},
+	{"email", 67},
+	{"item", 67},
+	{"deliv", 67},
+	{"order", 70},
+	{"code", 70},
+	{"pass", 70},
+	{"passk", 70},
+	{"key", 70},
+	{"passw", 70},
+	{"radia", 71},
+	{"hatch", 72},
+	{"button", 72},
+	{"airlo", 72},
+	{"commu", 68},
+	{"eva", 73},
+	{"suit", 74},
+	{"super", 75},
+	{"prote", 76},
+	{"acron", 77},
+	{"shit", 78},
+	{"ass", 78},
+	{"asssh", 78},
+	{"bitch", 78},
+	{"fuck", 78},
+	{"shutup", 79},
+	{"cargo", 80},
+	{"froze", 81},
+	{"fridge", 81},
+	{"freez", 81},
+	{"",0}
+};
+#endif 
+
+// Topic and mensaje linked by ID 
+// N:1 relationship
+#ifdef SPANISH 
+token_t mensajes_ordenador_t[]= 
+{
+	{"-Hola, soy el ordenador de navegación -responde una voz metálica.",1},
+	{"-Hasta pronto.",2},
+	{"-Soy el sistema de navegación de la nave. ",3},
+	{"-Eres Tod Connor, el piloto de la nave. ",4},
+	{"-La tormenta es moderada. No debería ser un problema para acceder al almacén usando el traje de protección.",5},
+	{"-Estamos en el satélite Joviano. -responde el ordenador.",7},
+	{"-Europa es un satélite de Jupiter. En la cara iluminada por Júpiter el espectáculo es soberbio. Por desgracia nuestro encargo es en la cara oculta. ",8},
+	{"-Europa tiene una cara siempre orientada hacia Júpiter.",9},
+	{"-Está en un almacén, en el exterior. Tendrás que salir con esta tormenta. ",10},
+	{"-Tienes que recoger un paquete en Europa y entregarlo en Marte antes de 24h -responde.",11},
+	{"-Mi nombre es DOT. Si lo prefieres, puedes usar este nombre al hablar conmigo.  ",12},
+	{"-Soy un modelo Cyberdine 1997.  Mi programador original fue el Dr. Guillermo Han de la MegaCorp(tm). Me enseñó a cantar una canción, ¿quieres oírla?",13},
+	{"-La empresa responsable de que tú y yo estemos conversando en Europa.",14},
+	{"-Me encantan las aventuras conversacionales.",17},
+	{"-Desconozco ese término, ¿te refieres a las conversacionales?",18},
+	{"-No están mal, pero no creo que puedas jugar a una mientras conduces.",19},
+	{"-No está mal, pero es un poco corta para mi gusto. Prefiero 'la noche más larga', que dura unas 12h de juego de tiempo real.",20},
+	{"-Pero bueno, ¡si esa nunca la terminaron!. Recuerdo que uno de los autores, un tal UTO le hizo una visita al programador que terminó tan mal que destruyeron todo un bloque de oficinas. Pero esa es otra historia.",21},
+	{"-Realmente no tengo más datos sobre esta persona. Sin duda era una mente maestra para escapar a mis registros.",22},
+	{"-Un misterio, se rumorea que era un arenque rojo mutante. ",23},
+	{"-Un celebrado autor de cómic que vivió más de doscientos años. Tenía un callo en el dedo tan descomunal que finalmente murió aplastado por él. Es un clásico, deberías leer toda su obra varias veces.",24},
+	{"-Un escriba del siglo XV, gracias a él tenemos disponibles maravillas como 'Cuando comí queso negro' en francés.",25},
+	{"-Lenguas muertas, hoy en día todo el universo habla tecnollano.",26},
+	{"-La lengua franca de nuestros días.",27},
+	{"-Arte secuencial muy popular a finales del siglo XX. ",28},
+	{"-El responsable de la mega corporation.",29},
+	{ "-Hablemos de ello cuando termines tu misión.",30},
+	{"-Es difícil elegir, las aventuras de texto se volvieron realmente populares a raíz de la proliferación de sistemas de navegación en automóviles, barcos y naves espaciales. ",31},
+	{ "-Te buscaré una realmente interesante una vez termines la misión.",32},
+	{"-Daisy... -Comienza a entonar sin demasiada fortuna.",33},
+	{"-El ingeniero responsable de la interfaz humana de los sistemas de navegación de la Megacorp(tm)",34},
+	{"-Lo que usas para comunicarte conmigo.",35},
+	{"-Primero hay que recoger el paquete, luego pondré rumbo a Marte. -te recuerda el ordenador.",36},
+	{"-La entrada está hay fuera. Es posible que necesites algún código de acceso para entrar.",37},
+	{"-No tengo ningún dato en la orden de la central acerca del código.",38},
+	{"-La central de ZHL está en la Luna.",39},
+	{"-Es la empresa de reparto de paquetes en 24h que nos paga el sueldo y las piezas para seguir recorriendo el Universo.",40},
+	{"-La Tierra fue devastada después de varios apocalipsis. De momento va tirando.",41 },
+	{"-Hemos aterrizado cerca de la entrada. Debes salir al exterior, entrar en el almacén y volver con el paquete para que puedas terminar la misión. ",42},
+	{"-En torno a 150ºC bajo cero en el exterior. Te recomiendo que lleves el traje de superviviencia.",43},
+	{"-La consola de mando muestra el estado de la nave y los controles manuales. Actualmente está desactivada para ahorrar energía. ",44},
+	{"-Es normal que no recuerdes mucho al comienzo de una misión. Pero no te preocupes de eso ahora, después de unas jornadas de relax todo volverá a la normalidad.",45},
+	{ "-Después de este trabajo podrás pasar unos días de relax en Marte.",46},
+	{"-Ya sabes, el planeta rojo. Bueno, anaranjado desde que comenzó la terraformación.",47},
+	{"-Es mejor no salirse del tema de la misión. -responde",48},
+	{"-Después de la recogida debemos entregar el paquete en el tenedor del diablo. Una de las mayores minas de Hierro y Níquel del Sistema Solar.",50},
+	{"-También se le conoce como el tenedor del diablo. Es una mina gobernada por el sindicato unificado de minería de Marte. ",51},
+	{"-Es un metal abundante pero muy preciado. Lo difícil es su transporte, pues es muy denso y cuesta bastante dinero extraerlo de la atmósfera en la Tierra. ",52},
+	{"-Gobiernan con mano dura los precios de venta y los acuerdos de suministros. ",53},
+	{"-Son tiempos difíciles. La humanidad tuvo que abandonar la Tierra debido a varias guerras nucleares y diseminarse por el sistema solar. ",54},
+	{"-Ya sabes suministros, paquetería, ocio...",55},
+	{"-Aquí nada de ocio, hay que terminar el trabajo.",56},
+	{"-Nuestro trabajo en ZHL es entregar los paquetes en 24h.",57},
+	{"-Se han abierto varias minas en Marte.",58},
+	{"-Según la descripción del mensaje se trata de un paquete de 27cm x 29cm x 30cm que pesa 10Kg. ",59},
+	{"-Hemos aterrizado en la entrada del almacén. Sugiero que salgas ahí fuera, llames a la puerta y recojas el paquete.",60},
+	{"-Volamos en una nave de reparto de tipo Tesla. Es completamente eléctrica salvo el motor principal.",61},
+	{"-La más cercana es Sol.",62},
+	{"-Es la estrella principal de este sistema. ",63},
+	{ "-Es el sistema al que pertenece la Tierra. ",64},
+	{"-Todos los sistemas en orden. Operamos en modo de bajo consumo.",65},
+	{"-Para eso estoy aquí, para ayudarte. Algunos comandos que puedes usar son: misión, Júpiter, nombre, modelo, mensaje...",66},
+	{"Tema: Envío urgente al Tenedor de Marte. Contenido: Recogida en almacén en coordenadas en Europa. Usar clave: 32768. Importante: Mantener a temperatura bajo cero. ",67},
+	{ "-Quizá haya algo en el mensaje del encargo.",70},
+	{"-No es un problema con el traje de supervivencia. Sin él la radiación es tan elevada que no vivirías más de un día. ",71},
+	{"-La esclusa se opera manualmente. El botón verde cierra la esclusa y el rojo la abre.  Asegúrate de llevar el traje de supervivencia puesto. ",72},
+	{"-Debido a la fuerte radiación nuestras comunicaciones sólo funcionan en la nave. No estaré contigo ahí fuera. ",68},
+	{ "-Son las siglas de actividad extra-vehicular. Es cuando sales en misión fuera de la nave. ",73},
+	{"-Lo encontrarás en la esclusa listo para su uso. Recuerda no salir de la nave sin llevarlo puesto.",74},
+	{ "-Esa acepción no forma parte de mi base de datos. -responde el ordenador con elegancia. ",78},
+	{"-Ya sabes, para acortar palabras demasiado largas. ",77},
+	{"-Sin problemas, ya no tarareo mas. -responde un poco dolido.",79},
+	{"-Donde almacenamos los paquetes para su distribución.",80},
+	{ "-Tenemos un frigorífico dedicado a este tipo de paquetes. -responde después de un breve silencio",81},
+	{0,0}
+};
+#endif 
+
+#ifdef ENGLISH
+token_t mensajes_ordenador_t[]= 
+{
+	{"'Hello, this is the navigation computer,' replies a metallic voice.",1},
+	{"'See you soon'",2},
+	{"'I am the ship's navigation system' ",3},
+	{"'You are Tod Connor, the spacecraft's driver' ",4},
+	{"'The storm is moderate. It shouldn't be a problem to access the warehouse wearing the protective suit'",5},
+	{"'We are on the Jovian satellite,' replies the computer.",7},
+	{"'Europe is a satellite of Jupiter. On the face illuminated by Jupiter the spectacle is great. Unfortunately our assignment is on the hidden side' ",8},
+	{"'Europe has a side always oriented towards Jupiter'",9},
+	{"'It's in a warehouse, outside. You'll have to go out in this storm' ",10},
+	{"'You have to pick up a package on Europe and deliver it to Mars within 24h,' it replies.",11},
+	{"'My name is DOT. If you prefer, you can use this name when talking to me'  ",12},
+	{"'I am a 1997 Cyberdine model.  My original programmer was Dr. Guillermo Han of MegaCorp(tm). He taught me to sing a song, do you want to hear it?'",13},
+	{"'The company responsible for you and me having this conversation in Europe'",14},
+	{"'I love commandline adventures'",17},
+	{"'I don't know that term, you mean the command line ones?'",18},
+	{"'Not bad, but I don't think you can play one while driving'",19}, 
+	{"'Not bad, but it's a little short for my taste. I prefer 'the longest night', which lasts about 12h of real time gameplay'",20},
+	{"'Well, they never finished that one. I remember that one of the authors, a certain UTO, paid a visit to the programmer that ended so badly that they destroyed a whole block of offices. But that's another story'",21},
+	{"'I really don't have any more data on this person. No doubt he was a mastermind to escape my records'",22},
+	{"'A mystery, rumor has it he was a mutant red herring' ",23},
+	{"'A celebrated comic author who lived to be over two hundred years old. He had a callus on his finger so gigantic that he was eventually crushed to death by it. He is a cult classic, you should read all his work several times'",24},
+	{"'A fifteenth century scribe, thanks to him we have such wonders as 'When I ate black cheese' available in French'",25},
+	{"'Dead languages, nowadays the whole universe speaks Technolingual.",26}, 
+	{"'The lingua franca of our days'",27},
+	{"'Sequential art, very popular at the end of the 20th century'",28},
+	{"'The man responsible for the mega corporation'",29},
+	{"'Let's talk about it when you finish your mission'",30},
+	{"'It's hard to choose, voice adventures became really popular in the wake of the proliferation of navigation systems in cars, ships and spacecrafts' ",31},
+	{"'I'll find you a really interesting one once you finish the mission'",32},
+	{"'Daisy...,' the computer starts singing without much fortune.",33},
+	{"'The engineer responsible for the human interface of the Megacorp(tm)'s navigation systems'",34}, 
+	{"'What you use to communicate with me'",35},
+	{"'First we have to pick up the package, then I'll set course for Mars, ' the computer reminds you.",36},
+	{"'The entrance is outside. You may need some access code to get in'",37},
+	{"'I don't have any data in the order from the central station about the code'",38},
+	{"'ZHL's headquarters is on Earth's Moon'",39},
+	{"'It's the 24h package delivery company that pays our salary and the parts to continue touring the Solar system'",40},
+	{"'Earth was devastated after several apocalypses. Now is doing just fine.'",41 },
+	{"'We have landed near the entrance. You must go outside, enter the warehouse and return with the package so you can finish the mission' ",42},
+	{"'About 150ï¿½C below zero outside. I recommend you wear the survival suit'",43},
+	{"'The command console displays ship status and manual controls. It is currently disabled to save power'",44},
+	{"'It's normal that you don't remember much at the beginning of a mission. But don't worry about that now, after a few days of relaxation everything will be back to normal'",45}, 
+	{"'After this work you will be able to spend a few days relaxing on Mars'",46},
+	{"'You know, the red planet. Well, orange since terraforming began'",47},
+	{"'It's better not to get off the subject of the mission. '",48},
+	{"'After the pickup we must deliver the package to the devil's fork. One of the largest Iron and Nickel mines in the Solar System'",50},
+	{"'It is also known as the devil's fork. It is a mine governed by the unified mining syndicate of Mars' ",51},
+	{"'It is an abundant but very precious metal. What is difficult is its transportation, for it is very dense and costs quite a lot of money to extract it from Earth' ",52},
+	{"'They govern with iron fist the selling prices and the supply agreements' ",53},
+	{"'These are hard times. Mankind had to leave the Earth due to polution and spread throughout the solar system' ",54},
+	{"'You know supplies, parcels, leisure...'",55},
+	{"'No fun is allowed, we have to finish the job'",56},
+	{"'Our job at ZHL is to deliver parcels within 24h'",57},
+	{"'Several mines have been excavated on Mars'",58},
+	{"'According to the message description it is a 27cm x 29cm x 30cm package weighing 10Kg'",59},
+	{"'We have landed at the warehouse entrance. I suggest you go out there, open the door and pick up the package'",60},
+	{"'We're flying in a Tesla-type delivery ship. It's all electric except for the main engine'",61},
+	{"'The nearest one is the Sun'.",62},
+	{"'It is the main star of this system' ",63},
+	{"'It is the system to which the Earth belongs' ",64},
+	{"'All systems in order. We operate in low power mode'",65},
+	{"'That's why I'm here, to help you. Some commands you can use are: mission, Jupiter, name, model, message...'",66},
+	{"'Subject: Urgent shipment to Mars Fork. Content: Pick up in warehouse at coordinates in Europe. Use key: 32768. Important: Keep at subzero temperature.' ",67},
+	{"'Maybe there's something in the order message'",70},
+	{"'It's not a problem with the survival suit. Without it the radiation is so high you wouldn't live more than a day' ",71},
+	{"'The airlock is operated manually. The green button closes the airlock and the red button opens it.  Make sure you have your survival suit on' ",72},
+	{"'Due to the strong radiation our communications only work on the ship. I won't be with you out there' ",68},
+	{"'That stands for extra-vehicular activity. It's when you go on a mission outside the ship' ",73},
+	{"'You'll find it in the airlock ready for use. Remember not to leave the ship without wearing it'",74},
+	{"'That meaning is not part of my database,' responds the computer gracefully. ",78},
+	{"'You know, to shorten words that are too long' ",77},
+	{"'No problem, I don't hum anymore,' responds a little hurt.",79},
+	{"'Where we store the packages for distribution'",80},
+	{"'We have a refrigerator dedicated to this type of packages,' answers after a brief silence.",81},
+	{0,0}
+};
+#endif 
+
 
 // ----------------------------------------------------------------
 // Tabla de respuestas
 // ----------------------------------------------------------------
-// Las tablas de respuestas se pueden agrupar en distintos códigos fuente de 16KB, que luego pueden ser alojados en páginas independientes de 16Kb. Este método es compatible
+// Las tablas de respuestas se pueden agrupar en distintos cï¿½digos fuente de 16KB, que luego pueden ser alojados en pï¿½ginas independientes de 16Kb. Este mï¿½todo es compatible
 // con todos los ordenadores de 8bit y con PC.
 char respuestas()
 {
-	// Tablas de respuesta por zonas
-	// Aquí separamos las tablas de respuestas por funciones, esto no permite utilizar paginación en los modelos
-	// con más memoria. 
+ BYTE aux;
+ //setRAMPage(0);
+ //if (respuestas_pagina0()==FALSE)
+  //  {
+   // setRAMPage(1);
+   // if (respuestas_pagina1()==TRUE) return TRUE;
+   // }
+   // else return TRUE;
 
+//; Sólo podemos hablar con el ordenador en la nave
+//; ORDENADOR, palabra_clave
+
+// ordenador encender consola -> encender ordenador consola -> encender consola
+if (fnombre1==nOrdenador) {
+	// Llamar al procesado de la tabla por tema...
+	// ordenador encender consola -> encender ordenador consola -> encender consola
+	// ordenador palabra_clave
 	
+	// Fuera del alcance...
+	if (CNDatgt (lBodega)) { ACCmessage (177); DONE; }
+	
+	// Comandos al ordenador
+	if (fverbo==vAbrir && fnombre2==nEsclusa) { ACCmessage (24); DONE;}
+	if (fverbo==vCerrar && fnombre2==nEsclusa) { ACCmessage (25); DONE;}
+	
+	if (fverbo==vApagar) { ACCmessage (193); DONE; }
+	if (fverbo==vEncender && (fnombre1==nPantalla || fnombre2==nConsola)) { ACCmessage (9); DONE; }
+	// Preguntas al ordenador
+	// Parsea el input del jugador...
+	// From the beginning...
+    gChar_number = 0;
+    gWord_number = 0;
+	while (ACCNextWord())
+	{
+		//writeText (playerWord);
+		// Sólo admite una palabra clave
+		if (buscador (ordenador_topics_t, playerWord, &flags[fTemp])!=EMPTY_WORD)
+		{
+			// El ID del topic es el mismo que el mensaje
+			ACCwriteln (mensajes_ordenador_t[get_table_pos(mensajes_ordenador_t, flags[fTemp])].word);
+			//ACCmessage (flags[fTemp])
+			DONE;
+		}			
+	}
+	//if (aux=buscador_tema(ordenador_t, nombres_t[fnombre2]))
+	//{
+	//	writeText (ordenador_t[aux].respuesta);
+	//	DONE;
+	//}	
+
+	// Si no encaja con ningún tema...
+	ACCmessage (50);
+	DONE;
+	}
+
+//-------------------------------------------------------------
+// Cosas que se pueden hacer con los objetos...
+
+if (fverbo== vExaminar) 
+	{
+		if (fnombre1== nContenedor  && CNDpresent (oCaja)) 
+		{
+			ACCmessage (46);
+			DONE;
+		}
+		if (fnombre1==nIndicador && CNDpresent(oCaja)) 
+		{
+			ACCmessage (49);
+			DONE;
+		}
+		if (fnombre1==nTraje && CNDpresent(oTraje)) { ACCmessage (16); DONE; }
+	}
+
+if (fverbo==vPoner && fnombre1==nTraje && CNDpresent(oTraje))
+	{
+		if (CNDnotcarr(oTraje) && CNDnotworn(oTraje))
+		{
+			ACCmessage (192);
+			ACCget (oTraje);
+		}
+	}
+
+// Quitar el traje...
+if (fverbo==vQuitar && fnombre1==nTraje && CNDworn(oTraje))
+{
+	if (CNDatgt(lBodega)) { ACCmessage(19); DONE; }
+}
+
+if (fverbo==vAbrir && fnombre1== nContenedor) 
+	{
+		ACCmessage(48);
+		DONE;
+	}
+
+// ---------------------------------------------------------------
+// Descripciones comúnes para la nave
+if (fverbo==vExaminar)  {
+	if (fnombre1==nNave)	
+	{
+		if (CNDatlt (lExterior)) { ACCmessage (14); return TRUE; }
+		if (CNDatlt (lAlmacen)) { ACCmessage(36); return TRUE;}
+		// Si estamos dentro del almacén no vemos la nave...
+	}
+
+	if (fnombre1==nPared || fnombre1==nSuelo) 
+	{
+		if (CNDatlt(lExterior)) { ACCmessage (33); DONE; }
+			else { ACCmessage (179); DONE; }
+	}
+
+	if (fnombre1==nTecho || fnombre1==nCielo) {
+		if (CNDatlt(lExterior)) { ACCmessage (33); DONE;}
+			else { ACCmessage(178); DONE; }
+	}
+
+	if (fnombre1==nEuropa) { ACCmessage (179); DONE; }
+	if (fnombre1==nTormenta) { ACCmessage (11); DONE; }
+}
+
+if (fverbo==vSaltar) { ACCmessage(56); DONE; }
+if (fverbo==vEscuchar) 
+{
+	if (CNDatlt (lExterior)) { ACCmessage (57); DONE; }
+	ACCmessage(56);
+	DONE;
+}
+
+if (fverbo==vCantar) 
+{
+	if (CNDatlt(lExterior)) { ACCmessage (175); DONE;}
+		else { ACCmessage (176); DONE; }
+}
+
+// ---------------------------------------------------------------
+// Cosas que hacer en las localidades...
+// --------------------------------------------------
+// Puente de mando
+// --------------------------------------------------
+
+if (flocalidad==lPuente)
+	{
+		if (fverbo==vTeclear) { ACCmessage (181); DONE; }
+		// Atrezzo 
+		if (fverbo==vExaminar) 
+		{
+			if (fnombre1==nSistema && fadjetivo1==aTermico ) 
+			{
+				ACCmessage(15); DONE;
+			}
+
+			if (fnombre1==nParabrisas)
+			{
+				ACCmessage (12); DONE;
+			}
+
+			if (fnombre1==nCristales) { ACCmessage (13); DONE; }
+			if (fnombre1==nEscaleras) { ACCmessage (4); DONE; }
+			if (fnombre1==nPantalla) { ACCmessage(18); DONE; }
+			if (fnombre1==nInterior || fnombre1==nConsola || fnombre1==nControles) 
+			{
+				ACCmessage (8); DONE;
+			}	
+			if (fnombre1==nLuz) { ACCmessage (10); DONE; }		
+		}
+
+		if (fverbo==vEncender && (fnombre1==nPantalla || fnombre1==nConsola)) { ACCmessage (9); DONE; }
+		if (fverbo==vIr && fnombre1==nNodo) { ACCgoto(lNodo); DONE;	}
+	}
+// --------------------------------------------------
+// Nodo central 
+// --------------------------------------------------
+
+if (flocalidad == lNodo) 	
+	{
+		if (fverbo==vExaminar) 
+		{
+			#ifdef SPANISH
+			if (fnombre1==nBodega) { ACCwriteln ("Al sur."); DONE;}
+			if (fnombre1==nEsclusa) { ACCwriteln ("Al oeste."); DONE;}
+			#endif 
+
+			#ifdef ENGLISH
+			if (fnombre1==nBodega) { ACCwriteln ("At south."); DONE;}
+			if (fnombre1==nEsclusa) { ACCwriteln ("At west."); DONE;}			
+			#endif
+			
+			if (fnombre1==nEscaleras || fnombre1==nPuente) 
+			{
+				ACCmessage(5);
+				DONE;
+			}
+			#ifdef SPANISH
+			if (fnombre1==nLuz) { ACCwriteln ("Proviene del puente de mando."); DONE; }
+			#endif 
+			#ifdef ENGLISH
+				if (fnombre1==nLuz) { ACCwriteln ("It comes from the bridge."); DONE; }
+			#endif
+
+			#ifdef SPANISH 
+			//if (fnombre1==nNodo) { ACCwriteln ("El módulo de interconexión de la nave. "); DONE; }
+			#endif
+			#ifdef ENGLISH 
+			if (fnombre1==nNodo) { ACCwriteln ("The central interconnection module of the spacecraft. "); DONE; }
+			#endif
+			
+		}
+		if (fverbo==vIr) 
+		{			
+			if (fnombre1==nPuente) 
+				{
+				ACCgoto (lPuente);
+				DONE;
+				}
+			if (fnombre1==nEsclusa)
+			{
+				ACCgoto (lEsclusa);
+				DONE;				
+			}
+			if (fnombre1==nBodega)
+			{
+				ACCgoto(lBodega);
+				DONE;
+			}
+		}
+
+	// Escena de casi-final...
+	if (CNDcarried(oCaja) && flags[fCasifin]==0)
+		{
+			ACCmessage (58);
+			flags[fCasifin]=1;
+			ACCanykey();
+			ACCmessage (59);
+			DONE;
+		}
+
+	}
+
+// --------------------------------------------------
+// Esclusa 
+// --------------------------------------------------
+if (flocalidad == lEsclusa) 
+	{
+	// Descripciones 
+	if (fverbo==vExaminar)
+	{
+		#ifdef SPANISH 
+		if (fnombre1==nSombra) { writeText ("Resultado de la pobre iluminación en la nave. Nada de lo que preocuparse.^ "); DONE; }
+		#endif 
+
+		#ifdef ENGLISH 
+		if (fnombre1==nSombra) { writeText ("Due to poor lighting in the ship. Nothing to worry about.^ "); DONE; }
+		#endif 
+
+	}
+	// Sinónimos...
+	if (fverbo==vIr && fnombre1==nExterior) { fverbo = vSalir; }
+	if (fverbo==nOeste) { fverbo = vSalir; }
+	if (fverbo==nEste) { fverbo = vIr; fnombre1=nNodo; }
+	// Puzzle de la esclusa y ponerse el traje
+	// No podemos quitarnos el traje con la esclusa abierta...
+	if (fverbo==vQuitar && fnombre1==nTraje  && CNDcarried(oTraje))
+		{
+			if (CNDonotzero(oEsclusa, aOpen)) { ACCmessage (19); DONE; }
+		}
+
+	if (fverbo==vSalir)
+		{
+		// Salir, compuerta cerrada...
+		if (CNDozero (oEsclusa, aOpen)) { ACCmes(24); ACCmessage(22); DONE; }
+		// Salir, Pero no lleva el traje
+		if (CNDnotworn (oTraje)) { ACCmessage (19); DONE;}
+		// Salir con éxito 
+		if (CNDonotzero(oEsclusa, aOpen) && CNDworn(oTraje)) { ACCgoto (lExterior); DONE; }
+		}
+	
+	// Regresa al nodo pero lleva puesto el traje...
+	if (fverbo==vIr && fnombre1==nNodo)
+		{
+			if (CNDworn(oTraje) || CNDcarried(oTraje)) { ACCmessage (20); DONE; }
+				else { ACCgoto (lNodo); DONE; }
+		}
+
+	// Puzzle de abrir la compuerta
+	if (fnombre1==nPuerta || fnombre1==nCompuerta) fnombre1=nEsclusa;
+	if (fverbo==vAbrir && fnombre1==nEsclusa ) { ACCmessage(24); DONE; }
+	if (fverbo==vCerrar && fnombre1==nEsclusa) { ACCmessage(25); DONE; }
+	if (fverbo==vExaminar)
+		{			
+			if (fnombre1==nEsclusa || fnombre1==nCompu || fnombre1==nControles)
+			{
+				ACCmes(21);
+				// Aparecen listados...
+				ACCoclear (obotonrojo,aConcealed);
+				ACCoclear (obotonverde,aConcealed);
+				if (CNDonotzero(oEsclusa, aOpen)) { ACCmessage(23); DONE; }
+					else { ACCmessage(22); DONE; }
+			}
+			if (fnombre1==nBoton) 
+			{
+				if (fadjetivo1==aVerde) { ACCmessage (26); DONE; }
+				if (fadjetivo1==aRojo) { ACCmessage(27); DONE; }	
+				ACCmessage(172); 
+				DONE; 
+			} 
+		}
+	// Usar los botones...
+
+	if (fverbo==vPulsar)
+	{
+		if (fnombre1==nBoton)
+		{
+			// Cerrar esclusa 
+			if (fadjetivo1==aRojo)
+			{
+				if (CNDozero(oEsclusa,aOpen)) { ACCmessage(32); DONE; }
+				else { ACCoclear (oEsclusa, aOpen); ACCmessage(30); DONE; }
+			}
+			// Abrir esclusa...
+			if (fadjetivo1==aVerde)
+			{
+				if (CNDonotzero(oEsclusa,aOpen)) { ACCmessage(28); DONE; }
+				else { 
+					// Pero no tiene puesto el traje...
+					if (CNDnotworn(oTraje)) { ACCmessage(19); DONE; }
+					// Abre la compuerta
+					ACCoset (oEsclusa, aOpen); ACCmessage(29); DONE; }
+			}
+		}	
+	}
+		
+	}
+
+// --------------------------------------------------
+// Bodega 
+// --------------------------------------------------
+
+if (flocalidad==lBodega)
+	{
+	// Fin del juego
+	if (CNDcarried(oCaja))
+		{
+			ACCmessage (60);
+			ACCanykey();
+			ACCmessage (61);
+			ACCanykey();
+			ACCmessage (62);
+			ACCanykey();
+			ACCmessage (63);
+			ACCend();
+			DONE;
+		}
+	if (fverbo==vExaminar)
+		{
+		if (fnombre1==nPaquetes) { ACCmessage (173); DONE; }
+		}
+
+	if ( (fverbo==vCoger || fverbo==vEmpujar) && fnombre1==nPaquetes)
+		{
+			ACCmessage (174);
+			DONE;
+		}
+	}
+// --------------------------------------------------
+// Localidad exterior 
+// --------------------------------------------------
+if (fverbo==vExaminar)
+{
+	if (flocalidad==lExterior || flocalidad==lAlmacen)
+	{
+		if (fnombre1==nCielo) { ACCmessage (7); DONE; }
+		if (fnombre1==nJupiter) { ACCmessage (178); DONE; }
+		if (fnombre1==nCristales) { ACCmessage (11); DONE; }	
+	}
+}
+
+
+if (flocalidad==lExterior)
+	{
+		if (fverbo==vIr)
+		{
+			if (fnombre1==nNave) 
+			{
+				ACCgoto (lEsclusa);
+				DONE;
+			}	
+			if (fnombre1==nAlmacen || fnombre1==nMole || fnombre1==nEdificio)
+			{
+				ACCgoto (lAlmacen);
+				DONE;
+			}
+		}
+
+		if (fverbo==vExaminar)
+		{
+			if (fnombre1==nNave) 
+			{
+				ACCmessage (36);
+				DONE;	
+			}
+			if (fnombre1==nMole) 
+			{
+				ACCmessage (38);
+				DONE;
+			}
+		}
+	}
+
+// --------------------------------------------------
+// Entrada al almacén
+// --------------------------------------------------
+if (flocalidad==lEntrada)
+{		
+	if (fverbo==vIr) 
+	{
+		if (fnombre1==nNave) { ACCgoto (lExterior); DONE; }	
+	}
+	
+	
+	if (fverbo==nEste) { fverbo=vIr; fnombre1=nNave; }
+	if (fverbo==vIr && fnombre1==nNave) { ACCgoto(lExterior); DONE; }
+	if (fverbo==nOeste || fnombre1==nOeste) { fverbo=vEntrar; }
+	// Entrar al almacén...
+	if (fverbo==vEntrar) 
+	{
+		if (CNDozero(oPuerta, aOpen)) { ACCmessage(22); DONE; }
+		ACCgoto(lZonaA1);
+		DONE;
+	}
+
+	if (fverbo==vExaminar)
+	{
+		if (fnombre1==nEdificio) { ACCmessage(182); DONE; }	
+
+		if (fnombre1==nPuerta) 
+		{
+			ACCmes(180);
+			if (!CNDisat(oTeclado,lEntrada))
+			{
+				ACCmes (39);
+				ACCplace (oTeclado,lEntrada);		
+			}	
+			if (CNDonotzero(oPuerta, aOpen)) { ACCmessage(23); DONE;}
+				else { ACCmessage(22); DONE; }
+			DONE;
+		}
+
+		if (fnombre1==nCanon && CNDpresent(oCanon)) { ACCmessage(41); DONE; }
+		if (fnombre1==nTeclado && CNDpresent(oTeclado)) 
+		{
+			if (CNDabsent(oCanon) && CNDozero (oPuerta, aOpen)) 
+			{
+				ACCplace(oCanon, lEntrada);
+				ACCmessage(40);
+				DONE;
+			}
+			#ifdef SPANISH 
+			if (CNDonotzero(oPuerta, aOpen)) writeText ("El teclado no responde. La puerta ya está abierta.^");
+			#endif
+			#ifdef ENGLISH 
+			if (CNDonotzero(oPuerta, aOpen)) writeText ("The keypad does not work. The warehouse's door is already open.^");
+			#endif			
+			 else ACCmessage(39);
+			DONE;
+		}
+	}
+
+	if ( (fverbo==vAbrir||fverbo==vCerrar) && fnombre1==nPuerta)
+	{
+		ACCmessage (195);
+		if (!CNDisat(oTeclado,lEntrada))
+		{
+			ACCmes (39);
+			ACCplace (oTeclado,lEntrada);			
+		}	
+		DONE;
+	}
+	
+	
+	if (fverbo==vUsar && fnombre1==nTeclado) 
+		{ 
+			#ifdef SPANISH
+			ACCwriteln ("Debo teclear la clave correcta en el teclado."); 
+			#endif 
+			#ifdef ENGLISH
+			ACCwriteln ("I have to type the correct code on the keyboard."); 
+			#endif
+			DONE; 
+		}
+
+	if (fverbo==vTeclear) fverbo=vEscribir;
+	if (fverbo==vEscribir)
+	{
+		if (fnombre2==EMPTY_WORD && CNDpresent(oTeclado)) { fnombre2=nTeclado; ACCmes(183); }
+		if (fnombre2==nTeclado && CNDpresent(oTeclado))
+		{
+			if (CNDabsent(oCanon) && CNDozero (oPuerta, aOpen)) 
+			{
+				ACCplace(oCanon, lEntrada);
+				ACCmessage(40);
+				DONE;
+			}
+
+			// Si ya está abierta...
+			if (CNDpresent(oTeclado) && CNDonotzero(oPuerta, aOpen))
+			{
+				ACCmessage(184);
+				DONE;
+			}
+			if (fnombre1==n32768 && CNDpresent(oTeclado))
+			{
+				// No está abierta...
+				if (CNDozero(oPuerta, aOpen))
+				{
+					ACCmessage(186);
+					ACCoset (oPuerta, aOpen);
+					ACCplace (oCanon, LOCATION_NOTCREATED);
+					ACCsetexit (lEntrada, nOeste, lZonaA1);
+					ACCsetexit (lEntrada, nEntrar, lZonaA1);
+					ACCanykey();
+					ACCdesc();
+					DONE;
+				}	
+			}
+
+			if (CNDpresent(oTeclado) && CNDpresent(oCanon)) 
+			{
+				ACCmes (185);
+				flags[fCanon]++;
+				if (flags[fCanon]<3)
+				{
+					ACCmessage (186+flags[fCanon]);
+					DONE;
+				} 
+				if (flags[fCanon]==3)
+				{
+					ACCmessage (189);
+					ACCanykey();
+					ACCmessage (190);
+					flags[fCanon]=0;
+					DONE;
+				} 
+				
+				// Ha excedido el número de intentos
+				ACCmessage(41);			
+				DONE;	
+			}
+		}
+	}
+}
+// --------------------------------------------------
+// Zona A1
+// --------------------------------------------------
+
+if (flocalidad==lZonaA1)
+{
+	if (fverbo==vExaminar) 
+	{
+		if (fnombre1==nEstanterias) { ACCmessage (43); DONE;}			
+		if (fnombre1==nTecho || fnombre1==nSuelo || fnombre1==nParedes || fnombre1==nPasillo) 
+		{
+			ACCmessage (44); DONE;
+		}
+		if (fnombre1==nContenedores) 
+		{
+			ACCmessage (191);
+			DONE;
+		}
+	}
+}
+
+// --------------------------------------------------
+// Zona A2
+// --------------------------------------------------
+if (fverbo==vCoger) 
+{
+	if (fnombre1==nPaquete)
+	{
+		if (fadjetivo1==aAzul) 
+		{
+			ACCautog(); DONE; 
+		} 
+				
+		if (flocalidad==lZonaA2 || flocalidad==lZonaA1) { ACCmessage (194);DONE;}
+		
+	}
+}
+if (flocalidad==lZonaA2)
+{
+	 
+	if (fverbo==vExaminar)
+	{
+		if (fnombre1==nBoveda) 
+		{
+			ACCmessage (45);
+			DONE;
+		}	
+		if (fnombre1==nPasillo) 
+		{
+			ACCmessage (44);
+			DONE;
+		}
+		if (fnombre1==nEstanterias)
+		{
+			ACCmessage (44);
+			DONE;
+		}
+		if (fnombre1==nContenedores)
+		{
+			ACCmessage (191);
+			DONE;
+		}
+	}
+
+}
  NOTDONE;
+
 // ================= LIBRERíA BASE FINAL=======================================
+
 }
 
 // ----------------------------------------------------------
@@ -954,10 +2430,7 @@ char respuestas_post()
  //setRAMPage(0);
  // respuestas_post_pagina0();
 
-// ---------------------------------------------------------------------
 // ------------------- LIBRERÍA BASE -----------------------------------
-// ---------------------------------------------------------------------
-
  // Comandos de dirección...
  // writeText ("Respuestas Post: %u %u^", flags[fverb], flags[fnoun1]);
  // Movimiento entre localidades...
@@ -973,9 +2446,19 @@ char respuestas_post()
     if (fverbo==vExaminar)
     {
         if (findMatchingObject(get_loc_pos(loc_here()))!=EMPTY_OBJECT)
-            writeText ("Deberías coger eso antes.^");
+		#ifdef SPANISH
+            writeText ("Debería coger eso antes.^");
+		#endif 
+		#ifdef ENGLISH 
+		    writeText ("I have to take that first.^");
+		#endif
         else
-			writeText ("No ves eso por aquí.^");
+		#ifdef SPANISH
+			writeText ("No veo eso por aquí.^");
+		#endif
+		#ifdef ENGLISH 
+			writeText ("I do not see that around here.^");
+		#endif
 		DONE;
     }
 
@@ -1028,7 +2511,12 @@ char respuestas_post()
 	if (fverbo==vSave || fverbo==vRamsave || fverbo==vLoad || fverbo==vRamload)
 	{
 		//ACCsave();
+		#ifdef SPANISH
 		ACCwriteln ("No necesitas cargar o salvar en este viaje -dice el ordenador");
+		#endif 
+		#ifdef ENGLISH 
+		ACCwriteln ("'You don't need to load or save on this trip,' says the computer.");
+		#endif 
 		DONE;
 	}
 
@@ -1039,85 +2527,312 @@ char respuestas_post()
 	// Si ninguna acción es válida...
     ACCsysmess(SYSMESS_IDONTUNDERSTAND);
     newLine();
-	NOTDONE;
-	// -------------------------------------------
-	// Fin LIBRERIA BASE
-	// -------------------------------------------
 }
 
 char proceso1() // Antes de la descripción de la localidad...
 {
+	
+	// Muestra la pantalla..
+	#ifdef GRAPHICS
+		// Oculta el dibujado
+		defineTextWindow (1,1,30,10); 
+		clearTextWindow(INK_BLACK | PAPER_BLACK , FALSE);
+		ACCpicture(flags[flocation]);
+	#endif 
+
+	if (CNDat(lZonaA2)) 
+	{
+		#ifdef ZX 
+		clearTextWindow(INK_BLACK | PAPER_RED | BRIGHT, FALSE);
+		defineTextWindow (15,4,3,3); 
+		clearTextWindow(INK_BLACK | PAPER_RED | BRIGHT, TRUE);
+		#endif 
+	}
+	#ifdef ZX
+		defineTextWindow (0,11,32,14); 
+		clearTextWindow(INK_WHITE | PAPER_BLUE, TRUE);
+	#endif 
+
+	#ifdef DOS
+		#ifdef TEXT
+			defineTextWindow (0,0,80,25);
+			clearTextWindow(INK_WHITE | PAPER_BLUE, TRUE);
+		#endif 
+	#endif 
 	// Cálculo de luz
+	// En ZHL todas las localidades tienen luz
 	flags[flight]=1; // No está oscuro
-	NOTDONE;
+
 }
 
 char proceso1_post() // Después de la descripción
 {
-	NOTDONE;
+	if (CNDat (lPuente) && !localidades_t[0].visited)
+	#ifdef SPANISH
+		ACCwriteln ("El ordenador de navegación tararea una canción.");
+	#endif
+	#ifdef ENGLISH 
+		ACCwriteln ("The navigation computer hums a tune.");
+	#endif 
+
+ //setRAMPage(0);
+ // Usar proceso en otras páginas require compilar código por separado
+ //proceso1_post_pagina0();
 }
 
-char proceso2() // Después de cada turno, haya tenido o no éxito la entrada en la tabla de respuestas
+char proceso2() // Despuï¿½s de cada turno, haya tenido o no ï¿½xito la entrada en la tabla de respuestas
 {
 	NOTDONE;
 }
 
 // ------------------------------------------------------------
-// Bucle principal, menú del juego
+// Bucle principal, menï¿½ del juego
 // ------------------------------------------------------------
 
 void main (void)
 {
+	// Inicializa variables
+	BYTE salir=0;
 	
-	// Inicializar variables
-	initParser ();                // Inicializa el parser y la pantalla
-	
-	// Añadir menú de juego
-	#ifdef ZX 
-		defineTextWindow (0,0,32,24); // Pantalla reducida en 128Kb, Gráficos + Texto
+	#ifdef DOS
+		#ifdef TEXT 
+			TextMode ();
+		#endif 
+
+		#ifdef CGA
+			HighResMode ();
+		#endif
+
+		#ifdef EGA
+			HighResMode ();
+		#endif 
+		
+		clearScreen (INK_WHITE | PAPER_BLUE);
 	#endif
+
+	#ifdef ZX 
+		clearScreen (INK_BLACK | PAPER_BLACK);
+	#endif 
+
+	InitParser ();                // Inicializa el parser y la pantalla
+	flags[fobjects_carried_count] = 0;
+	// Inicializa objetos
+	
+	ACCplace(oCaja, lZonaA2);
+	ACCplace(oTraje, lEsclusa);
+	
+	ACCplace (oEsclusa, lEsclusa);
+	ACCoclear (oEsclusa, aOpen);
+	
+	ACCplace (oPuerta, lEntrada);
+	ACCoclear (oPuerta, aOpen);
+
+	ACCplace (obotonrojo, lEsclusa);
+	ACCoset (obotonrojo, aConcealed);
+	ACCplace (obotonverde,lEsclusa);
+	ACCplace (obotonverde, aConcealed);
+
+	ACCplace (oCanon, NONCREATED);
+	ACCplace (oTeclado, NONCREATED);
+
+	#ifdef ZX 
+ 		defineTextWindow (0,11,32,14); // Pantalla reducida en 128Kb, Grï¿½ficos + Texto
+	#endif 
+
+	#ifdef ZX 
+		ACCpicture(9); // Muestra el gráfico superior del menï¿½ 
+	#endif 
 
 	#ifdef DOS 
 		#ifdef TEXT 
-			defineTextWindow (0,0,79,24); // Full Text screen 
+			defineTextWindow (0,0,80,25); // Full Text screen 
 		#endif
 
 		#ifdef EGA 
-			defineTextWindow (0,0,39,24); // Graphics + Text 
+			defineTextWindow (0,0,40,25); // Graphics + Text 
 		#endif 
 
 		#ifdef CGA 
-			defineTextWindow (0,0,39,24); // Graphics + Text 
+			defineTextWindow (0,0,40,25); // Graphics + Text 
 		#endif 
-
 	#endif 
-	flags[LOCATION_MAX] = 34; // Número más alto de localidad
-	ACCability(10,20); // 10 objetos, 20 piedras
-	
-	clearTextWindow(INK_YELLOW | PAPER_BLACK, TRUE);
-	
-	/*
-	ACCgoto(l_Desierto); // Localidad inicial, en el puente de mando
-	ParserLoop (); // Pone en marcha el bucle principal
-	// Parser gets out of the parserloop when the player ENDS the game 	
-	
-	// -------------------------------------------------
-	// The player wants to abandon the game
-	writeSysMessage(SYSMESS_PLAYAGAIN);
-	flags[fTemp] = getKey();
-	// Restart
-	if (flags[fTemp]=='y' || flags[fTemp]=='s' || flags[fTemp]=='S' || flags[fTemp]=='Y')
-	{
-		main();
-	}
-	*/
 
-	// To the void...
-#ifdef ZX
-	#asm 
-		jp 0
-	#endasm 
-#endif
+	 // Menï¿½ de juego
+     #ifdef ZX 
+	 	clearTextWindow(INK_GREEN | PAPER_BLACK  | BRIGHT, TRUE);
+	 #endif 
+
+	 #ifdef DOS 
+	 	clearTextWindow(INK_WHITE | PAPER_BLUE , TRUE);
+		
+	 #endif 
+	 
+	#ifdef ZX 
+	 	gotoxy (13,12);
+    #endif 
+
+	#ifdef DOS 
+		#ifdef TEXT 
+			gotoxy (37,12);
+		#endif 
+	#endif
+
+	 writeText (" Z H L ");
+     
+	 #ifdef ZX 
+	 	gotoxy (12,14);
+	 #endif 
+	#ifdef DOS 
+		#ifdef TEXT 
+			gotoxy (37,14);
+		#endif 
+	#endif
+
+
+	 #ifdef SPANISH
+    	 writeText ("1 Jugar");
+	 #endif 
+	 #ifdef ENGLISH
+	 	writeText ("1 Start");
+	 #endif
+    
+	 #ifdef ZX 
+	 	gotoxy (12,15);
+	 #endif 
+	#ifdef DOS 
+		#ifdef TEXT 
+			gotoxy (37,15);
+		#endif 
+	#endif
+
+	 #ifdef SPANISH
+     	writeText ("2 Créditos");
+	 #endif 
+	 #ifdef ENGLISH 
+	 	writeText ("2 Credits");
+	 #endif
+     
+	 #ifdef ZX 
+	 	gotoxy (12,16);
+	 #endif 
+
+	#ifdef DOS 
+		#ifdef TEXT 
+			gotoxy (37,16);
+		#endif 
+	#endif
+
+	 #ifdef SPANISH
+     writeText ("3 Salir");
+	 #endif 
+	 #ifdef ENGLISH 
+	 writeText ("3 Exit");
+	 #endif
+
+	 #ifdef ZX 
+     	gotoxy (9,20);
+     #endif 
+
+	#ifdef DOS 
+		#ifdef TEXT 
+			gotoxy (28,25);
+		#endif 
+	#endif
+
+	writeText ("(C) 2019-2021,2023 KMBR ");
+	
+	while (!salir) 
+	{
+	switch (getKey())
+		{
+			//case 'j': // Cargar Partida
+			//break;
+			case '3': // Exit 
+				salir = 1;
+				#ifdef DOS 
+					// Return to Shell 
+					_setvideomode( _DEFAULTMODE );
+					printf (" ZHL \n (c) 2019-2023 Written by KMBR \n Thanks for playing!");
+				#endif 
+
+				// To the void...
+				#ifdef ZX
+					#asm 
+						jp 0
+					#endasm 
+				#endif 
+				break;
+			case '2': // Créditos
+				#ifdef ZX 
+					clearTextWindow(INK_YELLOW | PAPER_BLACK, TRUE);
+				#endif 
+				#ifdef DOS 
+					#ifdef TEXT 
+						clearScreen(INK_WHITE | PAPER_BLUE);
+					#endif 
+				#endif 
+				gotoxy(0,13);
+				writeTextln ("Z H L");
+				#ifdef SPANISH
+				writeTextln ("Creada por KMBR");
+				writeTextln ("Release 5 ^");
+				writeTextln ("Agradecimientos a aa@zdk.org y Carlos Sánchez (UTO)");
+				writeTextln ("Compresión de gráficos con ZX7 por Einar Saukas");
+				#endif 
+				#ifdef ENGLISH
+				writeTextln ("Written by KMBR");
+				writeTextln ("Release 5 ^");
+				writeTextln ("Acknowledgments to aa@zdk.org and Carlos Sanchez (UTO)");
+				writeTextln ("ZX7 graphic compression by Einar Saukas");
+				#endif
+				writeTextln ("Reynolds font by DamienG");
+				waitForAnyKey();
+				main();
+				break;
+			//case 't': // Jugar en modo Tutorial...
+			//     flags[fTutorial]=1;
+			case '1': // Jugar...
+				#ifdef ZX 
+					clearScreen(INK_YELLOW | PAPER_BLACK);
+				#endif
+
+				#ifdef DOS 
+					#ifdef TEXT 
+						clearScreen(INK_WHITE | PAPER_BLUE);
+					#endif 
+				#endif 
+								
+				flags[LOCATION_MAX] = 8; // Número más alto de localidad
+				ACCability(10,20); // 10 objetos, 20 piedras
+				ACCgoto(lPuente); // Localidad inicial, en el puente de mando
+				ParserLoop (); // Pone en marcha el bucle principal
+				// Parser gets out of the parserloop when the player ENDS the game 	
+				// The player wants to abandon the game
+				writeSysMessage(SYSMESS_PLAYAGAIN);
+				flags[fTemp] = getKey();
+				// Restart
+				if (flags[fTemp]=='y' || flags[fTemp]=='s' || flags[fTemp]=='S' || flags[fTemp]=='Y')
+				{				
+					// Regresa al comienzo 
+					main();
+				}
+				salir=1;
+				#ifdef DOS 
+					// Return to Shell 
+					_setvideomode( _DEFAULTMODE );
+					printf (" ZHL \n (c) 2019-2023, Written by KMBR \n Thanks for playing!");
+				#endif 
+
+				// To the void...
+				#ifdef ZX
+					#asm 
+						jp 0
+					#endasm 
+				#endif
+		}
+	}
+
+	
 }
 
 // ------------------------------------------------------------

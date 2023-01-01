@@ -1,0 +1,323 @@
+ZHL
+====================
+TODO: 
+    > Añadir la impresión de una caja de texto como en INFORM
+    > Modo gráfico CGA 320x200 4 colores 
+    > Gráficos en CGA 
+    > Modo gráfico EGA 320x200 16 colores
+    > Gráficos en EGA 
+    > Las rutinas de impresión y borrado de la librería de WATCOM son lentas (como era de esperar), pasar a ASM todas las rutinas de impresión de gráficos y texto. 
+
+
+01.01.2023
+	Después de mudarnos de nuevo y por fin ordenar la habitación y librarme de gran cantidad de las cajas, vuelvo a retomar este proyecto. Hace un par de años empecé a portar el parser a DOS usando WATCOM. Estos días de vacaciones estoy aprovechando para retomarlo y sacar una versión de ZHL en modo TEXTO, CGA y EGA. 
+
+	La versión del parser tiene los añadidos que implementé para un proyecto intermedio que no llegó a ver la luz y parte de la versión 5 de ZHL. 
+	
+    He decidido pasarlo todo a watcom en modo 386 protegido, de este modo tengo acceso a la memoria de forma lineal en DOS y no tengo que preocuparme por los bancos de memoria de 64Kb que tantos problemas me han dado en el pasado. Realmente sobredimensiona todo el sistema, pues con un 286/8086 podríamos correr seguramente la aventura sin problemas pero con vistas al futuro me ayudará a escribir aventuras sin preocuparme por la gestión de la memoria. 
+
+    En ParserLoop tengo hardcodeado el color del texto de las descripciones, lo he eliminado pues se puede sustituir por la misma llamada dentro del proceso 1 y de este modo queda accesible para el programador. 
+	
+    Pues ya tengo el juego compilado y funcionando, con entrada por teclado, y scroll de ventana. Todo ha ido realmente bien. 
+	
++ Errores en caracteres ASCII extendidor. Referencia: https://theasciicode.com.ar/
+Para imprimir los caracteres 
+    gotoxy (1,1);
+	for (salir=0;salir<254;salir++)
+		{
+		sprintf (buf, "%c",salir);
+		_outtext (buf);
+		}
+    Veo que están todos, seguramente el problema venga por usar un editor en ISO 8859-15 en lugar de UTF-8. 
+    En la rutina de writeText en modo TEXTO no podemos usar los códigos > 127 para comprimir cadenas, pues las tablas de caracteres son fijas. No podemos usar la técnica de reemplazar algunos caracteres justo antes del 127 por los que necesitamos. Esto quiere decir que usando 1 byte por caracter no podemos tener compresión de textos en la versión de PC. 
+
+    + Arreglado el fallo por el cual se podía borrar el prompt del usuario. 
+    + Arreglado el fallo por el cual el getkey se queda atascado,el motivo es que en DOS hay teclas que devuelven dos códigos, para ver fácilmente los códigos:
+
+        int ch;
+
+        while ((ch = _getch()) != 27) /* 27 = Esc key */
+        {
+            printf("%d", ch);
+            if (ch == 0 || ch == 224)
+                printf (", %d", _getch ()); 
+            printf("\n");
+        }
+
+        printf("ESC %d\n", ch);
+
+    por ejemplo los cursores, avanzar página e incluso cuando se intenta sacar un acento con una tecla que no es una vocal.
+    
+    > La aventura ya funciona al completo en modo TEXTO :-D, he tardado menos de un día en tenerla en marcha. 
+
+    
+07.11.2019
+
+ Localidades
+----------------------------
+
+Area en la nave
+
+Panel de control
+Objetos: Escaleras, parabrisas, consola, mandos, nieve, un asiento
+
+Nodo central 
+Objetos: Acceso a la esclusa
+
+Esclusa 
+Objetos: Trajes, botones de abrir y cerrar, puerta de entrada y puerta de salida, mensaje de peligro
+
+Almacén
+Objetos: escaleras, paquetes y casilleros, fisura en una de las paredes 
+
+Area: Exterior 
+
+Entrada a la esclusa 
+Objetos: Escaleras de entrada, nieve, Júpiter de fondo, la silueta del almacén
+
+Entrada al almacén 
+Objetos: Teclado numérico, puerta blindada, almacén, rejilla de ventilación
+
+Almacén
+Sala 1
+Objetos: Paquetes con semillas
+Sala 2 
+Objetos: Bóveda, paquete azul
+
+Gráficos raster basados en las librerías que ya utilizamos en minif. Ver cuanto podemos meter en 16K para permitir juegos multicarga de 128Kb (o más...). 
+
+Añadir pnj más adelante no es complicado, pues se trata de tener una estructura nueva para ese tipo de objeto. 
+
+El cursor es una casilla que parpadea con un OR, ver que tal funciona sino podemos hacer una inversión de atributos pero queda mucho más cutrecito. 
+
+En la parte inferior seleccionamos entre inventario, mapa y lista de quest activas.
+---------------------------------------------------------------------------------------------------------
+
+10.03.2019 
+	> Un poco más de test...
+	Algunos detalles sueltos:
+	En la nave
+	+	x interior
+	en el exterior
+	+ x cielo
+	+x cristales
+	+x europa
+	+x techo...
+	+x paredes...
+	+ el ordenador sigue hablando delante del almacén
+	+teclear 32768 no funciona...
+	+parece que el mensaje de (en el teclado) se queda activado...
+	+teclear 32768 en el teclado sí funciona...
+	en el almacén
+	+coger contenedor
+	> ¡Pero el juego se puede terminar! :-)
+	> Versión de Spectrum funcionando sin problemas: 9855bytes free, DDBB 19800bytes
+	> Release 3 con algunos fallos tontos corregidos
+
+03.03.2019
+> Teclado numérico funciona
+> Si la compuerta se abre no podemos volver al interior de la nave 
+> Poner el traje si está presente lo coje primero
+> Añadido testeo automático, se acabó teclear los comandos :-) 
+> Añadir colores para las conversaciones con el ordenador...
+> Fin de juego al recuperar el paquete
+	
+02.03.2019 
+ Muchísimo trabajo y apenas puedo dormir, veamos si puedo avanzar un poco.
+ + En el exterior y dentro la esclus una vez despresurizada nos podemos
+ quitar el traje.
+ + El ordenador sigue hablando aunque no estemos en la nave...
+
+26.02.2019
+> El sistema de atributos básicamente HAT/HASN funciona
+como un comprobado bit a bit DESCENDENTE empezando por el bit 0 del FLAG 59 
+y desciende hasta llegar a 255. Es decir que realmente se pueden comprobar
+bit a bit sólo 32 flags 
+
+Flag 59 bit 0 -> Atributo 0 -> Current Object 
+Flag 58 bit 0 -> Atributo 8 -> Current Object 
+Flag 58 bit 7 -> Atributo 15 -> Current Object 
+...
+Flag 29 bit 0 -> Atributo 240 
+Flag 29 bit 7 -> Atributo 247 
+Flag 28 bit 0 -> Atributo 248
+Flag 28 bit 7 -> Atributo 255
+
+> Además los atributos de los objetos no se pueden cambiar, toca almacenar
+los atributos en flags y copiarlos sobre el Fag 59 y 58 para que funcione
+el HAS HASN
+	+ La comprobacion de la apertura de la compuerta no funciona
+	+ No se puede ir al interior de la nave con el traje puesto. Hay que quitárselo y dejarlo siempre en la esclusa. 
+
+25.02.2019 
+> Más descripciones, vocabulario y movimientos entre localidades
+> El usuario puede cambiar el color del texto y el fondo
+> Un poco de playtest
+
+Así a bote pronto: 32Kb de Aventura - 3Kb de la BBDD de gráficos (aunque vaya vacía)
+Databaseend 52079, en el Spectrum Editor gráfico nos dice que quedan 11367bytes
+
+Teniendo en cuenta que la aventura ya está prácticamente completa, salvo pulir
+algunos fallos quizá quepan 2 o 3 pantallas en bitmap (aprox 1.3Kb), o unas
+cuantas más vectoriales si me aclaro con el editor gráfico. 
+
+23.02.2019
+> He probado a generar una versión para spectrum y funciona!!! :-D
+> Ya tenemos repositorio en GitHub para que el código no se pierda como pasó ayer con el Synctoy y el portátil
++ Eliminar mensajes de 'Qué quieres que haga'... 
+> Poner/quitarse el traje
+
+21.02.2019 
++ Bug delas conexiones solucionado. Es debido a que tenía una entrada para imprimir verbo y nombre sin DONE. He añadido una entrada al final como NOTDONE
+y todo funciona de nuevo. 
+
+
+20.02.2019 
+> Ahora se le pueden dar órdenes al ordenador tipo: ordenador encender consola
+> Más descripciones y vocabulario, verbos de relleno como saltar, tocar, etc...
+> Añadido el final del juego
+- Han dejado de funcionar las conexiones...
+compi
+19.02.2019
+> Mejorando las conversaciones con el ordenador, en lugar de Usar ordenador como un verbo se usa como nombre propio.
+
+17 Febrero 2019
+> Recientemente se ha liberado el DAAD, como ZEUR es una aventura muy corta voy a intentar portarla a DAAD para ver como es la experiencia
+> Todas las localidades y conexiones implementadas
+> Organizando un poco el código, si hay memoria se podría importar buena parte de la librería de ngpaws... :-m
+> Definiendo atributos para masculino, femenino, etc
+> Todos los mensajes en el juego, incluidos las conversaciones con el ordenador. En torno a 14Kb de BBDD..., creo que va a ir justito para 48Kb.
+> Un poco de ASCII art con las ventanas para la intro. Sin demasiados problemas, el DAAD se deja querer :-)
+> El ordenador ya puede hablar :-)
+
+23 de Julio 2016
+ > Al teclear sin indicar el teclado se añade de forma automática.
+ 
+22 de Julio
+> Ahora el comando de salidas es opcional. Incorporamos las salidas en las descripciones. 
+> Algunas correcciones para "del"...
+> Añadido salir en la esclusa, y entrar en el exterior de la nave.
++ No se puede entrar en la nave con el traje puesto después de despresurizar.
+
+
+20 de Julio
++ Mejorar el listado de salidas para que tenga en cuenta las puertas y múltiples salidas.	 
++ Usar artículos definidos y géneros correctamente. 
+
+19 de Julio
+
+> Más texto para la cabeza parlante del legionario. 
+
+Cerrar el primer capítulo que termina cuando el jugador lleva la cabeza a la nave. 
+- Usar artículos definidos y géneros correctamente. 
+- Actualizar la librería de decorados para evitar crear muchos objetos innecesarios.
+- Añadir el comando de ayuda.
+
+Sobre el segundo capítulo...
+
+En el tenedor han encontrado un portal como el que investigaba la legión espacial. El jefe
+del tenedor ha contratado a ZEUR para que extraiga el paquete del almacén en la base de Europa. Ha sobornado
+a los guardias para que no estén en su puesto durante unas horas mientras se realiza la recogida. Quiere
+la cabeza del legionario para extraer la información acerca de como operar los portales y averiguar lo que
+se encuentra más allá. 
+
+ En el segundo capitulo Ellie Right es una periodista que se ha unido al grupo de soldados romanos espaciales que ha localizado un portal completo y se disponen a activarlo. 
+
+18 de Julio de 2016
+
+  Algunos datos sobre Europa:
+* Orbita Jupiter en 3 dias y medio.
+* Un lado de Europa mira constantemente a Jupiter.
+* Es un poco más pequeña que la Luna con 3100km de diámetro.
+* Es uno de los objetos con la orografía más lisa del sistema solar. 
+* 10m picos llamados penitentes en el ecuador. 
+* La radiación en la superficie se estima en torno a 5400mSv al día, un humano
+expuesto a semejante nivel tendría heridas graves o moriría después de un día.
+* La atmosfera está compuesta de oxígeno molecular. 
+* Gravedad 1.314 m/s^2 (en torno a 1/8 de la Tierra)
+* Velocidad de escape: 2025 km/s.
+* Temperatura media en torno a 170ºC bajo cero.
++ Mandos para operar el airlock...
+	+ Botón verde cierra el airlock, Botón rojo abre el airlock
++Muerte al abrir el airlock sin el traje
++El juego termina con éxito al llevar la caja azul a la nave...
++Arreglar el listado de objetos para eliminar el 'aquí'
++el ordenador habla directamente en la nave...
+
+17 de Julio de 2016
+> Ya tengo las conversaciones con el ordenador funcionando. No ha sido tan dificil y el poder meter todo en una tabla mola mucho :)
+> Más descripciones para las localidades y algunos objetos.
++ No se puede salir de la nave sin llevar puesto el traje
++ Listar las salidas...
++ Teclear en el keypad de entrada del almacén...
+
+El personaje es un robot fabricado por la nave para conseguir el paquete. Si
+el robot muere, envía otro. A partir del segundo el jugador debería empezar
+a sospechar que algo sucede. El robot tiene la imagen de si mismo de un humano,
+el original que está descansando en un compartimento secreto de la nave. 
+
+
+16 de Julio 2016
+> Sigo profundizando en I7, es como empezar de cero salvo por los conceptos. La implementación basada
+en reglas tiene buena pinta, pero seguramente tendré que meter código I6 tarde o temprano. 
+> Ya tengo el mapa completo
+
+ Los problemas a resolver son los siguientes:
+	- Encontrar el risco/almacén en el planeta
+	- Entrar en el almacén
+	- Localizar la caja correcta
+	- Teclear en el teclado de la entrada
+	- Hablar con ordenador, basado en temas: preguntar a ordenador por; ordenador, xxyy.
+	- El nombre del ordenador es Tod. -> tod, xxyy. 
+	- Regreso a la nave -> Actúa el simbionte -> Pesadilla en la playa.
+	
+
+14 de Julio de 2016
+
+ La historia ha progresado un poco en mi cabeza. Se va a tratar de una precuela
+ a Life&Death at the Fork. En esta aventura, el protagonista consigue la famosa
+ caja que luego ha de entregar en el Fork. El personaje principal es el mismo
+ que aparece en el desierto arrastrando la caja por la arena.
+ 
+ Momento: Noche,
+ Ubicación: Un risco en un planeta congelado (Europa). Está lloviendo copiosamente. 
+ Un portón blindado impide el paso a un almacén. 
+ 
+ Sinopsis: Un repartidor aterriza en Europa para recoger un paquete cuyo destino
+ es el tenedor del diablo en Marte. Cuenta con unas coordenadas y un número secreto
+ que ha de introducir en el mando de la puerta de entrada. El almacén está repleto
+ de cajas. Las cajas albergan gran cantidad de animales y otras formas de vida
+ en estado de hibernación. 
+ 
+ La caja a recoger contiene un cerebro congelado de un telépata. Este cerebro
+ se activará y comenzará a jugar con la mente del repartidor para que le ayude
+ a escapar y de ese modo no llegar al Tenedor.
+ 
+
+
+13.07.2016
+Mirando los fuentes de ZAK, he visto que se puede incrustar código directamente de I6. Esto facilita mucho
+la transición, y sobre todo el poder reutilizar algunas librerias de I6 como los menús, gráficos y sonido. 
+
+
+
+19.06.2016
+
+Notas para programar en las nuevas release de Inform: 
+
+Enlaces imprescindibles:
+
+http://wiki.caad.es/Inform7_6L02
+
+Los manuales:
+ Recipe Book
+http://inform7.com/learn/man/RB_1_1.html
+ Programming Book
+http://inform7.com/learn/man/WI_3_18.html
+
+El tutorial:
+https://sites.google.com/site/inform7sp/inform-7/4-escenas-ayuda-desambigueacion-y-cocodrilos
+
+Syntaxis y relación con I6
+http://inform7.com/learn/documents/I7_syntax.txt
+https://emshort.wordpress.com/how-to-play/writing-if/inform-7/i6-entry-points-translated/

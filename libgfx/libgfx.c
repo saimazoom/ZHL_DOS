@@ -6,55 +6,57 @@
 #endif 
 
 #ifdef DOS 
-     #include <string.h>
+    #include <conio.h>
+    #include <graph.h>
+    #include <stdio.h>
+    #include <string.h>
 #endif 
 
 struct fzx_state fzx;   // active fzx state
 
-void setRAMPage (BYTE banco)
-{
-/*
-    #asm
-;-----------------------------------------------------------------------
-; SetRAMPage: Establece un banco de memoria sobre $c000
-; Entrada: B = banco (0-7) a paginar entre $c000-$ffff
-;-----------------------------------------------------------------------
-; Extraído del Manual de Usuario de Spectrum, Página 221
-;
-     ld     hl, $0002
-     add    hl, sp
-     ld     a, (hl) ; A= Banco
-     ld     b, a
-     ld     A, ($5B5C)
-     and    $F8
-     or     B
-     ld     BC, $7FFD
-     ld     ($5B5C), A
-     out    (C), A
-;     ret
-    #endasm
-*/
-}
+#ifdef ZX 
 
-void setRAMBack()
-{
-/*
-#asm
-    ld      A, ($5B5C)
-    and     $F8
-    ld      BC, $7FFD
-    di
-    ld      ($5B5C), A
-    out     (C), A
-    ei
-    ;ld      a,$0F0
-    ;ld i,a
-    ;ei
-#endasm
-*/
-}
+     void setRAMPage (BYTE banco)
+     {     
+     #asm
+     ;-----------------------------------------------------------------------
+     ; SetRAMPage: Establece un banco de memoria sobre $c000
+     ; Entrada: B = banco (0-7) a paginar entre $c000-$ffff
+     ;-----------------------------------------------------------------------
+     ; Extraído del Manual de Usuario de Spectrum, Página 221
+     ;
+          ld     hl, $0002
+          add    hl, sp
+          ld     a, (hl) ; A= Banco
+          ld     b, a
+          ld     A, ($5B5C)
+          and    $F8
+          or     B
+          ld     BC, $7FFD
+          ld     ($5B5C), A
+          out    (C), A
+     ;     ret
+     #endasm
+     
+     }
 
-#ifdef ZX
+     void setRAMBack()
+     {
+     
+     #asm
+     ld      A, ($5B5C)
+     and     $F8
+     ld      BC, $7FFD
+     di
+     ld      ($5B5C), A
+     out     (C), A
+     ei
+     ;ld      a,$0F0
+     ;ld i,a
+     ;ei
+     #endasm
+     
+     }
 
      // Formato de memoria de v�deo: 010xxYYY ZZZCCCCC
      // xx: Tercio
@@ -442,12 +444,18 @@ void setRAMBack()
                out ($fe),a
           #endasm
      }
-#endif 
+#endif // end of ZX Spectrum graphic functions 
+
 
 void fzx_setat(unsigned char x, unsigned char y)
 {
      fzx.x = x;
      fzx.y = y;
+     #ifdef DOS 
+          #ifdef TEXT 
+               _settextposition (y+1,x+1);
+          #endif
+     #endif
 }
 
 void fzx_putc(unsigned char c)
@@ -457,7 +465,7 @@ void fzx_putc(unsigned char c)
 
 void fzx_puts(char *s)
 {
-     print_string (fzx.x, fzx.y, s);
+    print_string (fzx.x, fzx.y, s);
 }
 
 
@@ -639,8 +647,19 @@ void paint_pic (unsigned char *bytestring)
 
      unsigned char getKey ()
      {
-          return (unsigned char)getch();
+          unsigned char keycode;
+          keycode = getch();
+
+          while (keycode==0 || keycode==224 || keycode==239 || keycode == 96 || keycode == 249)
+          {
+               getch (); // Throws away the next char 
+               keycode = getch();
+          }
+          // Always return lower case 
+
+          return tolower (keycode);
      }
+     
      // Function: TextMode
      // Input: None
      // Output: Set the mode in text 80x25 in CGA/EGA/VGA modes. 
@@ -648,8 +667,7 @@ void paint_pic (unsigned char *bytestring)
      {
           // set text mode 80x25 (CGA, EGA, VGA)
           _setvideomode ( _TEXTC80);
-          // Clears the screen
-
+          _wrapon(_GWRAPON);
      }
 
      // Function: HighResMode
@@ -676,19 +694,27 @@ void paint_pic (unsigned char *bytestring)
           }
 
           #endif
-          // Clears the screen 
-          clearScreen (INK_BLUE);
+     }
+     // Function: clearScreen 
+     // Input: Color in the form PAPER (4bit) | INK (4bit)
+     // Usage: clearScreen (PAPER_BLUE|INK_WHITE)
+     void clearScreen (BYTE color)
+     {
+          #ifdef TEXT 
+               _setbkcolor (_BLUE);
+               _settextcolor ((short)color&0x0F);
+               _clearscreen( _GCLEARSCREEN );
+     
+          #endif 
      }
 
-     void clearScreen (BYTE color);
+     void clearchar (BYTE x, BYTE y, BYTE color)
      {
-          _setbkcolor (color);
-          _clearscreen (_GCLEARSCREEN);
+          #ifdef TEXT                
+               setAttr (x, y, color);
+               print_char (x, y, ' ');
+          #endif
 
-     }
-
-     void clearchar (BYTE x, BYTE y, BYTE color)�
-     {
           #ifdef CGA 
           #endif 
 
@@ -726,17 +752,6 @@ void paint_pic (unsigned char *bytestring)
 
      }
 
-     // Pictures in DOS are RLE files (PCX)
-     void paint_pic (unsigned char *bytestring)
-     {
-          #ifdef CGA 
-          #endif 
-
-          #ifdef EGA
-          #endif
-
-     }
-
      void fill (BYTE x, BYTE y)
      {
           #ifdef CGA 
@@ -745,7 +760,7 @@ void paint_pic (unsigned char *bytestring)
           #ifdef EGA
           #endif
      }
-     
+
      void pfill (BYTE x, BYTE y, BYTE pattern)
      {
           #ifdef CGA 
@@ -755,20 +770,45 @@ void paint_pic (unsigned char *bytestring)
           #endif
      }
 
+     // Function: print_string
+     // Input: x 
+     //        y 
+     //        texto
+     // Output:
+     // Usage:
+
      void print_string (BYTE x, BYTE y, unsigned char *texto)
      {
+           // Note: watcom printing library uses (1,1) as top, left coordinate Y,X. We need to translate that to MiniF system which uses 0,0 for left, top coordinates. 
+          _settextposition (y+1,x+1);
+          _outtext (texto); 
 
      }
 
      void print_char (BYTE x, BYTE y, unsigned char texto)
      {
-
+           // Note: watcom printing library uses (1,1) as top, left coordinate Y,X. We need to translate that to MiniF system which uses 0,0 for left, top coordinates. 
+          _settextposition (y+1,x+1);
+          _outtext (&texto); 
      }
 
-     void setAttr (BYTE x, BYTE Y, BYTE attr)
+     // Function: setAttr
+     // Input:
+     // Output:
+     // Example: 
+     void setAttr (BYTE x, BYTE y, BYTE attr)
      {
-
+          // Note: watcom printing library uses (1,1) as top, left coordinate Y,X. We need to translate that to MiniF system which uses 0,0 for left, top coordinates. 
+          _settextposition (y+1,x+1);
+          _settextcolor (attr&0x0F);
      }
 
-
+     // Function: scrollArriba 
+     // Input:
+     // Output:
+     // Example: 
+     void scrollArriba (BYTE fila_inicial, BYTE columna_inicial)
+     {
+          _scrolltextwindow (_GSCROLLUP);
+     }
 #endif 

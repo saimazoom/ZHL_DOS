@@ -74,6 +74,14 @@ Hay una serie de constantes de compilación que pueden indicarse en la líne de co
     #include "zx7.h"
 #endif
 
+#ifdef DOS 
+    #include <conio.h>
+    #include <graph.h>
+    #include <stdio.h>
+    #include <string.h>
+#endif 
+
+
 #include ".\libgfx\libgfx.h"
 
 // Funciones externas
@@ -260,7 +268,7 @@ extern token_t mensajesSistema_t [];
 //---------------------------------
 // Fin de tablas de parser
 //---------------------------------
-void  initParser (void) // 212bytes
+void  InitParser (void) // 212bytes
 {
     // Menú principal
     // Inicializa el array de FLAGS
@@ -336,10 +344,8 @@ void ParserLoop (void) // 664 bytes
         // Si el jugador ha llegado y hay luz, describe localidad
 		if (gDESCRIBE_LOCATION_FLAG==TRUE)
 		{
-		    ACCcls(INK_YELLOW|PAPER_BLACK);
-           	gDONE_FLAG = FALSE;
+            gDONE_FLAG = FALSE;
             proceso1(); // Antes de describir la localidad...
-            //flags[flight]=0; // REMOVE!
 
 		    if (flags[flight]==1)
             {
@@ -354,6 +360,7 @@ void ParserLoop (void) // 664 bytes
                 fontStyle(NORMAL);
                 writeText (localidades_t[loc_temp].descripcion);
                 newLine();
+
                 // Proceso 1 Post, después de describir la localidad...
                	gDONE_FLAG = FALSE;
                 proceso1_post();
@@ -1655,11 +1662,11 @@ void  ACCpicture(BYTE picid)
 {
 	BYTE picpos;
 	picpos = get_img_pos(picid);
-    if (imagenes_t[picpos].page!=0) setRAMPage (imagenes_t[picpos].page);
-	#ifdef ZX
-    dzx7AgileRCS(imagenes_t[picpos].paddr, ((unsigned char*) 16384));
-    #endif
-    if (imagenes_t[picpos].page!=0) setRAMBack();
+    #ifdef ZX 
+        if (imagenes_t[picpos].page!=0) setRAMPage (imagenes_t[picpos].page);
+	    dzx7AgileRCS(imagenes_t[picpos].paddr, ((unsigned char*) 16384));
+        if (imagenes_t[picpos].page!=0) setRAMBack();
+    #endif 
 }
 
 void  ACCgraphic(BYTE option)
@@ -1712,7 +1719,7 @@ void ACCoclear(BYTE objid, BYTE attrno)
 BYTE CNDislight()
 {
 	//if (!isDarkHere()) return TRUE;
-	//return lightObjectsPresent();
+	//    return lightObjectsPresent();
 }
 
 BYTE  CNDisnotlight()
@@ -1744,32 +1751,34 @@ void  ACCanykey()
     waitForAnyKey();
 }
 
+// Function: ACCgetkey 
+// Description: This action waits until the player press a key, and then stores they keycode in the flag number.
+// Input: Flag Number (0-255)
+
 void  ACCgetkey(BYTE flagno)
 {
-	//getkey_return_flag = flagno;
-	//inGetkey = TRUE;
+    setFlag (flagno, getKey());
 }
 
 BYTE CNDobjfound(BYTE attrno, BYTE locid)
 {
-/*
-	for (var i=0;i<gNUM_OBJECTS;i++)
-		if ((getObjectLocation(i) == locno) && (CNDonotzero(i,attrno))) {setFlag(FLAG_ESCAPE, i); return true; }
-	setFlag(FLAG_ESCAPE, EMPTY_OBJECT);
-	return false;
-	*/
+    BYTE i;
+	for (i=0;i<gNUM_OBJECTS;i++)
+		if ((getObjectLocation(i) == locid) && (CNDonotzero(i,attrno))) {setFlag(fescape, i); return TRUE; }
+	setFlag(fescape, EMPTY_OBJECT);
+	return FALSE;
+
 }
 
 BYTE CNDobjnotfound(BYTE attrno, BYTE locid)
 {
-	/*
-	for (var i=0;i<gNUM_OBJECTS;i++)
-		if ((getObjectLocation(i) == locno) && (CNDonotzero(i,attrno))) {setFlag(FLAG_ESCAPE, i); return false; }
+    BYTE i; 
+	for (i=0;i<gNUM_OBJECTS;i++)
+		if ((getObjectLocation(i) == locid) && (CNDonotzero(i,attrno))) {setFlag(fescape, i); return FALSE; }
 
-	setFlag(FLAG_ESCAPE, EMPTY_OBJECT);
+	setFlag(fescape, EMPTY_OBJECT);
 
-	return true;
-	*/
+	return TRUE;
 }
 
 BYTE  CNDcarried(BYTE objid)
@@ -2010,7 +2019,7 @@ BYTE  getObjectLocation (BYTE objpos) // Devuelve el número de localidad en el a
         return get_loc_pos ( objetos_t[objpos].locid) ;
 }
 
-BYTE setObjectLocation(BYTE objno, BYTE location)
+void setObjectLocation(BYTE objno, BYTE location)
 {
     if (location == LOCATION_CARRIED || location == LOCATION_WORN || location == LOCATION_NONCREATED || location == LOCATION_HERE)
     {
@@ -2284,7 +2293,7 @@ void writeTextln (BYTE *texto)
     BYTE texto_buffer[256];
     BYTE buffer[20]; // Buffer de palabras
 #endif
-void  writeText (BYTE *texto) 
+void writeText (BYTE *texto) 
 {
 	#ifdef ZX
     BYTE texto_buffer[256];
@@ -2306,30 +2315,58 @@ void  writeText (BYTE *texto)
     BYTE caracter=0;
     BYTE simbol_counter=0;
     BYTE salir=0;
- 
+     
    // 1. Descomprime la cadena
-   memset(texto_buffer,0,256);
-   caracter = texto[0];
-   while (caracter!=0 && counter<255)
-   {
-       caracter = texto[texto_counter];
-       if (caracter>127) // Código comprimido
-       {
-           simbol_counter=0;
-           while (symbol_list[caracter-128][simbol_counter] && counter<255)
-           {
-               texto_buffer[counter]=symbol_list[caracter-128][simbol_counter];
-               counter++;
-               simbol_counter++;
-           }
-       }
-       else
-       {
-           texto_buffer[counter]=caracter;
-           counter++;
-       }
-       texto_counter++;
-    }
+    memset(texto_buffer,0,256);
+    caracter = texto[0];
+    while (caracter!=0 && counter<255)
+    {
+        caracter = texto[texto_counter];
+        if (caracter>127) // Código comprimido
+        {
+            #ifdef ZX 
+            simbol_counter=0;
+            while (symbol_list[caracter-128][simbol_counter] && counter<255)
+            {
+                texto_buffer[counter]=symbol_list[caracter-128][simbol_counter];
+                counter++;
+                simbol_counter++;
+            }
+            #endif 
+
+            #ifdef DOS
+                #ifdef TEXT 
+                // Source Code is edited with ISO 88159-15, which is not matching the UTF-8 in DOS in TEXT Mode. 
+                // As the character table in text mode is fixed a replacement needs to be performed. 
+                // Text compression is not used in DOS TEXT mode. 
+                // ASCII table from https://theasciicode.com.ar/
+                    if (caracter=='á') texto_buffer[counter] = 160;
+                    if (caracter=='é') texto_buffer[counter] = 130;
+                    if (caracter=='í') texto_buffer[counter] = 161;
+                    if (caracter=='ó') texto_buffer[counter] = 162;
+                    if (caracter=='ú') texto_buffer[counter] = 163;
+                    if (caracter=='ñ') texto_buffer[counter] = 164;
+                    if (caracter=='¡') texto_buffer[counter] = 173;
+                    if (caracter=='¿') texto_buffer[counter] = 168;
+                    if (caracter=='Á') texto_buffer[counter] = 181;
+                    if (caracter=='É') texto_buffer[counter] = 144;
+                    if (caracter=='Í') texto_buffer[counter] = 214;
+                    if (caracter=='Ó') texto_buffer[counter] = 224;
+                    if (caracter=='Ú') texto_buffer[counter] = 233;
+                    if (caracter=='Ñ') texto_buffer[counter] = 165;
+                    counter++;
+                #endif 
+            #endif 
+
+
+        }
+        else
+        {
+            texto_buffer[counter]=caracter;
+            counter++;
+        }
+        texto_counter++;
+        }
 
    // 2. Imprime la cadena palabra a palabra
    counter=0;
@@ -2356,6 +2393,7 @@ void  writeText (BYTE *texto)
                 newLine();
             }
             fzx_puts(buffer);
+            
             if (caracter==' ') counter++;
             fzx.x+=counter;            
             counter=0;
@@ -2392,12 +2430,18 @@ void defineGraphWindow (BYTE x, BYTE y, BYTE width, BYTE height)
 }
 
 // Parámeters are defined in chars.
+// Inputs: 
+//  x: Horizontal position (0 starting position)
+//  y: Vertical position (0 starting position)
 void defineTextWindow (BYTE x, BYTE y, BYTE width, BYTE height)
 {
     TextWindow.x = x;
     TextWindow.y = y;
     TextWindow.width=width;
     TextWindow.height=height;
+    #ifdef DOS 
+        _settextwindow( y+1, x+1, y+height-1, x+width-1 );
+    #endif
 }
 
 void  clearGraphWindow (BYTE color)
@@ -2414,6 +2458,10 @@ void  clearGraphWindow (BYTE color)
     }
 }
 
+// Function: clearTextWindow
+// Input: color: in the form PAPER(4bit) | INK (4bit)
+//        clear: TRUE or FALSE. With TRUE it will print a blank space for each cell, with FALSE only the color attributes will be replaced. 
+// Usage: clearTextWindow (PAPER_BLACK|INK_YELLOW, TRUE)
 void  clearTextWindow (BYTE color, BYTE clear)
 {
     unsigned char a,b;
@@ -2431,6 +2479,12 @@ void  clearTextWindow (BYTE color, BYTE clear)
     }
 }
 
+// Function: clearTextLine
+// Input: 
+//        x: Start of the horizontal coordinate in text chars starting at 0. Top left. 
+//        y: Vertical coordinate in text chars starting at 0. Top left. 
+//        color: in the form PAPER(4bit) | INK (4bit)
+// Usage: clearTextLine (0, 0, PAPER_BLACK|INK_YELLOW)
 void clearTextLine (BYTE x, BYTE y, BYTE color)
 {
     BYTE a;
@@ -2454,6 +2508,7 @@ void getInput ()
    BYTE caracter=0;
    // Iterates until the player press ENTER
    memset(playerInput,0,MAX_INPUT_LENGTH); // Limpia el buffer
+   
    gotoxy(TextWindow.x,fzx.y);
    writeText (playerPrompt);
 
@@ -2461,17 +2516,44 @@ void getInput ()
    while (caracter!=13 && contador<MAX_INPUT_LENGTH)
    {
         caracter = getKey();
-        if (caracter!=4) { // Código devuelto al borrar
-            playerInput[contador]=caracter;
-            contador++;
-            print_char (TextWindow.x+contador, fzx.y,caracter);
-        }
-        else  // Borrar
-            {
-            playerInput[contador]=0;            
-             print_char (TextWindow.x+contador, fzx.y,caracter);
-            if (contador>0) contador--;
+        //if (caracter < 127) // In DOS is possible to input extended ascii characters directly 
+        {
+            #ifdef ZX 
+            if (caracter!=4) { // Código devuelto al borrar
+            #endif 
+
+            #ifdef DOS
+            if (caracter!=8) { // Código devuelto al borrar
+            #endif 
+                playerInput[contador]=caracter;
+                contador++;
+                #ifdef ZX 
+                    print_char (TextWindow.x+contador, fzx.y,caracter);
+                #endif 
+
+                #ifdef DOS
+                    #ifdef TEXT
+                    print_char (TextWindow.x+strlen(playerPrompt)+strlen(playerInput)-1, fzx.y,caracter);
+                    #endif 
+                #endif 
             }
+            else  // Borrar
+                {
+                playerInput[contador]=0;            
+                if (contador>0) 
+                    {
+                    #ifdef ZX 
+                        // In Spectrum the print_char prints using a XOR, which means printing the same caracter will delete it from the screen.
+                        print_char (TextWindow.x+contador, fzx.y,caracter);
+                    #endif 
+                    #ifdef DOS 
+                        print_char (TextWindow.x+strlen(playerPrompt)+strlen(playerInput)-1, fzx.y,' ');
+                        gotoxy (contador+1, fzx.y); 
+                    #endif 
+                    contador--;
+                    }    
+                }
+        }
         waitForNoKey();
    }
    
@@ -2498,7 +2580,23 @@ void fontStyle (BYTE style)
 void hideGraphicsWindow()
 {
     // Toma el tamaño completo de la pantalla...
-    defineTextWindow (0,0,32,24);
+    #ifdef ZX 
+        defineTextWindow (0,0,32,24);
+    #endif 
+
+    #ifdef DOS 
+        #ifdef TEXT
+        	defineTextWindow (0,0,80,25); // Full Text screen 
+        #endif 
+
+        #ifdef CGA 
+           	defineTextWindow (0,0,40,25); // Full Text screen 
+        #endif 
+
+        #ifdef EGA
+           	defineTextWindow (0,0,40,25); // Full Text screen 
+        #endif 
+    #endif 
 }
 
 void setConnection (BYTE loc_orig, BYTE value, BYTE loc_dest)
