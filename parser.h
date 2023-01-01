@@ -173,6 +173,10 @@ extern void ACCturns ();
 extern void ACCability(BYTE maxObjectsCarried, BYTE maxWeightCarried);
 extern void ACCanykey(); 
 extern BYTE ACCNextWord ();
+extern void ACCpaper (BYTE color);
+extern void ACCink (BYTE color);
+extern void ACCtextcolor (BYTE color);
+extern void ACCbox (BYTE x, BYTE y, BYTE width, BYTE height, BYTE color, unsigned char *texto);
 
 // Library functions for the parser, not to be used by the user 
 void writeValue (unsigned int value);

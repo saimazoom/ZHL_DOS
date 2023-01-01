@@ -329,6 +329,10 @@ void ParserLoop (void) // 664 bytes
 	BYTE i;
     BYTE j;
 
+    // Comienzo en coordenada superior-izquierda
+    fzx.x=TextWindow.x;
+    fzx.y=TextWindow.y;
+
 	// Bucle principal
     while (!ginEND)
     {
@@ -349,8 +353,12 @@ void ParserLoop (void) // 664 bytes
 
 		    if (flags[flight]==1)
             {
-                fzx.x=TextWindow.x;
-                fzx.y=TextWindow.y;
+                #ifdef ZX
+                    fzx.x=TextWindow.x;
+                    fzx.y=TextWindow.y;
+                #endif 
+                // en DOS y modo texto no reiniciamos la pantalla al entrar en una nueva localidad 
+
                 loc_temp = get_loc_pos (flags[flocation]); // La posición en el array no tiene por que coincidir con su id
 
                 //fontStyle(TITLE);
@@ -2097,7 +2105,7 @@ BYTE getLocationObjectsWeight(BYTE locno)
 	return weight;
 }
 
-BYTE  getObjectCountAt(BYTE locno)
+BYTE getObjectCountAt(BYTE locno)
 {
 	BYTE count = 0;
 	BYTE i=0;
@@ -2142,7 +2150,7 @@ BYTE  getNPCCountAt(BYTE locno)
 	return count;
 }
 
-BYTE  objectIsNPC(BYTE objno)
+BYTE objectIsNPC(BYTE objno)
 {
 	if (objno > gLAST_OBJECT_NUMBER) return FALSE;
 	if (objetos_t[objno].atributos&aNPC)
@@ -2234,7 +2242,7 @@ void writeObject(BYTE objno)
 // -------------------------------------------------------------------------------
 void newLine ()
 {
-   // a = fzx.font->height+1;
+    // a = fzx.font->height+1;
     //writeText("+");
     //fzx_putc('X');
 
@@ -2242,12 +2250,13 @@ void newLine ()
     // Spectrum: 256 x 192 
     fzx.x = TextWindow.x;
     fzx.y+=1; // Coordenada estimada para la siguiente línea
+     
     if ( (fzx.y)>(TextWindow.y+TextWindow.height-2)) // Si hemos llegado al final de la ventana de texto...
     {
        scrollVTextWindow (1); // Scroll Vertical de la ventana de texto
        fzx.y-=1;
     }
-    //writeValue(fzx.y);
+    // writeValue(fzx.y);
 }
 
 void  scrollVTextWindow (BYTE lineas) // Líneas de scroll en píxel, las fuentes usadas son proporcionales
@@ -2269,6 +2278,11 @@ void  writeTextCenter (BYTE *texto)
     // fzx.y = (192 - (fzx.font->height)) / 2;
     //writeText(texto);
     //newLine();
+    #ifdef DOS
+        #ifdef TEXT
+        writeText (texto);
+        #endif
+    #endif 
 }
 
 // writeText
@@ -2379,23 +2393,50 @@ void writeText (BYTE *texto)
         buffer[counter] = caracter;
 
         // word terminators
-        if (caracter==' ' || caracter=='.' || caracter=='^' || !caracter)
+        #ifdef ZX
+            if (caracter==' ' || caracter=='.' || caracter=='^' || !caracter)
+        #endif 
+
+        // Watcom chars > 127 needs to be printed independently 
+        #ifdef DOS 
+            #ifdef TEXT 
+            if (caracter==' ' || caracter=='.' || caracter=='^' || !caracter || caracter>127)
+            #endif
+        #endif 
         {
             if (caracter==0) salir = 1;
+
             counter++;
             if (caracter!='.') counter--; // Steps backs over the escape char           
-            
             buffer[counter]=0; // String terminator
             // New Line...
             // Each character fixed at 8pixel
-            if (caracter=='^' || (fzx.x+counter)>(TextWindow.width+TextWindow.x))
+            if (caracter=='^' || (fzx.x+counter)>(TextWindow.width+TextWindow.x-1))
             {
+                fzx_setat (fzx.x, fzx.y);
                 newLine();
             }
+
             fzx_puts(buffer);
-            
+
+            // Due to a bug in the print library in watcom the accentuated characters needs to be printed in different colors 
+            #ifdef DOS 
+            if (caracter>127)
+            {
+                ACCink (INK_GRAY); // Desired color-1
+                fzx_setat (fzx.x+counter,fzx.y);
+                fzx_putc (caracter);
+                fzx_setat (fzx.x-counter,fzx.y);
+                ACCink (INK_WHITE); // Back to desired color 
+            }
+            if (caracter>127) counter++;
+            #endif 
+
             if (caracter==' ') counter++;
+            
+
             fzx.x+=counter;            
+            
             counter=0;
         }  
         else 
@@ -2465,18 +2506,30 @@ void  clearGraphWindow (BYTE color)
 void  clearTextWindow (BYTE color, BYTE clear)
 {
     unsigned char a,b;
+    
     // Posiciona el cursor en la esquina superior-izquierda
+
     fzx.x = TextWindow.x;
     fzx.y = TextWindow.y;
-    // Borra la ventana de texto en pantalla.
-    for (b=TextWindow.y;b<(TextWindow.y+TextWindow.height-1);++b)
-    {
-        for (a=TextWindow.x;a<(TextWindow.x+TextWindow.width);++a)
+
+    #ifdef ZX
+            
+        // Borra la ventana de texto en pantalla.
+        for (b=TextWindow.y;b<(TextWindow.y+TextWindow.height-1);++b)
         {
-            if  (clear==TRUE) clearchar (a,b,color);
-                else setAttr (a,b,color);
+            for (a=TextWindow.x;a<(TextWindow.x+TextWindow.width);++a)
+            {
+                if  (clear==TRUE) clearchar (a,b,color);
+                    else setAttr (a,b,color);
+            }
         }
-    }
+    #endif 
+
+    #ifdef DOS 
+        #ifdef TEXT
+            if (clear==TRUE) clearScreen (color);
+        #endif
+    #endif 
 }
 
 // Function: clearTextLine
@@ -2829,3 +2882,83 @@ void incr16bit (BYTE *pointer)
     ++pointer[0];
 }
 
+// Function: ACCpaper
+// Description: Changes the background color of the text to be printed. 
+// Input: 
+//   color: One of the 16 available colors, 4bits
+// Usage: ACCPaper (PAPER_BLUE)
+
+void ACCpaper (BYTE color)
+{
+    long colors[ 16 ] = {
+        _BLACK, _BLUE, _GREEN, _CYAN,
+        _RED, _MAGENTA, _BROWN, _WHITE,
+        _GRAY, _LIGHTBLUE, _LIGHTGREEN, _LIGHTCYAN,
+        _LIGHTRED, _LIGHTMAGENTA, _YELLOW, _BRIGHTWHITE
+    };
+
+    color = (color&0xF0)>>4; 
+
+    #ifdef DOS 
+        #ifdef TEXT 
+            _setbkcolor (colors[color]);
+        #endif
+    #endif 
+}
+
+// Function: ACCink
+// Description: Changes the ink color of the text to be printed 
+// Input: 
+//   color: One of the 16 available colors, 4bits
+// Usage: ACCInk (INK_WHITE)
+
+void ACCink (BYTE color)
+{
+    #ifdef DOS
+        #ifdef TEXT
+        _settextcolor (color&0x0F);
+        #endif 
+    #endif 
+}
+
+// Function: ACCInk
+// Description: Changes the background and foreground color of the text to be printed 
+// Input: 
+//   color: In format PAPER (4bits) | INK (4bits) 
+// Usage: ACCtextcolor ( PAPER_BLUE | INK_WHITE)
+extern void ACCtextcolor (BYTE color)
+{
+    long colors[ 16 ] = {
+        _BLACK, _BLUE, _GREEN, _CYAN,
+        _RED, _MAGENTA, _BROWN, _WHITE,
+        _GRAY, _LIGHTBLUE, _LIGHTGREEN, _LIGHTCYAN,
+        _LIGHTRED, _LIGHTMAGENTA, _YELLOW, _BRIGHTWHITE
+    };
+    
+    #ifdef DOS
+        #ifdef TEXT
+        _settextcolor (color&0x0F);
+        color = (color&0xF0)>>4; 
+        _setbkcolor (colors[color]);
+        #endif 
+    #endif
+}
+
+void ACCbox (BYTE x, BYTE y, BYTE width, BYTE height, BYTE color, unsigned char *texto)
+{
+    BYTE i,j;
+    // 1st draws the box  
+    ACCtextcolor(color);
+    for (j=y;j<y+height;j++)
+    {
+        for (i=x;i<x+width;i++) 
+        {
+            fzx_setat(i,j);
+            fzx_putc (' ');    
+        }    
+    }
+    
+    // 2nd prints the text
+    fzx_setat (x+1,y+1);
+    ACCwrite(texto);
+}

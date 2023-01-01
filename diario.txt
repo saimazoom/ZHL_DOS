@@ -6,8 +6,6 @@ TODO:
     > Gráficos en CGA 
     > Modo gráfico EGA 320x200 16 colores
     > Gráficos en EGA 
-    > Las rutinas de impresión y borrado de la librería de WATCOM son lentas (como era de esperar), pasar a ASM todas las rutinas de impresión de gráficos y texto. 
-
 
 01.01.2023
 	Después de mudarnos de nuevo y por fin ordenar la habitación y librarme de gran cantidad de las cajas, vuelvo a retomar este proyecto. Hace un par de años empecé a portar el parser a DOS usando WATCOM. Estos días de vacaciones estoy aprovechando para retomarlo y sacar una versión de ZHL en modo TEXTO, CGA y EGA. 
@@ -47,10 +45,12 @@ Para imprimir los caracteres
         printf("ESC %d\n", ch);
 
     por ejemplo los cursores, avanzar página e incluso cuando se intenta sacar un acento con una tecla que no es una vocal.
-    
-    > La aventura ya funciona al completo en modo TEXTO :-D, he tardado menos de un día en tenerla en marcha. 
 
-    
+	+ Algunos errores corregidos que ya se venían arrastrando desde la Release 5 para Spectrum: se podía borrar el prompt y el scroll dejaba a veces una líne en blanco. 
+	+ Corregido un bug de la librería de watcom al imprimir caracteres >127 el color de la tinta está 1 por encima del valor deseado. 
+    > La aventura ya funciona al completo en modo TEXTO :-D, he tardado menos de un día en tenerla en marcha. 
+	> En DOSBOS la aventura es perfectamente jugable a 4.77MHz, aunque se necesita un 386 para poder aprovechar la memoria lineal. 
+	
 07.11.2019
 
  Localidades

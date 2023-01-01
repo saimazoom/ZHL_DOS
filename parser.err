@@ -1,5 +1,5 @@
 symbol_list.h(117): Warning! W138: No newline at end of file
-parser.c(1124): Warning! W124: Comparison result always 0
-parser.c(1142): Warning! W107: Missing return value for function 'ACCsetexit'
-parser.c(1723): Warning! W107: Missing return value for function 'CNDislight'
-parser.c(1809): Warning! W124: Comparison result always 0
+parser.c(1132): Warning! W124: Comparison result always 0
+parser.c(1150): Warning! W107: Missing return value for function 'ACCsetexit'
+parser.c(1731): Warning! W107: Missing return value for function 'CNDislight'
+parser.c(1817): Warning! W124: Comparison result always 0

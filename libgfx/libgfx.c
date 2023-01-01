@@ -639,10 +639,12 @@ void paint_pic (unsigned char *bytestring)
      void waitForAnyKey() 
      {
           while (!kbhit());
+          getch(); // Extrae la tecla del buffer 
      }
      void waitForNoKey () 
      {
           while (kbhit());
+     
      }
 
      unsigned char getKey ()
@@ -667,7 +669,7 @@ void paint_pic (unsigned char *bytestring)
      {
           // set text mode 80x25 (CGA, EGA, VGA)
           _setvideomode ( _TEXTC80);
-          _wrapon(_GWRAPON);
+          _wrapon(_GWRAPOFF);
      }
 
      // Function: HighResMode
@@ -700,11 +702,18 @@ void paint_pic (unsigned char *bytestring)
      // Usage: clearScreen (PAPER_BLUE|INK_WHITE)
      void clearScreen (BYTE color)
      {
+          long colors[ 16 ] = {
+               _BLACK, _BLUE, _GREEN, _CYAN,
+               _RED, _MAGENTA, _BROWN, _WHITE,
+               _GRAY, _LIGHTBLUE, _LIGHTGREEN, _LIGHTCYAN,
+               _LIGHTRED, _LIGHTMAGENTA, _YELLOW, _BRIGHTWHITE
+          };
+
           #ifdef TEXT 
-               _setbkcolor (_BLUE);
-               _settextcolor ((short)color&0x0F);
-               _clearscreen( _GCLEARSCREEN );
-     
+               // Separates the byte color 
+               _setbkcolor (colors[(color&0xF0)>>4]);
+               _settextcolor (color&0x0F);
+               _clearscreen( _GWINDOW );
           #endif 
      }
 
@@ -793,14 +802,31 @@ void paint_pic (unsigned char *bytestring)
      }
 
      // Function: setAttr
-     // Input:
+     // Description: Changes the background(PAPER) and foreground(INK) color of a text cell. The text in the cell is preserved. 
+     // Input: 
+     //        x:
+     //        y:
+     //        color: 
      // Output:
-     // Example: 
+     // Usage: 
      void setAttr (BYTE x, BYTE y, BYTE attr)
      {
           // Note: watcom printing library uses (1,1) as top, left coordinate Y,X. We need to translate that to MiniF system which uses 0,0 for left, top coordinates. 
+          
+          long colors[ 16 ] = {
+               _BLACK, _BLUE, _GREEN, _CYAN,
+               _RED, _MAGENTA, _BROWN, _WHITE,
+               _GRAY, _LIGHTBLUE, _LIGHTGREEN, _LIGHTCYAN,
+               _LIGHTRED, _LIGHTMAGENTA, _YELLOW, _BRIGHTWHITE
+          };
+
           _settextposition (y+1,x+1);
-          _settextcolor (attr&0x0F);
+          #ifdef TEXT 
+               // Separates the byte color 
+               _setbkcolor (colors[(attr&0xF0)>>4]);
+               _settextcolor ((short)attr&0x0F);
+               _clearscreen( _GWINDOW );
+          #endif 
      }
 
      // Function: scrollArriba 

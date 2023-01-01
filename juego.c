@@ -2553,10 +2553,16 @@ char proceso1() // Antes de la descripción de la localidad...
 		clearTextWindow(INK_WHITE | PAPER_BLUE, TRUE);
 	#endif 
 
+	// Imprime el nombre de la localidad 
 	#ifdef DOS
+		// En DOS y en modo TEXTO es más cómodo para el jugador mantener la pantalla de texto
 		#ifdef TEXT
-			defineTextWindow (0,0,80,25);
-			clearTextWindow(INK_WHITE | PAPER_BLUE, TRUE);
+			//defineTextWindow (0,0,80,25);
+			//clearTextWindow(INK_WHITE | PAPER_BLUE, TRUE);
+			ACCink (INK_BRIGHT_WHITE);
+			ACCwriteln (localidades_t[get_loc_pos (flocalidad)].name); 
+			ACCink (INK_WHITE);
+
 		#endif 
 	#endif 
 	// Cálculo de luz
@@ -2657,23 +2663,27 @@ void main (void)
 		#endif 
 	#endif 
 
-	 // Menï¿½ de juego
+	ACCbox (27,7,22,4,INK_BLUE|PAPER_BRIGHT_WHITE,"Ad Astra per Aspera");
+	getch();
+
+
+	 // Menú de juego
      #ifdef ZX 
 	 	clearTextWindow(INK_GREEN | PAPER_BLACK  | BRIGHT, TRUE);
 	 #endif 
 
 	 #ifdef DOS 
-	 	clearTextWindow(INK_WHITE | PAPER_BLUE , TRUE);
-		
+	 	clearTextWindow(INK_WHITE | PAPER_BLUE , TRUE);		
 	 #endif 
-	 
+	
+	
 	#ifdef ZX 
 	 	gotoxy (13,12);
     #endif 
 
 	#ifdef DOS 
 		#ifdef TEXT 
-			gotoxy (37,12);
+			gotoxy (37,7);
 		#endif 
 	#endif
 
@@ -2684,10 +2694,9 @@ void main (void)
 	 #endif 
 	#ifdef DOS 
 		#ifdef TEXT 
-			gotoxy (37,14);
+			gotoxy (37,9);
 		#endif 
 	#endif
-
 
 	 #ifdef SPANISH
     	 writeText ("1 Jugar");
@@ -2701,7 +2710,7 @@ void main (void)
 	 #endif 
 	#ifdef DOS 
 		#ifdef TEXT 
-			gotoxy (37,15);
+			gotoxy (37,11);
 		#endif 
 	#endif
 
@@ -2718,7 +2727,7 @@ void main (void)
 
 	#ifdef DOS 
 		#ifdef TEXT 
-			gotoxy (37,16);
+			gotoxy (37,13);
 		#endif 
 	#endif
 
