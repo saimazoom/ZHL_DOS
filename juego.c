@@ -1072,14 +1072,31 @@ void main (void)
 	// Inicializar variables
 	initParser ();                // Inicializa el parser y la pantalla
 	
-	/*
-	
 	// Añadir menú de juego
-	defineTextWindow (0,0,32,24); // Pantalla reducida en 128Kb, Gráficos + Texto
+	#ifdef ZX 
+		defineTextWindow (0,0,32,24); // Pantalla reducida en 128Kb, Gráficos + Texto
+	#endif
+
+	#ifdef DOS 
+		#ifdef TEXT 
+			defineTextWindow (0,0,79,24); // Full Text screen 
+		#endif
+
+		#ifdef EGA 
+			defineTextWindow (0,0,39,24); // Graphics + Text 
+		#endif 
+
+		#ifdef CGA 
+			defineTextWindow (0,0,39,24); // Graphics + Text 
+		#endif 
+
+	#endif 
 	flags[LOCATION_MAX] = 34; // Número más alto de localidad
 	ACCability(10,20); // 10 objetos, 20 piedras
 	
 	clearTextWindow(INK_YELLOW | PAPER_BLACK, TRUE);
+	
+	/*
 	ACCgoto(l_Desierto); // Localidad inicial, en el puente de mando
 	ParserLoop (); // Pone en marcha el bucle principal
 	// Parser gets out of the parserloop when the player ENDS the game 	

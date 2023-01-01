@@ -2402,7 +2402,6 @@ void defineTextWindow (BYTE x, BYTE y, BYTE width, BYTE height)
 
 void  clearGraphWindow (BYTE color)
 {
-/*
     BYTE a,b;
 
     // Borra la ventana de gráficos en pantalla.
@@ -2413,7 +2412,6 @@ void  clearGraphWindow (BYTE color)
             clearchar (a,b,color);
         }
     }
-    */
 }
 
 void  clearTextWindow (BYTE color, BYTE clear)
