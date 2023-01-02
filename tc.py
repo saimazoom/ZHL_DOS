@@ -3,17 +3,9 @@ import sys
 import getopt
 import shutil
 import itertools
-# For Python 2.4 compatibility 
-# https://pypi.python.org/packages/2.4/s/simplejson/
-try:
-    import json
-except ImportError:
-    import simplejson as json
+import json
 
-try: 
-    from collections import Counter
-except ImportError 
-    print "Warning: Python Collections Counter not supported, fallback to legacy function"
+from collections import Counter
 
 def usage():
     print "Dictionary Text compressor v0.1. Written by KMBR. ";
@@ -117,15 +109,15 @@ def main(argv):
     content = [w.replace('"', '') for w in content]
     content = [w.replace('\r', '') for w in content]
     content = [w.replace('\n', '') for w in content]
-    # Sustituye las ï¿½ y los caracteres acentuados por los nuevos sï¿½mbolos
-    content = [w.replace('ï¿½', '#') for w in content]
-    content = [w.replace('ï¿½', '$') for w in content]
-    content = [w.replace('ï¿½', '%') for w in content]
-    content = [w.replace('ï¿½', '&') for w in content]
-    content = [w.replace('ï¿½', '\'') for w in content]
-    content = [w.replace('ï¿½', '+') for w in content]
-    content = [w.replace('ï¿½', '/') for w in content]
-    content = [w.replace('ï¿½', '<') for w in content]
+    # Sustituye las ñ y los caracteres acentuados por los nuevos símbolos
+    content = [w.replace('á', '#') for w in content]
+    content = [w.replace('é', '$') for w in content]
+    content = [w.replace('í', '%') for w in content]
+    content = [w.replace('ó', '&') for w in content]
+    content = [w.replace('ú', '\'') for w in content]
+    content = [w.replace('ñ', '+') for w in content]
+    content = [w.replace('¿', '/') for w in content]
+    content = [w.replace('¡', '<') for w in content]
 
     
     print "Finished... ",len(content)," lines";
@@ -150,30 +142,26 @@ def main(argv):
         # De 5 en 5 caracteres...
         symbols_5 = symbols_5+ ([line[i:i+5] for i in range(0, len(line)-5, 1)]);
 
-    # Convierte a arrays de 1 dimensiï¿½n...
+    # Convierte a arrays de 1 dimensión...
     print "... OK";
   
     #3. Calcula las frecuencias
     print "Creating frecuency tables..."
-    try:
-        symbols_2_freq = Counter (symbols_2);
-        symbols_2_freq = symbols_2_freq.most_common();
-        symbols_3_freq = Counter (symbols_3);
-        symbols_3_freq = symbols_3_freq.most_common();
-        symbols_4_freq = Counter (symbols_4);
-        symbols_4_freq = symbols_4_freq.most_common();
-        symbols_5_freq = Counter (symbols_5);
-        symbols_5_freq = symbols_5_freq.most_common();
-    except err:  
-        # Build the histogram manually 
-        # For Python versions < 2.7 (i.e. MSDOS)
-
-    # Busca la distribuciï¿½n ï¿½ptima de sï¿½mbolos por fuerza bruta
+    symbols_2_freq = Counter (symbols_2);
+    symbols_2_freq = symbols_2_freq.most_common();
+    symbols_3_freq = Counter (symbols_3);
+    symbols_3_freq = symbols_3_freq.most_common();
+    symbols_4_freq = Counter (symbols_4);
+    symbols_4_freq = symbols_4_freq.most_common();
+    symbols_5_freq = Counter (symbols_5);
+    symbols_5_freq = symbols_5_freq.most_common();
+  
+    # Busca la distribución óptima de símbolos por fuerza bruta
     
     #3. Ordena de mayor a menor frecuencia.
     
     numAbrevTanteo = [ -1, -1, 0, 0, 0, 0 ]; # Histograma temporal 
-    #bestnumAbrev = [ -1, -1, 70, 6, 6, 8 ]; # Histograma usado por PAWs, 90 sï¿½mbolos
+    #bestnumAbrev = [ -1, -1, 70, 6, 6, 8 ]; # Histograma usado por PAWs, 90 símbolos
     bestnumAbrev = [ -1, -1, 86, 14, 19, 0]; # 42.06% , 86 14 19 0
     
     best_compression = 0;
@@ -191,7 +179,7 @@ def main(argv):
     
     for k in permutations:
         
-        # Sï¿½lo tomamos las permutaciones cuyos elementos suman el nï¿½mero mï¿½ximo de sï¿½mbolos
+        # Sólo tomamos las permutaciones cuyos elementos suman el número máximo de símbolos
         if (sum(k)==total_symbols):
             compressed_content=[];
             numAbrevTanteo = [ -1, -1, k[0], k[1], k[2], k[3] ]; 
@@ -221,7 +209,7 @@ def main(argv):
                 compressed_content.append(w);
                 count=count+1;
               
-            # 5. Calcula el porcentaje de compresiï¿½n  
+            # 5. Calcula el porcentaje de compresión  
             if (initial_size>0): 
                 compression = float(100*(float(initial_size-total_size)/initial_size)); 
             

@@ -1,18 +1,32 @@
-ZHL
+ZHL 
 ====================
 TODO: 
-    > Añadir la impresión de una caja de texto como en INFORM
-    > Modo gráfico CGA 320x200 4 colores 
-    > Gráficos en CGA 
-    > Modo gráfico EGA 320x200 16 colores
+	> A�adir comando de transcript para volcar tanto pulsaciones como mensajes del juego a un fichero que luego podamos reinjectar en unidades de test.  
+    > Inyecci�n de comandos (autotest)
+	> A�adir men� de instrucciones y de ayuda durante el juego. 
+	> ASCII ART en el t�tulo
+	
+	> Modo gráfico CGA 320x200 4 colores 
+    > Gráficos en CGA, y ver que compresor funciona mejor si el PCX o el ZX0. De momento los gr�ficos van embebidos en el c�digo. 
+    > Modo gráfico EGA 320x200 16 colores. 
     > Gráficos en EGA 
+	> �Se podr�a a�adir sonido Adlib/Soundblaster?  Por ejemplo podemos empezar con samples rescatando el motor de Transilvania. 
+	> Sistema de pistas tipo ZIPI 
+	
+
+02.01.2023ç
+	> A�adidas instrucciones de juego en el men� principal. 
+	- Al imprimir los caracteres acentuados por separado se convierten en terminaci�n de palabra y al dividir las palabras puede que una palabra con acento aparezca dividida en dos l�neas. 
+	+ A veces se queda bloqueado al salir del juegp. A�adido funci�n exit() al salir.
+	> Cambiar mensaje de abandonar para que sea de confirmaci�n, en caso de abandonar se regresa al men� principal. Esto es muy t�pico de juegos m�s actuales.  
+    
 
 01.01.2023
-	Después de mudarnos de nuevo y por fin ordenar la habitación y librarme de gran cantidad de las cajas, vuelvo a retomar este proyecto. Hace un par de años empecé a portar el parser a DOS usando WATCOM. Estos días de vacaciones estoy aprovechando para retomarlo y sacar una versión de ZHL en modo TEXTO, CGA y EGA. 
+	Despu�s de mudarnos de nuevo y por fin ordenar la habitaci�n y librarme de gran cantidad de cajas, vuelvo a retomar este proyecto. Hace un par de a�os empec� a portar el parser a DOS usando WATCOM. Estos días de vacaciones estoy aprovechando para retomarlo y sacar una versi�n de ZHL en modo TEXTO, CGA y EGA. 
 
-	La versión del parser tiene los añadidos que implementé para un proyecto intermedio que no llegó a ver la luz y parte de la versión 5 de ZHL. 
+	La versi�n del parser tiene los añadidos que implementé para un proyecto intermedio que no llegó a ver la luz y retoma la versión 5 de ZHL. 
 	
-    He decidido pasarlo todo a watcom en modo 386 protegido, de este modo tengo acceso a la memoria de forma lineal en DOS y no tengo que preocuparme por los bancos de memoria de 64Kb que tantos problemas me han dado en el pasado. Realmente sobredimensiona todo el sistema, pues con un 286/8086 podríamos correr seguramente la aventura sin problemas pero con vistas al futuro me ayudará a escribir aventuras sin preocuparme por la gestión de la memoria. 
+    He decidido pasarlo a watcom en modo 386 protegido, de este modo tengo acceso a la memoria de forma lineal en DOS y no tengo que preocuparme por los bancos de memoria de 64Kb que tantos problemas me han dado en el pasado. Realmente sobredimensiona todo el sistema, pues con un 286/8086 podríamos correr seguramente la aventura sin problemas pero con vistas al futuro me ayudará a escribir aventuras sin preocuparme por la gestión de la memoria. 
 
     En ParserLoop tengo hardcodeado el color del texto de las descripciones, lo he eliminado pues se puede sustituir por la misma llamada dentro del proceso 1 y de este modo queda accesible para el programador. 
 	
@@ -27,7 +41,7 @@ Para imprimir los caracteres
 		_outtext (buf);
 		}
     Veo que están todos, seguramente el problema venga por usar un editor en ISO 8859-15 en lugar de UTF-8. 
-    En la rutina de writeText en modo TEXTO no podemos usar los códigos > 127 para comprimir cadenas, pues las tablas de caracteres son fijas. No podemos usar la técnica de reemplazar algunos caracteres justo antes del 127 por los que necesitamos. Esto quiere decir que usando 1 byte por caracter no podemos tener compresión de textos en la versión de PC. 
+    En la rutina de writeText en modo TEXTO no podemos usar los códigos > 127 para comprimir cadenas, pues las tablas de caracteres son fijas. No podemos usar la técnica de reemplazar algunos caracteres justo antes del 127 por los que necesitamos. Esto quiere decir que usando 1 byte por caracter no podemos tener compresión de textos en la versión de PC si se usa Español. 
 
     + Arreglado el fallo por el cual se podía borrar el prompt del usuario. 
     + Arreglado el fallo por el cual el getkey se queda atascado,el motivo es que en DOS hay teclas que devuelven dos códigos, para ver fácilmente los códigos:
@@ -47,10 +61,11 @@ Para imprimir los caracteres
     por ejemplo los cursores, avanzar página e incluso cuando se intenta sacar un acento con una tecla que no es una vocal.
 
 	+ Algunos errores corregidos que ya se venían arrastrando desde la Release 5 para Spectrum: se podía borrar el prompt y el scroll dejaba a veces una líne en blanco. 
-	+ Corregido un bug de la librería de watcom al imprimir caracteres >127 el color de la tinta está 1 por encima del valor deseado. 
+	+ Parcheado en la rutina de impresión un bug de la librería de watcom al imprimir caracteres >127 el color de la tinta está 1 por encima del valor deseado. 
     > La aventura ya funciona al completo en modo TEXTO :-D, he tardado menos de un día en tenerla en marcha. 
-	> En DOSBOS la aventura es perfectamente jugable a 4.77MHz, aunque se necesita un 386 para poder aprovechar la memoria lineal. 
-	
+	> En DOSBOX la aventura es perfectamente jugable a 4.77MHz, aunque se necesita un 386 para poder aprovechar la memoria lineal. 
+	> Añadida función para generar las cajas de citas tan típicas de INFORM-6.
+
 07.11.2019
 
  Localidades

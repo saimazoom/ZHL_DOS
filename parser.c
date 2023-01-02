@@ -361,11 +361,10 @@ void ParserLoop (void) // 664 bytes
 
                 loc_temp = get_loc_pos (flags[flocation]); // La posición en el array no tiene por que coincidir con su id
 
-                //fontStyle(TITLE);
-                //writeText (localidades_t[loc_temp].name);
-                //newLine();
+                // El proceso-1 se ejecuta antes de la descripción, se puede escribir el título de la localidad por ejemplo. 
 
                 fontStyle(NORMAL);
+                fzx_setat(fzx.x+2,fzx.y); // Indenta la primera palabra
                 writeText (localidades_t[loc_temp].descripcion);
                 newLine();
 
@@ -948,10 +947,23 @@ void ACCinven()
 	gDONE_FLAG = TRUE;
 }
 
+// Function: ACCquit
+// Description: 
+// Input:
+// Output: 
+
 void  ACCquit()
 {
-	ginQUIT = TRUE;
-	writeSysMessage(SYSMESS_AREYOUSURE);
+	//ginQUIT = TRUE;
+    writeSysMessage(SYSMESS_PLAYAGAIN);
+	ACCgetkey(fTemp);
+    
+    // Restart
+	if (flags[fTemp]=='y' || flags[fTemp]=='s' || flags[fTemp]=='S' || flags[fTemp]=='Y')
+	{			
+        ACCend();        
+	} else { newLine(); }
+
 }
 
 void  ACCend()
@@ -2271,18 +2283,22 @@ void  CaptionBox (BYTE *texto)
     writeText(texto);
 }
 
-void  writeTextCenter (BYTE *texto)
+// Function: writeTextCenter
+// Description: 
+// Input:
+// Output: 
+// Usage:
+
+void writeTextCenter (BYTE *texto)
 {
-    // Calcula el tamaño en píxel
-    //fzx.x = (256 - fzx_sExtent(texto)) / 2;
-    // fzx.y = (192 - (fzx.font->height)) / 2;
-    //writeText(texto);
-    //newLine();
-    #ifdef DOS
-        #ifdef TEXT
-        writeText (texto);
+    unsigned char len, center;
+    #ifdef DOS 
+        #ifdef TEXT 
+            len = strlen (texto); // We use always fixed font 
+            fzx_setat ( (TextWindow.width-len)>>1, fzx.y); 
+            writeTextln (texto);
         #endif
-    #endif 
+    #endif
 }
 
 // writeText

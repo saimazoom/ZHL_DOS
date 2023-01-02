@@ -408,7 +408,7 @@ token_t mensajesSistema_t [] =
 	{"(puesto)",10},
 	{"ningún objeto.",11},
 	{"¿Seguro? ",12},
-	{"¿Juegas de nuevo? ",13},
+	{"¿Quieres abandonar la partida? ",13},
 	{"Adiós...",14},
 	{"OK^",15},
 	{"[...]",16},
@@ -490,7 +490,7 @@ token_t mensajesSistema_t [] =
 	{"(worn)",10},
 	{"nothing at all.",11},
 	{"Are you sure? ",12},
-	{"Do you want to play again? ",13},
+	{"Do you want to abandon? ",13},
 	{"Goodbye...",14},
 	{"OK^",15},
 	{"[...]",16},
@@ -2437,7 +2437,7 @@ char respuestas_post()
     BYTE i;
     BYTE loc_temp;
 
-	if (fverbo==vFin) { ACCend(); DONE; }
+	if (fverbo==vFin) { ACCquit(); DONE; }
 
 	if (fverbo==vQuitar) {  ACCautor(); DONE; }
 	if (fverbo==vPoner) { ACCautow(); DONE; }
@@ -2663,9 +2663,8 @@ void main (void)
 		#endif 
 	#endif 
 
-	ACCbox (27,7,22,4,INK_BLUE|PAPER_BRIGHT_WHITE,"Ad Astra per Aspera");
+	ACCbox (27,7,21,4,INK_BLUE|PAPER_BRIGHT_WHITE,"Ad Astra per Aspera");
 	getch();
-
 
 	 // Menú de juego
      #ifdef ZX 
@@ -2683,7 +2682,7 @@ void main (void)
 
 	#ifdef DOS 
 		#ifdef TEXT 
-			gotoxy (37,7);
+			gotoxy (35,7);
 		#endif 
 	#endif
 
@@ -2694,7 +2693,7 @@ void main (void)
 	 #endif 
 	#ifdef DOS 
 		#ifdef TEXT 
-			gotoxy (37,9);
+			gotoxy (34,9);
 		#endif 
 	#endif
 
@@ -2710,15 +2709,15 @@ void main (void)
 	 #endif 
 	#ifdef DOS 
 		#ifdef TEXT 
-			gotoxy (37,11);
+			gotoxy (34,11);
 		#endif 
 	#endif
 
 	 #ifdef SPANISH
-     	writeText ("2 Créditos");
+     	writeText ("2 Instrucciones");
 	 #endif 
 	 #ifdef ENGLISH 
-	 	writeText ("2 Credits");
+	 	writeText ("2 How to play");
 	 #endif
      
 	 #ifdef ZX 
@@ -2727,15 +2726,33 @@ void main (void)
 
 	#ifdef DOS 
 		#ifdef TEXT 
-			gotoxy (37,13);
+			gotoxy (34,13);
 		#endif 
 	#endif
 
 	 #ifdef SPANISH
-     writeText ("3 Salir");
+     writeText ("3 Créditos");
 	 #endif 
 	 #ifdef ENGLISH 
-	 writeText ("3 Exit");
+	 writeText ("3 Credits");
+	 #endif
+
+	 #ifdef ZX 
+	 	gotoxy (12,17);
+	 #endif 
+
+	#ifdef DOS 
+		#ifdef TEXT 
+			gotoxy (34,15);
+		#endif 
+	#endif
+
+
+	 #ifdef SPANISH
+     writeText ("0 Salir");
+	 #endif 
+	 #ifdef ENGLISH 
+	 writeText ("0 Exit");
 	 #endif
 
 	 #ifdef ZX 
@@ -2756,12 +2773,54 @@ void main (void)
 		{
 			//case 'j': // Cargar Partida
 			//break;
-			case '3': // Exit 
+			case '2': // Instrucciones 
+				#ifdef ZX 
+					clearTextWindow(INK_YELLOW | PAPER_BLACK, TRUE);
+				#endif 
+				#ifdef DOS 
+					#ifdef TEXT 
+						clearScreen(INK_WHITE | PAPER_BLUE);
+					#endif 
+				#endif 
+				gotoxy(1,1);
+				writeTextCenter ("Instrucciones");
+				writeTextCenter ("=================");
+				writeText (" Tienes ante ti un juego de texto basado en comandos, o tradicionalmente conocido como aventura conversacional. ");
+				writeTextln ("Estos juegos ofrecen una gran libertad al jugador en la exploración del mundo pues no se basan en un número reducido de iconos o verbos en pantalla sino en las órdenes que teclees.");
+				ACCanykey();
+
+				writeTextln ("^ Las órdenes se basan en un formato sencillo de verbo+nombre. A continuación se listan algunos de los comandos más comúnes y sus abreviaturas:");
+				writeTextln ("^  Desplazamiento: Norte (N), Sur (S), Este (E), Oeste (O), Arriba, Abajo, Entrar, Salir.");
+				writeTextln ("^  De interacción con el entorno: Examinar (X), Empujar, Tirar, Sacar _ en _, Meter _ en _, Dejar, Coger, Dar _ a _, Saltar, Escuchar, Inventario (i). ");
+				writeTextln ("^  De juego: Mirar(m), Salvar partida (save), Cargar  partida (load), Fin.");
+
+				writeTextln ("^ La interacción con el mundo del juego no se limita a estos comandos, tienes que experimentar con nuevas ideas."); 
+
+				ACCanykey();
+
+				writeText ("^ En esta aventura eres un repartidor profesional. ZHL es una empresa multiplanetaria que trabaja a lo largo y ancho del sistema Solar. ");
+
+				writeTextln ("Cada día mueve cientos de paquetes y mercancías entre Marte, la Luna y la Tierra. ^");
+
+			 	writeTextln (" El juego comienza en Europa, la luna helada de Júpiter. En las proximidades de un almacén central de ZHL donde debes acudir para recoger un paquete. ");
+
+				writeTextln ("^ La nave de ZHL incorpora un ordenador de navegación con el que puedes entablar conversación usando: ordenador nombre, ordenador ayuda, etc. El ordenador, que responde por DOT, te informará acerca de los detalles de tu misión y te dará el apoyo necesario. DOT guarda también gran cantidad de información acerca del mundo actual y su historia, no dudes en indagar con tus preguntas. ");
+
+				writeTextln ("^ Puedes desplazarte por el mapa con los comandos básicos: Norte, Sur, Este, Oeste, etc. Recuerda examinar todo lo que te llame la atención usando el verbo Examinar o x. "); 
+
+				writeTextln ("^ Mucha suerte con la aventura, disfrútala. "); 
+
+				writeTextCenter ("(C) 2019-2021, 2023 Guión, programación e ilustraciones por KMBR");
+				ACCanykey();
+
+				main();
+				break;
+			case '0': // Exit 
 				salir = 1;
 				#ifdef DOS 
 					// Return to Shell 
 					_setvideomode( _DEFAULTMODE );
-					printf (" ZHL \n (c) 2019-2023 Written by KMBR \n Thanks for playing!");
+					printf ("ZHL (C) 2019-2021, 2023 Created by KMBR");
 				#endif 
 
 				// To the void...
@@ -2770,8 +2829,9 @@ void main (void)
 						jp 0
 					#endasm 
 				#endif 
+				exit(0);
 				break;
-			case '2': // Créditos
+			case '3': // Créditos
 				#ifdef ZX 
 					clearTextWindow(INK_YELLOW | PAPER_BLACK, TRUE);
 				#endif 
@@ -2817,27 +2877,7 @@ void main (void)
 				ParserLoop (); // Pone en marcha el bucle principal
 				// Parser gets out of the parserloop when the player ENDS the game 	
 				// The player wants to abandon the game
-				writeSysMessage(SYSMESS_PLAYAGAIN);
-				flags[fTemp] = getKey();
-				// Restart
-				if (flags[fTemp]=='y' || flags[fTemp]=='s' || flags[fTemp]=='S' || flags[fTemp]=='Y')
-				{				
-					// Regresa al comienzo 
-					main();
-				}
-				salir=1;
-				#ifdef DOS 
-					// Return to Shell 
-					_setvideomode( _DEFAULTMODE );
-					printf (" ZHL \n (c) 2019-2023, Written by KMBR \n Thanks for playing!");
-				#endif 
-
-				// To the void...
-				#ifdef ZX
-					#asm 
-						jp 0
-					#endasm 
-				#endif
+				main ();				
 		}
 	}
 

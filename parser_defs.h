@@ -191,7 +191,7 @@
 #define aDeterminado 31
 #define aDeterminado_hex 0x80000000
 
-// Definiciï¿½n de FLAGS del PARSER...
+// Definición de FLAGS del PARSER...
 
 #define flight 0
 #define fobjects_carried_count 1
