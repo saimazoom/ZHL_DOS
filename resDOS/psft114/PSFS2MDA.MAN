@@ -1,0 +1,43 @@
+psfs2mda(1)			   PSF Tools			   psfs2mda(1)
+
+
+
+NAME
+       psfs2mda - extract the font from a dump of the IBM PC MDA ROM
+
+SYNOPSIS
+       psfs2mda  [--compaq]  [--comment=text] INPUT14 INPUT8 [INPUT8_ALT] OUT‐
+       PUTFILE
+DESCRIPTION
+       psfs2mda generates an MDA character ROM image from two  or  three  PSF-
+       format  screen fonts. The output file can be used to create a new char‐
+       acter ROM for an original IBM CGA or MDA, or (with the --compaq option)
+       a Compaq CGA.
+
+       You must supply either two or three input files. The first file is used
+       for the 14-pixel font, the second for the 8-pixel font, and the	third,
+       if  present, for the alternative (thin) 8-pixel font. If the third file
+       is not present, psfs2mda will attempt to use characters 256-511 of  the
+       second  file.  If the second file only has 256 characters, the alterna‐
+       tive 8-pixel font will be the same as the main 8-pixel font.
+
+       Note that the physical ROM chip used in an IBM MDA or CGA  is  a  9264,
+       with a pinout which differs from the normal 27xx range.
+
+OPTIONS
+       --compaq
+	      Output a ROM image suitable for the Compaq Portable/Deskpro CGA,
+	      rather than the IBM MDA/CGA.
+
+       --comment=message
+	      When outputting in Compaq format, it is possible to embed a mes‐
+	      sage  (usually  a copyright message) in unused bytes of the ROM.
+	      This option sets the message to include.
+
+SEE ALSO
+       psf2raw(1), mda2psf(1)
+
+AUTHOR
+       John Elliott <seasip.webmaster@gmail.com>.
+
+Version 1.0.8			 21 June, 2008			   psfs2mda(1)

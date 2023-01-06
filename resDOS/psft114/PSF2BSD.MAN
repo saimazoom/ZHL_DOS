@@ -1,0 +1,46 @@
+psf2bsd(1)			   PSF Tools			    psf2bsd(1)
+
+
+
+NAME
+       psf2bsd	-  convert  a  PC  Screen  Font file to a BSD soft-font kernel
+       header
+
+SYNOPSIS
+       psf2bsd	    [--name=NAME]      [--typeface=NAME]      [--encoding=ENC]
+       [--first=FIRST] [--last=LAST] [INPUTFILE [OUTPUTFILE]]
+DESCRIPTION
+       psf2bsd	converts  a  font in the .PSF format to the format used by the
+       NetBSD 'wsfont' kernel headers.
+
+OPTIONS
+       --name=NAME
+	      Sets the name of the C structure that  will  contain  the  font.
+	      This defaults to 'font'. For example, --name=bold8x16
+
+       --typeface=NAME
+	      Sets   the   displayed   name  of  the  typeface.  For  example,
+	      --name=Boldface
+
+       --encoding=ENC
+	      Sets the encoding to use. This  should  be  one  of  the	WSDIS‐
+	      PLAY_FONTENC_*   macros.	For  convenience,  you	can  also  use
+	      --encoding=437  as  shorthand  for   WSDISPLAY_FONTENC_IBM   and
+	      --encoding=819 for WSDISPLAY_FONTENC_ISO.
+
+       --first=FIRST
+	      Sets the first character to include in the output file.
+
+       --last=LAST
+	      Sets the last character to include in the output file.
+
+
+
+BUGS
+       For  anything  other than the simplest test cases, horizontal alignment
+       of the output will almost certainly look untidy.
+
+AUTHOR
+       John Elliott <seasip.webmaster@gmail.com>.
+
+Version 1.0.8			 21 June, 2008			    psf2bsd(1)

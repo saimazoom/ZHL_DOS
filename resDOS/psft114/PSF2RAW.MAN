@@ -1,0 +1,45 @@
+psf2raw(1)			   PSF Tools			    psf2raw(1)
+
+
+
+NAME
+       psf2raw - convert part or all of a PC Screen Font file to a raw font
+
+SYNOPSIS
+       psf2raw	 [--first=FIRST]   [--last=LAST]   [--256]  [--flip]  [--code‐
+       page=CODEPAGE] [INPUTFILE [OUTPUTFILE]]
+DESCRIPTION
+       psf2raw saves some or all characters from a .PSF font  as  a  raw  file
+       (plain  font data); this format is frequently used by console font edi‐
+       tors under DOS and other platforms.
+
+OPTIONS
+       --codepage=x
+	      Extracts only the characters in the given codepage (requires the
+	      source  PSF file to have a Unicode directory). Any characters in
+	      the codepage not present in the  source  font  are  replaced  by
+	      blanks.  The  codepage  can  be specified by number or name; see
+	      psfpages(1) for a list of acceptable codepage names.
+
+       --first=n
+	      Extracts characters starting at the specified character.
+
+       --last=n
+	      Extracts characters up to and including the specified character.
+
+       --256  Equivalent to --first=0 --last=255.
+
+       --flip Reverses the order if bits in each byte. Used to export to  sys‐
+	      tems  such as the Apricot Xi where the mapping of bits to pixels
+	      is the reverse of the convention on PC hardware.
+
+       If a codepage and a range of characters are both specified,  the  range
+       is applied to the subset of characters extracted by the codepage.
+
+SEE ALSO
+       raw2psf(1), psfpages(1)
+
+AUTHOR
+       John Elliott <seasip.webmaster@gmail.com>.
+
+Version 1.0.8			 21 June, 2008			    psf2raw(1)

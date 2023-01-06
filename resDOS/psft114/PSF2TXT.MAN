@@ -1,0 +1,23 @@
+psf2txt(1)			   PSF Tools			    psf2txt(1)
+
+
+
+NAME
+       psf2txt - convert a PC Screen Font file to text
+
+SYNOPSIS
+       psf2txt [INPUTFILE [OUTPUTFILE]]
+DESCRIPTION
+       psf2txt	converts a font in the .PSF format to a human-readable textual
+       format. The resulting file can be edited manually and  later  converted
+       back using txt2psf(1).
+
+       The file format used is also documented under txt2psf(1).
+
+SEE ALSO
+       txt2psf(1)
+
+AUTHOR
+       John Elliott <seasip.webmaster@gmail.com>.
+
+Version 1.0.8			 21 June, 2008			    psf2txt(1)

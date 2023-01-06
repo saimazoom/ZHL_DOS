@@ -1,0 +1,29 @@
+psfjoin(1)			   PSF Tools			    psfjoin(1)
+
+
+
+NAME
+       psfjoin - Concatenate multiple PC Screen Font files
+
+SYNOPSIS
+       psfjoin [--psf1] [--psf2] INPUTFILE [INPUTFILE ...]  OUTPUTFILE
+DESCRIPTION
+       psfjoin	concatenates one or more PSF files. The files in question must
+       all have the same character size. Characters from fonts other than  the
+       first  have  their  Unicode mappings ignored. This program was intended
+       for use in generating 512-character PSF1 files, where  the  second  256
+       characters  have  the same meaning as the first but are drawn in a dif‐
+       ferent style.
+
+OPTIONS
+       --psf1 Force output in the PSF1 format.
+
+       --psf2 Force output in the PSF2 format.
+
+SEE ALSO
+       psfmerge(1)
+
+AUTHOR
+       John Elliott <seasip.webmaster@gmail.com>.
+
+Version 1.0.8			 21 June, 2008			    psfjoin(1)

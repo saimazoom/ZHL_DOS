@@ -1,0 +1,29 @@
+wof2psf(1)			   PSF Tools			    wof2psf(1)
+
+
+
+NAME
+       wof2psf - Convert a Hercules WriteOn font to PC Screen Font format
+
+SYNOPSIS
+       wof2psf [--codepage=page] [--psf1] [--psf2] [INPUTFILE [OUTPUTFILE]]
+DESCRIPTION
+       wof2psf converts a font in the Hercules WriteOn format to PSF.
+
+OPTIONS
+       --psf1 Force output in the PSF1 format.
+
+       --psf2 Force output in the PSF2 format (default).
+
+       --codepage=page
+	      Add a Unicode directory for the specified codepage, which can be
+	      identified by number or name. See  psfpages(1)  for  a  list  of
+	      valid codepage names.
+
+SEE ALSO
+       psf2wof(1), psfpages(1)
+
+AUTHOR
+       John Elliott <seasip.webmaster@gmail.com>.
+
+Version 1.0.8			 21 June, 2008			    wof2psf(1)

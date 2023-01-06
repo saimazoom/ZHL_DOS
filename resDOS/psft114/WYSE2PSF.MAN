@@ -1,0 +1,41 @@
+wyse2psf(1)			   PSF Tools			   wyse2psf(1)
+
+
+
+NAME
+       wyse2psf - convert a Wyse-60 soft font to a PC Screen Font file.
+
+SYNOPSIS
+       wyse2psf    [--height=HEIGHT]   [--width=WIDTH]	 [--codepage=CODEPAGE]
+       [--psf1] [--psf2] [INPUTFILE [OUTPUTFILE]]
+DESCRIPTION
+       wyse2psf converts a Wyse-60 soft-font (a  sequence  of  Wyse-60	escape
+       codes) to the .PSF format.
+
+OPTIONS
+       --height=HEIGHT
+	      Specifies  the character height of the resulting PSF. If this is
+	      omitted the height of the tallest character  in  the  soft  font
+	      will be used.
+
+       --width=WIDTH
+	      Specifies  the  character width of the resulting PSF. If this is
+	      omitted 8 will be assumed.
+
+       --codepage=CODEPAGE
+	      Add a Unicode directory for the specified codepage, which can be
+	      identified  by  number  or  name.  See psfpages(1) for a list of
+	      valid codepage names.
+
+       --psf1 Force output in the PSF1 format.
+
+       --psf2 Force output in the PSF2 format (default).
+
+
+SEE ALSO
+       pat2sf(1), sf2pat(1), psf2wyse(1)
+
+AUTHOR
+       John Elliott <seasip.webmaster@gmail.com>.
+
+Version 1.0.8			 21 June, 2008			   wyse2psf(1)

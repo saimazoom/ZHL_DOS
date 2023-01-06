@@ -1,0 +1,26 @@
+psfmerge(1)			   PSF Tools			   psfmerge(1)
+
+
+
+NAME
+       psfmerge - Merge multiple Unicode PSFs
+
+SYNOPSIS
+       psfmerge [--psf1] [--psf2] INPUTFILE [INPUTFILE ...]  OUTPUTFILE
+DESCRIPTION
+       psfmerge  combines one or more Unicode PSF files. The files in question
+       must all have the same character size, and must all have Unicode direc‐
+       tories.
+
+OPTIONS
+       --psf1 Force output in the PSF1 format.
+
+       --psf2 Force output in the PSF2 format.
+
+SEE ALSO
+       psfjoin(1)
+
+AUTHOR
+       John Elliott <seasip.webmaster@gmail.com>.
+
+Version 1.0.8			 21 June, 2008			   psfmerge(1)

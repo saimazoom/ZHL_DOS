@@ -1,0 +1,85 @@
+psf2fnt(1)			   PSF Tools			    psf2fnt(1)
+
+
+
+NAME
+       psf2fnt - Convert a PC Screen Font file to a Windows font-resource file
+
+SYNOPSIS
+       psf2fnt	[--ascent=ASC]	[--bold]  [--brkchar=CHAR]  [--copy=COPYRIGHT]
+       [--codepage=CODEPAGE]	  [--charset=CHARSET]	   [--defchar=DEFAULT]
+       [--firstchar=FIRST]    [--fontname=NAME]   [--horzres=DPI]   [--italic]
+       [--lastchar=CHAR] [--pointsize=SIZE] [--version=FORMAT] [--vertres=DPI]
+       [INPUTFILE [OUTPUTFILE]]
+DESCRIPTION
+       psf2fnt	saves  some  or  all  characters from a .PSF font as a Windows
+       font-resource file, as used by  the  Windows  SDK  tool	FONTEDIT.  The
+       resulting  file	can  then  be  processed with fnts2fon(1) to create an
+       installable font.
+
+OPTIONS
+       --ascent
+	      Sets the distance from the baseline to the top of the character.
+	      This defaults to the height of the font, minus 1.
+
+       --bold Marks the resulting font as bold.
+
+       --brkchar=nnn
+	      Sets  the  index	of  the  character  used to print word breaks.
+	      Defaults to 32 (space).
+
+       --charset=charset
+	      Sets the character set of the resulting font. This can be one of
+	      the words ANSI, OEM or SYMBOL; or a numeric value.
+
+       --codepage=x
+	      Extracts only the characters in the given codepage (requires the
+	      source PSF file to have a Unicode directory). Any characters  in
+	      the  codepage  not  present  in  the source font are replaced by
+	      blanks. The codepage can be specified by	number	or  name;  see
+	      psfpages(1) for a list of acceptable codepage names.
+
+       --copy=string
+	      Sets  the copyright string in the resulting font. Note that spa‐
+	      ces will have to be escaped to hide them from the shell.
+
+       --defchar=nnn
+	      Sets the index of the character  used  to  display  out-of-range
+	      characters.  Defaults to 46 (full stop).
+
+       --first=n
+	      Extracts characters starting at the specified character.
+
+       --fontname=name
+	      Sets the name of the output font.
+
+       --horzres=nnn
+	      Sets  the  horizontal resolution of the font in DPI. Defaults to
+	      48.
+
+       --italic
+	      Marks the font as italic.
+
+       --last=n
+	      Extracts characters up to and including the specified character.
+
+       --pointsize=n
+	      Sets the font point size. This defaults to the  font  height  in
+	      pixels.
+
+       --version=n
+	      Sets  the  file  format  version. This can be 1, 2 or 3. Version
+	      1.0.8uld only be used if you are creating  a  font  for  Windows
+	      1.0.  Version  1.0.8uld  be used if the font is less than 64k in
+	      size; otherwise, use Version 3.
+
+       If a codepage and a range of characters are both specified,  the  range
+       is applied to the subset of characters extracted by the codepage.
+
+SEE ALSO
+       fnt2psf(1), psfpages(1)
+
+AUTHOR
+       John Elliott <seasip.webmaster@gmail.com>.
+
+Version 1.0.8			 21 June, 2008			    psf2fnt(1)

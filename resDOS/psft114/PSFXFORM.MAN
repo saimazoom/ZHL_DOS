@@ -1,0 +1,119 @@
+psfxform(1)			   PSF Tools			   psfxform(1)
+
+
+
+NAME
+       psfxform - Apply various transformations to a PC Screen Font file
+
+SYNOPSIS
+       psfxform  [--first=FIRST]  [--last=LAST] [--256] [--bold=RANGE] [--cen‐
+       tre=RANGE]     [--double=RANGE]	   [--flip=RANGE]     [--repeat=RANGE]
+       [--scale=RANGE]	    [--thin=RANGE]	[--strip]      [--width=WIDTH]
+       [--height=HEIGHT]    [--codepage=CODEPAGE]     [--setcodepage=CODEPAGE]
+       [--permute=FILE] [--psf1] [--psf2] [INPUTFILE [OUTPUTFILE]]
+DESCRIPTION
+       psfxform  extracts  some or all characters from a font in the .PSF for‐
+       mat, applies various transformations, and saves the result  as  another
+       .PSF  font.   Subsets  can  be extracted as a range of characters, as a
+       codepage, or both.
+
+       The character ranges passed to --bold, --double and so on are optional.
+       If present, they are formed as a comma-separated list - each element is
+       nnn for a single character, nnn-nnn for a contiguous set of characters.
+       For  example,  to  apply  --repeat  to  characters 8,10 and 179 to 223:
+       --repeat=8,10,179-223
+
+OPTIONS
+       --codepage=x
+	      Extracts only the characters in the given codepage (requires the
+	      source  PSF file to have a Unicode directory). Any characters in
+	      the codepage not present in the  source  font  are  replaced  by
+	      blanks.  The  codepage  can  be specified by number or name; see
+	      psfpages(1) for a list of acceptable codepage names.
+
+       --setcodepage=x
+	      Replace any Unicode information in the  extracted  font  by  the
+	      Unicode  mappings  for  the  specified  codepage. Note that this
+	      option does not change the character bitmaps in any way.
+
+       --strip
+	      Forces the output font to be written with no Unicode  directory,
+	      even if the source font had one.
+
+       --first=n
+	      Extracts characters starting at the specified character.
+
+       --last=n
+	      Extracts characters up to and including the specified character.
+
+       --256  Equivalent to --first=0 --last=255.
+
+       --permute=filename
+	      Rearrange  the  character  bitmaps in the output file. This only
+	      affects character bitmaps, not the Unicode directory. The  file‐
+	      name passed to --permute can be "-" for standard input; its for‐
+	      mat should be a series of lines,	each  containing  two  numbers
+	      separated  by  a comma. The first number is the character number
+	      to change from, and the second is the number to change  to.  For
+	      example,	two  lines,  the  first reading "65,66" and the second
+	      reading "66,65", will swap the glyphs  for  A  and  B.  Anything
+	      after  a	#  or  ;  is a comment. The numbers used relate to the
+	      source file, before any subset is extracted.
+
+       --width
+	      Alter the character cell width in the target font. This  doesn't
+	      scale  characters; it's Procrustean, so glyphs are either packed
+	      with whitespace or cropped.
+
+       --height
+	      Alter the character cell height in the target font.
+
+       --bold=RANGE
+	      Makes characters bold by drawing them twice.  Note  that	if  no
+	      --width  option  is supplied, this will make the target font one
+	      pixel wider than the source font.
+
+       --centre=RANGE
+	      If the character cell is being made larger  or  smaller,	aligns
+	      character  cells by their centres rather than by their top left-
+	      hand corners. The spelling --center is also recognised.	--dou‐
+	      ble=RANGE  Doubles each row in the source character. This should
+	      be used with the --height option to increase the number of char‐
+	      acter  rows,  otherwise only the top half of each character will
+	      be used.
+
+       --flip=RANGE
+	      Mirror characters left/right.   --repeat=RANGE  When  increasing
+	      the size with --height or --width, repeat the last character row
+	      and column into  new  rows/columns,  rather  than  leaving  them
+	      blank.  This may help to keep line graphic characters joined up.
+	      When combined with --centre, characters will be expanded at  all
+	      four edges if necessary.
+
+       --scale=RANGE
+	      If  the character cell is being made larger or smaller, attempts
+	      to scale the characters to fit. This will  probably  look  awful
+	      unless  the  new	size  is an exact multiple of the old size, or
+	      unless you tidy the characters by hand afterwards.
+
+       --thin=RANGE
+	      Makes characters thin by reducing vertical lines wider than  one
+	      pixel.
+
+       --psf1 Forces output to be in PSF1 format.
+
+       --psf2 Forces output to be in PSF2 format.
+
+       If  a  codepage	and --first / --last are both specified, the --first /
+       --last apply to the subset of characters  extracted  by	the  codepage.
+       Similarly  all  character  ranges  on  --bold, --thin etc. apply to the
+       extracted subset.
+
+
+SEE ALSO
+       psfpages(1)
+
+AUTHOR
+       John Elliott <seasip.webmaster@gmail.com>.
+
+Version 1.0.8			 21 June, 2008			   psfxform(1)

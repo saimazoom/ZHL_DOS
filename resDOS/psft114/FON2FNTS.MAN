@@ -1,0 +1,24 @@
+fon2fnts(1)			   PSF Tools			   fon2fnts(1)
+
+
+
+NAME
+       fon2fnts - extract fonts from a Windows EXE, DLL or FON file
+
+SYNOPSIS
+       fon2fnts INPUTFILE [INPUTFILE...]
+DESCRIPTION
+       fon2fnts  extracts  font resources from a Windows EXE, DLL or FON file,
+       and saves them as .FNT files.
+
+       Each file will be saved with a unique name. For example, using fon2fnts
+       on   ROMAN.FON	will   extract	 four	files,	 called  Roman_36.fnt,
+       Roman_36_1.fnt, Roman_36_2.fnt and Roman_36_3.fnt.
+
+SEE ALSO
+       fnts2fon(1)
+
+AUTHOR
+       John Elliott <seasip.webmaster@gmail.com>.
+
+Version 1.0.8			 21 June, 2008			   fon2fnts(1)
