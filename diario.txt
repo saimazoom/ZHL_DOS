@@ -1,30 +1,115 @@
 ZHL 
 ====================
+---------------------------------------------------------------------------
+El flujo para la creación de gráficos es el siguiente:
+	1) Dibujo en ASEPRITE con paleta indexada de 4 colores CGA, 320x200. Prestar atención a que la paleta tenga los colores en el order correcto.  
+	2) Salvar como .GIF 
+	3) Ya en DOS, en Alchemy con -x se comprueba que el fichero usa sólo 4 colores. En PCX ASEPRITE salva siempre como 256 colores y luego en dOS no se pueden abrir los ficheros. 
+	4) Las conversiones a pcx alchemy las convierte a 16colores, pero luego se cargan correctamente en Deluxe Paint y PCPAINT tanto en CGA como en EGA 16 colores. Aquí ya se puede trabajar, el problema es que DP sñolo usa la paleta 1 HIGH por lo que los colores son todos brillantes y no podemos ver como quedan otras paletas. 
+	5) El Plan b) es usar el PCPAINT que también es un buen editor gráfico aunque no aprovecha tanto la pantalla como el DP. En este caso cargamos directamente
+	el .gif exportado de ASEPRITE (el PCX no muestra correctamente la imagen), en este editor ya podemos jugar con las paletas y salvar la imagen final. 
+
+---------------------------------------------------------------------------
+Paletas disponibles en CGA:
+https://www.seasip.info/VintagePC/cga.html
+
+Color 0 puede ser cualquiera de los 16 disponibles. 
+
+Palette 0 BACKGROUND, Green, Red, Brown 
+	    1 BACKGROUND, Cyan, Magenta, White -> Esta es la típica de los juegos de la época.  
+		2 BACKGROUND, Light Green, Light Red, Yellow 
+		3 BACKGROUND, Light Cyan, Light magenta, Bright white 
+
+		#include <conio.h>
+		#include <graph.h>
+		main()
+		{
+		int x, y, pal;
+		_setvideomode( _MRES4COLOR );
+		for( y = 0; y < 2; ++y ) {
+		for( x = 0; x < 2; ++x ) {
+		_setcolor( x + 2 * y );
+		_rectangle( _GFILLINTERIOR,
+		x * 160, y * 100,
+		( x + 1 ) * 160, ( y + 1 ) * 100 );
+		}
+		}
+		for( pal = 0; pal < 4; ++pal ) {
+		_selectpalette( pal );
+		getch();
+		}
+		_setvideomode( _DEFAULTMODE );
+		}
+
+---------------------------------------------------------------------------
+Para convertir las fuentes https://damieng.com/typography/zx-origins/reynolds/ y mantener los píxeles -> https://www.fontconverter.org/, subir el bdf y convertir a .fon. 
+Si es necesario modificar las fuentes:
+	- Con FZX Editor se puede abrir y salvar los .chr de 768bytes. 
+	- Luego con ls PSF tools
+			zx2PSF font.chr font.psf --mode=bare
+			psf2fnt font.psf font.fnt 
+			fnts2fon font.fnt font.fon 
+	Y milagrosamente la fuente funciona al cargarla. Como bonus nos aparecen todos los caractereces ascii que no tenemos en spectrum y que ahora pueden ser usados para hacer ASCII Art o como UDG para objetos del inventario o cualquier otra cosa. 
+
+	Una forma sencilla de imprimir las fuentes
+		n = _registerfonts( "1.fon" );
+		sprintf( buf, "n%d", i );
+		_setfont( buf );
+		_moveto( 1, 1 );
+		for (i=0;i<255;i++)
+			{
+			sprintf (buf, "%c",i);
+			if (i%40==0) _moveto (1,(i/40+1)*8);
+			_outgtext( &buf );
+			}
+		getch();
+		_clearscreen( _GCLEARSCREEN );
+			
 TODO: 
-	> Añadir comando de transcript para volcar tanto pulsaciones como mensajes del juego a un fichero que luego podamos reinjectar en unidades de test.  
-    > Inyección de comandos (autotest)
-	> Añadir menú de instrucciones y de ayuda durante el juego. 
-	> ASCII ART en el título
-	
-	> Modo grÃ¡fico CGA 320x200 4 colores 
-    > GrÃ¡ficos en CGA, y ver que compresor funciona mejor si el PCX o el ZX0. De momento los gráficos van embebidos en el código. 
-    > Modo grÃ¡fico EGA 320x200 16 colores. 
-    > GrÃ¡ficos en EGA 
-	> ¿Se podría añadir sonido Adlib/Soundblaster?  Por ejemplo podemos empezar con samples rescatando el motor de Transilvania. 
-	> Sistema de pistas tipo ZIPI 
+	> Inyección de comandos (autotest)
+	> Comando TRANSCRIPT habilita el log a fichero empleando la fecha a un directorio de logs. Se incluyen también todas las pulsaciones de teclas.   
+	> Añadir soporte para VGA 16 colores y SVGA 256 colores. 
+	- Al imprimir los caracteres acentuados por separado se convierten en terminación de palabra y al dividir las palabras puede que una palabra con acento aparezca dividida en dos líneas. Este error sólo permanece en el modo TEXTO.  
+    > Empaquetar el directorio de recursos 
+
+05.01.2023
+	> Todas las localidades muestran pantalla en CGA. 
+
+	Salvo algún bug que encuentre esta versión ya está completada. 
+
 	
 
-02.01.2023Ã§
-	> Añadidas instrucciones de juego en el menú principal. 
-	- Al imprimir los caracteres acentuados por separado se convierten en terminación de palabra y al dividir las palabras puede que una palabra con acento aparezca dividida en dos líneas. 
+
+04.01.2023 
+    > Cargador de gráficos de PCX funcionando :) con escritura directa en memoria de vídeo. 
+	Usar hexedit para ver ficheros en bruto.
+	+ Errores en la selección del modo CGA con la librería, los colores no eran los correctos. Afortunadamente no ha sido difícil seleccionar correctamente el modo y la paleta llamando directamente a la int10h. Ya tenemos los colores correctos y la imagen se ve como en PCPAINT. Mirando pantallas del Alleycat he recordado que el juego cambiada de paleta al entrar en algunas habitaciones, puedo usar esto para mejorar la ambientación del juego y usar tonos más cálidos dentro de la nave y más fríos en el exterior. 
+
+
+03.01.2023 
+	+ Cambio del flag 0 para funcionar como en NGPAWS. 0 indica luz, 1 indica oscuridad. 
+	+ Flag 17 para el color actual: PAPER (4bit) | INK (4bit)
+	+ Se cargan las fuentes en formato bitmap .fon para los modos gráficos, aunque faltan algunos ajustes pues las funciones de texto de la librería Watcom funcionan distinto. Hay que añadir también los caracteres con acento, las excalamaciones y las ñ. Corregido con las notas que hay arriba sobre la conversión de fuentes. 
+	+ La pantalla no hace scroll al llegar abajo. -> La función de scroll de texto también funciona con fuentes gráficas.  
+	+ Al borrar no se eliminan los caracteres en modo gráfico. Las funciones outtext y outgtext imprimen distinto en pantalla, la primera escribe todos los píxeles incluyendo los de fondo lo que nos permite borrar con espacios, la segunda imprime con OR sin modificar el fondo. 
+	> En modo CGA/EGA la pantalla se divide para soportar texto en ventana, esto ha funcionado a la primera :-). Ya sólo quedar meter los gráficos en la parte superior. 
+
+02.01.2023
+
+	! He decidido finalmente no meter ANSI art en el juego para evitar problemas de compatibilidad con tarjetas y versiones antiguas de DOS. No hay garantía que la tabla de caracteres CP 437 está completamente soportada al ser caracteres en firmware en el caso de CGA/EGA. Dejaré el logo como un fichero ANSI separado para los curiosos.  
+	
+	+ Añadidas instrucciones de juego en el menú principal. 
 	+ A veces se queda bloqueado al salir del juegp. Añadido función exit() al salir.
-	> Cambiar mensaje de abandonar para que sea de confirmación, en caso de abandonar se regresa al menú principal. Esto es muy típico de juegos más actuales.  
-    
-
+	+ Cambiar mensaje de abandonar para que sea de confirmación, en caso de abandonar se regresa al menú principal. Esto es muy típico de juegos más actuales.  
+	+ ZHL Logo en ASCII ART :), tengo que ver como pasar el .CSV a un formato binario que podamos usar. 
+    + Compilación en CGA y EGA funcionando aunque con errores al dibujar el texto. 
+	+ Modo gráfico CGA 320x200 4 colores 
+ 	+ Modo gráfico EGA 320x200 16 colores. 
+   
 01.01.2023
 	Después de mudarnos de nuevo y por fin ordenar la habitación y librarme de gran cantidad de cajas, vuelvo a retomar este proyecto. Hace un par de años empecé a portar el parser a DOS usando WATCOM. Estos dÃ­as de vacaciones estoy aprovechando para retomarlo y sacar una versión de ZHL en modo TEXTO, CGA y EGA. 
 
-	La versión del parser tiene los aÃ±adidos que implementÃ© para un proyecto intermedio que no llegÃ³ a ver la luz y retoma la versiÃ³n 5 de ZHL. 
+	La versión del parser tiene los añadidos que implementé para un proyecto intermedio que no llegó a ver la luz y retoma la versión 5 de ZHL. 
 	
     He decidido pasarlo a watcom en modo 386 protegido, de este modo tengo acceso a la memoria de forma lineal en DOS y no tengo que preocuparme por los bancos de memoria de 64Kb que tantos problemas me han dado en el pasado. Realmente sobredimensiona todo el sistema, pues con un 286/8086 podrÃ­amos correr seguramente la aventura sin problemas pero con vistas al futuro me ayudarÃ¡ a escribir aventuras sin preocuparme por la gestiÃ³n de la memoria. 
 

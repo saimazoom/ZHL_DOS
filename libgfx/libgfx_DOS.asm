@@ -1,11 +1,18 @@
 .386p
-.model large
+.model FLAT
 
 .data
+L01_img_:
+L02_img_:
+L03_img_:
+L04_img_:
+L05_img_:
+L06_img_:
+L07_img_:
+Europa_img_:
+
 .code
      
-public scrollArriba_
-public scrollArriba2_
 public drawRectangle_
 public drawVline_
 public drawHline_
@@ -16,12 +23,6 @@ public randomNumber_
 
 putPixel_ proc far 
 putPixel_ endp 
-
-scrollArriba_ proc far
-scrollArriba_ endp
-
-scrollArriba2_ proc far
-scrollArriba2_  endp
 
 drawRectangle_ proc far
 drawRectangle_ endp

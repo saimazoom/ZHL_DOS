@@ -10,6 +10,8 @@
     #include <graph.h>
     #include <stdio.h>
     #include <string.h>
+    #include <stdlib.h>
+     #include <i86.h>
 #endif 
 
 struct fzx_state fzx;   // active fzx state
@@ -455,6 +457,10 @@ void fzx_setat(unsigned char x, unsigned char y)
           #ifdef TEXT 
                _settextposition (y+1,x+1);
           #endif
+          #if defined CGA || defined EGA
+               _settextposition (y+1,x+1);
+               _moveto( x*8, y*8 );
+          #endif 
      #endif
 }
 
@@ -672,32 +678,70 @@ void paint_pic (unsigned char *bytestring)
           _wrapon(_GWRAPOFF);
      }
 
+     // 0: Palette 0 
+     // 1: Palette 1
+     // 2: Palette 0 High Brightness
+     // 3: Palette 0 Low Brightness
+
+     void setCGAPalette (BYTE pal)
+     {
+          union REGS regs;
+          #ifdef CGA
+               regs.h.bh = 0x01; // BH set to 01 set palette 
+               regs.h.bl = pal & 0x1;  // BL palette ID ; (cyan, magenta, white) 
+               regs.w.ax = 0x0B00;	// Interrupt service 
+               int386( 0x10, &regs, &regs );
+                    
+               // Set to Low brightness manually, because Watcom set palette to 0 or 1 is not working. 
+               regs.w.cx=0;
+               regs.w.dx=0;
+               regs.h.bh = 0x00;  //  BH Set to 00 background / intensity
+               // We assume color 0 is Black 
+               if (pal>1) 
+                    regs.h.bl = 0x10;  // -> BL Black background, low intensity.  The low four bits of BL give the background colour, and bit 4 gives the foreground intensity.
+               else 
+                    regs.h.bl=0x00;
+               regs.w.ax = 0x0B00;	// Interrupt service 
+               int386( 0x10, &regs, &regs );
+          #endif 
+     }
      // Function: HighResMode
      // Input: None
      // Output: Set the mode in graphics. CGA 320x200 4 colors, EGA 320x200 16 colors
      void HighResMode ()
      {
-          struct videoconfig vc;
-          _getvideoconfig( &vc );
-
+          union REGS regs;
           #ifdef CGA 
-          if( vc.monitor == _MONO ) {
-               _setvideomode ( _MRESNOCOLOR);
-          } else {
                _setvideomode ( _MRES4COLOR);
-          }
+
+              	// https://en.wikipedia.org/wiki/INT_10H
+			// PC XT technical reference, page A-53.
+               // https://www.seasip.info/VintagePC/cga.html
+			// Select CGA Mode 4 320x200 4 colors
+               // A note on alternative palette mode 5 (https://www.vogons.org/viewtopic.php?t=90079): 
+               // EGA and VGA do not support the CGA mode 5 palette. IBM could have initialized the EGA palette in mode 5 to match the CGA mode 5 palette, but they chose to not do so. Mode 5 was intended as grayscale mode on the composite output, a feature that was dropped on the EGA.
+               // A lot of clone EGA and VGA card provide a CGA emulation mode that does support the mode 5 palette though.
+
+                   
+          	regs.w.ax=0x04; // set CGA 320x200 MODE 04
+    		     int386( 0x10, &regs, &regs ); // Set the mode manually to avoid issues with watcom setvideomode 
+               
           #endif 
 
           #ifdef EGA
-          if( vc.monitor == _MONO ) {
-               _setvideomode ( _MRESNOCOLOR);
-          } else {
                _setvideomode ( _MRES16COLOR);
-          }
+          #endif 
 
+          #ifdef VGA
+               _setvideomode (_VRES16COLOR);
+          #endif 
+
+          #ifdef SVGA 
+               _setvideomode (_VRES256COLOR);
           #endif
      }
      // Function: clearScreen 
+     // Description: Clears the complete screen in both text and graphic modes. 
      // Input: Color in the form PAPER (4bit) | INK (4bit)
      // Usage: clearScreen (PAPER_BLUE|INK_WHITE)
      void clearScreen (BYTE color)
@@ -713,7 +757,13 @@ void paint_pic (unsigned char *bytestring)
                // Separates the byte color 
                _setbkcolor (colors[(color&0xF0)>>4]);
                _settextcolor (color&0x0F);
-               _clearscreen( _GWINDOW );
+               _clearscreen( _GWINDOW ); // The screen is defined by the text window 
+          #endif 
+
+          #if defined CGA || defined EGA
+               _setbkcolor (colors[(color&0xF0)>>4]);
+               _settextcolor (color&0x0F);
+               _clearscreen( _GCLEARSCREEN );          
           #endif 
      }
 
@@ -788,17 +838,30 @@ void paint_pic (unsigned char *bytestring)
 
      void print_string (BYTE x, BYTE y, unsigned char *texto)
      {
-           // Note: watcom printing library uses (1,1) as top, left coordinate Y,X. We need to translate that to MiniF system which uses 0,0 for left, top coordinates. 
-          _settextposition (y+1,x+1);
-          _outtext (texto); 
-
+          int i, n;
+          // Note: watcom printing library uses (1,1) as top, left coordinate Y,X. We need to translate that to MiniF system which uses 0,0 for left, top coordinates. 
+          fzx_setat(x, y);
+          #ifdef TEXT
+               _outtext (texto); 
+          #endif 
+          #if defined CGA || defined EGA
+               _outgtext (texto);
+          #endif 
      }
 
      void print_char (BYTE x, BYTE y, unsigned char texto)
      {
            // Note: watcom printing library uses (1,1) as top, left coordinate Y,X. We need to translate that to MiniF system which uses 0,0 for left, top coordinates. 
-          _settextposition (y+1,x+1);
-          _outtext (&texto); 
+          fzx_setat(x, y);
+      
+          #ifdef TEXT
+               _outtext (&texto); 
+          #endif  
+     
+          #if defined CGA || defined EGA
+               if (texto==' ') _outtext (&texto); // Esta función sobre escribe con el color de fondo cuando se usa espacio
+                    else _outgtext (&texto); // Esta función imprime con OR en pantalla, es decir un espacio no se imprime. 
+          #endif
      }
 
      // Function: setAttr
@@ -820,8 +883,8 @@ void paint_pic (unsigned char *bytestring)
                _LIGHTRED, _LIGHTMAGENTA, _YELLOW, _BRIGHTWHITE
           };
 
-          _settextposition (y+1,x+1);
           #ifdef TEXT 
+               _settextposition (y+1,x+1);
                // Separates the byte color 
                _setbkcolor (colors[(attr&0xF0)>>4]);
                _settextcolor ((short)attr&0x0F);
@@ -832,9 +895,102 @@ void paint_pic (unsigned char *bytestring)
      // Function: scrollArriba 
      // Input:
      // Output:
-     // Example: 
+     // Usage: 
      void scrollArriba (BYTE fila_inicial, BYTE columna_inicial)
      {
           _scrolltextwindow (_GSCROLLUP);
      }
+
+     // Function:
+     // Input:
+     // Output:
+     // Usage:
+
+    void loadPCX (unsigned char *filename)
+    {
+          // Info https://www.fileformat.info/format/pcx/egff.htm
+          // https://qbmikehawk.neocities.org/docs/zsoft_pc_paintbrush.txt
+
+          FILE *fp;
+          PCX_HEADER header;
+          BYTE n, count, data;
+          WORD x,y;
+          BYTE *bitmap; 
+          BYTE *VGA_VRAM=(BYTE*)0xA0000L;
+          BYTE *EGA_VRAM=(BYTE*)0xA0000L;
+          BYTE *CGA_VRAM=(BYTE*)0xB8000L;
+
+          //printf ("%s \n", filename);
+          fp = fopen(filename, "rb");
+          if (!fp) {
+               printf ("Error Cannot open %s", filename);
+               return ;
+          }
+
+          // Header is 128bytes
+          //printf ("%u", sizeof (PCX_HEADER));
+          n = fread(&header, sizeof(PCX_HEADER), 1, fp);
+          if (n == -1) {
+               printf ("(Error) Cannot read PCX header");
+               fclose(fp);
+               return ;
+          }
+          
+          // PCX with 4 colors (2bit per pixel) --> CGA 
+          // PCX with 16 colors (4bit per pixel) --> EGA, VGA 
+          //printf ("%u x %u", header.width, header.height); // --> 319x199 for a 320x200 screen
+          //getch();
+          bitmap = (BYTE *) malloc ( (header.width+1)*(header.height+1)); // Size in bytes 
+          // printf ("bpp %u, bitplanes %u \n",header.bpp, header.num_color_planes);
+          // CGA bits-per-plane 2, 1 bitplane 
+          // printf ("Encoding: %u", header.encoding);
+
+          
+          // Extract every line from the file 
+          x=0; y=0;
+          while (y< header.height) 
+          {    
+               // Restart the pointer 
+
+               CGA_VRAM=0xB8000L;
+
+               if ((y&0x01))  // Odd lines 
+               {
+                    CGA_VRAM+= 8192 + (y>>1)*80;
+               }
+               else { // even lines 
+                    CGA_VRAM+= (y>>1)*80; // 80 bytes per line, 100*80=8000 bytes per interlaced screen for a total of 16000 bytes
+               }
+
+               while (x<header.width)
+               {
+                    data = fgetc(fp);
+                    // printf ("%u ", data);               
+                    if ((data & 0xC0) == 0xC0) {
+                    // was an RLE count, pixel is next byte
+                    count = data & 0x3F;
+                    data = fgetc(fp);                
+                    } else {
+                    count = 1;
+                    }
+                    // printf ("(%u x %u)", count,data);
+                    //getch();
+                    while (count) {                         
+                         *CGA_VRAM++=data;
+                         x+=4; // Each byte holds up to 4 p�xel in bpp 2 
+                         count--; // 1 byte less       
+                    }
+               }     
+               x=0;
+               y++;
+          }
+                    
+          //_fmemcpy ((BYTE*)CGA_VRAM, (BYTE*)bitmap,(header.width+1)*(header.height+1) );
+          //*CGA_VRAM = 0x55; 
+
+          free (bitmap);                    
+          fclose (fp);     
+    }
+
+
 #endif 

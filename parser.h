@@ -1,5 +1,5 @@
 /*
- MiniIF para ordenadores de 8bit
+ ZMiniIF para ordenadores de 8bit
  Basado en PAWS y NGPAWS-Beta 9 (Uto/Carlos Sanchez) http://www.ngpaws.com
  (c) 2016. Written by KMBR.
  v0.3
@@ -38,7 +38,7 @@ There is no __CALLEE__ in CC65
 // Parser Structures
 typedef struct {
         unsigned char id;
-        unsigned char page; // Pï¿½gina de RAM
+        unsigned char page; // Página de RAM
         unsigned char *paddr; // Puntero a la memoria
 } img_t;
 
@@ -177,6 +177,10 @@ extern void ACCpaper (BYTE color);
 extern void ACCink (BYTE color);
 extern void ACCtextcolor (BYTE color);
 extern void ACCbox (BYTE x, BYTE y, BYTE width, BYTE height, BYTE color, unsigned char *texto);
+extern void ACCpalette (BYTE pal);
+extern void ACCpicture(BYTE picid);
+
+
 
 // Library functions for the parser, not to be used by the user 
 void writeValue (unsigned int value);

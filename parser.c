@@ -281,7 +281,7 @@ void  InitParser (void) // 212bytes
 	flags[fturns_low] = 0;
 	flags[fturns_high] = 0;
 	flags[fsalidas] = 1; // Se listan por defecto...
-	flags[flight]=0;
+	flags[fdark]=0;
 	gDESCRIBE_LOCATION_FLAG=TRUE;
     ginEND=FALSE;
 
@@ -351,7 +351,7 @@ void ParserLoop (void) // 664 bytes
             gDONE_FLAG = FALSE;
             proceso1(); // Antes de describir la localidad...
 
-		    if (flags[flight]==1)
+		    if (flags[fdark]==0)
             {
                 #ifdef ZX
                     fzx.x=TextWindow.x;
@@ -1673,29 +1673,40 @@ BYTE CNDmove(BYTE flagno)
 	return FALSE;
 }
 
-// ACCpicture
+// ACCpicture Picture ID
 // Input: Picture id declared in imagenes_t structure
 // Output: Direct decompress using zx7 to screen.
-// Pagination is disabled in 48K for Page 0.
-
-void  ACCpicture(BYTE picid)
+// Description: Pagination is disabled in 48K for Page 0.
+void ACCpicture(BYTE picid)
 {
 	BYTE picpos;
 	picpos = get_img_pos(picid);
     #ifdef ZX 
+        // Bitmap 
         if (imagenes_t[picpos].page!=0) setRAMPage (imagenes_t[picpos].page);
 	    dzx7AgileRCS(imagenes_t[picpos].paddr, ((unsigned char*) 16384));
         if (imagenes_t[picpos].page!=0) setRAMBack();
+        // Vector 
     #endif 
+
+    #ifdef DOS
+        #if defined CGA || defined EGA 
+        // Bitmap 
+        // printf ("%s", imagenes_t[picpos].paddr);
+        loadPCX (imagenes_t[picpos].paddr);
+        ACCtextcolor (fcolor); // Restores the original color
+        // Vector 
+        #endif
+    #endif
 }
 
-void  ACCgraphic(BYTE option)
+void ACCgraphic(BYTE option)
 {
 	gGRAPHICSON = (option==1);
 	if (!gGRAPHICSON) hideGraphicsWindow();
 }
 
-void  ACCbeep(BYTE sfxno, BYTE channelno, BYTE times)
+void ACCbeep(BYTE sfxno, BYTE channelno, BYTE times)
 {
     /*
 	if ((channelno <1) || (channelno >MAX_CHANNELS)) return;  //SFX channels from 1 to MAX_CHANNELS, channel 0 is for location music and can't be used here
@@ -1703,7 +1714,7 @@ void  ACCbeep(BYTE sfxno, BYTE channelno, BYTE times)
     */
 }
 
-void  ACCsound(BYTE value)
+void ACCsound(BYTE value)
 {
     /*
 	soundsON = (value==1);
@@ -2366,11 +2377,11 @@ void writeText (BYTE *texto)
 
             #ifdef DOS
                 #ifdef TEXT 
-                // Source Code is edited with ISO 88159-15, which is not matching the UTF-8 in DOS in TEXT Mode. 
-                // As the character table in text mode is fixed a replacement needs to be performed. 
-                // Text compression is not used in DOS TEXT mode. 
-                // ASCII table from https://theasciicode.com.ar/
-                    if (caracter=='á') texto_buffer[counter] = 160;
+                    // Source Code is edited with ISO 88159-15, which is not matching the UTF-8 in DOS in TEXT Mode. 
+                    // As the character table in text mode is fixed, we cannot reallocate chars over >127 and a replacement needs to be performed. 
+                    // Due to this text compression is not used in DOS mode. 
+                    // ASCII table from https://theasciicode.com.ar/
+                    if (caracter=='á') texto_buffer[counter] = 160; // Equivalent code in UTF-8 
                     if (caracter=='é') texto_buffer[counter] = 130;
                     if (caracter=='í') texto_buffer[counter] = 161;
                     if (caracter=='ó') texto_buffer[counter] = 162;
@@ -2384,11 +2395,27 @@ void writeText (BYTE *texto)
                     if (caracter=='Ó') texto_buffer[counter] = 224;
                     if (caracter=='Ú') texto_buffer[counter] = 233;
                     if (caracter=='Ñ') texto_buffer[counter] = 165;
-                    counter++;
+                    
                 #endif 
-            #endif 
-
-
+                #if defined CGA || defined EGA
+                    if (caracter=='á') texto_buffer[counter] = '#'; // Equivalent code in UTF-8 
+                    if (caracter=='é') texto_buffer[counter] = '$';
+                    if (caracter=='í') texto_buffer[counter] = '%';
+                    if (caracter=='ó') texto_buffer[counter] = '&';
+                    if (caracter=='ú') texto_buffer[counter] = 39;
+                    if (caracter=='ñ') texto_buffer[counter] = '+';
+                    if (caracter=='¡') texto_buffer[counter] = '<';
+                    if (caracter=='¿') texto_buffer[counter] = '/';
+                    if (caracter=='Á') texto_buffer[counter] = 181;
+                    if (caracter=='É') texto_buffer[counter] = 144;
+                    if (caracter=='Í') texto_buffer[counter] = 214;
+                    if (caracter=='Ó') texto_buffer[counter] = 224;
+                    if (caracter=='Ú') texto_buffer[counter] = 233;
+                    if (caracter=='Ñ') texto_buffer[counter] = 165;
+                
+                #endif
+                counter++; 
+            #endif
         }
         else
         {
@@ -2409,16 +2436,7 @@ void writeText (BYTE *texto)
         buffer[counter] = caracter;
 
         // word terminators
-        #ifdef ZX
-            if (caracter==' ' || caracter=='.' || caracter=='^' || !caracter)
-        #endif 
-
-        // Watcom chars > 127 needs to be printed independently 
-        #ifdef DOS 
-            #ifdef TEXT 
-            if (caracter==' ' || caracter=='.' || caracter=='^' || !caracter || caracter>127)
-            #endif
-        #endif 
+        if (caracter==' ' || caracter=='.' || caracter=='^' || !caracter)
         {
             if (caracter==0) salir = 1;
 
@@ -2435,22 +2453,7 @@ void writeText (BYTE *texto)
 
             fzx_puts(buffer);
 
-            // Due to a bug in the print library in watcom the accentuated characters needs to be printed in different colors 
-            #ifdef DOS 
-            if (caracter>127)
-            {
-                ACCink (INK_GRAY); // Desired color-1
-                fzx_setat (fzx.x+counter,fzx.y);
-                fzx_putc (caracter);
-                fzx_setat (fzx.x-counter,fzx.y);
-                ACCink (INK_WHITE); // Back to desired color 
-            }
-            if (caracter>127) counter++;
-            #endif 
-
             if (caracter==' ') counter++;
-            
-
             fzx.x+=counter;            
             
             counter=0;
@@ -2516,7 +2519,7 @@ void  clearGraphWindow (BYTE color)
 }
 
 // Function: clearTextWindow
-// Input: color: in the form PAPER(4bit) | INK (4bit)
+// Input: color: defined as PAPER(4bit) | INK (4bit)
 //        clear: TRUE or FALSE. With TRUE it will print a blank space for each cell, with FALSE only the color attributes will be replaced. 
 // Usage: clearTextWindow (PAPER_BLACK|INK_YELLOW, TRUE)
 void  clearTextWindow (BYTE color, BYTE clear)
@@ -2542,9 +2545,8 @@ void  clearTextWindow (BYTE color, BYTE clear)
     #endif 
 
     #ifdef DOS 
-        #ifdef TEXT
-            if (clear==TRUE) clearScreen (color);
-        #endif
+        ACCtextcolor (color);
+        if (clear==TRUE) ACCcls (color);
     #endif 
 }
 
@@ -2601,9 +2603,7 @@ void getInput ()
                 #endif 
 
                 #ifdef DOS
-                    #ifdef TEXT
                     print_char (TextWindow.x+strlen(playerPrompt)+strlen(playerInput)-1, fzx.y,caracter);
-                    #endif 
                 #endif 
             }
             else  // Borrar
@@ -2616,7 +2616,12 @@ void getInput ()
                         print_char (TextWindow.x+contador, fzx.y,caracter);
                     #endif 
                     #ifdef DOS 
-                        print_char (TextWindow.x+strlen(playerPrompt)+strlen(playerInput)-1, fzx.y,' ');
+                        #ifdef TEXT 
+                            print_char (TextWindow.x+strlen(playerPrompt)+strlen(playerInput)-1, fzx.y,' ');
+                        #endif 
+                        #if defined CGA | defined EGA 
+                            print_char (TextWindow.x+strlen(playerPrompt)+strlen(playerInput)-1, fzx.y,' ');
+                        #endif 
                         gotoxy (contador+1, fzx.y); 
                     #endif 
                     contador--;
@@ -2913,6 +2918,9 @@ void ACCpaper (BYTE color)
         _LIGHTRED, _LIGHTMAGENTA, _YELLOW, _BRIGHTWHITE
     };
 
+    fcolor &= 0x0F; // Clear the top 4 bits 
+    fcolor |=color&0xF0; // Stores the paper value 
+
     color = (color&0xF0)>>4; 
 
     #ifdef DOS 
@@ -2930,10 +2938,13 @@ void ACCpaper (BYTE color)
 
 void ACCink (BYTE color)
 {
+    fcolor &= 0xF0; // Clear the higher 4 bits 
+    fcolor |=color&0x0F; // Stores the ink value 
+    
     #ifdef DOS
-        #ifdef TEXT
         _settextcolor (color&0x0F);
-        #endif 
+        _setcolor (color&0x0F);
+        
     #endif 
 }
 
@@ -2943,38 +2954,58 @@ void ACCink (BYTE color)
 //   color: In format PAPER (4bits) | INK (4bits) 
 // Usage: ACCtextcolor ( PAPER_BLUE | INK_WHITE)
 extern void ACCtextcolor (BYTE color)
-{
-    long colors[ 16 ] = {
-        _BLACK, _BLUE, _GREEN, _CYAN,
-        _RED, _MAGENTA, _BROWN, _WHITE,
-        _GRAY, _LIGHTBLUE, _LIGHTGREEN, _LIGHTCYAN,
-        _LIGHTRED, _LIGHTMAGENTA, _YELLOW, _BRIGHTWHITE
-    };
-    
-    #ifdef DOS
-        #ifdef TEXT
-        _settextcolor (color&0x0F);
-        color = (color&0xF0)>>4; 
-        _setbkcolor (colors[color]);
-        #endif 
-    #endif
+{   
+
+    ACCpaper (color);
+    ACCink(color);
 }
 
 void ACCbox (BYTE x, BYTE y, BYTE width, BYTE height, BYTE color, unsigned char *texto)
 {
     BYTE i,j;
-    // 1st draws the box  
     ACCtextcolor(color);
-    for (j=y;j<y+height;j++)
-    {
-        for (i=x;i<x+width;i++) 
+
+    #ifdef DOS 
+        // 1st draws the box  
+        #ifdef TEXT
+        for (j=y;j<y+height;j++)
         {
-            fzx_setat(i,j);
-            fzx_putc (' ');    
-        }    
-    }
-    
+            for (i=x;i<x+width;i++) 
+            {
+                fzx_setat(i,j);
+                fzx_putc (' ');    
+            }    
+        }
+        #endif
+
+        #if defined EGA || defined CGA 
+        // In graphic modes the background color changes all the pixels with color palette 0,
+        // here we just want to have a rectanble as the background. 
+        _rectangle (_GBORDER, x*8, y*8, (x+width)*8, (y+height)*8);
+        // _rectangle (_GFILLINTERIOR, x*8, y*8, (x+width)*8, (y+height)*8);
+        #endif 
+    #endif
+
     // 2nd prints the text
     fzx_setat (x+1,y+1);
     ACCwrite(texto);
+}
+
+// Function: ACC palete 
+// Description:
+// Input: CGA palette (0-3)
+// Usage:
+//  0-> 0-Black, 1- Green, 2-Red 3 Brown 
+//  1-> 0-Black, 1- Cyan, 2-Magenta 3 White
+//  2-> 0-Black, 1- Light Green, 2-Light Red 3 Light Brown 
+//  3-> 0-Black, 1- Light Cyan, 2-Light Magenta 3 Light White
+
+
+void ACCpalette (BYTE pal)
+{
+    #ifdef DOS
+        #ifdef CGA
+            setCGAPalette (pal);
+        #endif 
+    #endif
 }

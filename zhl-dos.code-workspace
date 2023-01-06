@@ -9,7 +9,8 @@
 	],
 	"settings": {
 		"files.associations": {
-			"parser.h": "c"
+			"parser.h": "c",
+			"JUEGO_CO.C": "cpp"
 		}
 	}
 }

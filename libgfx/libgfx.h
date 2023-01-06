@@ -17,7 +17,15 @@
 
 
 #define BYTE unsigned char
-#define WORD unsigned int
+
+#ifdef ZX
+    #define WORD unsigned int
+#endif 
+
+#ifdef DOS
+    #define WORD unsigned short int
+#endif 
+
 
 #ifdef ZX
     #define INK_BLACK      0x00
@@ -43,7 +51,7 @@
 #endif
 
 #ifdef C64
-   // Disable the PESCII translation performed by CC65
+   // Disable the PETSCI translation performed by CC65
    #pragma charmap (0,0);
    #pragma charmap (1,1);
    #pragma charmap (2,2);
@@ -401,6 +409,9 @@
     #define PAPER_BRIGHT_YELLOW     0xE0
     #define PAPER_BRIGHT_WHITE      0xF0
     
+    // BRIGHT and FLASH are not supported in DOS
+    #define BRIGHT         0x00
+    #define FLASH          0x00
 
 #endif 
 
@@ -409,7 +420,7 @@
 
 #ifdef C64
    extern void setRamLayout ();
-   extern void __FASTCALL__ splitScreen (BYTE scanline);
+   extern void __FASTCALL__ splitScreen (BYTE scanline); // In C64 the mode can be changed between lowres multicolor and hightres text in HW
    extern void __FASTCALL__ HighResMode(); // 320x200 2 colors per cell
    extern void __FASTCALL__ clearVideoColorMem (BYTE color); 
    extern void __FASTCALL__ clearVideoRam (BYTE color); 
@@ -417,8 +428,9 @@
 #endif
 
 #ifdef DOS 
-    extern void HighResMode(); // CGA: 320x200 4 colors per pixel, EGA: 320x200 16 colors per pixel
+    extern void HighResMode(); // CGA: 320x200 4 colors per pixel, EGA: 320x200 16 colors per pixel, VGA: 640x480 16 colors per pixel
     extern void TextMode(); // CGA/EGA/VGA: 80x25 16 colors Text mode 
+    void setCGAPalette (BYTE pal);
 #endif
 
 extern void __CALLEE__ scrollArriba (BYTE fila_inicial, BYTE columna_inicial);
@@ -469,5 +481,35 @@ extern void fzx_write(unsigned int *buf, unsigned int len);
 extern void __CALLEE__ print_string (BYTE x, BYTE y, unsigned char *texto);
 extern void __CALLEE__ print_char (BYTE x, BYTE y, unsigned char texto);
 extern void __CALLEE__ setAttr (BYTE x, BYTE Y, BYTE attr);
+
+
+///////////////////////////////////////////////////////////
+//  PCX Library Functions                                //
+//////////////////////////////////////////////////////////
+
+// Header of PCX file.
+typedef struct {
+    BYTE manufacturer; // The fixed header field valued at a hexadecimal 0x0A (= 10 in decimal). 
+    BYTE version;
+    BYTE encoding; // The method used for encoding the image data. Can be: 0 No encoding, 1 RLE
+    BYTE bpp;
+    WORD x;
+    WORD y;
+    WORD width;
+    WORD height;
+    WORD horizontal_dpi;
+    WORD vertical_dpi;
+    BYTE ega_palette[48];
+    BYTE reserved;
+    BYTE num_color_planes;
+    WORD bytes_per_line; // The number of bytes of one color plane representing a single scan line. 
+    WORD palette_type;
+    WORD horizontal_size;
+    WORD vertical_size;
+    BYTE padding[54];
+} PCX_HEADER;
+
+extern void loadPCX (unsigned char *filename);
+
 
 

@@ -23,7 +23,14 @@
 #define TRUE 1
 #define FALSE 0
 #define BYTE unsigned char
-#define WORD unsigned int
+#ifdef ZX 
+    #define WORD unsigned int
+#endif 
+
+#ifdef DOS
+    #define WORD unsigned short int
+#endif 
+
 #define DONE ACCdone(); return TRUE
 #define NOTDONE ACCbreak(); return FALSE 
 
@@ -191,37 +198,37 @@
 #define aDeterminado 31
 #define aDeterminado_hex 0x80000000
 
-// Definición de FLAGS del PARSER...
+// PARSER flags: RESERVED
 
-#define flight 0
-#define fobjects_carried_count 1
-#define fautodec2 2
-#define fautodec3 3
-#define fautodec4 4
-#define fautodec5 5
-#define fautodec6 6
-#define fautodec7 7
-#define fautodec8 8
-#define fautodec9 9
-#define fautodec10 10
+#define fdark 0    // When non zero indicates game is dark
+#define fobjects_carried_count 1 // Holds quantity of objects player is carrying (but not wearing)
+#define fautodec2 2 // Autodecremented when a location is described
+#define fautodec3 3 // Autodecremented when a location is described and it's dark (Flag 0 not 0)
+#define fautodec4 4 // Autodecremented when a location is described, it's dark and no object with light attribute is present.
+#define fautodec5 5 // Every time frame (i.e. every phrase / timeout)
+#define fautodec6 6 // Spare flag
+#define fautodec7 7 // Spare flag
+#define fautodec8 8 // Spare flag
+#define fautodec9 9 // Every time frame that it's dark
+#define fautodec10 10 // Every time frame that it's dark and no object with light attribute is present
 #define fescape 11
 #define fparser_settings 12
 #define fobjects_location 15
 #define fpicture_settings 29
-#define fscore 30
-#define fturns_low 31
+#define fscore 30 // Score flag
+#define fturns_low 31 // Holds number of turns player has taken (actually this is the number of phrases extracted from the player's input). It's using two flags for backwards compatibility.
 #define fturns_high 32
-#define fverb 33
-#define fnoun1 34
-#define fadject1 35
-#define fadverb 36
-#define fmaxobjects_carried 37
-#define flocation 38
-#define fprep 43
-#define fnoun2 44
-#define fadject2 45
-#define fobj1 51
-#define fcapacidad 52
+#define fverb 33 // holds the Verb for the current logical sentence
+#define fnoun1 34 // holds the first Noun in the current logical sentence
+#define fadject1 35 // holds the Adjective for the first Noun
+#define fadverb 36 // holds the Adverb for the current logical sentence
+#define fmaxobjects_carried 37 // holds maximum number of objects conveyable (initially 4). Set using ABILITY action.
+#define flocation 38 // holds current location of player.
+#define fprep 43 // holds the Preposition in the current logical sentence.
+#define fnoun2 44 // holds the second Noun in the current logical sentence.
+#define fadject2 45 // holds the Adjective for the second Noun
+#define fobj1 51 // holds last object referenced by GET / DROP / WEAR / WHATO etc. This is the number of the currently referenced object as printed in place of any underlines in text.
+#define fcapacidad 52 // holds player's strengths (maximum weight of objects carried and worn
 #define fmaxweight_carried 52
 #define fobjetoPeso 55
 #define fobjetoAttrL 56
@@ -241,6 +248,7 @@
 #define fadverbio flags[fadverb]
 #define fpreposicion flags[fprep]
 #define flocalidad flags[flocation]
+#define fcolor flags[17] // Current color for drawing and text PAPER (4bit) | INK (4bit)
 
 // Some dupes here due to historic reasons i.e. PAWS, DAAD, NGPAWS, etc
 #define LOCATION_MAX  251
@@ -255,7 +263,7 @@
 #define WORN 253
 #define NONCREATED 252 
 
-// Localidades disponibles para la aventura: 60 to 250.
+// Flags disponibles para la aventura: 64 to 250.
 
 #define STATE_MENU 0
 #define STATE_LOOP 1

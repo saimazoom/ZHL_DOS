@@ -15,7 +15,7 @@ ISO-8859-15
  http://creativecommons.org/licenses/by-nc-sa/4.0/
 */
 
-// Game flags available 64 to 255
+// Game flags available 64 to 250
 
 // #define f.... xx
 #define fMensaje 64
