@@ -74,7 +74,6 @@ extern BYTE gWord_number; // Marker for current word, 1st word is 1
 extern BYTE gChar_number; // Marker for current char, 1st char is 0
 
 // Tabla de imágenes del juego
-// Tabla de imágenes del juego
 extern unsigned char *L01_img;
 extern unsigned char *L02_img;
 extern unsigned char *L03_img;

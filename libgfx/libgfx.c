@@ -753,7 +753,7 @@ void paint_pic (unsigned char *bytestring)
           #endif 
 
           #ifdef SVGA 
-               _setvideomode (_URES256COLOR);
+               _setvideomode (_VRES256COLOR);
 
           #endif
      }

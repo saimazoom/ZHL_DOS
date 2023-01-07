@@ -82,15 +82,18 @@ TODO:
 	> Inyección de comandos (autotest)
 	> Comando TRANSCRIPT habilita el log a fichero empleando la fecha a un directorio de logs. Se incluyen también todas las pulsaciones de teclas.   
 	- La tecla de borrar no siempre elimina los caracteres en modo gráfico. 
-	> Empaquetar el directorio de recursos 
+	> Empaquetar el directorio de recursos. Usando NASM se puede incluir en el binario los recursos. 
 	> En modo SVGA las librerias de WATCOM no parecen funcionar al imprimir textos, en modo VGA 640x480 funcionan bien hasta que se encuentran con un carácter > 127. 
+	
+	> Añadir sonido en forma de FX durante el juego. 
+	> Añadir animaciones (sprites) en las pantallas -> Timers  
 
 06/07.01.2023
-	+ Al imprimir los caracteres acentuados por separado se convierten en terminación de palabra y al dividir las palabras puede que una palabra con acento aparezca dividida en dos líneas. Este error sólo permanece en el modo TEXTO.  
+	+ Al imprimir los caracteres acentuados por separado se convierten en terminación de palabra y al dividir las palabras puede que una palabra con acento aparezca dividida en dos líneas. 
     	> He reemplazado las rutinas de impresión de texto de watcom para evitar el bug de color incorrecto con caracteres > 127 (acentos, ñ, etc)
-	> ZHL ya compila en modo EGA, VGA a 16 colores (640x480) y SVGA a 256 colores. Sin embargo con algunos problemas: en VGA la rutina de watcom falla cuando se encuentra con caracteres >127, y en SVGA no imprime directamente. 
+	> ZHL ya compila en modo EGA, VGA a 16 colores (640x480) y SVGA a 256 colores. Sin embargo con algunos problemas: en VGA la rutina de watcom falla cuando se encuentra con caracteres >127, y en SVGA no imprime texto.
+	> Todos los gráficos en CGA corregidos.  
 	
-
 05.01.2023
 	> Todas las localidades muestran pantalla en CGA. 
 	Salvo algún bug que encuentre esta versión ya está completada. 
