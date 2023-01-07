@@ -75,8 +75,6 @@ TODO:
 	+ Al imprimir los caracteres acentuados por separado se convierten en terminación de palabra y al dividir las palabras puede que una palabra con acento aparezca dividida en dos líneas. Este error sólo permanece en el modo TEXTO.  
     	> He reemplazado las rutinas de impresión de texto de watcom para evitar el bug de color incorrecto con caracteres > 127 (acentos, ñ, etc)
 
-
-
 05.01.2023
 	> Todas las localidades muestran pantalla en CGA. 
 	Salvo algún bug que encuentre esta versión ya está completada. 
