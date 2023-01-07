@@ -1,5 +1,2 @@
-.\libgfx\libgfx.c(668): Warning! W131: No prototype found for function 'tolower'
-.\libgfx\libgfx.c(933): Warning! W124: Comparison result always 0
-.\libgfx\libgfx.c(955): Warning! W101: Non-portable pointer conversion
-.\libgfx\libgfx.c(955): Note! I2003: source conversion type is 'long'
-.\libgfx\libgfx.c(955): Note! I2004: target conversion type is 'unsigned char *'
+.\libgfx\libgfx.c(670): Warning! W131: No prototype found for function 'tolower'
+.\libgfx\libgfx.c(976): Warning! W124: Comparison result always 0

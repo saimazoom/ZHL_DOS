@@ -2603,7 +2603,7 @@ void getInput ()
                 #endif 
 
                 #ifdef DOS
-                    print_char (TextWindow.x+strlen(playerPrompt)+strlen(playerInput)-1, fzx.y,caracter);
+                    print_char (TextWindow.x+strlen(playerPrompt)+strlen(playerInput)-1, fzx.y,caracter, fzx.color);
                 #endif 
             }
             else  // Borrar
@@ -2617,10 +2617,10 @@ void getInput ()
                     #endif 
                     #ifdef DOS 
                         #ifdef TEXT 
-                            print_char (TextWindow.x+strlen(playerPrompt)+strlen(playerInput)-1, fzx.y,' ');
+                            print_char (TextWindow.x+strlen(playerPrompt)+strlen(playerInput)-1, fzx.y,' ', fzx.color);
                         #endif 
                         #if defined CGA | defined EGA 
-                            print_char (TextWindow.x+strlen(playerPrompt)+strlen(playerInput)-1, fzx.y,' ');
+                            print_char (TextWindow.x+strlen(playerPrompt)+strlen(playerInput)-1, fzx.y,' ', fzx.color);
                         #endif 
                         gotoxy (contador+1, fzx.y); 
                     #endif 
@@ -2923,11 +2923,12 @@ void ACCpaper (BYTE color)
 
     color = (color&0xF0)>>4; 
 
+    fzx_setcolor (fcolor);
+        
     #ifdef DOS 
-        #ifdef TEXT 
             _setbkcolor (colors[color]);
-        #endif
-    #endif 
+    #endif
+    
 }
 
 // Function: ACCink
@@ -2940,6 +2941,7 @@ void ACCink (BYTE color)
 {
     fcolor &= 0xF0; // Clear the higher 4 bits 
     fcolor |=color&0x0F; // Stores the ink value 
+    fzx_setcolor (fcolor);
     
     #ifdef DOS
         _settextcolor (color&0x0F);
@@ -2955,7 +2957,6 @@ void ACCink (BYTE color)
 // Usage: ACCtextcolor ( PAPER_BLUE | INK_WHITE)
 extern void ACCtextcolor (BYTE color)
 {   
-
     ACCpaper (color);
     ACCink(color);
 }

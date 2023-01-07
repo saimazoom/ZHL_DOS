@@ -68,16 +68,18 @@ Si es necesario modificar las fuentes:
 TODO: 
 	> Inyección de comandos (autotest)
 	> Comando TRANSCRIPT habilita el log a fichero empleando la fecha a un directorio de logs. Se incluyen también todas las pulsaciones de teclas.   
-	> Añadir soporte para VGA 16 colores y SVGA 256 colores. 
-	- Al imprimir los caracteres acentuados por separado se convierten en terminación de palabra y al dividir las palabras puede que una palabra con acento aparezca dividida en dos líneas. Este error sólo permanece en el modo TEXTO.  
-    > Empaquetar el directorio de recursos 
+	- La tecla de borrar no siempre elimina los caracteres en modo gráfico. 
+	> Empaquetar el directorio de recursos 
+
+06.01.2023
+	+ Al imprimir los caracteres acentuados por separado se convierten en terminación de palabra y al dividir las palabras puede que una palabra con acento aparezca dividida en dos líneas. Este error sólo permanece en el modo TEXTO.  
+    	> He reemplazado las rutinas de impresión de texto de watcom para evitar el bug de color incorrecto con caracteres > 127 (acentos, ñ, etc)
+
+
 
 05.01.2023
 	> Todas las localidades muestran pantalla en CGA. 
-
 	Salvo algún bug que encuentre esta versión ya está completada. 
-
-	
 
 
 04.01.2023 

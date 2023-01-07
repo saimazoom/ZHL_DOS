@@ -2758,13 +2758,6 @@ void main (void)
 		ACCpicture(9); // Muestra el gráfico superior del menú 
 	#endif 
 
-/*
-	for (i=0;i<16;i++)
-	{
-		_selectpalette( i ); 
-		getch();
-	}
-*/
 	#ifdef ZX 
 	 	gotoxy (13,12);
     #endif 
@@ -2865,7 +2858,7 @@ void main (void)
 
 	#ifdef DOS 
 		#ifdef TEXT 
-			gotoxy (28,25);
+			gotoxy (28,23);
 		#endif 
 		#if defined EGA || defined CGA
 			gotoxy (9,20);

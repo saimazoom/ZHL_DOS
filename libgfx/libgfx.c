@@ -448,6 +448,10 @@ struct fzx_state fzx;   // active fzx state
      }
 #endif // end of ZX Spectrum graphic functions 
 
+void fzx_setcolor (BYTE color) 
+{
+     fzx.color = color;
+}
 
 void fzx_setat(unsigned char x, unsigned char y)
 {
@@ -466,12 +470,12 @@ void fzx_setat(unsigned char x, unsigned char y)
 
 void fzx_putc(unsigned char c)
 {
-    print_char (fzx.x, fzx.y, c);
+    print_char (fzx.x, fzx.y, c, fzx.color);
 }
 
 void fzx_puts(char *s)
 {
-    print_string (fzx.x, fzx.y, s);
+    print_string (fzx.x, fzx.y, s, fzx.color);
 }
 
 
@@ -640,8 +644,6 @@ void paint_pic (unsigned char *bytestring)
 }
 
 #ifdef DOS
-
-
      void waitForAnyKey() 
      {
           while (!kbhit());
@@ -673,8 +675,21 @@ void paint_pic (unsigned char *bytestring)
      // Output: Set the mode in text 80x25 in CGA/EGA/VGA modes. 
      void TextMode () 
      {
+          union REGS regs;
+
           // set text mode 80x25 (CGA, EGA, VGA)
           _setvideomode ( _TEXTC80);
+          
+          // Disable CGA blinking http://www.techhelpmanual.com/87-screen_attributes.html
+          // On MDA and CGA, you can turn off blinking by clearing bit 5 of the Mode Select Register (0x03D8).  
+          // https://www.seasip.info/VintagePC/cga.html
+          outp (0x03D8, inp(0x03D8)&0xDF);
+
+          // Disable EGA/VGA  blinking in http://www.techhelpmanual.com/113-int_10h__video_services.html 
+          regs.h.ah = 0x10; // Set/Get Palette Registers Service
+          regs.h.al = 0x03; // toggle intensity/blinking 
+          regs.w.bx = 0x00; // 0-Enable intensity, 1-Enable blinking, by default we choose intensity 
+          int386( 0x10, &regs, &regs );
           _wrapon(_GWRAPOFF);
      }
 
@@ -687,6 +702,7 @@ void paint_pic (unsigned char *bytestring)
      {
           union REGS regs;
           #ifdef CGA
+
                regs.h.bh = 0x01; // BH set to 01 set palette 
                regs.h.bl = pal & 0x1;  // BL palette ID ; (cyan, magenta, white) 
                regs.w.ax = 0x0B00;	// Interrupt service 
@@ -697,12 +713,13 @@ void paint_pic (unsigned char *bytestring)
                regs.w.dx=0;
                regs.h.bh = 0x00;  //  BH Set to 00 background / intensity
                // We assume color 0 is Black 
-               if (pal>1) 
+               if (pal>1)               // High intensity palette
                     regs.h.bl = 0x10;  // -> BL Black background, low intensity.  The low four bits of BL give the background colour, and bit 4 gives the foreground intensity.
                else 
-                    regs.h.bl=0x00;
+                    regs.h.bl=0x00;     // Low intensity palette
                regs.w.ax = 0x0B00;	// Interrupt service 
                int386( 0x10, &regs, &regs );
+
           #endif 
      }
      // Function: HighResMode
@@ -721,8 +738,7 @@ void paint_pic (unsigned char *bytestring)
                // A note on alternative palette mode 5 (https://www.vogons.org/viewtopic.php?t=90079): 
                // EGA and VGA do not support the CGA mode 5 palette. IBM could have initialized the EGA palette in mode 5 to match the CGA mode 5 palette, but they chose to not do so. Mode 5 was intended as grayscale mode on the composite output, a feature that was dropped on the EGA.
                // A lot of clone EGA and VGA card provide a CGA emulation mode that does support the mode 5 palette though.
-
-                   
+                  
           	regs.w.ax=0x04; // set CGA 320x200 MODE 04
     		     int386( 0x10, &regs, &regs ); // Set the mode manually to avoid issues with watcom setvideomode 
                
@@ -730,6 +746,7 @@ void paint_pic (unsigned char *bytestring)
 
           #ifdef EGA
                _setvideomode ( _MRES16COLOR);
+               
           #endif 
 
           #ifdef VGA
@@ -770,8 +787,9 @@ void paint_pic (unsigned char *bytestring)
      void clearchar (BYTE x, BYTE y, BYTE color)
      {
           #ifdef TEXT                
-               setAttr (x, y, color);
-               print_char (x, y, ' ');
+               //setAttr (x, y, color);
+               //
+               //print_char (x, y, ' ');
           #endif
 
           #ifdef CGA 
@@ -833,29 +851,54 @@ void paint_pic (unsigned char *bytestring)
      // Input: x 
      //        y 
      //        texto
+     //        color 
      // Output:
      // Usage:
 
-     void print_string (BYTE x, BYTE y, unsigned char *texto)
+     void print_string (BYTE x, BYTE y, unsigned char *texto, BYTE color)
      {
           int i, n;
+          BYTE *CGA_VRAM=(BYTE*)0xB8000L;
           // Note: watcom printing library uses (1,1) as top, left coordinate Y,X. We need to translate that to MiniF system which uses 0,0 for left, top coordinates. 
           fzx_setat(x, y);
           #ifdef TEXT
-               _outtext (texto); 
+               // _outtext (texto); // Watcom outtext prints in different color chars > 127 
+               // In Text Mode, First byte is the color, Second byte is the char, 
+               CGA_VRAM += fzx.y*160+fzx.x*2;
+               for (i=0;i<strlen(texto);i++)
+                    {
+                    *CGA_VRAM = texto[i]; // Fill the 2nd byte with the char 
+                    CGA_VRAM++;
+                    *CGA_VRAM = fzx.color; // Fill the 1st byte with the attribute 
+                    CGA_VRAM++;
+                    }
           #endif 
           #if defined CGA || defined EGA
                _outgtext (texto);
           #endif 
      }
 
-     void print_char (BYTE x, BYTE y, unsigned char texto)
+     void print_char (BYTE x, BYTE y, unsigned char texto, BYTE color)
      {
-           // Note: watcom printing library uses (1,1) as top, left coordinate Y,X. We need to translate that to MiniF system which uses 0,0 for left, top coordinates. 
+          
+          BYTE *CGA_VRAM=(BYTE*)0xB8000L;
+
+          // Note: watcom printing library uses (1,1) as top, left coordinate Y,X. We need to translate that to MiniF system which uses 0,0 for left, top coordinates. 
           fzx_setat(x, y);
       
           #ifdef TEXT
-               _outtext (&texto); 
+               if (texto>31 && texto<127) // Filters unwanted control codes
+               {
+               // _outtext (&texto);  // Watcom outtext has a bug that prints in different color chars > 127 
+               // We print the char manually in text mode 
+               CGA_VRAM += fzx.y*160+fzx.x*2;
+               *CGA_VRAM = texto; // Fill the 2nd byte with the char 
+               CGA_VRAM++;
+               *CGA_VRAM = fzx.color; // Fill the 1st byte with the attribute 
+               CGA_VRAM++;
+               // Set cursor position
+               fzx_setat(x+1, y);
+               }
           #endif  
      
           #if defined CGA || defined EGA
@@ -944,7 +987,6 @@ void paint_pic (unsigned char *bytestring)
           // printf ("bpp %u, bitplanes %u \n",header.bpp, header.num_color_planes);
           // CGA bits-per-plane 2, 1 bitplane 
           // printf ("Encoding: %u", header.encoding);
-
           
           // Extract every line from the file 
           x=0; y=0;
@@ -952,7 +994,7 @@ void paint_pic (unsigned char *bytestring)
           {    
                // Restart the pointer 
 
-               CGA_VRAM=0xB8000L;
+               CGA_VRAM=(BYTE*)0xB8000L;
 
                if ((y&0x01))  // Odd lines 
                {

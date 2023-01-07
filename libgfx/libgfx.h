@@ -371,6 +371,16 @@
             13 Light Magenta
             14 Yellow
             15 Bright White
+
+    In Text Mode:
+        http://www.techhelpmanual.com/87-screen_attributes.html
+        ScrnAttrRec -- blink disabled
+        ╓7┬6┬5┬4┬3┬2┬1┬0╖
+        ║ bkgnd │ frgnd ║
+        ╙─┴─┴─┴─┴─┴─┴─┴─╜ bits  mask
+        ╚══╦══╝ ╚═════╩═► 0-3:  0fH  foreground color
+            ╚════════════► 4-6:  f0H  background color
+
 */ 
 
     #define INK_BLACK      0x00
@@ -465,23 +475,24 @@ struct fzx_state
 {
    unsigned char            x;         // current x coordinate in pixels
    unsigned char            y;         // current y coordinate in pixels
-
+   BYTE color;                        // PAPER(4it) | INK (4bit)
 };
 
 ///////////////////////////////////////////////////////////
 //                      DRAW TEXT                        //
 ///////////////////////////////////////////////////////////
 // Functions in printlib.asm
+extern void fzx_setcolor (BYTE color); 
 extern void fzx_setat(unsigned char x, unsigned char y);
 extern void fzx_putc(unsigned char c);
 
 extern void fzx_puts(char *s);
 extern void fzx_write(unsigned int *buf, unsigned int len);
 
-extern void __CALLEE__ print_string (BYTE x, BYTE y, unsigned char *texto);
-extern void __CALLEE__ print_char (BYTE x, BYTE y, unsigned char texto);
+// Platform dependant functions to be coded separately
+extern void __CALLEE__ print_string (BYTE x, BYTE y, unsigned char *texto, BYTE color);
+extern void __CALLEE__ print_char (BYTE x, BYTE y, unsigned char texto, BYTE color);
 extern void __CALLEE__ setAttr (BYTE x, BYTE Y, BYTE attr);
-
 
 ///////////////////////////////////////////////////////////
 //  PCX Library Functions                                //
