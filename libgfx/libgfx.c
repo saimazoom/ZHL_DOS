@@ -461,7 +461,7 @@ void fzx_setat(unsigned char x, unsigned char y)
           #ifdef TEXT 
                _settextposition (y+1,x+1);
           #endif
-          #if defined CGA || defined EGA
+          #if defined CGA || defined EGA || defined VGA || defined SVGA
                _settextposition (y+1,x+1);
                _moveto( x*8, y*8 );
           #endif 
@@ -745,8 +745,7 @@ void paint_pic (unsigned char *bytestring)
           #endif 
 
           #ifdef EGA
-               _setvideomode ( _MRES16COLOR);
-               
+               _setvideomode ( _MRES16COLOR);               
           #endif 
 
           #ifdef VGA
@@ -754,7 +753,8 @@ void paint_pic (unsigned char *bytestring)
           #endif 
 
           #ifdef SVGA 
-               _setvideomode (_VRES256COLOR);
+               _setvideomode (_URES256COLOR);
+
           #endif
      }
      // Function: clearScreen 
@@ -777,7 +777,7 @@ void paint_pic (unsigned char *bytestring)
                _clearscreen( _GWINDOW ); // The screen is defined by the text window 
           #endif 
 
-          #if defined CGA || defined EGA
+          #if defined CGA || defined EGA || defined VGA || defined SVGA 
                _setbkcolor (colors[(color&0xF0)>>4]);
                _settextcolor (color&0x0F);
                _clearscreen( _GCLEARSCREEN );          
@@ -873,14 +873,13 @@ void paint_pic (unsigned char *bytestring)
                     CGA_VRAM++;
                     }
           #endif 
-          #if defined CGA || defined EGA
+          #if defined CGA || defined EGA || defined VGA || defined SVGA
                _outgtext (texto);
           #endif 
      }
 
      void print_char (BYTE x, BYTE y, unsigned char texto, BYTE color)
-     {
-          
+     {          
           BYTE *CGA_VRAM=(BYTE*)0xB8000L;
 
           // Note: watcom printing library uses (1,1) as top, left coordinate Y,X. We need to translate that to MiniF system which uses 0,0 for left, top coordinates. 
@@ -901,8 +900,8 @@ void paint_pic (unsigned char *bytestring)
                }
           #endif  
      
-          #if defined CGA || defined EGA
-               if (texto==' ') _outtext (&texto); // Esta función sobre escribe con el color de fondo cuando se usa espacio
+          #if defined CGA || defined EGA || defined VGA || defined SVGA
+               if (texto==' ') _outtext (&texto); // Esta función sobre scribe con el color de fondo cuando se usa espacio
                     else _outgtext (&texto); // Esta función imprime con OR en pantalla, es decir un espacio no se imprime. 
           #endif
      }

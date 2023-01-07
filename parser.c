@@ -2926,7 +2926,9 @@ void ACCpaper (BYTE color)
     fzx_setcolor (fcolor);
         
     #ifdef DOS 
+        #ifdef TEXT
             _setbkcolor (colors[color]);
+        #endif 
     #endif
     
 }
@@ -2979,7 +2981,7 @@ void ACCbox (BYTE x, BYTE y, BYTE width, BYTE height, BYTE color, unsigned char 
         }
         #endif
 
-        #if defined EGA || defined CGA 
+        #if defined EGA || defined CGA || defined VGA || defined SVGA 
         // In graphic modes the background color changes all the pixels with color palette 0,
         // here we just want to have a rectanble as the background. 
         _rectangle (_GBORDER, x*8, y*8, (x+width)*8, (y+height)*8);

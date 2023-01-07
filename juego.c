@@ -122,7 +122,7 @@ img_t imagenes_t [] = {
 #endif 
 
 #ifdef DOS 
-	#ifdef TEXT 
+	#if defined TEXT || defined VGA || defined SVGA  
 	img_t imagenes_t [] = {
 		{ 0,0,0}
 		};
@@ -132,15 +132,15 @@ img_t imagenes_t [] = {
 	// It is convenient to use the same ID as the location but is not mandatory 
 	// Terminated with 0
 	img_t imagenes_t [] = {
-		{ 1,0, "./resDOS/L01cga.pcx"},   
-		{ 2,0, "./resDOS/L02cga.pcx"},   
-		{ 3,0, "./resDOS/L03cga.pcx"},   
-		{ 4,0, "./resDOS/L04cga.pcx"},   
-		{ 5,0, "./resDOS/L05cga.pcx"},   
-		{ 6,0, "./resDOS/L06cga.pcx"},   
-		{ 7,0, "./resDOS/L07cga.pcx"},   
-		{ 8,0, "./resDOS/L07cga.pcx"},   
-		{ 9,0, "./resDOS/L09cga.pcx"},
+		{ 1,0, "./resCGA/L01cga.pcx"},   
+		{ 2,0, "./resCGA/L02cga.pcx"},   
+		{ 3,0, "./resCGA/L03cga.pcx"},   
+		{ 4,0, "./resCGA/L04cga.pcx"},   
+		{ 5,0, "./resCGA/L05cga.pcx"},   
+		{ 6,0, "./resCGA/L06cga.pcx"},   
+		{ 7,0, "./resCGA/L07cga.pcx"},   
+		{ 8,0, "./resCGA/L07cga.pcx"},   
+		{ 9,0, "./resCGA/L09cga.pcx"},
 		{ 0,0,0}
 		};
 	#endif 
@@ -149,15 +149,15 @@ img_t imagenes_t [] = {
 	// It is convenient to use the same ID as the location but is not mandatory 
 	// Terminated with 0
 	img_t imagenes_t [] = {
-		{ 1,0, "./resDOS/L01ega.pcx"},   
-		{ 2,0, "./resDOS/L02ega.pcx"},   
-		{ 3,0, "./resDOS/L03ega.pcx"},   
-		{ 4,0, "./resDOS/L04ega.pcx"},   
-		{ 5,0, "./resDOS/L05ega.pcx"},   
-		{ 6,0, "./resDOS/L06ega.pcx"},   
-		{ 7,0, "./resDOS/L07ega.pcx"},   
-		{ 8,0, "./resDOS/L07ega.pcx"},   
-		{ 9,0, "./resDOS/L09ega.pcx"},
+		{ 1,0, "./resEGA/L01ega.pcx"},   
+		{ 2,0, "./resEGA/L02ega.pcx"},   
+		{ 3,0, "./resEGA/L03ega.pcx"},   
+		{ 4,0, "./resEGA/L04ega.pcx"},   
+		{ 5,0, "./resEGA/L05ega.pcx"},   
+		{ 6,0, "./resEGA/L06ega.pcx"},   
+		{ 7,0, "./resEGA/L07ega.pcx"},   
+		{ 8,0, "./resEGA/L07ega.pcx"},   
+		{ 9,0, "./resEGA/L09ega.pcx"},
 		{ 0,0,0}
 		};
 	#endif 
@@ -2678,7 +2678,20 @@ void main (void)
 		#ifdef EGA 
 			HighResMode ();
 			clearScreen (INK_WHITE | PAPER_BLACK);
-		#endif 	
+		#endif
+
+		#ifdef VGA
+			HighResMode ();
+			clearScreen (INK_WHITE | PAPER_BLACK);
+		#endif 
+
+		#ifdef SVGA
+			HighResMode ();
+			_outtext ("Hola Mundo");
+			getch();
+			clearScreen (INK_WHITE | PAPER_BLACK);
+		#endif 
+
 	#endif
 
 	#ifdef ZX 
@@ -2716,10 +2729,9 @@ void main (void)
 			defineTextWindow (0,0,80,25); // Full Text screen 
 			ACCbox (27,7,21,4,INK_BLUE|PAPER_BRIGHT_WHITE,"Ad Astra per Aspera");
 			getch();
-
 		#endif
 
-		#if defined EGA || defined CGA 
+		#if defined EGA || defined CGA || defined VGA || defined SVGA 
 			n = _registerfonts( "1.fon" );
 			_setfont( "n0" );
 		#endif 
@@ -2734,8 +2746,13 @@ void main (void)
 			defineTextWindow (0,0,40,25); // Graphics + Text 
 			ACCbox (11,7,21,4,INK_WHITE|PAPER_BLACK,"Ad Astra per Aspera");
 			getch();
-
 		#endif 
+
+		#if defined VGA || defined SVGA 
+			defineTextWindow (0,0,80,60); // Full Text screen 
+			ACCbox (27,7,21,4,INK_BLUE|PAPER_BRIGHT_WHITE,"Ad Astra per Aspera");
+			getch();
+		#endif
 	#endif 
 
 	 // Menú de juego
@@ -2748,7 +2765,7 @@ void main (void)
 	 		clearTextWindow(INK_WHITE | PAPER_BLUE , TRUE);		
 	 	#endif
 
-		#if defined CGA || defined EGA 
+		#if defined CGA || defined EGA || defined VGA || defined SVGA 
 			clearTextWindow(INK_WHITE | PAPER_BLACK , TRUE);		
 	 	#endif
 
@@ -2769,6 +2786,10 @@ void main (void)
 		#if defined CGA || defined EGA 
 			gotoxy (13,12);
 		#endif 
+
+		#if defined VGA || defined SVGA 
+			gotoxy (35,7);
+		#endif
 	#endif
 
 	 writeText (" Z H L ");
@@ -2783,6 +2804,9 @@ void main (void)
 		#if defined EGA || defined CGA
 			gotoxy (12,14);
 		#endif
+		#if defined VGA || defined SVGA 
+			gotoxy (34,9);
+		#endif 
 	#endif
 
 	 #ifdef SPANISH
@@ -2802,6 +2826,10 @@ void main (void)
 		#if defined EGA || defined CGA
 			gotoxy (12,15);
 		#endif
+		#if defined VGA || defined SVGA 
+			gotoxy (34,11);
+		#endif 
+		
 	#endif
 
 	 #ifdef SPANISH
@@ -2822,6 +2850,10 @@ void main (void)
 		#if defined EGA || defined CGA
 			gotoxy (12,16);
 		#endif
+		#if defined VGA || defined SVGA 
+			gotoxy (34,13);
+		#endif 
+		
 	#endif
 
 	 #ifdef SPANISH
@@ -2842,6 +2874,9 @@ void main (void)
 		#if defined EGA || defined CGA
 			gotoxy (12,17);
 		#endif
+		#if defined VGA || defined SVGA 
+			gotoxy (34,15);
+		#endif 
 	#endif
 
 
@@ -2863,6 +2898,9 @@ void main (void)
 		#if defined EGA || defined CGA
 			gotoxy (9,20);
 		#endif
+		#if defined VGA || defined SVGA 
+			gotoxy (28,59);
+		#endif 
 	#endif
 
 	writeText ("(C) 2019-2021,2023 KMBR ");
@@ -2881,10 +2919,10 @@ void main (void)
 					#ifdef TEXT 
 						clearScreen(INK_WHITE | PAPER_BLUE);
 					#endif 
-					#if defined EGA || defined CGA 
+					#if defined EGA || defined CGA || defined VGA || defined SVGA  
 						clearScreen(INK_WHITE | PAPER_BLACK);
 					#endif 
-	
+
 				#endif 
 				gotoxy(1,1);
 				writeTextCenter ("Instrucciones");
@@ -2922,7 +2960,7 @@ void main (void)
 			case '0': // Exit 
 				salir = 1;
 				#ifdef DOS 
-					#if defined CGA || defined EGA
+					#if defined CGA || defined EGA || defined VGA || defined SVGA 
 						_unregisterfonts ();
 					#endif 
 					// Return to Shell 
@@ -2946,7 +2984,7 @@ void main (void)
 					#ifdef TEXT 
 						clearScreen(INK_WHITE | PAPER_BLUE);
 					#endif 
-					#if defined EGA || defined CGA 
+					#if defined EGA || defined CGA  || defined VGA || defined SVGA 
 						clearScreen(INK_WHITE | PAPER_BLACK);
 					#endif 
 				#endif 
@@ -2972,7 +3010,7 @@ void main (void)
 			//     flags[fTutorial]=1;
 			case '1': // Jugar...
 				#ifdef ZX 
-			 		defineTextWindow (0,11,32,14); // Pantalla reducida en 128Kb, Grï¿½ficos + Texto
+			 		defineTextWindow (0,11,32,14); // Pantalla reducida en 128Kb, Gráficos + Texto
 					clearScreen(INK_YELLOW | PAPER_BLACK);
 				#endif
 
@@ -2981,9 +3019,14 @@ void main (void)
 						clearScreen(INK_WHITE | PAPER_BLUE);
 					#endif 
 					#if defined EGA || defined CGA 
-				 		defineTextWindow (0,11,40,14); // Pantalla reducida en 128Kb, Grï¿½ficos + Texto
+				 		defineTextWindow (0,11,40,14); // Pantalla reducida en 128Kb, Gráficos + Texto
 						clearScreen(INK_WHITE | PAPER_BLACK);
 					#endif 
+					#if defined VGA || defined SVGA 
+				 		defineTextWindow (0,0,80,60); // Pantalla reducida en 128Kb, Gráficos + Texto
+						clearScreen(INK_WHITE | PAPER_BLACK);
+					#endif 
+					
 				#endif 
 								
 				flags[LOCATION_MAX] = 8; // Número más alto de localidad
