@@ -38,8 +38,12 @@ There is no __CALLEE__ in CC65
 // Parser Structures
 typedef struct {
         unsigned char id;
-        unsigned char page; // Página de RAM
-        unsigned char *paddr; // Puntero a la memoria
+		#ifdef ZX
+        	unsigned char page; // Página de RAM en ZX Spectrum
+        #else 
+        	unsigned long int offset; // Offset en el fichero de datos
+		#endif 
+		unsigned char *paddr; // En ZX Spectrum Puntero a la memoria, en PC nombre del fichero 
 } img_t;
 
 typedef struct {
@@ -75,16 +79,6 @@ typedef struct
 		unsigned char peso;
 		unsigned long int atributos; // 32bit, 4bytes
     } obj_t;
-
-// Window properties
-// Values are characters for rows and cols *not in pï¿½xel*
-typedef struct
-    {
-        BYTE x;
-        BYTE y;
-        BYTE width;
-        BYTE height;
-    } textwin_t;
 
 
 // Funciones declaradas en juego.c ...

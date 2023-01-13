@@ -478,6 +478,16 @@ struct fzx_state
    BYTE color;                        // PAPER(4it) | INK (4bit)
 };
 
+// Window properties
+// Values are characters for rows and cols *not in píxel*
+typedef struct
+    {
+        BYTE x;
+        BYTE y;
+        BYTE width;
+        BYTE height;
+    } textwin_t;
+
 ///////////////////////////////////////////////////////////
 //                      DRAW TEXT                        //
 ///////////////////////////////////////////////////////////
@@ -493,6 +503,11 @@ extern void fzx_write(unsigned int *buf, unsigned int len);
 extern void __CALLEE__ print_string (BYTE x, BYTE y, unsigned char *texto, BYTE color);
 extern void __CALLEE__ print_char (BYTE x, BYTE y, unsigned char texto, BYTE color);
 extern void __CALLEE__ setAttr (BYTE x, BYTE Y, BYTE attr);
+
+#ifdef CGA
+    extern void setmodeCGA ();
+    extern void setmodeTEXT();
+#endif
 
 ///////////////////////////////////////////////////////////
 //  PCX Library Functions                                //
@@ -520,7 +535,4 @@ typedef struct {
     BYTE padding[54];
 } PCX_HEADER;
 
-extern void loadPCX (unsigned char *filename);
-
-
-
+extern void loadPCX (unsigned char *filename, unsigned long int offset);

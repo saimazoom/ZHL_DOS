@@ -79,6 +79,9 @@ Hay una serie de constantes de compilación que pueden indicarse en la líne de co
     #include <graph.h>
     #include <stdio.h>
     #include <string.h>
+    #include ".\libsound\judas.h"
+    #include ".\libsound\judascfg.h"
+
 #endif 
 
 
@@ -99,8 +102,8 @@ BYTE gWord_number; // Marker for current word, 1st word is 1
 BYTE gChar_number; // Marker for current char, 1st char is 0
 
 // Windows declaration 
-textwin_t TextWindow;
-textwin_t GraphWindow;
+extern textwin_t TextWindow;
+extern textwin_t GraphWindow;
 
 // ------------------------------
 // Arrays defined at juego.c
@@ -1693,7 +1696,7 @@ void ACCpicture(BYTE picid)
         #if defined CGA || defined EGA 
         // Bitmap 
         // printf ("%s", imagenes_t[picpos].paddr);
-        loadPCX (imagenes_t[picpos].paddr);
+        loadPCX (imagenes_t[picpos].paddr, imagenes_t[picpos].offset);
         ACCtextcolor (fcolor); // Restores the original color
         // Vector 
         #endif
@@ -2606,7 +2609,7 @@ void getInput ()
                     print_char (TextWindow.x+strlen(playerPrompt)+strlen(playerInput)-1, fzx.y,caracter, fzx.color);
                 #endif 
             }
-            else  // Borrar
+            else  // Código de Borrar
                 {
                 playerInput[contador]=0;            
                 if (contador>0) 

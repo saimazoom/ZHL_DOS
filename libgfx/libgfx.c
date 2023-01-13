@@ -11,8 +11,12 @@
     #include <stdio.h>
     #include <string.h>
     #include <stdlib.h>
-     #include <i86.h>
+    #include <i86.h>
 #endif 
+
+// Windows declaration 
+textwin_t TextWindow;
+textwin_t GraphWindow;
 
 struct fzx_state fzx;   // active fzx state
 
@@ -462,8 +466,10 @@ void fzx_setat(unsigned char x, unsigned char y)
                _settextposition (y+1,x+1);
           #endif
           #if defined CGA || defined EGA || defined VGA || defined SVGA
-               _settextposition (y+1,x+1);
-               _moveto( x*8, y*8 );
+               
+               _settextposition (y+1-TextWindow.y,x+1-TextWindow.x); // Uses as a reference the text window 
+               
+               _moveto( x*8, y*8 ); // Uses as a reference the whole screen
           #endif 
      #endif
 }
@@ -739,9 +745,9 @@ void paint_pic (unsigned char *bytestring)
                // EGA and VGA do not support the CGA mode 5 palette. IBM could have initialized the EGA palette in mode 5 to match the CGA mode 5 palette, but they chose to not do so. Mode 5 was intended as grayscale mode on the composite output, a feature that was dropped on the EGA.
                // A lot of clone EGA and VGA card provide a CGA emulation mode that does support the mode 5 palette though.
                   
-          	regs.w.ax=0x04; // set CGA 320x200 MODE 04
-    		     int386( 0x10, &regs, &regs ); // Set the mode manually to avoid issues with watcom setvideomode 
-               
+          	//regs.w.ax=0x04; // set CGA 320x200 MODE 04
+    		     //int386( 0x10, &regs, &regs ); // Set the mode manually to avoid issues with watcom setvideomode 
+               setmodeCGA();                
           #endif 
 
           #ifdef EGA
@@ -787,9 +793,6 @@ void paint_pic (unsigned char *bytestring)
      void clearchar (BYTE x, BYTE y, BYTE color)
      {
           #ifdef TEXT                
-               //setAttr (x, y, color);
-               //
-               //print_char (x, y, ' ');
           #endif
 
           #ifdef CGA 
@@ -797,17 +800,6 @@ void paint_pic (unsigned char *bytestring)
 
           #ifdef EGA
           #endif
-     }
-
-
-     // Graphics functions in HighResMode 
-     void putPixel (BYTE x, BYTE Y)
-     {
-          #ifdef CGA 
-          #endif 
-
-          #ifdef EGA
-          #endif 
      }
 
      void drawLine (BYTE x0, BYTE y0, BYTE x1, BYTE y1)
@@ -830,15 +822,6 @@ void paint_pic (unsigned char *bytestring)
      }
 
      void fill (BYTE x, BYTE y)
-     {
-          #ifdef CGA 
-          #endif 
-
-          #ifdef EGA
-          #endif
-     }
-
-     void pfill (BYTE x, BYTE y, BYTE pattern)
      {
           #ifdef CGA 
           #endif 
@@ -901,7 +884,9 @@ void paint_pic (unsigned char *bytestring)
           #endif  
      
           #if defined CGA || defined EGA || defined VGA || defined SVGA
-               if (texto==' ') _outtext (&texto); // Esta función sobre scribe con el color de fondo cuando se usa espacio
+               if (texto==' ') { 
+                    _outtext (" "); // Esta función sobrescribe con el color de fondo cuando se usa espacio
+                    }
                     else _outgtext (&texto); // Esta función imprime con OR en pantalla, es decir un espacio no se imprime. 
           #endif
      }
@@ -948,7 +933,7 @@ void paint_pic (unsigned char *bytestring)
      // Output:
      // Usage:
 
-    void loadPCX (unsigned char *filename)
+    void loadPCX (unsigned char *filename, unsigned long offset)
     {
           // Info https://www.fileformat.info/format/pcx/egff.htm
           // https://qbmikehawk.neocities.org/docs/zsoft_pc_paintbrush.txt
@@ -968,6 +953,7 @@ void paint_pic (unsigned char *bytestring)
                printf ("Error Cannot open %s", filename);
                return ;
           }
+          fseek (fp, offset, SEEK_SET);
 
           // Header is 128bytes
           //printf ("%u", sizeof (PCX_HEADER));

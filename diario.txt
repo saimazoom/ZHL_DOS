@@ -81,12 +81,17 @@ Si es necesario modificar las fuentes:
 TODO: 
 	> Inyección de comandos (autotest)
 	> Comando TRANSCRIPT habilita el log a fichero empleando la fecha a un directorio de logs. Se incluyen también todas las pulsaciones de teclas.   
-	- La tecla de borrar no siempre elimina los caracteres en modo gráfico. 
-	> Empaquetar el directorio de recursos. Usando NASM se puede incluir en el binario los recursos. 
 	> En modo SVGA las librerias de WATCOM no parecen funcionar al imprimir textos, en modo VGA 640x480 funcionan bien hasta que se encuentran con un carácter > 127. 
 	
 	> Añadir sonido en forma de FX durante el juego. 
 	> Añadir animaciones (sprites) en las pantallas -> Timers  
+	> Rutina de impresión de texto en VGA y SVGA 
+
+08.01.2023
+	> He empezado a migrar algunas funciones de ASM para CGA con vistas a que finalmente voy a tener que rehacerlas para los modos VGA y SVGA (que es donde están fallando las de watcom). Voy a usar NASM en lugar de WASM, porque es un ensamblador más moderno, bien documentado y todavía tiene mantenimiento. 
+
+	+ La tecla de borrar no siempre elimina los caracteres en modo gráfico. Fixed, el problema es que la rutina de watcom de texto usa coordenadas relativas a la definición de la ventana. 
+	> Empaquetar el directorio de recursos. 
 
 06/07.01.2023
 	+ Al imprimir los caracteres acentuados por separado se convierten en terminación de palabra y al dividir las palabras puede que una palabra con acento aparezca dividida en dos líneas. 

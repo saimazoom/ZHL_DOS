@@ -131,15 +131,15 @@ img_t imagenes_t [] = {
 	// It is convenient to use the same ID as the location but is not mandatory 
 	// Terminated with 0
 	img_t imagenes_t [] = {
-		{ 1,0, "./resCGA/L01cga.pcx"},   
-		{ 2,0, "./resCGA/L02cga.pcx"},   
-		{ 3,0, "./resCGA/L03cga.pcx"},   
-		{ 4,0, "./resCGA/L04cga.pcx"},   
-		{ 5,0, "./resCGA/L05cga.pcx"},   
-		{ 6,0, "./resCGA/L06cga.pcx"},   
-		{ 7,0, "./resCGA/L07cga.pcx"},   
-		{ 8,0, "./resCGA/L07cga.pcx"},   
-		{ 9,0, "./resCGA/L09cga.pcx"},
+		{ lPuente,0, "./PART1.bin"},					// L01cga.pcx   
+		{ lNodo,3550, "./PART1.bin"},   			// L02cga.pcx
+		{ lEsclusa,3550+3021, "./PART1.bin"}, 		// L03cga.pcx  
+		{ lBodega,3550+3021+3566, "./PART1.bin"},   // L04cga.pcx
+		{ lExterior,3550+3021+3566+3058, "./PART1.bin"},   				// L05cga.pcx
+		{ lAlmacen,3550+3021+3566+3058+3233, "./PART1.bin"},   			// L06cga.pcx
+		{ lZonaA1,3550+3021+3566+3058+3233+3418, "./PART1.bin"},		// L07cga.pcx
+		{ lZonaA2,3550+3021+3566+3058+3233+3418, "./PART1.bin"},   		// L07cga.pcx
+		{ 9,3550+3021+3566+3058+3233+3418+4785, "./PART1.bin"},	// L09cga.pcx
 		{ 0,0,0}
 		};
 	#endif 
@@ -215,7 +215,7 @@ loc_t localidades_t [] =
 
 cnx_t conexiones_t [] =
 {
-// LOC | AL_N | AL_S | AL_E | AL_O | AL_NE | AL_NO | AL_SE | AL_SO | ARRIB | ABAJO | ENTRAR | SALIR 
+		// LOC | AL_N | AL_S | AL_E | AL_O | AL_NE | AL_NO | AL_SE | AL_SO | ARRIB | ABAJO | ENTRAR | SALIR 
 	{lPuente,{	0,		lNodo,		0,		0,		0,		0,		0,		0,		0,		lNodo,	0,	0}},
 	{lNodo,{lPuente,		lBodega,		0,		lEsclusa,		0,		0,		0,		0,		lPuente,		0,0,0}},
 	{lEsclusa,{0,		0,		lNodo,		0,		0,		0,		0,		0,		0,		0,0,0}},
@@ -2731,7 +2731,7 @@ void main (void)
 		#endif
 
 		#if defined EGA || defined CGA || defined VGA || defined SVGA 
-			n = _registerfonts( "1.fon" );
+			n = _registerfonts( "part1.fon" );
 			_setfont( "n0" );
 		#endif 
 

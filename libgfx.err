@@ -1,2 +1,3 @@
-.\libgfx\libgfx.c(670): Warning! W131: No prototype found for function 'tolower'
-.\libgfx\libgfx.c(975): Warning! W124: Comparison result always 0
+.\libgfx\libgfx.h(538): Warning! W138: No newline at end of file
+.\libgfx\libgfx.c(676): Warning! W131: No prototype found for function 'tolower'
+.\libgfx\libgfx.c(961): Warning! W124: Comparison result always 0

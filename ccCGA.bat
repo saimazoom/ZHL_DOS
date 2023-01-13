@@ -31,9 +31,8 @@ pause
 WCC386 .\libgfx\libgfx.c -dDOS -dSPANISH -bt=DOS -dCGA
 pause
 
-REM WASM .\libgfx\libgfx_DOS.asm 
-REM ..\nasm\nasm.exe -f obj .\libgfx\libgfx_DOS_NASM.asm -o .\libgfx_DOS_NASM.o
+nasm.exe -f obj .\libgfx\libgfx_CGA.asm -o .\libgfx_CGA.obj
 
-wlink name zhl.exe file {libgfx.obj juego.obj parser.obj } 
+wlink name zhl.exe file {libgfx.obj juego.obj parser.obj libgfx_CGA.obj}  L .\libsound\judas.lib
 
 

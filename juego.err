@@ -1,3 +1,4 @@
+.\libgfx\libgfx.h(538): Warning! W138: No newline at end of file
 juego.c(2477): Warning! W131: No prototype found for function 'ACCquit'
 juego.c(2567): Warning! W107: Missing return value for function 'respuestas_post'
 juego.c(2634): Warning! W107: Missing return value for function 'proceso1'
