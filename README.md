@@ -1,4 +1,5 @@
-ZHL for DOS (80386) 
+ZHL for DOS (80386), LINUX and AMIGA 500 
+
 TEXT, CGA and EGA versions
 --------------------------------------
 
