@@ -79,17 +79,31 @@ Si es necesario modificar las fuentes:
 		_clearscreen( _GCLEARSCREEN );
 			
 TODO: 
-	> Inyección de comandos (autotest)
+	> Cargador de GIF para reducir lo que ocupan los gráficos PCX y de este modo ser compatibles con FLC  
+	> Cargador de FLC y reproducir animaciones
+	> Añadir sonido en forma de FX durante el juego. (SNDPAK)  
+	> Añadir música midi durante el juego (MIDPAK)
+
+	> Release versiones EGA y CGA completadas (incluido el inglés)
+
 	> Comando TRANSCRIPT habilita el log a fichero empleando la fecha a un directorio de logs. Se incluyen también todas las pulsaciones de teclas.   
-	> En modo SVGA las librerias de WATCOM no parecen funcionar al imprimir textos, en modo VGA 640x480 funcionan bien hasta que se encuentran con un carácter > 127. 
-	
-	> Añadir sonido en forma de FX durante el juego. 
-	> Añadir animaciones (sprites) en las pantallas -> Timers  
-	> Rutina de impresión de texto en VGA y SVGA 
+	> Inyección de comandos (autotest) de este modo la aventura se juega sola. 
+
+04.03.2023 
+	He pasado unas semanas leyendo cosas de MSDOS y AMIGA, todo muy divertido. He tenido la suerte de conseguir un AMIGA 500 y un 486 para poder hacer pruebas en HW real. 
+	Me he dado cuenta también de que al utilizar ANSI C en el juego tengo casi gratis la versión de Linux en consola sin necesidad de usar ninguna librería adicional. 
+	Ya tengo la versión de LINUX compilando y funcionando, pero tengo que pensar como vivir con el hecho de que el tamaño de la consola y la posición del cursor, no son algo que pueda controlar a diferencia de DOS. 
+
+
+31.01.2023 
+	> Completados gráficos EGA a 16 colores, también he hecho una animación en FLC para el exterior de la nave. 
+
+23.01.2023
+	> Puente de mando en EGA 
+	> En EGA y VGA la impresión de texto ya funciona sin problemas con los caracteres acentuados. 
 
 08.01.2023
 	> He empezado a migrar algunas funciones de ASM para CGA con vistas a que finalmente voy a tener que rehacerlas para los modos VGA y SVGA (que es donde están fallando las de watcom). Voy a usar NASM en lugar de WASM, porque es un ensamblador más moderno, bien documentado y todavía tiene mantenimiento. 
-
 	+ La tecla de borrar no siempre elimina los caracteres en modo gráfico. Fixed, el problema es que la rutina de watcom de texto usa coordenadas relativas a la definición de la ventana. 
 	> Empaquetar el directorio de recursos. 
 

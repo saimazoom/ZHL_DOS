@@ -33,6 +33,6 @@ pause
 
 nasm.exe -f obj .\libgfx\libgfx_CGA.asm -o .\libgfx_CGA.obj
 
-wlink name zhl.exe file {libgfx.obj juego.obj parser.obj libgfx_CGA.obj}  L .\libsound\judas.lib
+wlink name zhl.exe file {libgfx.obj juego.obj parser.obj libgfx_CGA.obj}  
 
 

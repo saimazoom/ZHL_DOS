@@ -1,0 +1,11 @@
+
+clear
+export VBCC=/home/kmbr/devel/AMIGA/tools/vbcc
+export PATH=$VBCC/bin:$PATH
+
+                              
+echo "==================================="
+echo "Compila Parser (Pass 1)"
+echo "==================================="
+
+vc juego.c parser.c ./libgfx/libgfx_AMIGA.c -lamiga -lauto -o zhl_text -DAMIGA -DSPANISH -DTEXT +kick13 -c99

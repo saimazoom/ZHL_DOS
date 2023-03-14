@@ -681,6 +681,7 @@ void paint_pic (unsigned char *bytestring)
      // Output: Set the mode in text 80x25 in CGA/EGA/VGA modes. 
      void TextMode () 
      {
+     
           union REGS regs;
 
           // set text mode 80x25 (CGA, EGA, VGA)
@@ -696,7 +697,8 @@ void paint_pic (unsigned char *bytestring)
           regs.h.al = 0x03; // toggle intensity/blinking 
           regs.w.bx = 0x00; // 0-Enable intensity, 1-Enable blinking, by default we choose intensity 
           int386( 0x10, &regs, &regs );
-          _wrapon(_GWRAPOFF);
+          _wrapon(_GWRAPOFF);     
+     
      }
 
      // 0: Palette 0 
@@ -755,12 +757,11 @@ void paint_pic (unsigned char *bytestring)
           #endif 
 
           #ifdef VGA
-               _setvideomode (_VRES16COLOR);
+               _setvideomode (_VRES16COLOR); // 640x480 16colors
           #endif 
 
           #ifdef SVGA 
-               _setvideomode (_VRES256COLOR);
-
+               _setvideomode (_VRES256COLOR); // 640x480 256colors
           #endif
      }
      // Function: clearScreen 
@@ -840,6 +841,7 @@ void paint_pic (unsigned char *bytestring)
 
      void print_string (BYTE x, BYTE y, unsigned char *texto, BYTE color)
      {
+
           int i, n;
           BYTE *CGA_VRAM=(BYTE*)0xB8000L;
           // Note: watcom printing library uses (1,1) as top, left coordinate Y,X. We need to translate that to MiniF system which uses 0,0 for left, top coordinates. 
@@ -859,6 +861,7 @@ void paint_pic (unsigned char *bytestring)
           #if defined CGA || defined EGA || defined VGA || defined SVGA
                _outgtext (texto);
           #endif 
+
      }
 
      void print_char (BYTE x, BYTE y, unsigned char texto, BYTE color)

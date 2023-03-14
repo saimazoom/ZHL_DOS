@@ -1,4 +1,8 @@
-ZHL for DOS (80386), LINUX and AMIGA 500 
+ZHL for DOS (80386) 
+TEXT, CGA and EGA versions
+(C) 2022 KMBR
+--------------------------------------
 
-2023 KMBR
+English and Spanish language included 
+
   

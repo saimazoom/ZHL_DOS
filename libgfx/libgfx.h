@@ -16,6 +16,17 @@
 #endif 
 
 
+#ifdef LINUX
+	#define __FASTCALL__ 
+	#define __CALLEE__ 
+#endif 
+
+
+#ifdef AMIGA
+	#define __FASTCALL__ 
+	#define __CALLEE__ 
+#endif 
+
 #define BYTE unsigned char
 
 #ifdef ZX
@@ -26,6 +37,13 @@
     #define WORD unsigned short int
 #endif 
 
+#ifdef AMIGA
+    #define WORD unsigned short int
+#endif 
+
+#ifdef LINUX
+    #define WORD unsigned short int
+#endif 
 
 #ifdef ZX
     #define INK_BLACK      0x00
@@ -51,7 +69,7 @@
 #endif
 
 #ifdef C64
-   // Disable the PETSCI translation performed by CC65
+   // Disable the PETSCI translation performed by CC65 so our routines can work across all platforms
    #pragma charmap (0,0);
    #pragma charmap (1,1);
    #pragma charmap (2,2);
@@ -425,9 +443,94 @@
 
 #endif 
 
+#ifdef AMIGA
+     // First 16 colors are mapped like in EGA 
+    #define INK_BLACK      0x00
+    #define INK_BLUE       0x01
+    #define INK_RED        0x04
+    #define INK_MAGENTA    0x05
+    #define INK_GREEN      0x02
+    #define INK_CYAN       0x03
+    #define INK_BROWN      0x06
+    #define INK_YELLOW     0x0E
+    #define INK_WHITE      0x07
+    #define INK_GRAY       0x08
+    #define INK_BRIGHT_BLUE 0x09
+    #define INK_BRIGHT_RED  0x0C
+    #define INK_BRIGHT_MAGENTA    0x0D
+    #define INK_BRIGHT_GREEN      0x0A
+    #define INK_BRIGHT_CYAN       0x0B
+    #define INK_BRIGHT_WHITE      0x0F
+    #define INK_BRIGHT_YELLOW     0x0E
+
+
+    #define PAPER_BLACK      0x00
+    #define PAPER_BLUE       0x10
+    #define PAPER_GREEN      0x20
+    #define PAPER_CYAN       0x30
+    #define PAPER_RED        0x40
+    #define PAPER_MAGENTA    0x50
+    #define PAPER_BROWN      0x60
+    #define PAPER_WHITE      0x70
+    #define PAPER_GRAY           0x80
+    #define PAPER_BRIGHT_BLUE       0x90
+    #define PAPER_BRIGHT_GREEN      0xA0
+    #define PAPER_BRIGHT_CYAN       0xB0
+    #define PAPER_BRIGHT_RED        0xC0
+    #define PAPER_BRIGHT_MAGENTA    0xD0
+    #define PAPER_BRIGHT_YELLOW     0xE0
+    #define PAPER_BRIGHT_WHITE      0xF0
+    
+    // BRIGHT and FLASH are not supported in AMIGA
+    #define BRIGHT         0x00
+    #define FLASH          0x00
+#endif
+
+#ifdef LINUX
+    // Ref: https://man7.org/linux/man-pages/man5/terminal-colors.d.5.html
+
+     #define BRIGHT         0x01
+     #define FLASH          0x05 
+
+    #define INK_BLACK      0x30
+    #define INK_BLUE       0x34
+    #define INK_RED        0x31
+    #define INK_MAGENTA    0x35
+    #define INK_GREEN      0x32
+    #define INK_CYAN       0x36
+    #define INK_BROWN      0x33
+    #define INK_YELLOW     0x33
+    #define INK_WHITE      0x37
+    #define INK_GRAY       0x37
+    #define INK_BRIGHT_BLUE 0x34
+    #define INK_BRIGHT_RED  0x31
+    #define INK_BRIGHT_MAGENTA    0x35
+    #define INK_BRIGHT_GREEN      0x32
+    #define INK_BRIGHT_CYAN       0x36
+    #define INK_BRIGHT_WHITE      0x37
+    #define INK_BRIGHT_YELLOW     0x33
+
+
+    #define PAPER_BLACK      0x40
+    #define PAPER_BLUE       0x44
+    #define PAPER_GREEN      0x42
+    #define PAPER_CYAN       0x46
+    #define PAPER_RED        0x41
+    #define PAPER_MAGENTA    0x50
+    #define PAPER_YELLOW 0x43
+    #define PAPER_BROWN      0x43
+    #define PAPER_WHITE      0x47
+    #define PAPER_GRAY           0x47
+    #define PAPER_BRIGHT_BLUE       0x44
+    #define PAPER_BRIGHT_GREEN      0x42
+    #define PAPER_BRIGHT_CYAN       0x46
+    #define PAPER_BRIGHT_RED        0x41
+    #define PAPER_BRIGHT_MAGENTA    0x50
+    #define PAPER_BRIGHT_YELLOW     0x43
+    #define PAPER_BRIGHT_WHITE      0x47
+#endif 
 
 // The function being called (callee) is responsible for cleaning up the stack after finishing. 
-
 #ifdef C64
    extern void setRamLayout ();
    extern void __FASTCALL__ splitScreen (BYTE scanline); // In C64 the mode can be changed between lowres multicolor and hightres text in HW
@@ -442,6 +545,10 @@
     extern void TextMode(); // CGA/EGA/VGA: 80x25 16 colors Text mode 
     void setCGAPalette (BYTE pal);
 #endif
+
+#ifdef LINUX 
+    int getch(void);
+#endif 
 
 extern void __CALLEE__ scrollArriba (BYTE fila_inicial, BYTE columna_inicial);
 extern void __CALLEE__scrollArriba2 (BYTE linea_inicial, BYTE num, BYTE step);

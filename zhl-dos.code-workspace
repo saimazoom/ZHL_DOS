@@ -10,7 +10,13 @@
 	"settings": {
 		"files.associations": {
 			"parser.h": "c",
-			"JUEGO_CO.C": "cpp"
+			"JUEGO_CO.C": "cpp",
+			"libgfx.h": "c",
+			"stdio.h": "c",
+			"symbol_list.h": "c",
+			"stdlib.h": "c",
+			"string.h": "c",
+			"parser_defs.h": "c"
 		}
 	}
 }

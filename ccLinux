@@ -1,0 +1,21 @@
+#!/bin/bash
+
+clear 
+
+rm *.o
+rm *.sym
+rm *.map
+rm *.tap
+rm *.err
+
+echo "==================================="
+echo "Compila Parser"
+echo "==================================="
+
+# sudo apt-get install libncurses-dev
+
+gcc juego.c parser.c ./libgfx/libgfx_LINUX.c -DSPANISH -DLINUX -DTEXT -o ZHL 
+
+echo "Good Job!"
+
+ls -l ZHL 

@@ -46,17 +46,18 @@ Hay una serie de constantes de compilación que pueden indicarse en la líne de co
     - C64
     - ZX 
     - ZX128
-    - SPANISH 
-    - ENGLISH 
+    - SPANISH: Parser messages in spanish. 
+    - ENGLISH: Parser messages in english. 
     - FRENCH 
-
+    -TEXT: To compile the PC DOS Version in TEXT Mode.
+    -CGA
+    -EGA
+    -VGA
+    -SVGA
 */
 
 //#define DEBUG       // DEBUG=1 incluye funciones y mensajes de depuración
 //#define GRAPHICS    // GRAPHICS=1 Incluye gráficos
-
-//#define SPANISH  Messages in Spanish
-//#define ENGLISH Messages in English
 
 #include <string.h>
 #ifdef CPC
@@ -64,10 +65,10 @@ Hay una serie de constantes de compilación que pueden indicarse en la líne de co
 	#include <stdlib.h>
 #endif 
 
-#include "symbol_list.h"
-#include "parser_defs.h"
 #include "juego_flags.h"
 #include "parser.h"
+#include "parser_defs.h"
+#include "symbol_list.h"
 
 // Graphics compressor ZX Spectrum 
 #ifdef ZX
@@ -78,14 +79,21 @@ Hay una serie de constantes de compilación que pueden indicarse en la líne de co
     #include <conio.h>
     #include <graph.h>
     #include <stdio.h>
-    #include <string.h>
-    #include ".\libsound\judas.h"
-    #include ".\libsound\judascfg.h"
-
+    #include <string.h>	
 #endif 
 
+#ifdef LINUX 
+    #include <stdio.h>
+    #include "./libgfx/libgfx.h"    
+#endif 
 
-#include ".\libgfx\libgfx.h"
+#ifdef AMIGA
+    #include "./libgfx/libgfx.h"
+#endif
+
+#if defined(ZX) || defined(DOS)
+    #include ".\libgfx\libgfx.h"
+#endif 
 
 // Funciones externas
 //extern void scrollArriba2 (BYTE linea_inicial, BYTE num, BYTE step);
@@ -314,6 +322,7 @@ void  InitParser (void) // 212bytes
         gNUM_LOC++;
         localidades_t[gNUM_LOC].visited=FALSE;
     }
+
     // Cuenta las imágenes
 	gNUM_IMG=0;
 	while (imagenes_t[gNUM_IMG].id!=0)
@@ -368,7 +377,7 @@ void ParserLoop (void) // 664 bytes
 
                 fontStyle(NORMAL);
                 fzx_setat(fzx.x+2,fzx.y); // Indenta la primera palabra
-                writeText (localidades_t[loc_temp].descripcion);
+                writeText(localidades_t[loc_temp].descripcion);
                 newLine();
 
                 // Proceso 1 Post, después de describir la localidad...
@@ -445,7 +454,7 @@ BYTE ACCNextWord ()
         caracter = playerInput[gChar_number];
         playerWord[i]=caracter;
         // word terminators...
-        if (caracter==' ' || caracter==13 || caracter==',' || caracter==';' || caracter=='.' || caracter==0)
+        if (caracter==' ' || caracter==13 || caracter==',' || caracter==';' || caracter=='.' || caracter==0 || caracter==10 )
         {            
             salir = 1;      
         }
@@ -492,8 +501,7 @@ void parse() // 145bytes
     gChar_number = 0;
     gWord_number = 0; 
     playerWord[0]=255; // Initialize...
-    //writeText ("Parse");
-
+    
     while (playerWord[0]!=0) 
     {
         ACCNextWord();
@@ -1144,7 +1152,7 @@ void  ACCgoto(BYTE locid)
 
 void ACCclearexit(BYTE locid, BYTE value)
 {
-	if ((value > NUM_CONNECTION_VERBS) || (value< 0 )) return;
+	if ((value > NUM_CONNECTION_VERBS)) return;
 	setConnection(locid,value, NO_EXIT);
 }
 
@@ -1162,6 +1170,7 @@ BYTE ACCgetexit(BYTE locid, BYTE value)
 BYTE ACCsetexit(BYTE loc_orig, BYTE value, BYTE loc_dest)
 {
 	if (value < NUM_CONNECTION_VERBS) setConnection(get_loc_pos(loc_orig), value, get_loc_pos(loc_dest));
+    return TRUE;
 }
 
 // 
@@ -1754,6 +1763,7 @@ BYTE CNDislight()
 {
 	//if (!isDarkHere()) return TRUE;
 	//    return lightObjectsPresent();
+    return TRUE;
 }
 
 BYTE  CNDisnotlight()
@@ -1840,7 +1850,7 @@ BYTE findMatchingObject(BYTE locno)
 
 	for (i=0;i<gNUM_OBJECTS;++i) // Recorre el array de objetos
     {
-        if (locno==-1 || getObjectLocation(i) == locno)
+        if (getObjectLocation(i) == locno)
         {
 		 if (objetos_t[i].vnombre == flags[fnoun1] &&
             (objetos_t[i].vadj1 == EMPTY_WORD || objetos_t[i].vadj1 ==flags[fadject1]))
@@ -2283,6 +2293,11 @@ void newLine ()
        fzx.y-=1;
     }
     // writeValue(fzx.y);
+
+    #ifdef LINUX 
+        fzx_putc (13);
+        fzx_putc (10);
+    #endif 
 }
 
 void  scrollVTextWindow (BYTE lineas) // Líneas de scroll en píxel, las fuentes usadas son proporcionales
@@ -2337,23 +2352,14 @@ void writeTextln (BYTE *texto)
     BYTE texto_buffer[256];
     BYTE buffer[20]; // Buffer de palabras
 #endif
+
 void writeText (BYTE *texto) 
 {
-	#ifdef ZX
+	#ifndef C64
     BYTE texto_buffer[256];
     BYTE buffer[20]; // Buffer de palabras
 	#endif
 	
-	#ifdef CPC
-	BYTE texto_buffer[256];
-    BYTE buffer[20]; // Buffer de palabras
-	#endif
-
-    #ifdef DOS
-	BYTE texto_buffer[256];
-    BYTE buffer[20]; // Buffer de palabras
-	#endif
-    
     BYTE counter=0;
     BYTE texto_counter=0;
     BYTE caracter=0;
@@ -2366,7 +2372,7 @@ void writeText (BYTE *texto)
     while (caracter!=0 && counter<255)
     {
         caracter = texto[texto_counter];
-        if (caracter>127) // Código comprimido
+        if (caracter>127) // Código comprimido o código especial en DOS/LINUX
         {
             #ifdef ZX 
             simbol_counter=0;
@@ -2378,6 +2384,28 @@ void writeText (BYTE *texto)
             }
             #endif 
 
+            #ifdef LINUX
+                // Tabla ISO8859-15 en https://es.wikipedia.org/wiki/ISO/IEC_8859-15
+                // GCC and the Linux console works in UTF-8, not even comparing in the code works unless the specific charcode is used 
+                texto_buffer[counter]=caracter;
+                /*
+                if (caracter==0xE1) texto_buffer[counter]=160; // á
+                if (caracter==0xE9) texto_buffer[counter]=130; // é
+                if (caracter==0xED) texto_buffer[counter]=161; // í
+                if (caracter==0xF3) texto_buffer[counter]=162; // ó
+                if (caracter==0xFA) texto_buffer[counter]=163; // ú
+                if (caracter==0xF1) texto_buffer[counter]=164; // ñ
+                if (caracter==0xA1) texto_buffer[counter]=173; // ¡
+                if (caracter==0xBF) texto_buffer[counter]=168; // ¿
+                if (caracter==0xC1) texto_buffer[counter]=181; // Á
+                if (caracter==0xC9) texto_buffer[counter]=144; // É
+                if (caracter==0xCD) texto_buffer[counter]=214; // Í
+                if (caracter==0xD3) texto_buffer[counter]=224; // Ó
+                if (caracter==0xDA) texto_buffer[counter]=233; // Ú
+                if (caracter==0xD1) texto_buffer[counter]=165; // Ñ
+                */
+                counter++;
+            #endif 
             #ifdef DOS
                 #ifdef TEXT 
                     // Source Code is edited with ISO 88159-15, which is not matching the UTF-8 in DOS in TEXT Mode. 
@@ -2400,8 +2428,8 @@ void writeText (BYTE *texto)
                     if (caracter=='Ñ') texto_buffer[counter] = 165;
                     
                 #endif 
-                #if defined CGA || defined EGA
-                    if (caracter=='á') texto_buffer[counter] = '#'; // Equivalent code in UTF-8 
+                #if defined CGA || defined EGA || defined VGA || defined SVGA
+                    if (caracter=='á') texto_buffer[counter] = '#'; // In graphics mode we can replace the char for the one defined in the table
                     if (caracter=='é') texto_buffer[counter] = '$';
                     if (caracter=='í') texto_buffer[counter] = '%';
                     if (caracter=='ó') texto_buffer[counter] = '&';
@@ -2427,7 +2455,7 @@ void writeText (BYTE *texto)
         }
         texto_counter++;
         }
-
+  
    // 2. Imprime la cadena palabra a palabra
    counter=0;
    //caracter = texto_buffer[0];
@@ -2456,7 +2484,13 @@ void writeText (BYTE *texto)
 
             fzx_puts(buffer);
 
-            if (caracter==' ') counter++;
+            if (caracter==' ') 
+            {
+                counter++;
+            #ifdef LINUX 
+                fzx_putc (' ');
+            #endif 
+            }
             fzx.x+=counter;            
             
             counter=0;
@@ -2587,30 +2621,46 @@ void getInput ()
    writeText (playerPrompt);
 
    //writeText("_");
-   while (caracter!=13 && contador<MAX_INPUT_LENGTH)
+#ifndef LINUX
+   while ( caracter!=13 && contador<MAX_INPUT_LENGTH)
+#else 
+    while ( caracter!=10 && contador<MAX_INPUT_LENGTH)
+#endif 
    {
         caracter = getKey();
+        
         //if (caracter < 127) // In DOS is possible to input extended ascii characters directly 
         {
             #ifdef ZX 
             if (caracter!=4) { // Código devuelto al borrar
             #endif 
 
-            #ifdef DOS
+            #if defined(DOS) 
             if (caracter!=8) { // Código devuelto al borrar
             #endif 
+
+            #if defined(LINUX) 
+                if (caracter!=127) { // Código devuelto al borrar
+            #endif 
+
+            #if defined(AMIGA) 
+                if (caracter!=127) { // Código devuelto al borrar
+            #endif 
+
                 playerInput[contador]=caracter;
                 contador++;
                 #ifdef ZX 
                     print_char (TextWindow.x+contador, fzx.y,caracter);
                 #endif 
 
-                #ifdef DOS
+                #if defined DOS || defined LINUX || defined AMIGA
                     print_char (TextWindow.x+strlen(playerPrompt)+strlen(playerInput)-1, fzx.y,caracter, fzx.color);
                 #endif 
+
             }
             else  // Código de Borrar
                 {
+                
                 playerInput[contador]=0;            
                 if (contador>0) 
                     {
@@ -2627,15 +2677,21 @@ void getInput ()
                         #endif 
                         gotoxy (contador+1, fzx.y); 
                     #endif 
+                    #ifdef LINUX 
+                        print_string (TextWindow.x+strlen(playerPrompt)+strlen(playerInput)-1, fzx.y,"\b \b", fzx.color);
+                    #endif 
+
+                    #ifdef AMIGA
+                        print_char (TextWindow.x+strlen(playerPrompt)+strlen(playerInput)-1, fzx.y,' ', fzx.color);
+                    #endif
                     contador--;
                     }    
                 }
         }
         waitForNoKey();
-   }
-   
+   }   
    //playerInput[contador-1]=' ';
-   playerInput[contador]=0;
+    playerInput[contador]=0;
 }
 
 void fontStyle (BYTE style)
@@ -2914,12 +2970,14 @@ void incr16bit (BYTE *pointer)
 
 void ACCpaper (BYTE color)
 {
+    #ifdef DOS 
     long colors[ 16 ] = {
         _BLACK, _BLUE, _GREEN, _CYAN,
         _RED, _MAGENTA, _BROWN, _WHITE,
         _GRAY, _LIGHTBLUE, _LIGHTGREEN, _LIGHTCYAN,
         _LIGHTRED, _LIGHTMAGENTA, _YELLOW, _BRIGHTWHITE
     };
+    #endif 
 
     fcolor &= 0x0F; // Clear the top 4 bits 
     fcolor |=color&0xF0; // Stores the paper value 
@@ -2960,7 +3018,7 @@ void ACCink (BYTE color)
 // Input: 
 //   color: In format PAPER (4bits) | INK (4bits) 
 // Usage: ACCtextcolor ( PAPER_BLUE | INK_WHITE)
-extern void ACCtextcolor (BYTE color)
+void ACCtextcolor (BYTE color)
 {   
     ACCpaper (color);
     ACCink(color);

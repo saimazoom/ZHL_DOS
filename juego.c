@@ -1,17 +1,17 @@
+// Use ISO 8819-15 Encoding 
 // ZHL. Written by KMBR.
 // 2016,2019,2021,2023 KMBR
 // This code is licensed under a Attribution-NonCommercial-NoDerivatives 4.0 International (CC BY-NC-ND 4.0) 
 // https://creativecommons.org/licenses/by-nc-nd/4.0/
-// Use ISO 8819-15 Encoding 
 
 #include <string.h>
 #include "./parser_defs.h"
 #include "./parser.h"
 
-// Flags del Juego
+// Game flags 
 #include "./juego_flags.h"
 
-// Librería gráfica
+// Input/output library
 #include "./libgfx/libgfx.h"
  
 // Additional headers for DOS story files
@@ -20,6 +20,20 @@
     #include <graph.h>
     #include <stdio.h>
     #include <string.h>
+#endif 
+
+// Additional headers for AMIGA story files
+#ifdef AMIGA
+	#include <stdio.h>
+	#include <string.h>
+	#include <stdlib.h>
+#endif 
+
+// Additional headers for LINUX story files
+#ifdef LINUX
+    #include <stdio.h>
+    #include <string.h>
+	#include <stdlib.h>
 #endif 
 
 // Compiler options for ZX Spectrum
@@ -48,6 +62,15 @@
 #ifdef DOS
 #endif 
 
+// Compiler options for LINUX games
+#ifdef DOS
+#endif 
+
+// Compiler options for AMIGA games
+#ifdef DOS
+#endif 
+
+
 // +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 // Código local
 // Si necesitamos código en páginas de memoria hay que compilarlas como .bin y añadirlas aquí como extern
@@ -65,8 +88,8 @@ char proceso2_post();
 // ------------------------------------------
 
 // Variables que necesitamos del parser...
-// Se pueden declarar mï¿½s tablas de flags para el juego pero el parser
-// sï¿½lo trabaja con esta. 
+// Se pueden declarar más tablas de flags para el juego pero el parser
+// sïmpre trabaja con esta. 
 extern unsigned char flags[255]; // Flags 60...250 Disponibles para el usuario
 extern unsigned char playerInput[80];
 extern unsigned char playerWord[25];
@@ -120,6 +143,20 @@ img_t imagenes_t [] = {
     };
 #endif 
 
+#ifdef LINUX 
+	img_t imagenes_t [] = {
+		{ 0,0,0}
+		};
+#endif 
+
+#ifdef AMIGA 
+	#if defined TEXT 
+	img_t imagenes_t [] = {
+		{ 0,0,0}
+		};
+	#endif 
+#endif 
+
 #ifdef DOS 
 	#if defined TEXT || defined VGA || defined SVGA  
 	img_t imagenes_t [] = {
@@ -130,6 +167,7 @@ img_t imagenes_t [] = {
 	// id, page, memory pointer
 	// It is convenient to use the same ID as the location but is not mandatory 
 	// Terminated with 0
+	// In DOS mode the page field is filled with the offset in the binary file
 	img_t imagenes_t [] = {
 		{ lPuente,0, "./PART1.bin"},					// L01cga.pcx   
 		{ lNodo,3550, "./PART1.bin"},   			// L02cga.pcx
@@ -2631,6 +2669,7 @@ char proceso1() // Antes de la descripción de la localidad...
 	// En ZHL todas las localidades tienen luz
 	flags[fdark]=0; // No está oscuro
 
+	DONE;
 }
 
 char proceso1_post() // Después de la descripción
@@ -2646,6 +2685,7 @@ char proceso1_post() // Después de la descripción
  //setRAMPage(0);
  // Usar proceso en otras páginas require compilar código por separado
  //proceso1_post_pagina0();
+	DONE;
 }
 
 char proceso2() // Despuï¿½s de cada turno, haya tenido o no ï¿½xito la entrada en la tabla de respuestas
@@ -2656,8 +2696,12 @@ char proceso2() // Despuï¿½s de cada turno, haya tenido o no ï¿½xito la entrada 
 // ------------------------------------------------------------
 // Bucle principal, menï¿½ del juego
 // ------------------------------------------------------------
-
-void main (void)
+#if defined AMIGA || DOS
+// AMIGA and DOS versions can accept parameters when launched
+int main(int argc, char **argv)
+#else 
+void main(void) 
+#endif
 {
 	// Inicializa variables
 	BYTE salir=0,n,i;
@@ -2669,33 +2713,53 @@ void main (void)
 		#endif 
 
 		#ifdef CGA
+			// 320x200 4col
 			HighResMode ();
 			ACCpalette (1); // 1-> 0-Black, 1- Cyan, 2-Magenta 3 White
 			clearScreen (INK_WHITE | PAPER_BLACK);
 		#endif
 
 		#ifdef EGA 
+			// 320x200 16col
 			HighResMode ();
+			// Palette is fixed
 			clearScreen (INK_WHITE | PAPER_BLACK);
 		#endif
 
 		#ifdef VGA
+			// 640x400 16col 
 			HighResMode ();
 			clearScreen (INK_WHITE | PAPER_BLACK);
 		#endif 
 
 		#ifdef SVGA
+			// 640x480 256col
 			HighResMode ();
-			_outtext ("Hola Mundo");
-			getch();
 			clearScreen (INK_WHITE | PAPER_BLACK);
 		#endif 
 
 	#endif
 
 	#ifdef ZX 
+		// Spectrum is always TEXT+ GRAPHICS 
 		clearScreen (INK_BLACK | PAPER_BLACK);
 	#endif 
+
+	#ifdef LINUX
+		// LINUX is a console application 
+		clearScreen (INK_WHITE | PAPER_BLUE);
+	#endif 
+
+	#ifdef AMIGA
+		// TEXT mode is a console application under workbench 
+		#ifdef TEXT
+		#endif 
+
+		#ifdef GRAPHICS 
+		// Graphics mode are two SCREENs, top for graphics and bottom for TEXT 	
+		#endif 
+	#endif 
+
 
 	InitParser ();                // Inicializa el parser y la pantalla
 	flags[fobjects_carried_count] = 0;
@@ -2717,6 +2781,10 @@ void main (void)
 
 	ACCplace (oCanon, NONCREATED);
 	ACCplace (oTeclado, NONCREATED);
+
+	// -----------------------------
+	// Define la zona de la pantalla
+	// -----------------------------
 
 	#ifdef ZX 
  		defineTextWindow (0,0,40,25); // Full Text screen in the menu  
@@ -2754,8 +2822,19 @@ void main (void)
 		#endif
 	#endif 
 
-	 // Menú de juego
-     #ifdef ZX 
+	#ifdef LINUX
+		defineTextWindow (0,0,80,25); // Graphics + Text 
+	#endif 
+
+	#ifdef AMIGA
+		defineTextWindow (0,0,40,25); // Graphics + Text 
+	#endif
+
+	// -----------------------------
+	// Menú de juego
+	// -----------------------------    
+
+ 	#ifdef ZX 
 	 	clearTextWindow(INK_GREEN | PAPER_BLACK  | BRIGHT, TRUE);
 	 #endif 
 
@@ -2791,7 +2870,7 @@ void main (void)
 		#endif
 	#endif
 
-	 writeText (" Z H L ");
+	 writeText (" Z H L ^");
      
 	 #ifdef ZX 
 	 	gotoxy (12,14);
@@ -2809,10 +2888,10 @@ void main (void)
 	#endif
 
 	 #ifdef SPANISH
-    	 writeText ("1 Jugar");
+    	 writeText ("1 Jugar ^");
 	 #endif 
 	 #ifdef ENGLISH
-	 	writeText ("1 Start");
+	 	writeText ("1 Start ^");
 	 #endif
     
 	 #ifdef ZX 
@@ -2832,10 +2911,10 @@ void main (void)
 	#endif
 
 	 #ifdef SPANISH
-     	writeText ("2 Instrucciones");
+     	writeText ("2 Instrucciones ^");
 	 #endif 
 	 #ifdef ENGLISH 
-	 	writeText ("2 How to play");
+	 	writeText ("2 How to play ^");
 	 #endif
      
 	 #ifdef ZX 
@@ -2856,10 +2935,10 @@ void main (void)
 	#endif
 
 	 #ifdef SPANISH
-     writeText ("3 Créditos");
+     writeText ("3 Créditos ^");
 	 #endif 
 	 #ifdef ENGLISH 
-	 writeText ("3 Credits");
+	 writeText ("3 Credits ^");
 	 #endif
 
 	 #ifdef ZX 
@@ -2880,10 +2959,10 @@ void main (void)
 
 
 	 #ifdef SPANISH
-     writeText ("0 Salir");
+     writeText ("0 Salir ^");
 	 #endif 
 	 #ifdef ENGLISH 
-	 writeText ("0 Exit");
+	 writeText ("0 Exit ^");
 	 #endif
 
 	 #ifdef ZX 
@@ -2898,11 +2977,11 @@ void main (void)
 			gotoxy (9,20);
 		#endif
 		#if defined VGA || defined SVGA 
-			gotoxy (28,59);
+			gotoxy (28,58);
 		#endif 
 	#endif
 
-	writeText ("(C) 2019-2021,2023 KMBR ");
+	writeText ("(C) 2019-2021,2023 KMBR ^");
 	
 	while (!salir) 
 	{
@@ -3022,7 +3101,7 @@ void main (void)
 						clearScreen(INK_WHITE | PAPER_BLACK);
 					#endif 
 					#if defined VGA || defined SVGA 
-				 		defineTextWindow (0,0,80,60); // Pantalla reducida en 128Kb, Gráficos + Texto
+				 		defineTextWindow (0,0,80,59); // 
 						clearScreen(INK_WHITE | PAPER_BLACK);
 					#endif 
 					

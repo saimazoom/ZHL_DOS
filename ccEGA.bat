@@ -31,7 +31,7 @@ pause
 WCC386 .\libgfx\libgfx.c -dDOS -dSPANISH -bt=DOS -dEGA
 pause
 
-nasm.exe -f obj .\libgfx\libgfx_CGA.asm -o .\libgfx_EGA.obj
+nasm.exe -f obj .\libgfx\libgfx_EGA.asm -o .\libgfx_EGA.obj
 
 wlink name zhl.exe file {libgfx.obj juego.obj parser.obj libgfx_EGA.obj} 
 

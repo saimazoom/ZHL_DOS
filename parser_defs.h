@@ -22,14 +22,21 @@
 
 #define TRUE 1
 #define FALSE 0
-#define BYTE unsigned char
+
 #ifdef ZX 
+    #define BYTE unsigned char
     #define WORD unsigned int
 #endif 
 
 #ifdef DOS
+    #define BYTE unsigned char
     #define WORD unsigned short int
 #endif 
+
+// En AMIGA libraries BYTE, WORD, uBYTE, uWORD are already defined
+#ifdef AMIGA
+    #define WORD unsigned short int
+#endif
 
 #define DONE ACCdone(); return TRUE
 #define NOTDONE ACCbreak(); return FALSE 
@@ -73,12 +80,25 @@
 
     #ifdef TEXT  
         #define SCREEN_WIDTH 	640
-        #define SCREEN_HEIGHT 	200 
+        #define SCREEN_HEIGHT 	480 
         #define COLS_WIDTH		80
         #define ROWS_HEIGHT 	25
     #endif 
+#endif
+
+#ifdef AMIGA
+    #define SCREEN_WIDTH 	320
+    #define SCREEN_HEIGHT 	200 
+    #define COLS_WIDTH		40
+    #define ROWS_HEIGHT 	25
 #endif 
 
+#ifdef LINUX 
+    #define SCREEN_WIDTH 	640
+    #define SCREEN_HEIGHT 	480 
+    #define COLS_WIDTH		80
+    #define ROWS_HEIGHT 	25
+#endif
 
 // Global definitions
 // Aux

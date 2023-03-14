@@ -31,7 +31,16 @@ There is no __CALLEE__ in CC65
 	#define __CALLEE__  
 #endif 
 
+#ifdef AMIGA
+#include "parser_defs.h"
+	#define __FASTCALL__ 
+	#define __CALLEE__  
+#endif
 
+#ifdef LINUX
+	#define __FASTCALL__ 
+	#define __CALLEE__  
+#endif 
 
 // Parser structures
 
@@ -126,6 +135,7 @@ extern BYTE __FASTCALL__ CNDatlt(BYTE locid);
 extern void  ACCdesc();
 extern void  ACCdone();
 extern void  ACCbreak();
+extern void  ACCquit();
 extern void __FASTCALL__ ACCdestroy(BYTE objno);
 extern void __FASTCALL__ ACCcreate(BYTE objno);
 extern BYTE __FASTCALL__ ACCget(BYTE objno);
@@ -165,7 +175,10 @@ extern void ACCautod ();
 extern void ACCscore ();
 extern void ACCturns ();
 extern void ACCability(BYTE maxObjectsCarried, BYTE maxWeightCarried);
+
 extern void ACCanykey(); 
+extern void ACCgetkey(BYTE flagno);
+
 extern BYTE ACCNextWord ();
 extern void ACCpaper (BYTE color);
 extern void ACCink (BYTE color);
